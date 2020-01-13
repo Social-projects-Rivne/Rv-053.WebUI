@@ -1,0 +1,38 @@
+version : "3.1"
+services:
+    postgres_db:
+        image: postgres: 12.1
+        container_name: db
+        restart: always
+        ports:
+            - "5444:5432"
+        enviroment:
+            POSTGRES_USER: 'event'
+            POSTGRES_PASSWORD: 'defaultpassword'
+            POSTGRES_DB: 'eeeeeventdb'
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        
+    server:
+        restart: always
+        container_name: serverside
+        build:
+            context: ./server
+        ports:
+            - "5001:5000"
+        volumes:
+                - ./server:/server
+        command: npm start
+        depends_on:
+            - postgres_db
+
+    client:
+        build:
+            context: ./client/
+        container_name: clientside
+        ports:
+            - "3001:3000"
+        volumes:
+            - ./client:/client
+        depends_on:
+            - server
