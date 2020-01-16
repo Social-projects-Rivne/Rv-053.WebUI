@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 import './Password.css';
 
 const Password = props => {
-	const [state, setState] = useState({ typeSwitch: 'password' });
+	const [state, setState] = useState('password');
 	const switchPassViewHendler = event => {
-		console.log(event.type);
 		if (event.type === 'mousedown') {
-			setState({ typeSwitch: 'text' });
+			setState('text');
 		} else if (event.type === 'mouseup' || 'mouseleave') {
-			setState({ typeSwitch: 'password' });
+			setState('password');
 		}
 	};
 
@@ -21,7 +20,7 @@ const Password = props => {
 				value={props.value}
 				onBlur={props.onBlur}
 				onChange={props.onChange}
-				type={state.typeSwitch}
+				type={state}
 			/>
 			<span
 				style={{

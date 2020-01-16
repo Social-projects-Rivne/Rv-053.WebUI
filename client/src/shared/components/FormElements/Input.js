@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 import Password from './Password';
 import './Input.css';
@@ -21,10 +21,9 @@ const reducer = (state, action) => {
 };
 
 const Input = props => {
-	//DO TO: how to chek if need typeSwitch
 	const initialState = {
 		value: props.initValue || '',
-		isValid: true,
+		isValid: props.initValid || false,
 		isClicked: false,
 	};
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -36,6 +35,12 @@ const Input = props => {
 	const typingHendler = event => {
 		dispatch({ type: 'TYPING', value: event.target.value });
 	};
+
+	const { id, onInput } = props;
+	const { value } = state;
+	useEffect(() => {
+		onInput(id, value);
+	}, [id, value, onInput]);
 
 	let inputEl = null;
 	if (props.type === 'input') {
@@ -72,8 +77,7 @@ const Input = props => {
 		<div className="form-input">
 			<label htmlFor={props.id}>{props.label}</label>
 			{inputEl}
-			{<p>input fields validation mesege</p>}
-			{console.log({ ...state })}
+			{!state.isValid && state.isClicked && <p>{props.errorMessage}</p>}
 		</div>
 	);
 };
