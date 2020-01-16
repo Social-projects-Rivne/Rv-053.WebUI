@@ -28,10 +28,3 @@
 	background: #ebebeb;
 	border-color: #1a0077;
 }
-
-.form-input span {
-	cursor: pointer;
-	border: 1px solid #ccc;
-	border-left: none;
-	background: #ebebeb;
-}

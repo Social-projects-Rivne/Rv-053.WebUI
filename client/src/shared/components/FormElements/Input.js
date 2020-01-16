@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 
+import Password from './Password';
 import './Input.css';
 
 const reducer = (state, action) => {
@@ -16,20 +17,15 @@ const reducer = (state, action) => {
 				...state,
 				value: action.value,
 			};
-		case 'SWITCH_PASS_VIEW':
-			return {
-				...state,
-				typeSwitch: action.typeSwitch,
-			};
 	}
 };
 
 const Input = props => {
+	//DO TO: how to chek if need typeSwitch
 	const initialState = {
 		value: props.initValue || '',
 		isValid: true,
 		isClicked: false,
-		typeSwitch: 'password',
 	};
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -39,15 +35,6 @@ const Input = props => {
 
 	const typingHendler = event => {
 		dispatch({ type: 'TYPING', value: event.target.value });
-	};
-
-	const switchPassViewHendler = event => {
-		console.log(event.type);
-		if (event.type === 'mousedown') {
-			dispatch({ type: 'SWITCH_PASS_VIEW', typeSwitch: 'text' });
-		} else if (event.type === 'mouseup') {
-			dispatch({ type: 'SWITCH_PASS_VIEW', typeSwitch: 'password' });
-		}
 	};
 
 	let inputEl = null;
@@ -72,28 +59,12 @@ const Input = props => {
 		);
 	} else if (props.type === 'password') {
 		inputEl = (
-			<div style={{ display: 'table', width: '100%' }}>
-				<input
-					style={{ display: 'table-cell', width: '100%' }}
-					id={props.id}
-					value={state.value}
-					onBlur={blurHendler}
-					onChange={typingHendler}
-					type={state.typeSwitch}
-				/>
-				<span
-					style={{
-						position: 'relative',
-						display: 'table-cell',
-						width: '8%',
-						minWidth: '30px',
-					}}
-					onMouseDown={switchPassViewHendler}
-					onMouseUp={switchPassViewHendler}
-				>
-					<img src=""></img>
-				</span>
-			</div>
+			<Password
+				id={props.id}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
 		);
 	}
 
@@ -102,7 +73,7 @@ const Input = props => {
 			<label htmlFor={props.id}>{props.label}</label>
 			{inputEl}
 			{<p>input fields validation mesege</p>}
-			{console.log({ ...state, props: props })}
+			{console.log({ ...state })}
 		</div>
 	);
 };
