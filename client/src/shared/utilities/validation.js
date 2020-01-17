@@ -3,6 +3,7 @@ const REQ_REQUIRED = 'REQUIRED';
 const REQ_LETTERS = 'LETTERS';
 const REQ_PHONE = 'PHONE';
 const REQ_MIN_LENGTH = 'MIN_LENGTH';
+const REQ_MAX_LENGTH = 'MAX_LENGTH';
 
 export const VAL_REQUIRED = () => ({ valType: REQ_REQUIRED });
 export const VAL_EMAIL = () => ({ valType: REQ_EMAIL });
@@ -10,6 +11,10 @@ export const VAL_LETTERS = () => ({ valType: REQ_LETTERS });
 export const VAL_PHONE = () => ({ valType: REQ_PHONE });
 export const VAL_MIN_LENGTH = value => ({
 	valType: REQ_MIN_LENGTH,
+	length: value,
+});
+export const VAL_MAX_LENGTH = value => ({
+	valType: REQ_MAX_LENGTH,
 	length: value,
 });
 
@@ -35,6 +40,9 @@ export const validate = (value, validators) => {
 		}
 		if (validator.valType === REQ_MIN_LENGTH) {
 			valValid = valValid && value.trim().length > validator.length - 1;
+		}
+		if (validator.valType === REQ_MAX_LENGTH) {
+			valValid = valValid && value.trim().length < validator.length + 1;
 		}
 	}
 	return valValid;

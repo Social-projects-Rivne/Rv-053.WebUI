@@ -54,7 +54,7 @@ const Input = props => {
 			<input
 				className={
 					props.className +
-					` form-control ${!state.isValid && state.isClicked && 'is-invalid'}`
+					` ${!state.isValid && state.isClicked && 'is-invalid'}`
 				}
 				id={props.id}
 				value={state.value}
@@ -67,7 +67,7 @@ const Input = props => {
 			<textarea
 				className={
 					props.className +
-					`form-controlddd ${!state.isValid && state.isClicked && 'is-invalid'}`
+					` ${!state.isValid && state.isClicked && 'is-invalid'}`
 				}
 				id={props.id}
 				rows={props.rows || 3}
@@ -81,7 +81,7 @@ const Input = props => {
 			<Password
 				className={
 					props.className +
-					` form-control ${!state.isValid && state.isClicked && 'is-invalid'}`
+					` ${!state.isValid && state.isClicked && 'is-invalid'}`
 				}
 				id={props.id}
 				value={state.value}
