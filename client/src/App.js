@@ -1,13 +1,15 @@
 import React from 'react';
 
+import Header from './shared/components/Header/Header';
 import Login from './users/pages/Login';
 import './App.css';
 
 function App() {
 	return (
-		<div className="App">
+		<React.Fragment>
+      <Header />
 			<Login />
-		</div>
+		</React.Fragment>
 	);
 }
 
