@@ -60,6 +60,15 @@ const Login = () => {
 					errorMessage="Password is required"
 					className="form-control"
 				/>
+				<Input
+					id="phone"
+					type="phone"
+					label="Phone"
+					validations={[VAL_REQUIRED()]}
+					onInput={inputHendler}
+					errorMessage="Phone is required"
+					className="form-control"
+				/>
 				<button className="btn btn-outline-primary" type="submit">
 					Sign in
 				</button>

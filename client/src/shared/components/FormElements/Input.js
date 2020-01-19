@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 
 import Password from './Password';
+import Phone from './Phone';
 import { validate } from '../../utilities/validation';
 import './Input.css';
 
@@ -87,6 +88,23 @@ const Input = props => {
 				value={state.value}
 				onBlur={blurHendler}
 				onChange={typingHendler}
+				isValid={state.isValid}
+				isClicked={state.isClicked}
+			/>
+		);
+	} else if (props.type === 'phone') {
+		inputEl = (
+			<Phone
+				className={
+					props.className +
+					` ${!state.isValid && state.isClicked && 'is-invalid'}`
+				}
+				id={props.id}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+				isValid={state.isValid}
+				isClicked={state.isClicked}
 			/>
 		);
 	}

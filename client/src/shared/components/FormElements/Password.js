@@ -12,10 +12,14 @@ const Password = props => {
 		}
 	};
 	return (
-		<div className="input-group">
+		<div
+			className={`input-group ${!props.isValid &&
+				props.isClicked &&
+				'is-invalid'}`}
+		>
 			<input
 				className={props.className}
-				style={{ display: 'table-cell', width: '100%' }}
+				// style={{ display: 'table-cell', width: '100%' }}
 				id={props.id}
 				value={props.value}
 				onBlur={props.onBlur}
