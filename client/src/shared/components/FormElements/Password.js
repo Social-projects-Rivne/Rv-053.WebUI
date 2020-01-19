@@ -6,7 +6,8 @@ const Password = props => {
 	const [state, setState] = useState(false);
 	const switchPassViewHendler = event => {
 		if (event.type === 'mousedown') {
-			setState(true);
+			// || 'touchstart'
+			setState(!state);
 		} else if (event.type === 'mouseup' || 'mouseleave') {
 			setState(false);
 		}
@@ -32,6 +33,7 @@ const Password = props => {
 					onMouseDown={switchPassViewHendler}
 					onMouseUp={switchPassViewHendler}
 					onMouseLeave={switchPassViewHendler}
+					onTouchStart={switchPassViewHendler}
 				>
 					{!state ? (
 						<svg

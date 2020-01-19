@@ -25,6 +25,7 @@ const Login = () => {
 	const [state, dispatch] = useReducer(reducer, initState);
 
 	const inputHendler = useCallback((id, value, isValid) => {
+		// console.log(value);
 		dispatch({
 			type: 'INPUT_CHANGED',
 			inputId: id,

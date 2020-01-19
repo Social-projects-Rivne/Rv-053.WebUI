@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 
 import Password from './Password';
 import Phone from './Phone';
@@ -42,6 +42,17 @@ const Input = props => {
 			validations: props.validations,
 		});
 	};
+
+	const inputPhoneHendler = useCallback((value, isValid) => {
+		console.log(value);
+		// const validations = props.validations;
+		dispatch({
+			type: 'TYPING',
+			value: value,
+			isValid: isValid,
+			validations: props.validations,
+		});
+	}, []);
 
 	const { id, onInput } = props;
 	const { value, isValid } = state;
@@ -102,7 +113,7 @@ const Input = props => {
 				id={props.id}
 				value={state.value}
 				onBlur={blurHendler}
-				onChange={typingHendler}
+				onChange={inputPhoneHendler}
 				isValid={state.isValid}
 				isClicked={state.isClicked}
 			/>
