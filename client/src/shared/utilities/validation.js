@@ -33,11 +33,6 @@ export const validate = (value, validators) => {
 			const expression = /[^A-Za-zа-яА-ЯіІёЁ]+/;
 			valValid = valValid && !expression.test(value);
 		}
-		if (validator.valType === REQ_PHONE) {
-			// need expression
-			// const expression = /[^A-Za-zа-яА-ЯіІёЁ]+/;
-			// valValid = valValid && !expression.test(value);
-		}
 		if (validator.valType === REQ_MIN_LENGTH) {
 			valValid = valValid && value.trim().length > validator.length - 1;
 		}

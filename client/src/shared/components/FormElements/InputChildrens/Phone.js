@@ -19,16 +19,13 @@ const reducer = (state, action) => {
 				dropdownShow: !state.dropdownShow,
 				prefix: '+' + action.pickedCountry.dialCode,
 				value: '',
+				phoneValue: '+' + action.pickedCountry.dialCode,
 			};
 		case 'INPUT_PHONE':
 			return {
 				...state,
-				value: action.value.replace(state.prefix, ''),
-			};
-		case 'INITVALUE':
-			return {
-				...state,
-				prefix: '+' + state.pickedCountry.dialCode,
+				value: action.value,
+				phoneValue: state.prefix + action.value.replace(state.prefix, ''),
 			};
 	}
 };
@@ -46,6 +43,8 @@ const Phone = props => {
 		},
 		dropdownShow: false,
 		value: props.initValue || '',
+		prefix: '+380',
+		phoneValue: '+380',
 	};
 
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -60,16 +59,11 @@ const Phone = props => {
 		hasAreaCodes: country[6] ? true : false,
 	}));
 
-	useEffect(() => {
-		dispatch({ type: 'INITVALUE' });
-	}, []);
-
 	const dropdownHendler = () => {
 		dispatch({ type: 'DROPDOWN' });
 	};
 
 	const inputKeyDownHendler = event => {
-		// console.log(event.charCode);
 		if (event.charCode < 48 || event.charCode > 57) {
 			event.preventDefault();
 			//allow type numbers only
@@ -81,28 +75,44 @@ const Phone = props => {
 	};
 
 	const inputPhoneHendler = event => {
-		if (event.target.value.replace(/\D/g, '').length > 15) return;
-		const valueRegExp = /^[0-9\b]+$/;
-		// console.log(event.target.value);
+		if (
+			event.target.value.replace(/\D/g, '').length > 15 ||
+			event.target.value.replace(/\D/g, '').length < state.prefix.length - 1
+		)
+			return;
+		const valueRegExp = /^[0-9\b\W]+$/;
 		if (
 			event.target.value.replace(state.prefix, '') === '' ||
 			valueRegExp.test(event.target.value.replace(state.prefix, ''))
 		) {
+			let phoneVal = null;
+			if (state.pickedCountry.format) {
+				const mask = state.pickedCountry.format.replace('+', '');
+				let i = 0;
+				const val = event.target.value.replace(/[\W]/g, '');
+				phoneVal = mask.replace(/./g, a => {
+					return /[.\d]/.test(a) && i < val.length
+						? val.charAt(i++)
+						: i >= val.length
+						? ''
+						: a;
+				});
+			} else phoneVal = event.target.value.replace(state.prefix, '');
+
+			console.log(phoneVal);
+
 			dispatch({
 				type: 'INPUT_PHONE',
-				value: event.target.value.replace(state.prefix, ''),
+				value: phoneVal.replace(state.prefix.replace('+', ''), ''),
 			});
 		}
-		//temporary, need better approach to send data to parent
-		// props.onChange(event);
 	};
 
-	const { prefix, value } = state;
+	const { prefix, value, phoneValue } = state;
 	const { onChange } = props;
 	useEffect(() => {
-		const phone = prefix + value;
-		onChange(phone);
-	}, [prefix, value, onChange]);
+		onChange(phoneValue, true);
+	}, [prefix, value, onChange, phoneValue]);
 
 	const selecItem = (
 		<ul style={{ padding: '0' }}>
@@ -142,7 +152,7 @@ const Phone = props => {
 			<input
 				className={props.className}
 				id={props.id}
-				value={state.prefix + state.value}
+				value={state.phoneValue}
 				onBlur={props.onBlur}
 				onChange={inputPhoneHendler}
 				onKeyPress={inputKeyDownHendler}

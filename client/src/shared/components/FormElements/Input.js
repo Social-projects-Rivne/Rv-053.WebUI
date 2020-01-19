@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
 
-import Password from './Password';
-import Phone from './Phone';
+import Password from './InputChildrens/Password';
+import Phone from './InputChildrens/Phone';
 import { validate } from '../../utilities/validation';
 import './Input.css';
 
@@ -18,7 +18,9 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				value: action.value,
-				isValid: validate(action.value, action.validations),
+				isValid: action.validations
+					? validate(action.value, action.validations)
+					: action.isValid || false, //add validation phore phone here
 			};
 	}
 };
@@ -44,13 +46,11 @@ const Input = props => {
 	};
 
 	const inputPhoneHendler = useCallback((value, isValid) => {
-		console.log(value);
-		// const validations = props.validations;
 		dispatch({
 			type: 'TYPING',
 			value: value,
 			isValid: isValid,
-			validations: props.validations,
+			// validations: props.validations,
 		});
 	}, []);
 
