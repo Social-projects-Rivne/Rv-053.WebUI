@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
+// import Select from '../../shared/components/FormElements/Select';
 
 import Password from './Password';
 import './Input.css';
@@ -52,6 +53,36 @@ const Input = props => {
 				onChange={typingHendler}
 			/>
 		);
+	} else if (props.type === 'number') {
+		inputEl = (
+			<input
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
+	} else if (props.type === 'select') {
+		inputEl = (
+			<select
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
+	} else if (props.type === 'date') {
+		inputEl = (
+			<input
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
 	} else if (props.type === 'textarea') {
 		inputEl = (
 			<textarea
@@ -71,7 +102,7 @@ const Input = props => {
 				onChange={typingHendler}
 			/>
 		);
-	}
+	} 
 
 	return (
 		<div className="form-input">
@@ -79,7 +110,7 @@ const Input = props => {
 			{inputEl}
 			{!state.isValid && state.isClicked && <p>{props.errorMessage}</p>}
 		</div>
-	);
+	); 
 };
 
 export default Input;
