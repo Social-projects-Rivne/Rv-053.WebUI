@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
+// import Select from '../../shared/components/FormElements/Select';
 
 import Password from './InputChildrens/Password';
 import Phone from './InputChildrens/Phone';
@@ -74,6 +75,36 @@ const Input = props => {
 				onChange={typingHendler}
 			/>
 		);
+	} else if (props.type === 'number') {
+		inputEl = (
+			<input
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
+	} else if (props.type === 'select') {
+		inputEl = (
+			<select
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
+	} else if (props.type === 'date') {
+		inputEl = (
+			<input
+				id={props.id}
+				rows={props.rows || 3}
+				value={state.value}
+				onBlur={blurHendler}
+				onChange={typingHendler}
+			/>
+		);
 	} else if (props.type === 'textarea') {
 		inputEl = (
 			<textarea
@@ -118,7 +149,7 @@ const Input = props => {
 				isClicked={state.isClicked}
 			/>
 		);
-	}
+	} 
 
 	return (
 		<div className="form-group">
@@ -128,7 +159,7 @@ const Input = props => {
 				<div className="invalid-feedback">{props.errorMessage}</div>
 			)}
 		</div>
-	);
+	); 
 };
 
 export default Input;
