@@ -1,9 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import "./Card.css";
+import './Card.css';
 
 const Card = props => {
-  return <div className={`card ${props.className}`}>{props.children}</div>;
+	return (
+		<div className={`card shadow ${props.className}`}>
+			{props.needImage ? (
+				<img src={props.imgPath} className="card-img-top" alt="..." />
+			) : null}
+			<div className="card-body">{props.children}</div>
+		</div>
+	);
 };
 
 export default Card;
