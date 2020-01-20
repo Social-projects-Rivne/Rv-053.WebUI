@@ -111,8 +111,16 @@ const Phone = props => {
 	const { prefix, value, phoneValue } = state;
 	const { onChange } = props;
 	useEffect(() => {
-		onChange(phoneValue, true);
+		if (!value) {
+			onChange('', false);
+		} else if (value) {
+			onChange(phoneValue, true);
+		}
 	}, [prefix, value, onChange, phoneValue]);
+
+	// useEffect(() => {
+	// 	//some logics
+	// }, [prefix, value]);
 
 	const selecItem = (
 		<ul style={{ padding: '0' }}>
@@ -147,7 +155,9 @@ const Phone = props => {
 				</span>
 			</div>
 			{state.dropdownShow ? (
-				<div className="dropdown-menu show">{selecItem}</div>
+				<div className="dropdown-menu show" onMouseLeave={dropdownHendler}>
+					{selecItem}
+				</div>
 			) : null}
 			<input
 				className={props.className}
