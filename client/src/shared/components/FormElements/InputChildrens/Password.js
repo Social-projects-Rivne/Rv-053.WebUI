@@ -4,7 +4,7 @@ import './Password.css';
 
 const Password = props => {
 	const [state, setState] = useState(false);
-	const switchPassViewHendler = event => {
+	const switchPassViewHandler = event => {
 		if (event.type === 'mousedown') {
 			// || 'touchstart'
 			setState(!state);
@@ -30,10 +30,10 @@ const Password = props => {
 			<div className="input-group-append">
 				<span
 					className="input-group-text span_point"
-					onMouseDown={switchPassViewHendler}
-					onMouseUp={switchPassViewHendler}
-					onMouseLeave={switchPassViewHendler}
-					onTouchStart={switchPassViewHendler}
+					onMouseDown={switchPassViewHandler}
+					onMouseUp={switchPassViewHandler}
+					onMouseLeave={switchPassViewHandler}
+					onTouchStart={switchPassViewHandler}
 				>
 					{!state ? (
 						<svg

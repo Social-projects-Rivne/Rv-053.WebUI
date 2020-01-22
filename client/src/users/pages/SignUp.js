@@ -13,7 +13,7 @@ import {
 } from '../../shared/utilities/validation';
 
 const SignUp = () => {
-	const [formState, inputHendler, setFormData] = useForm(
+	const [formState, inputHandler, setFormData] = useForm(
 		{
 			email: {
 				value: '',
@@ -28,7 +28,7 @@ const SignUp = () => {
 	);
 	const [signInUpState, setSignInUpState] = useState(false);
 
-	const signInUpHendler = () => {
+	const signInUpHandler = () => {
 		if (signInUpState) {
 			setFormData(
 				{
@@ -82,7 +82,7 @@ const SignUp = () => {
 		setSignInUpState(!signInUpState);
 	};
 
-	const submitFormHendler = event => {
+	const submitFormHandler = event => {
 		event.preventDefault();
 		console.log(formState);
 	};
@@ -103,13 +103,13 @@ const SignUp = () => {
 	return (
 		<Card className="login">
 			<h2>{signInUpState === true ? 'Registration' : 'Login'}</h2>
-			<form onSubmit={submitFormHendler}>
+			<form onSubmit={submitFormHandler}>
 				<Input
 					id="email"
 					type="input"
 					label="Email"
 					validations={[VAL_EMAIL()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Input a valid email"
 					className="form-control"
 				/>
@@ -120,7 +120,7 @@ const SignUp = () => {
 						type="password"
 						label="Password"
 						validations={[VAL_REQUIRED()]}
-						onInput={inputHendler}
+						onInput={inputHandler}
 						errorMessage="Password is required"
 						className="form-control"
 					/>
@@ -131,7 +131,7 @@ const SignUp = () => {
 							type="password"
 							label="Password"
 							validations={[VAL_MIN_LENGTH(8)]}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Password should contain at least 8 characters"
 							className="form-control"
 						/>
@@ -140,7 +140,7 @@ const SignUp = () => {
 							type="password"
 							label="Repeat Password"
 							validations={[VAL_REQUIRED()]}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Passwords are no equal"
 							className="form-control"
 						/>
@@ -149,7 +149,7 @@ const SignUp = () => {
 							type="input"
 							label="Your First Name"
 							validations={[VAL_LETTERS()]}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Input a valid First Name"
 							className="form-control"
 						/>
@@ -158,7 +158,7 @@ const SignUp = () => {
 							type="input"
 							label="Your Last Name"
 							validations={[VAL_LETTERS()]}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Input a valid Last Name"
 							className="form-control"
 						/>
@@ -167,7 +167,7 @@ const SignUp = () => {
 							type="input"
 							label="Your Nickname"
 							validations={[VAL_REQUIRED()]}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Input a valid Nickname"
 							className="form-control"
 						/>
@@ -176,7 +176,7 @@ const SignUp = () => {
 							type="phone"
 							label="Enter Your Number"
 							validations={''}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Input a valid Number"
 							className="form-control"
 						/>
@@ -185,7 +185,7 @@ const SignUp = () => {
 							type="input"
 							label="Choose your gender"
 							validations={''}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Choose your gender"
 							className="form-control"
 						/>
@@ -194,7 +194,7 @@ const SignUp = () => {
 							type="input"
 							label="Enter Your Birthday"
 							validations={''}
-							onInput={inputHendler}
+							onInput={inputHandler}
 							errorMessage="Input your real birthday"
 							className="form-control"
 						/>
@@ -204,7 +204,7 @@ const SignUp = () => {
 					{signInUpState === true ? 'Sign Up' : 'Sign In'}
 				</button>
 			</form>
-			<button onClick={signInUpHendler} className="btn btn-primary">
+			<button onClick={signInUpHandler} className="btn btn-primary">
 				{signInUpState === false ? 'Switch to Sign Up' : 'Switch to Sign In'}
 			</button>
 		</Card>
