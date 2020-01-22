@@ -55,11 +55,13 @@ const Input = props => {
 		});
 	}, []);
 
+	
+
 	const { id, onInput } = props;
 	const { value, isValid } = state;
 	useEffect(() => {
-		onInput(id, value, isValid);
-	}, [id, value, onInput, isValid]);
+		onInput(id, value, isValid );
+	}, [id, value, onInput, isValid ]);
 
 	let inputEl = null;
 	if (props.type === 'input') {
@@ -134,6 +136,7 @@ const Input = props => {
 				isClicked={state.isClicked}
 			/>
 		);
+		
 	} else if (props.type === 'phone') {
 		inputEl = (
 			<Phone

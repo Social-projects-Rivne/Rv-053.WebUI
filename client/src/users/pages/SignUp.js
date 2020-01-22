@@ -1,8 +1,9 @@
-import React, { useReducer, useCallback, useState, useEffect } from 'react'
+import React, { useReducer, useCallback, useState, /*useEffect*/ } from 'react'
 
 import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
 // import Select from '../../shared/components/FormElements/Select';
+import { VAL_EMAIL, VAL_REQUIRED, /*VAL_LETTERS,*/ VAL_MIN_LENGTH } from '../../shared/utilities/validation';
 import './Login.css';
 
 const reducer = (state, action) => {
@@ -12,8 +13,9 @@ const reducer = (state, action) => {
 		case 'INPUT_CHANGED':
 			return {
 				...state,
-				[action.inputId]: { value: action.value },
+				[action.inputId]: { value: action.value, isValid: action.isValid },
 			};
+			
 	}
 };
 
@@ -23,20 +25,19 @@ const SignUp = () => {
     const initState = {
 		email: { value: '' },
         password: { value: '' },
-        repeatPassword: { value: '' },
-        firstName: { value: '' },
-        lastName: { value: '' },
         nickName: { value: '' },
-        phoneNumber: { value: '' },
-        gender: { value: '' },
-		birthDay: { value: '' },
+        phone: { value: '' },
 	};
 
     const [state, dispatch] = useReducer(reducer, initState);
-    const [signInUpState, setSignInUpState] = useState(true);
+	const [signInUpState, setSignInUpState] = useState(true);
 
-	const inputHendler = useCallback((id, value) => {
-		dispatch({ type: 'INPUT_CHANGED', value: value, inputId: id });
+	const inputHendler = useCallback((id, value, isValid) => {
+		dispatch({ 
+			type: 'INPUT_CHANGED', 
+			value: value, 
+			inputId: id, 
+			isValid: isValid });
     }, []);
     
     const signInUpHendler = () => {
@@ -48,109 +49,55 @@ const SignUp = () => {
 		console.log(state);
 
 	};
-
-	const checkPasswords = () => {
-		const pass1 = state.password.value;
-		const pass2 = state.repeatPassword.value;
-		
-		if (pass1 !== pass2) {
-			console.log('your passwords are not equal')
-		}
-		else {
-			console.log('everything is ok')
-		}
-	}
-
-	useEffect(() => {
-		checkPasswords();
-
-	}, [state.password.value, state.repeatPassword.value]);
-
     
     return (
-        <Card className="login">
-            <h2>{signInUpState === true ? "Registration" : "Login"}</h2>
+        <Card className="Registration">
+            <h2 className="text-center">{signInUpState === true ? "Registration" : "Login"}</h2>
 			<form onSubmit={submitFormHendler}>
 				<Input
 					id="email"
 					type="input"
 					label="Email"
-					validations={''}
+					validations={[VAL_EMAIL()]}
 					onInput={inputHendler}
 					errorMessage="Input a valid email"
+					className="form-control"
 				/>
 				<Input
 					id="password"
 					type="password"
 					label="Password"
-					validations={''}
+					validations={[VAL_REQUIRED(), VAL_MIN_LENGTH(6)]}
 					onInput={inputHendler}
 					errorMessage="Password is required"
+					className="form-control"
 				/>
                 { signInUpState === true ?
                
                 <React.Fragment>
                 <Input
-					id="repeatPassword"
-					type="password"
-					label="Repeat Password"
-					validations={''}
-					onInput={inputHendler}
-					errorMessage="Password is required"
-				/>
-                <Input
-					id="firstName"
-					type="input"
-					label="Your First Name"
-					validations={''}
-					onInput={inputHendler}
-					errorMessage="Input a valid First Name"
-				/>
-                <Input
-					id="lastName"
-					type="input"
-					label="Your Last Name"
-					validations={''}
-					onInput={inputHendler}
-					errorMessage="Input a valid Last Name"
-				/>
-                <Input
 					id="nickName"
 					type="input"
 					label="Your Nickname"
-					validations={''}
+					validations={[VAL_MIN_LENGTH(5)]}
 					onInput={inputHendler}
 					errorMessage="Input a valid Nickname"
+					className="form-control"
 				/>
                 <Input
-					id="phoneNumber"
-					type="input"
-					label="Enter Your Number"
-					validations={''}
+					id="phone"
+					type="phone"
+					label="Phone"
+					validations={[VAL_REQUIRED()]}
 					onInput={inputHendler}
-					errorMessage="Input a valid Number"
-				/>
-                <Input
-					id="gender"
-					type="input"
-					label="Choose your gender"
-					validations={''}
-					onInput={inputHendler}
-					errorMessage="Choose your gender"
-				/>
-                <Input
-					id="birthDay"
-					type="input"
-					label="Enter Your Birthday"
-					validations={''}
-					onInput={inputHendler}
-					errorMessage="Input your real birthday"
+					errorMessage="Phone a valid Number"
+					className="form-control"
 				/>
                 </React.Fragment>: null
                  }
-				<button type="submit">{signInUpState === true ? "Sign Up" : "Sign In"}</button>
+				<button className="btn btn-outline-primary float-right" type="submit">{signInUpState === true ? "Sign Up" : "Sign In"}</button>
 			</form>
-    <button onClick={signInUpHendler}>{signInUpState === false ? "Sign Up" : "Sign In"}</button>
+    <button className="btn btn-outline-primary" onClick={signInUpHendler}>{signInUpState === false ? "Switch to Sign Up" : "Switch to Log In"}</button>
 		</Card>
     )
 }
