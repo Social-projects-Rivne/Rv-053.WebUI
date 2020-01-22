@@ -2,6 +2,7 @@ import React, { useReducer, useCallback, useState } from 'react'
 
 import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
+import Select from '../../shared/components/FormElements/Select'
 import { VAL_EMAIL, VAL_REQUIRED, VAL_MIN_LENGTH } from '../../shared/utilities/validation';
 import './Login.css';
 
