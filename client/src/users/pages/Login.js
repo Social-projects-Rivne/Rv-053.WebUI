@@ -24,7 +24,7 @@ const Login = () => {
 	};
 	const [state, dispatch] = useReducer(reducer, initState);
 
-	const inputHendler = useCallback((id, value, isValid) => {
+	const inputHandler = useCallback((id, value, isValid) => {
 		// console.log(value);
 		dispatch({
 			type: 'INPUT_CHANGED',
@@ -34,7 +34,7 @@ const Login = () => {
 		});
 	}, []);
 
-	const submitFormHendler = event => {
+	const submitFormHandler = event => {
 		event.preventDefault();
 		console.log(state);
 	};
@@ -42,13 +42,13 @@ const Login = () => {
 	return (
 		<Card className="login">
 			<h2 className="text-center">Sign in</h2>
-			<form onSubmit={submitFormHendler}>
+			<form onSubmit={submitFormHandler}>
 				<Input
 					id="email"
 					type="input"
 					label="Email"
 					validations={[VAL_EMAIL()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Input a valid email"
 					className="form-control"
 				/>
@@ -57,7 +57,7 @@ const Login = () => {
 					type="password"
 					label="Password"
 					validations={[VAL_REQUIRED()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Password is required"
 					className="form-control"
 				/>
@@ -66,7 +66,7 @@ const Login = () => {
 					type="phone"
 					label="Phone"
 					validations={[VAL_REQUIRED()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Phone is required"
 					className="form-control"
 				/>

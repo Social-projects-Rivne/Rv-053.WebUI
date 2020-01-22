@@ -32,7 +32,7 @@ const SignUp = () => {
     const [state, dispatch] = useReducer(reducer, initState);
 	const [signInUpState, setSignInUpState] = useState(true);
 
-	const inputHendler = useCallback((id, value, isValid) => {
+	const inputHandler = useCallback((id, value, isValid) => {
 		dispatch({ 
 			type: 'INPUT_CHANGED', 
 			value: value, 
@@ -40,11 +40,11 @@ const SignUp = () => {
 			isValid: isValid });
     }, []);
     
-    const signInUpHendler = () => {
+    const signInUpHandler = () => {
         setSignInUpState(!signInUpState);
     };
 
-	const submitFormHendler = event => {
+	const submitFormHandler = event => {
 		event.preventDefault();
 		console.log(state);
 
@@ -53,13 +53,13 @@ const SignUp = () => {
     return (
         <Card className="Registration">
             <h2 className="text-center">{signInUpState === true ? "Registration" : "Login"}</h2>
-			<form onSubmit={submitFormHendler}>
+			<form onSubmit={submitFormHandler}>
 				<Input
 					id="email"
 					type="input"
 					label="Email"
 					validations={[VAL_EMAIL()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Input a valid email"
 					className="form-control"
 				/>
@@ -68,7 +68,7 @@ const SignUp = () => {
 					type="password"
 					label="Password"
 					validations={[VAL_REQUIRED(), VAL_MIN_LENGTH(6)]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Password is required"
 					className="form-control"
 				/>
@@ -80,7 +80,7 @@ const SignUp = () => {
 					type="input"
 					label="Your Nickname"
 					validations={[VAL_MIN_LENGTH(5)]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Input a valid Nickname"
 					className="form-control"
 				/>
@@ -89,7 +89,7 @@ const SignUp = () => {
 					type="phone"
 					label="Phone"
 					validations={[VAL_REQUIRED()]}
-					onInput={inputHendler}
+					onInput={inputHandler}
 					errorMessage="Phone a valid Number"
 					className="form-control"
 				/>
@@ -97,7 +97,7 @@ const SignUp = () => {
                  }
 				<button className="btn btn-outline-primary float-right" type="submit">{signInUpState === true ? "Sign Up" : "Sign In"}</button>
 			</form>
-    <button className="btn btn-outline-primary" onClick={signInUpHendler}>{signInUpState === false ? "Switch to Sign Up" : "Switch to Log In"}</button>
+    <button className="btn btn-outline-primary" onClick={signInUpHandler}>{signInUpState === false ? "Switch to Sign Up" : "Switch to Log In"}</button>
 		</Card>
     )
 }
