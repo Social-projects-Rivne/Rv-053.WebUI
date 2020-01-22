@@ -1,8 +1,8 @@
-import React, { useReducer, useCallback, useState, /*useEffect*/ } from 'react'
+import React, { useReducer, useCallback, useState } from 'react'
 
 import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
-import { VAL_EMAIL, VAL_REQUIRED, /*VAL_LETTERS,*/ VAL_MIN_LENGTH } from '../../shared/utilities/validation';
+import { VAL_EMAIL, VAL_REQUIRED, VAL_MIN_LENGTH } from '../../shared/utilities/validation';
 import './Login.css';
 
 const reducer = (state, action) => {
