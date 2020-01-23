@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "event",
+    "password": "defaultpassword",
+    "database": "eeeeeventdb",
+    "host": "db",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "timestamps": false,
+    "freezeTableName": true
+  },
+  "test": {
+    "username": "event",
+    "password": "defaultpassword",
+    "database": "eeeeeventdb",
+    "host": "db",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "event",
+    "password": "defaultpassword",
+    "database": "eeeeeventdb",
+    "host": "db",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
