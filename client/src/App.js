@@ -1,19 +1,16 @@
 import React from 'react';
 
 import Header from './shared/components/Header/Header';
-// import Login from './users/pages/Login';
 import SignUp from './users/pages/SignUp';
 import './App.css';
 
-
 function App() {
-	return (	
+	return (
 		<React.Fragment>
 			<Header />
-			{/* <Login /> */}
-	  	<SignUp/>
+			<SignUp />
 		</React.Fragment>
 	);
 }
 
-export default App; 
+export default App;

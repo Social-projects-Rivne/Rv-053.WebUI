@@ -34,11 +34,11 @@ const Input = props => {
 	};
 	const [state, dispatch] = useReducer(reducer, initialState);
 
-	const blurHandler = () => {
+	const blurHendler = () => {
 		dispatch({ type: 'CLICK' });
 	};
 
-	const typingHandler = event => {
+	const typingHendler = event => {
 		dispatch({
 			type: 'TYPING',
 			value: event.target.value,
@@ -46,7 +46,7 @@ const Input = props => {
 		});
 	};
 
-	const inputPhoneHandler = useCallback((value, isValid) => {
+	const inputPhoneHendler = useCallback((value, isValid) => {
 		dispatch({
 			type: 'TYPING',
 			value: value,
@@ -55,13 +55,11 @@ const Input = props => {
 		});
 	}, []);
 
-	
-
 	const { id, onInput } = props;
 	const { value, isValid } = state;
 	useEffect(() => {
-		onInput(id, value, isValid );
-	}, [id, value, onInput, isValid ]);
+		onInput(id, value, isValid);
+	}, [id, value, onInput, isValid]);
 
 	let inputEl = null;
 	if (props.type === 'input') {
@@ -73,8 +71,8 @@ const Input = props => {
 				}
 				id={props.id}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 			/>
 		);
 	} else if (props.type === 'number') {
@@ -83,8 +81,8 @@ const Input = props => {
 				id={props.id}
 				rows={props.rows || 3}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 			/>
 		);
 	} else if (props.type === 'select') {
@@ -93,8 +91,8 @@ const Input = props => {
 				id={props.id}
 				rows={props.rows || 3}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 			/>
 		);
 	} else if (props.type === 'date') {
@@ -103,8 +101,8 @@ const Input = props => {
 				id={props.id}
 				rows={props.rows || 3}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 			/>
 		);
 	} else if (props.type === 'textarea') {
@@ -117,8 +115,8 @@ const Input = props => {
 				id={props.id}
 				rows={props.rows || 3}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 			/>
 		);
 	} else if (props.type === 'password') {
@@ -130,13 +128,12 @@ const Input = props => {
 				}
 				id={props.id}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
+				onBlur={blurHendler}
+				onChange={typingHendler}
 				isValid={state.isValid}
 				isClicked={state.isClicked}
 			/>
 		);
-		
 	} else if (props.type === 'phone') {
 		inputEl = (
 			<Phone
@@ -146,8 +143,8 @@ const Input = props => {
 				}
 				id={props.id}
 				value={state.value}
-				onBlur={blurHandler}
-				onChange={inputPhoneHandler}
+				onBlur={blurHendler}
+				onChange={inputPhoneHendler}
 				isValid={state.isValid}
 				isClicked={state.isClicked}
 			/>

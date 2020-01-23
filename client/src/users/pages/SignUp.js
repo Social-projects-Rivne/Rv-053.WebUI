@@ -1,55 +1,66 @@
-import React, { useReducer, useCallback, useState } from 'react'
+import React, { useState } from 'react'
 
 import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
+import { useForm } from './../../shared/hooks/useForm.js';
 // import Select from '../../shared/components/FormElements/Select'
 import { VAL_EMAIL, VAL_REQUIRED, VAL_MIN_LENGTH } from '../../shared/utilities/validation';
 import './Login.css';
 
-const reducer = (state, action) => {
-	switch (action.type) {
-		default:
-			return state;
-		case 'INPUT_CHANGED':
-			return {
-				...state,
-				[action.inputId]: { value: action.value, isValid: action.isValid },
-			};
-			
-	}
-};
-
 
 const SignUp = () => {
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			email: {
+				value: '',
+				isValid: false,
+			},
+			password: {
+				value: '',
+				isValid: false,
+			},
+		},
+		false
+	);
 
-    const initState = {
-		email: { value: '' },
-        password: { value: '' },
-        nickName: { value: '' },
-        phone: { value: '' },
+
+	const signInUpHandler = () => {
+		if (signInUpState) {
+			setFormData(
+				{
+					...formState.inputs,
+					nickName: undefined,
+					phone: undefined,
+				},
+				false
+			);
+		} else {
+			setFormData(
+				{
+					...formState.inputs,
+					nickName: {
+						value: '',
+						isValid: false,
+					},
+					phone: {
+						value: '',
+						isValid: false,
+					}
+				},
+				false
+			);
+		}
+		setSignInUpState(!signInUpState);
 	};
 
-    const [state, dispatch] = useReducer(reducer, initState);
-	const [signInUpState, setSignInUpState] = useState(true);
+	const [signInUpState, setSignInUpState] = useState(false);
 
-	const inputHandler = useCallback((id, value, isValid) => {
-		dispatch({ 
-			type: 'INPUT_CHANGED', 
-			value: value, 
-			inputId: id, 
-			isValid: isValid });
-    }, []);
-    
-    const signInUpHandler = () => {
-        setSignInUpState(!signInUpState);
-    };
 
 	const submitFormHandler = event => {
 		event.preventDefault();
-		console.log(state);
-
+		console.log(formState);
 	};
-    
+
     return (
         <Card className="Registration">
             <h2 className="text-center">{signInUpState === true ? "Registration" : "Login"}</h2>
@@ -99,8 +110,7 @@ const SignUp = () => {
 			</form>
     <button className="btn btn-outline-primary" onClick={signInUpHandler}>{signInUpState === false ? "Switch to Sign Up" : "Switch to Log In"}</button>
 		</Card>
-    )
-}
-
+	);
+};
 
 export default SignUp;
