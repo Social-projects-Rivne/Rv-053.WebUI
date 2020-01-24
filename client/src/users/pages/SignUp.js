@@ -8,7 +8,7 @@ import { VAL_EMAIL, VAL_REQUIRED, VAL_MIN_LENGTH } from '../../shared/utilities/
 import './Login.css';
 
 
-const SignUp = () => {
+const SignUpIn = () => {
 	const [formState, inputHandler, setFormData] = useForm(
 		{
 			email: {
@@ -113,4 +113,4 @@ const SignUp = () => {
 	);
 };
 
-export default SignUp;
+export default SignUpIn;
