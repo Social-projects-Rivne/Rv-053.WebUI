@@ -1,21 +1,20 @@
-const Sequelize = require("sequelize");
-const { sql } = require("./config");
-require("dotenv").config();
+const Sequelize = require('sequelize');
+require('dotenv').config();
 
-const sequelize = new Sequelize(sql.name, "event", sql.password, {
-  dialect: "postgres",
-  host: sql.host,
-  port: sql.port,
+const sequelize = new Sequelize(process.env.DB_SQL_NAME, 'event', process.env.DB_SQL_PASSWORD, {
+  dialect: 'postgres',
+  host: process.env.DB_SQL_HOST,
+  port: process.env.DB_SQL_PORT,
   logging: false
 });
 
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Postgre Connected");
+    console.log('Postgre Connected');
   })
   .catch(err => {
-    throw new Error("Error SQL connection", err);
+    throw new Error('Error SQL connection', err);
   });
 
 module.exports = sequelize;

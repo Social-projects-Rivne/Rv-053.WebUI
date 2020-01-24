@@ -5,9 +5,11 @@
 ## Authentication
 | api URL | HTTP Method | Description | Request JSON | Response JSON |
 | ------ | ------ | ------ | ------ | ------ |
-| /api/auth/login | POST | Login user into system | {token} | status(200).json({"jsonwebtoken":"LoNg", "checkUserStatus":"userstatus"}) <br> status(401).json({ err: "Wrong password or email" })|
-| /api/auth/logout | POST | Logout user from the system | {token}| status(200).json({"message": "User logged out"}) <br> status(400).json({ err }) |
-| /api/auth/register | POST | Add new user into the system | {"user_email": "user_email", "password": "userpass"} | status(201).json{"message" : "User has been registered"}  <br> status(200).json"({ err: "User already exists" })|
+| /api/auth/login | POST | Login user into system | {"user_email": "user_email", "password": "userpass"} | status(200).json({"token":"LoNg", "success":"true"}) <br> status(401).json({ err: "Wrong password or email" })|
+| /api/auth/logout | POST | Logout user from the system | {"token":"LoNg"}| status(200).json({"success":"true"}) <br> status(400).json({ err }) |
+| /api/auth/register | POST | Add new user into the system | {"user_email": "user_email", "password": "userpass"} | status(201).json{"success":"true"}  <br> status(200).json"({ err: "User already exists" })|
+|/api/auth/check| POST|
+|/api/auth/refresh|POST|
 |/api/auth/Facebook/:token||
 |/api/auth/Google/:token||
 
