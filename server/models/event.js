@@ -51,14 +51,14 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Event.associate = models => {
-    Event.belongsTo(models.user, {
+    Event.belongsTo(models.users, {
       foreignKey: 'owner_id'
     });
     Event.hasMany(models.event_gallery, {
       foreignKey: 'event_id',
       onDelete: 'CASCADE'
     });
-    Event.belongsToMany(models.user, {
+    Event.belongsToMany(models.users, {
       foreignKey: 'event_id',
       through: 'user_event'
     });

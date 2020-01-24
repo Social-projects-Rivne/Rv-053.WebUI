@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id'
         }
       },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   UserEvent.associate = models => {
-    UserEvent.belongsTo(models.user, {
+    UserEvent.belongsTo(models.users, {
       foreignKey: 'user_id'
     });
     UserEvent.belongsTo(models.event, {

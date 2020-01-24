@@ -1,13 +1,16 @@
-const express = require('express'); // setup express application
+const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const config = require('config');
-const app = express();
-
+const cors = require('cors');
 const db = require('./models');
+const passport = require('passport');
+
 
 const auth = require('./routes/auth.routes');
 const passportSetup = require('./config/passport-setup');
 
+app.use(cors());
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(
@@ -18,6 +21,22 @@ app.use(
 
 app.use('/api/auth', auth);
 app.use('/api/users', require('./routes/user.routes'));
+app.use(require('cookie-parser')());
+
+//TODO: configure values
+app.use(
+  require('express-session')({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/api/auth', require('./routes/authRoute'));
+
 
 // set port
 const PORT = config.get('port') || 5000;

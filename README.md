@@ -36,7 +36,6 @@ For database
     db: "eeeeeventdb"
     port: 5444
 
-
 For Frontend
 
     localhost:3001
@@ -44,3 +43,7 @@ For Frontend
 For Backend
 
     localhost:5001
+
+## Eeevent api documentation
+
+    README_API.md
