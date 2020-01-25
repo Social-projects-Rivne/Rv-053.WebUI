@@ -6,9 +6,9 @@
 | api URL | HTTP Method | Description | Request JSON | Response JSON |
 | ------ | ------ | ------ | ------ | ------ |
 | /api/auth/login | POST | Login user into system | {"user_email": "user_email", "password": "userpass"} | status(200).json({"token":"LoNg", "success":"true"}) <br> status(401).json({ err: "Wrong password or email" })|
-| /api/auth/logout | POST | Logout user from the system | {"token":"LoNg"}| status(200).json({"success":"true"}) <br> status(400).json({ err }) |
+| /api/auth/logout | POST | Logout user from the system | {"token":"LoNg"}| status(200).json({ "success": "true", "token": "new expiried token" }) <br> status(401).json({ error }) |
 | /api/auth/register | POST | Add new user into the system | {"user_email": "user_email", "password": "userpass"} | status(201).json{"success":"true"}  <br> status(200).json"({ err: "User already exists" })|
-|/api/auth/check| POST|
+|/api/auth/check| POST|Check token | {"token":"token"}|status(200).json({ "success": "true" }) <br> status(401).json({ error }) 
 |/api/auth/refresh|POST|
 |/api/auth/Facebook/:token||
 |/api/auth/Google/:token||

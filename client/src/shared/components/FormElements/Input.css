@@ -28,3 +28,6 @@
 	background: #ebebeb;
 	border-color: #1a0077;
 }
+.invalid-feedback {
+	/* display: block !important; */
+}
