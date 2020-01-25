@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const cors = require('cors');
 const db = require('./models');
-const passport = require('passport');
+const auth = require('./middlewares/auth');
 
 app.use(cors());
 // Parse incoming requests data
@@ -14,21 +14,11 @@ app.use(
     extended: true
   })
 );
-app.use(require('cookie-parser')());
-
-//TODO: configure values
-app.use(
-  require('express-session')({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use('/api/auth', require('./routes/authRoute'));
+
+//Example:
+//Check if user authorized
+//app.use('/api/users', auth, require('./routes/usersRoute'));
 
 // set port
 const PORT = config.get('port') || 5000;
