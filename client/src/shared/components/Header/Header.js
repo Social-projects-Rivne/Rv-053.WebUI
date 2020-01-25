@@ -16,7 +16,7 @@ const Header = () => {
 					<div className={'col-4 ' + classes.navigation}>
 						
 						<NavLink to="/">Home</NavLink>
-						<NavLink to="/">All events</NavLink>
+						<NavLink to="/events">All events</NavLink>
 						<NavLink to="/">Calendar</NavLink>
 						<NavLink to="/auth">
 							<input type="submit" className="btn btn-outline-success" value="Sign In"></input>
