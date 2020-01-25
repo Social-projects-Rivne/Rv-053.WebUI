@@ -1,17 +1,25 @@
 const express = require('express');
 const passport = require('passport');
-require('../passport');
-const UserController = require('../controllers/authController');
+const passportConf = require('../passport');
+const AuthController = require('../controllers/authController');
 const passportSingIn = passport.authenticate('local', { session: false });
+const passportGoogle = passport.authenticate('google', {
+	scope: ['profile', 'email'],
+	session: false,
+});
 const router = express.Router();
 const auth = require('../middlewares/auth');
 
-router.post('/register', UserController.signUp);
+router.post('/register', AuthController.signUp);
 
-router.post('/login', passportSingIn, UserController.signIn);
+router.post('/login', passportSingIn, AuthController.signIn);
 
-router.post('/logout', auth, UserController.signOut);
+router.post('/logout', auth, AuthController.signOut);
 
-router.post('/check', auth, UserController.checkAuth);
+router.post('/check', auth, AuthController.checkAuth);
+//router.get('/refresh', passportJWT, AuthController.refreshAuth);
+
+router.get('/google', passportGoogle);
+router.get('/google/redirect', passportGoogle, AuthController.signIn);
 
 module.exports = router;
