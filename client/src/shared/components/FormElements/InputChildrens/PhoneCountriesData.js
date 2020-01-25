@@ -1400,7 +1400,7 @@ const rawCountries = [
       ['europe', 'ex-ussr'],
       'ua',
       '380',
-      '+... (...) ... .. ..'
+      '+.. (...) ... .. ..'
     ],
     [
       'United Arab Emirates',
