@@ -5,7 +5,6 @@
     "database": "eeeeeventdb",
     "host": "db",
     "dialect": "postgres",
-    "operatorsAliases": false,
     "timestamps": false,
     "freezeTableName": true
   },
@@ -14,15 +13,13 @@
     "password": "defaultpassword",
     "database": "eeeeeventdb",
     "host": "db",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "production": {
     "username": "event",
     "password": "defaultpassword",
     "database": "eeeeeventdb",
     "host": "db",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   }
 }

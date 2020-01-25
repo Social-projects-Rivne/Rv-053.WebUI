@@ -1,42 +1,45 @@
 module.exports = (sequelize, DataTypes) => {
-    const Hub = sequelize.define('hub', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        location: {
-            type: DataTypes.STRING
-        },
-        phone: {
-            type: DataTypes.STRING
-        },
-        email: {
-            type: DataTypes.STRING
-        },
-        img: {
-            type: DataTypes.STRING
-        },
-        description: {
-            type: DataTypes.STRING
-        },
-        owner_id: {
-            type: DataTypes.INTEGER
-        },
-
-    }, {
-        timestamps: false,
-        freezeTableName: true
+  const Hub = sequelize.define(
+    'hub',
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      location: {
+        type: DataTypes.STRING
+      },
+      phone: {
+        type: DataTypes.STRING
+      },
+      email: {
+        type: DataTypes.STRING
+      },
+      img: {
+        type: DataTypes.STRING
+      },
+      description: {
+        type: DataTypes.STRING
+      },
+      owner_id: {
+        type: DataTypes.INTEGER
+      }
+    },
+    {
+      timestamps: false,
+      freezeTableName: true
+    }
+  );
+  Hub.associate = function(models) {
+    Hub.belongsTo(models.users, {
+      foreignKey: 'owner_id'
     });
-    Hub.associate = function (models) {
-        Hub.belongsTo(models.user, {
-            foreignKey: 'owner_id'
-        });
-    };
-    return Hub;
-}
+  };
+  return Hub;
+};
