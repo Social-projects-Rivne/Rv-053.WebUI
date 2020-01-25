@@ -59,32 +59,27 @@ const Phone = props => {
 		hasAreaCodes: country[6] ? true : false,
 	}));
 
-	const dropdownHendler = () => {
+	const dropdownHandler = () => {
 		dispatch({ type: 'DROPDOWN' });
 	};
 
-	const inputKeyDownHendler = event => {
+	const inputKeyDownHandler = event => {
 		if (event.charCode < 48 || event.charCode > 57) {
 			event.preventDefault();
-			//allow type numbers only
 		}
 	};
 
-	const countryPickHendler = country => {
+	const countryPickHandler = country => {
 		dispatch({ type: 'PICK', pickedCountry: country });
 	};
 
-	const inputPhoneHendler = event => {
-		if (
-			event.target.value.replace(/\D/g, '').length > 15 ||
-			event.target.value.replace(/\D/g, '').length < state.prefix.length - 1
-		)
+	const inputPhoneHandler = event => {
+		const targetValLength = event.target.value.replace(/\D/g, '').length;
+		const targetValFree = event.target.value.replace(state.prefix, '');
+		if (targetValLength > 15 || targetValLength < state.prefix.length - 1)
 			return;
 		const valueRegExp = /^[0-9\b\W]+$/;
-		if (
-			event.target.value.replace(state.prefix, '') === '' ||
-			valueRegExp.test(event.target.value.replace(state.prefix, ''))
-		) {
+		if (targetValFree === '' || valueRegExp.test(targetValFree)) {
 			let phoneVal = null;
 			if (state.pickedCountry.format) {
 				const mask = state.pickedCountry.format.replace('+', '');
@@ -97,10 +92,9 @@ const Phone = props => {
 						? ''
 						: a;
 				});
-			} else phoneVal = event.target.value.replace(state.prefix, '');
-
-			console.log(phoneVal);
-
+			} else {
+				phoneVal = event.target.value.replace(state.prefix, '');
+			}
 			dispatch({
 				type: 'INPUT_PHONE',
 				value: phoneVal.replace(state.prefix.replace('+', ''), ''),
@@ -118,10 +112,6 @@ const Phone = props => {
 		}
 	}, [prefix, value, onChange, phoneValue]);
 
-	// useEffect(() => {
-	// 	//some logics
-	// }, [prefix, value]);
-
 	const selecItem = (
 		<ul style={{ padding: '0' }}>
 			{counties.map(country => {
@@ -129,7 +119,7 @@ const Phone = props => {
 					<li
 						key={country.iso2}
 						className="dropdown-item cursor-pointer"
-						onClick={() => countryPickHendler(country)}
+						onClick={() => countryPickHandler(country)}
 					>
 						<div className={`flag d-inline-block ${country.iso2} mr-2`}></div>
 						<span className="d-inline-block mr-2">{country.name}</span>
@@ -146,7 +136,7 @@ const Phone = props => {
 				props.isClicked &&
 				'is-invalid'}`}
 		>
-			<div className="input-group-prepend" onClick={dropdownHendler}>
+			<div className="input-group-prepend" onClick={dropdownHandler}>
 				<span className="input-group-text cursor-pointer">
 					<div
 						className={`flag d-inline-block ${state.pickedCountry.iso2} mr-2`}
@@ -155,7 +145,7 @@ const Phone = props => {
 				</span>
 			</div>
 			{state.dropdownShow ? (
-				<div className="dropdown-menu show" onMouseLeave={dropdownHendler}>
+				<div className="dropdown-menu show" onMouseLeave={dropdownHandler}>
 					{selecItem}
 				</div>
 			) : null}
@@ -164,8 +154,8 @@ const Phone = props => {
 				id={props.id}
 				value={state.phoneValue}
 				onBlur={props.onBlur}
-				onChange={inputPhoneHendler}
-				onKeyPress={inputKeyDownHendler}
+				onChange={inputPhoneHandler}
+				onKeyPress={inputKeyDownHandler}
 			/>
 		</div>
 	);

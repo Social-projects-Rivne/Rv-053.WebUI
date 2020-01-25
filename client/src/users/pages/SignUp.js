@@ -23,7 +23,6 @@ const SignUpIn = () => {
 		false
 	);
 
-
 	const signInUpHandler = () => {
 		if (signInUpState) {
 			setFormData(
@@ -54,7 +53,6 @@ const SignUpIn = () => {
 	};
 
 	const [signInUpState, setSignInUpState] = useState(false);
-
 
 	const submitFormHandler = event => {
 		event.preventDefault();
