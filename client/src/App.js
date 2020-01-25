@@ -8,12 +8,16 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Users from './admin/Users/Users'
 import Event from './admin/Events/Event'
 import Logs from './admin/Logs/Logs'
+import Carousel from './events/components/carousel';
+import EventsList from './events/pages/EventsList';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Route component={Header} path="/"/>
 			<Route component={SignUpIn} path="/auth" />
+      <Route component={Carousel} path="/eventlist" />
+      <Route component={EventsList} path="/eventlist" />
 			<Route component={AdminPanelPage} path="/adminpanelpage" />
 			<section className="container">
                 <Route component={Users} exact path="/adminpanelpage/" />
@@ -21,6 +25,8 @@ function App() {
                 <Route component={Logs} path="/adminpanelpage/logs" />
             </section>
 		</BrowserRouter>
+
+		
 	);
 }
 
