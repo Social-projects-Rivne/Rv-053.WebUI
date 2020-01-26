@@ -1,0 +1,15 @@
+form {
+    width: 60%;
+    margin: 0 auto;
+}
+
+label {
+    font-weight: bold;
+}
+.addEvent {
+	width: 60%;
+	margin: 5rem auto;
+}
+.addEvent h2 {
+    text-align: center;
+}
