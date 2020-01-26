@@ -14,7 +14,8 @@ app.use(
 		extended: false,
 	})
 );
-app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api', require('./routes/authRoute'));
+app.use('/api', require('./routes/eventRoutes'));
 
 //Example:
 //Check if user authorized
