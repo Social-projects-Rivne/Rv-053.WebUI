@@ -13,7 +13,7 @@ singToken = user => {
     {
       sub: user.id,
       iat: new Date().getTime(), //current time
-      exp: new Date().getTime() + JWT_EXPIRE_IN //current time + JWT_EXPIRE_IN
+      exp: new Date().getTime() + JWT_EXPIRE_IN, //current time + JWT_EXPIRE_IN
     },
     JWT_SECRET
   );
@@ -21,7 +21,7 @@ singToken = user => {
 
 exports.signUp = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, first_name, last_name, phone } = req.body;
     const foundUser = await User.findOne({ where: { email } });
     //if user exist return res
     if (foundUser) {
@@ -33,7 +33,10 @@ exports.signUp = async (req, res) => {
     await User.create({
       email: email,
       password: hashPassword,
-      status_id: 1
+      first_name,
+      last_name,
+      phone,
+      status_id: 1,
     });
 
     res.status(201).json({ success: true });
@@ -55,7 +58,7 @@ exports.signOut = async (req, res) => {
     {
       sub: 'Logout',
       iat: new Date().getTime(), //current time
-      exp: new Date().getTime() //current time
+      exp: new Date().getTime(), //current time
     },
     JWT_SECRET
   );

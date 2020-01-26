@@ -10,9 +10,9 @@ app.use(cors());
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
+	bodyParser.urlencoded({
+		extended: false,
+	})
 );
 app.use('/api/auth', require('./routes/authRoute'));
 
@@ -24,17 +24,19 @@ app.use('/api/auth', require('./routes/authRoute'));
 const PORT = config.get('port') || 5000;
 
 async function start() {
-  try {
-    await db.sequelize
-      .sync()
-      .then(() => {
-        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
-      })
-      .catch(err => console.error(err.message));
-  } catch (e) {
-    console.log('Server Error', e.message);
-    process.exit(1);
-  }
+	try {
+		await db.sequelize
+			.sync()
+			.then(() => {
+				app.listen(PORT, () =>
+					console.log(`App has been started on port ${PORT}...`)
+				);
+			})
+			.catch(err => console.error(err.message));
+	} catch (e) {
+		console.log('Server Error', e.message);
+		process.exit(1);
+	}
 }
 
 start();
