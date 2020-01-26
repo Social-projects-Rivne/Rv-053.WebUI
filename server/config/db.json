@@ -7,7 +7,7 @@
     "dialect": "postgres",
     "timestamps": false,
     "freezeTableName": true,
-    // "logging": false
+    "logging": false
   },
   "test": {
     "username": "event",
