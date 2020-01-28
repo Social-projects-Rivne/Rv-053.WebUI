@@ -19,7 +19,7 @@ const updateTokens = user => {
   const refreshToken = idPlusToken.token;
   const decoded_access = jwt.decode(accessToken);
   const decoded_refresh = jwt.decode(refreshToken);
-  console.log(idPlusToken.id, user.id, decoded_refresh.exp);
+  //console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
     .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp)
     .then(() => ({
@@ -55,6 +55,11 @@ exports.signUp = async (req, res) => {
     await User.create({
       email: email,
       password: hashPassword,
+      sex: req.body.sex || "Unknown",
+      first_name: req.body.firstname || "",
+      last_name: req.body.lastname || "",
+      phone: req.body.phone || "",
+      role: "User",
       status_id: 1
     });
 
@@ -66,9 +71,9 @@ exports.signUp = async (req, res) => {
 
 exports.signIn = async (req, res) => {
   //Generate token
-  console.log("start authController.signIn ");
+  //console.log("start authController.signIn ");
   updateTokens(req.user).then(tokens => {
-    console.log(tokens);
+    //console.log(tokens);
     res.status(200).json({
       token: tokens.token,
       refreshToken: tokens.refreshToken,
@@ -90,8 +95,8 @@ exports.refreshTokens = async (req, res) => {
     }
     return;
   }
-  console.log(payload);
-  //TODO: Rewrite
+  //console.log(payload);
+
   await Token.findOne({ where: { id: payload.id } })
     .then(token => {
       if (token === null) {
@@ -105,27 +110,39 @@ exports.refreshTokens = async (req, res) => {
     })
     .then(tokens => res.json(tokens))
     .catch(err => res.status(400).json({ message: err.message }));
-  //end rewrite
 };
 
 exports.signOut = async (req, res) => {
-  //Create expiration token and pass to front-end
-  const token = JWT.sign(
-    {
-      sub: "Logout",
-      iat: new Date().getTime(), //current time
-      exp: new Date().getTime() //current time
-    },
-    JWT_SECRET
-  );
-  res.status(200).json({ success: true, token: token });
+  //Delete refresh token from DB, create expiration access token and pass to front-end
+  try {
+    const payload = await jwt.verify(req.body.refreshToken, JWT_REFRESH_SECRET);
+
+    await Token.findOne({ where: { id: payload.id } }).then(token => {
+      if (token !== null) {
+        Token.destroy({ where: { id: payload.id } });
+      }
+    });
+    const token = jwt.sign(
+      {
+        sub: "Logout",
+        iat: new Date().getTime(), //current time
+        exp: new Date().getTime() //current time
+      },
+      JWT_SECRET
+    );
+    res.status(200).json({ success: true, token: token });
+  } catch (e) {
+    res.status(400).json();
+  }
 };
 
 exports.checkAuth = async (req, res) => {
-  console.log("start authController.checkAuth");
-  //const token = req.header('authorization').split(' ')[1];  //get token from header
-
-  //Get token from JSON
-
-  res.status(200).json({ success: true });
+  //console.log("start authController.checkAuth");
+  const { token } = req.body;
+  try {
+    jwt.verify(token, JWT_SECRET);
+    res.status(200).send();
+  } catch (err) {
+    return res.status(401).json({ error: err });
+  }
 };

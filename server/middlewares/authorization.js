@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   } else {
     return res.status(401).json({ err: "No token, authorization denied" });
   }
-  console.log("Authorization with token: " + token);
+  //console.log("Authorization with token: " + token);
   try {
     await JWT.verify(token, JWT_SECRET);
     next();

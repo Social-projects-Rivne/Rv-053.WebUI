@@ -26,9 +26,9 @@ router.post("/register", AuthController.signUp);
 
 router.post("/login", passportSingIn, AuthController.signIn);
 
-router.post("/logout", auth, AuthController.signOut);
+router.post("/logout", AuthController.signOut);
 
-router.post("/check", auth, AuthController.checkAuth);
+router.post("/check", AuthController.checkAuth);
 router.post("/refresh", AuthController.refreshTokens);
 
 router.get("/google", passportGoogle);

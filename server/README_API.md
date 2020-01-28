@@ -7,7 +7,7 @@
 | ------ | ------ | ------ | ------ | ------ |
 | /api/auth/login | POST | Login user into system | {"user_email": "user_email", "password": "userpass"} | status(200).json({"token":"LoNg", "success":"true"}) <br> status(401).json({ err: "Wrong password or email" })|
 | /api/auth/logout | POST | Logout user from the system | {"token":"LoNg"}| status(200).json({ "success": "true", "token": "new expiried token" }) <br> status(401).json({ error }) |
-| /api/auth/register | POST | Add new user into the system | {"user_email": "user_email", "password": "userpass","} | status(201).json{"success":"true"}  <br> status(200).json"({ err: "User already exists" })|
+| /api/auth/register | POST | Add new user into the system | {"user_email": "user_email", "password": "userpass","fistname":"Vasya", "lastname":"Pupkin","phone": "38012345678"} | status(201).json{"success":"true"}  <br> status(200).json"({ err: "User already exists" })|
 |/api/auth/check| POST|Check token | {"token":"token"}|status(200).json({ "success": "true" }) <br> status(401).json({ error }) 
 |/api/auth/refresh|POST|
 |/api/auth/Facebook/:token||
@@ -16,7 +16,7 @@
 ## Users
 | api URL | HTTP Method | Description | Request JSON | Response JSON |
 | ------ | ------ | ------ | ------ | ------ |
-| /api/users| GET | Get list of all users into the system | {token} | [{"id":"55","fistname":"Vasya", "lastname":"Pupkin",  "created":"data","sex":"male","role":"user","status":"banned"}]|
+| /api/users| GET | Get list of all users into the system || [{"id":"55","fistname":"Vasya", "lastname":"Pupkin",  "created":"data","sex":"male","role":"user","status":"banned"}]|
 | /api/users/:id| GET | Get info about user by id |{token}  | {"fistname":"Vasya", "lastname":"Pupkin", "created":"date", "phone": "38012345678", "avatar":"URL", "birthday":"date", "sex":"male","role":"user","status":"banned"}|
 | /api/users/:id/events| GET | Get list of user's events | {token} | {"listOfEvents":"[{"id": "id of event","name": "event name example", "owner_id": "owner_id", "description": "description for event", "location": "location", "datetime":"18.01.2020 17:00", "duration":"3 hours", "max_participants":"10", "min_age":"18", "cover":"cover", "status":"status", "price":"price"}]"}|
 |/api/users/:id/tags|GET|Get list of user's tags|{token}|{"listOfCategories":"[{"id": "id of tag","category": "tag name example", "parent_id":"id of parent tag or 0" }]"}

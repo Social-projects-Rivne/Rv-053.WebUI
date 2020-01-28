@@ -1,7 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid/v4");
-const userModel = require("../models").users;
 const tokenModel = require("../models").token;
 //get value from config/default.json
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -43,29 +42,6 @@ const replaceDbRefreshToken = async (tokenId, userId, expiredAt) => {
     }
   });
 };
-
-//   //   async verify(token) {
-//   //     try {
-//   //       const decode = jwt.verify(token, this.secret);
-//   //       const dbToken = await tokenModel.findOne({ where: { user_id: decode.userId } });
-//   //       if (token !== dbToken.dataValues.access_token) throw 'Token dose not match';
-//   //       return decode.userId;
-//   //     } catch (e) {
-//   //       return Promise.reject(e);
-//   //     }
-//   //   }
-
-//   //   async logOut(token) {
-//   //     try {
-//   //       const { userId } = jwt.verify(token, this.secret);
-//   //       if (!userId) throw 'invalid token';
-
-//   //       await tokenModel.destroy({ where: { user_id: userId } });
-//   //     } catch (e) {
-//   //       return Promise.reject(e);
-//   //     }
-//   //   }
-// }
 
 module.exports = {
   generateAccessToken,
