@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+
         allowNull: false,
       },
       first_name: {
@@ -20,34 +21,34 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
       },
       phone: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       avatar: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       birthday: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY
       },
       sex: {
-        type: DataTypes.ENUM('Male', 'Female', 'Unknown'),
+        type: DataTypes.ENUM("Male", "Female", "Unknown"),
         allowNull: false,
-        defaultValue: 'Unknown',
+        defaultValue: "Unknown"
       },
       status_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER
       },
       role: {
-        type: DataTypes.ENUM('Admin', 'Moderator', 'User'),
+        type: DataTypes.ENUM("Admin", "Moderator", "User"),
         allowNull: false,
-        defaultValue: 'User',
-      },
+        defaultValue: "User"
+      }
     },
     {
       timestamps: false,
-      freezeTableName: true,
+      freezeTableName: true
     }
   );
   User.associate = function(models) {
@@ -88,9 +89,15 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     User.belongsToMany(models.category, {
       foreignKey: 'user_id',
-      through: 'user_category',
+      through: 'user_category'
     });
   };
 
+  User.associate = function(models) {
+    User.hasMany(models.token, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
+    });
+  };
   return User;
 };
