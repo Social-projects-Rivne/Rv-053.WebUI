@@ -39,7 +39,7 @@ const EventItem = props => {
               ? ` ${props.max_participants} people`
               : ` ${props.max_participants} person`}
           </h6>
-          <button type="button" class="btn btn-dark">
+          <button type="button" className="btn btn-dark">
             Join
           </button>
         </div>
