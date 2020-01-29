@@ -1,0 +1,16 @@
+.navbar-brand{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.navbar-brand span {
+    font-size: 3.3rem;
+    color: #58be66;
+}
+.nav-item{
+    display: flex;
+    align-items: center;
+}
+.nav-link{
+    text-decoration: none;
+    color: #000;
+}
