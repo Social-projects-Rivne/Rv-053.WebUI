@@ -34,6 +34,13 @@ const Header = () => {
         </li>
         <li className="nav-item">
            {auth.isLoggedIn && (
+                <NavLink className="nav-link" to="/profile/:userId">
+                  My profile
+                </NavLink>
+            )}
+        </li>
+        <li className="nav-item">
+           {auth.isLoggedIn && (
                 <NavLink className="nav-link" to="/">
                   <button
                     className="btn btn-outline-success btn-block"

@@ -3,7 +3,6 @@ import React, { useState, useCallback } from "react";
 import Header from "./shared/components/Header/Header";
 import SignUpIn from "./users/pages/SignUp";
 import AdminPanelPage from "./admin/AdminPanelPage";
-import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import Users from "./admin/Users/Users";
 import Event from "./admin/Events/Event";
@@ -13,6 +12,8 @@ import EventsList from "./events/pages/EventsList";
 import { AuthContext } from "./shared/context/auth-context";
 import EventDetails from "./events/pages/EventDetails";
 import AddEvent from "./events/pages/AddEvent";
+import UserProfile from './users/pages/UserProfile';
+import "./App.css";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -43,6 +44,8 @@ function App() {
         <Route component={AddEvent} path="/addevent" />
         <Route component={EventDetails} path="/event/details" />
         <Route component={AdminPanelPage} path="/adminpanelpage" />
+        <Route component={UserProfile} path="/user"/>
+        <Route component={UserProfile} path="/profile/:userId"/>
         <section className="container">
           <Route component={Users} exact path="/adminpanelpage/" />
           <Route component={Event} path="/adminpanelpage/events" />
