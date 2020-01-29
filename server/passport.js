@@ -42,12 +42,11 @@ const saltRounds = 10;
 //     }
 //   )
 // );
-
 //LOCAL STRATEGY
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email"
+      usernameField: 'email',
     },
     async (email, password, done) => {
       try {

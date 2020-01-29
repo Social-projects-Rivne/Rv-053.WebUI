@@ -1,5 +1,5 @@
-.login, .Registration {
-	width: 90%;
-	max-width: 30rem;
-	margin: 5rem auto;
+.auth {
+  width: 90%;
+  max-width: 30rem;
+  margin: 5rem auto;
 }

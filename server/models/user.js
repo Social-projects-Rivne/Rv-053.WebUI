@@ -1,22 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "users",
+    'users',
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
+
+        allowNull: false,
       },
       first_name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       last_name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
@@ -53,52 +53,51 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = function(models) {
     User.hasMany(models.followers, {
-      foreignKey: "user_id",
-      onDelete: "CASCADE"
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE',
     });
   };
 
   User.associate = function(models) {
     User.hasMany(models.hub, {
-      foreignKey: "owner_id",
-      onDelete: "CASCADE"
+      foreignKey: 'owner_id',
+      onDelete: 'CASCADE',
     });
   };
 
   User.associate = function(models) {
     User.belongsTo(models.user_status, {
-      foreignKey: "status_id",
-      onDelete: "CASCADE"
+      foreignKey: 'status_id',
+      onDelete: 'CASCADE',
     });
   };
 
   User.associate = models => {
     User.hasMany(models.event, {
-      foreignKey: "owner_id",
-      onDelete: "CASCADE"
+      foreignKey: 'owner_id',
+      onDelete: 'CASCADE',
     });
   };
 
   User.associate = models => {
     User.belongsToMany(models.event, {
-      foreignKey: "user_id",
-      through: "user_event"
+      foreignKey: 'user_id',
+      through: 'user_event',
     });
   };
 
   User.associate = models => {
     User.belongsToMany(models.category, {
-      foreignKey: "user_id",
-      through: "user_category"
+      foreignKey: 'user_id',
+      through: 'user_category'
     });
   };
 
   User.associate = function(models) {
     User.hasMany(models.token, {
-      foreignKey: "user_id",
-      onDelete: "CASCADE"
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
     });
   };
-
   return User;
 };
