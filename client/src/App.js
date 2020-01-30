@@ -39,7 +39,7 @@ function App() {
       <BrowserRouter>
         <Route component={Header} path="/" />
         <Route component={SignUpIn} path="/auth" />
-        <Route component={Notificator} path="/redirecting" />
+        <Route component={Notificator} path="/redirect" />
         <Route component={Carousel} path="/events" />
         <Route component={EventsList} path="/events" />
         <Route component={AddEvent} path="/addevent" />

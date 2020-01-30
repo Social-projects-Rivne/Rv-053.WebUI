@@ -14,8 +14,10 @@ import {
 import { AuthContext } from '../../shared//context/auth-context';
 import './Login.css';
 import Notificator from '../../shared/components/UI/Notificator';
+import { useHistory } from 'react-router-dom';
 
 const SignUpIn = () => {
+  let history = useHistory();
   const auth = useContext(AuthContext);
   const [signInUpState, setSignInUpState] = useState(false);
   const [notificationState, setNotificationState] = useState({ errMessage: '', show: false });
@@ -109,6 +111,15 @@ const SignUpIn = () => {
           console.log(res.data);
           if (res.data.error) {
             setNotificationState({ show: true, message: res.data.error });
+          }
+          if (res.data.success) {
+            history.push({
+              pathname: '/redirect',
+              state: {
+                className: 'p-0 auth alert alert-success',
+                message: 'Check your email to confirm it',
+              },
+            });
           }
         } catch (e) {
           console.log(e);
