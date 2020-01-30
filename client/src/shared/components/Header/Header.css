@@ -14,3 +14,6 @@
     text-decoration: none;
     color: #000;
 }
+.collapse.navbar-collapse{
+    justify-content: flex-end;
+}
