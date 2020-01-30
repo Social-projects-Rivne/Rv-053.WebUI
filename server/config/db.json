@@ -6,7 +6,8 @@
     "host": "db",
     "dialect": "postgres",
     "timestamps": false,
-    "freezeTableName": true
+    "freezeTableName": true,
+    "logging": false
   },
   "test": {
     "username": "event",

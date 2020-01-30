@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Hub = sequelize.define(
-    'hub',
+    "hub",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Hub.associate = function(models) {
     Hub.belongsTo(models.users, {
-      foreignKey: 'owner_id'
+      foreignKey: "owner_id"
     });
   };
   return Hub;

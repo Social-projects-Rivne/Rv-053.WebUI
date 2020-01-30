@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
-// import Select from '../../shared/components/FormElements/Select';
+import Selector from '../FormElements/Select';
 
 import Password from './InputChildrens/Password';
 import Phone from './InputChildrens/Phone';
@@ -78,24 +78,20 @@ const Input = props => {
 	} else if (props.type === 'number') {
 		inputEl = (
 			<input
+			className={
+				props.className +
+				` ${!state.isValid && state.isClicked && 'is-invalid'}`
+			}
 				id={props.id}
 				rows={props.rows || 3}
 				value={state.value}
 				onBlur={blurHandler}
 				onChange={typingHandler}
+				type={props.type}
 			/>
 		);
-	} else if (props.type === 'select') {
-		inputEl = (
-			<select
-				id={props.id}
-				rows={props.rows || 3}
-				value={state.value}
-				onBlur={blurHandler}
-				onChange={typingHandler}
-			/>
-		);
-	} else if (props.type === 'date') {
+	} 
+	else if (props.type === 'date') {
 		inputEl = (
 			<input
 				id={props.id}
@@ -150,6 +146,36 @@ const Input = props => {
 			/>
 		);
 	}
+
+	else if (props.type === 'location') {
+		inputEl = (
+			<input
+				className={
+					props.className +
+					` ${!state.isValid && state.isClicked  && 'is-invalid'}`
+				}
+				id={props.id}
+				value={state.value}
+				onBlur={blurHandler}
+				onChange={typingHandler}
+			/>
+		);
+	}
+	else if (props.type === 'select') {
+		inputEl = (
+			<Selector
+				className={
+					props.className +
+					` ${!state.isValid && state.isClicked  && 'is-invalid'}`
+				}
+				id={props.id}
+				value={state.value}
+				onBlur={blurHandler}
+				onChange={typingHandler}
+			/>
+		);
+	}
+	
 
 	return (
 		<div className="form-group">
