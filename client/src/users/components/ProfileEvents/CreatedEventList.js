@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import CreatedEventItem from './../components/CreatedEventItem';
+import CreatedEventItem from './CreatedEventItem';
 
 
 const createdEvents = [
@@ -24,7 +24,7 @@ const CreatedEventList = () => {
             <h3 className="profile-title">Your created events</h3>
             {createdEvents.map(event => 
                 <CreatedEventItem
-                    key={event.id} 
+                    key={event.eventId} 
                     title={event.name}
                     date={event.datetime}
                 />

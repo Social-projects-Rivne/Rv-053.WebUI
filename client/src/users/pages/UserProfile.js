@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import UserInfo from './../components/UserInfo';
 import CategoriesList from './../components/CategoriesList';
-import FollowedEventList from './../components/FollowedEventList';
-import CreatedEventList from './../components/CreatedEventList';
+import FollowedEventList from './../components/ProfileEvents/FollowedEventList';
+import CreatedEventList from './../components/ProfileEvents/CreatedEventList';
 import './UserProfile.css';
 
 const userInfo = [

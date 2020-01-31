@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FollowedEventItem from './../components/FollowedEventItem';
+import FollowedEventItem from './FollowedEventItem';
 
 const followedEvents = [
     {
@@ -22,7 +22,7 @@ const FollowedEventList = () => {
             <h3 className="profile-title">Your followed events</h3>
             {followedEvents.map(event =>
                 <FollowedEventItem
-                    key={event.id} 
+                    key={event.eventId} 
                     title={event.name}
                     date={event.datetime}
                 />

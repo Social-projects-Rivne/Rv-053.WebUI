@@ -7,7 +7,7 @@ const UserInfo = (props) => {
     return(
             <div className="profile-top">
                 <div className="profile-avatar">
-                    <img src="/" alt="avatar"/>
+                    {!props.item.avatarUrl ? <span>Add photo</span> : <img src="/" alt=""/>}
                 </div>
                 <div className="profile-info">
                 <div className="profile-name">{props.item.name} {props.item.surname}</div>

@@ -17,10 +17,22 @@
     margin-bottom: 30px;
 }
 .profile-avatar{
+    text-align: center;
+}
+.profile-avatar span{
+    display: inline-block;
     width: 150px;
     height: 150px;
     background-color: #cdcdcd;
     border-radius: 50%;
+    font-size: 0;
+    text-align: center;
+    line-height: 150px;
+    color: #4e4e4e;
+    transition: all .3s cubic-bezier(0.4, 0, 1, 1);
+}
+.profile-avatar span:hover{
+    font-size: 18px;
 }
 .profile-name{
     font-size: 30px;
@@ -104,6 +116,9 @@
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 18px;
+}
+.profile_categories-item.added{
+    background-color: #58be66;
 }
 @media (max-width: 600px){
     .profile_inner{
