@@ -44,11 +44,20 @@ const updateTokens = user => {
 
 exports.signUp = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const foundUser = await User.findOne({ where: { email } });
+    const {
+      email,
+      password
+    } = req.body;
+    const foundUser = await User.findOne({
+      where: {
+        email
+      }
+    });
     //if user exist return res
     if (foundUser) {
-      return res.status(200).json({ error: "Email is already in use" });
+      return res.status(200).json({
+        error: "Email is already in use"
+      });
 
     }
     //else create new user into DB and generate token
@@ -63,10 +72,11 @@ exports.signUp = async (req, res) => {
       phone: req.body.phone || "",
       role: "User",
       status_id: 1
-
     });
 
-    res.status(201).json({ success: true });
+    res.status(201).json({
+      success: true
+    });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -86,33 +96,49 @@ exports.signIn = async (req, res) => {
 };
 
 exports.refreshTokens = async (req, res) => {
-  const { refreshToken } = req.body;
+  const {
+    refreshToken
+  } = req.body;
   let payload;
   try {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
   } catch (e) {
     if (e instanceof jwt.TokenExpiredError) {
-      res.status(400).json({ message: "Token expired" });
+      res.status(400).json({
+        message: "Token expired"
+      });
     } else if (e instanceof jwt.JsonWebTokenError) {
-      res.status(400).json({ message: "Invalid token" });
+      res.status(400).json({
+        message: "Invalid token"
+      });
     }
     return;
   }
   //console.log(payload);
 
-  await Token.findOne({ where: { id: payload.id } })
+  await Token.findOne({
+      where: {
+        id: payload.id
+      }
+    })
     .then(token => {
       if (token === null) {
         throw new Error("Invalid token!");
       }
-      const user = User.findOne({ where: { id: token.user_id } });
+      const user = User.findOne({
+        where: {
+          id: token.user_id
+        }
+      });
       if (!user) {
         throw new Error("User dosn't exist");
       }
       return updateTokens(user);
     })
     .then(tokens => res.json(tokens))
-    .catch(err => res.status(400).json({ message: err.message }));
+    .catch(err => res.status(400).json({
+      message: err.message
+    }));
 };
 
 exports.signOut = async (req, res) => {
@@ -120,20 +146,30 @@ exports.signOut = async (req, res) => {
   try {
     const payload = await jwt.verify(req.body.refreshToken, JWT_REFRESH_SECRET);
 
-    await Token.findOne({ where: { id: payload.id } }).then(token => {
+    await Token.findOne({
+      where: {
+        id: payload.id
+      }
+    }).then(token => {
       if (token !== null) {
-        Token.destroy({ where: { id: payload.id } });
+        Token.destroy({
+          where: {
+            id: payload.id
+          }
+        });
       }
     });
-    const token = jwt.sign(
-      {
+    const token = jwt.sign({
         sub: "Logout",
         iat: new Date().getTime(), //current time
         exp: new Date().getTime() //current time
       },
       JWT_SECRET
     );
-    res.status(200).json({ success: true, token: token });
+    res.status(200).json({
+      success: true,
+      token: token
+    });
   } catch (e) {
     res.status(400).json();
   }
@@ -141,12 +177,16 @@ exports.signOut = async (req, res) => {
 
 exports.checkAuth = async (req, res) => {
   //console.log("start authController.checkAuth");
-  const { token } = req.body;
+  const {
+    token
+  } = req.body;
   try {
     jwt.verify(token, JWT_SECRET);
     res.status(200).send();
   } catch (err) {
-    return res.status(401).json({ error: err });
+    return res.status(401).json({
+      error: err
+    });
   }
 
 };
