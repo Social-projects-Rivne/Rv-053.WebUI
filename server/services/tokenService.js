@@ -17,7 +17,9 @@ const generateAccessToken = user => {
     status_id: user.status_id,
     role: user.role
   };
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRE_IN });
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: JWT_EXPIRE_IN
+  });
 };
 
 const generateRefreshToken = user => {
@@ -34,11 +36,23 @@ const generateRefreshToken = user => {
 
 //Replace refreshToken in DB token
 const replaceDbRefreshToken = async (tokenId, userId, expiredAt) => {
-  await tokenModel.findOne({ where: { id: tokenId } }).then(token => {
+  await tokenModel.findOne({
+    where: {
+      id: tokenId
+    }
+  }).then(token => {
     if (token === null) {
-      tokenModel.create({ id: tokenId, user_id: userId, expiredAt });
+      tokenModel.create({
+        id: tokenId,
+        user_id: userId,
+        expiredAt
+      });
     } else {
-      tokenModel.update({ id: tokenId, user_id: userId, expiredAt });
+      tokenModel.update({
+        id: tokenId,
+        user_id: userId,
+        expiredAt
+      });
     }
   });
 };
