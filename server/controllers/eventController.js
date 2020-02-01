@@ -3,20 +3,14 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models").sequelize;
 const Op = Sequelize.Op;
 
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|'"[\]\\]/g, "\\$&");
-}
-
 exports.searchEvent = async (req, res) => {
-  console.log(req.originalUrl);
-  console.log(req.query.q);
-  const safeQuery = await escapeRegExp(req.query.q);
-  console.log(safeQuery);
+  //If there is query 'q=some text'
   if (req.query.q) {
-    const limit = req.query.limit || 20;
+    const limit = req.query.limit || 100;
     const offset = req.query.offset || 0;
-    console.log(`regex ${req.query.q},  limit ${limit},  offset ${offset}`);
-
+    //Search in DB event by 'name' or 'description'
+    //[Op.iLike] means case insensitive searching
+    //Order by 'datetime'
     Event.findAndCountAll({
       where: {
         [Op.or]: [
@@ -29,14 +23,15 @@ exports.searchEvent = async (req, res) => {
       order: [sequelize.literal("datetime DESC")]
     })
       .then(data => {
-        //console.log(data);
+        //send result to front-end
         res.status(200).json(data);
       })
       .catch(err => {
         res.status(404).send({ message: err.message || "Not found" });
       });
   } else {
-    //Get all events from DB
-    res.status(200).send();
+    //Else get all events from DB
+    //TODO: uncomment when method will be ready
+    //this.getAllEvent(req, res);
   }
 };
