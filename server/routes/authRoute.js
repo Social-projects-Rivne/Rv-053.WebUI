@@ -22,9 +22,21 @@ const passportGoogle = passport.authenticate("google", {
 const router = express.Router();
 const auth = require("../middlewares/authorization");
 
-router.post("/register", AuthController.signUp);
+const {
+  loginValidation,
+  registerValidation,
+  validate
+} = require("../middlewares/validator");
 
-router.post("/login", passportSingIn, AuthController.signIn);
+router.post("/register", registerValidation(), validate, AuthController.signUp);
+
+router.post(
+  "/login",
+  loginValidation(),
+  validate,
+  passportSingIn,
+  AuthController.signIn
+);
 
 router.post("/logout", AuthController.signOut);
 
