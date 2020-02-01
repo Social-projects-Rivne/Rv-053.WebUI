@@ -27,7 +27,6 @@ const updateTokens = user => {
       refreshToken: refreshToken,
       expiresIn: decoded_access.exp
     }));
-
 };
 // const tokenService = new TokenService();
 
@@ -49,7 +48,6 @@ exports.signUp = async (req, res) => {
     //if user exist return res
     if (foundUser) {
       return res.status(200).json({ error: "Email is already in use" });
-
     }
     //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
@@ -58,12 +56,11 @@ exports.signUp = async (req, res) => {
       email: email,
       password: hashPassword,
       sex: req.body.sex || "Unknown",
-      first_name: req.body.firstname || "",
-      last_name: req.body.lastname || "",
+      first_name: req.body.first_name || "",
+      last_name: req.body.last_name || "",
       phone: req.body.phone || "",
       role: "User",
       status_id: 1
-
     });
 
     res.status(201).json({ success: true });
@@ -148,5 +145,4 @@ exports.checkAuth = async (req, res) => {
   } catch (err) {
     return res.status(401).json({ error: err });
   }
-
 };

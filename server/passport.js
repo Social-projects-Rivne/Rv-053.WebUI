@@ -46,7 +46,7 @@ const saltRounds = 10;
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
+      usernameField: "email"
     },
     async (email, password, done) => {
       try {
