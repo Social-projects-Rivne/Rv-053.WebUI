@@ -11,6 +11,7 @@ import {
   VAL_MIN_LENGTH,
   VAL_LETTERS,
   VAL_PASSWORD,
+  VAL_NUMBERS,
 } from '../../shared/utilities/validation';
 import { AuthContext } from '../../shared//context/auth-context';
 import './Login.css';
@@ -174,7 +175,7 @@ const SignUpIn = () => {
                 label="Password"
                 validations={[VAL_PASSWORD()]}
                 onInput={inputHandler}
-                errorMessage="Password should be at least 6 symbols and contain uppercase, lowercase and number"
+                errorMessage="Password should be at least 6 symbols and contain uppercase, lowercase, numbers"
                 className="form-control"
               />
               <Input
