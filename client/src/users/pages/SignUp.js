@@ -10,8 +10,7 @@ import {
   VAL_REQUIRED,
   VAL_MIN_LENGTH,
   VAL_LETTERS,
-  VAL_PASSWORD,
-  VAL_NUMBERS,
+  VAL_PASSWORD
 } from '../../shared/utilities/validation';
 import { AuthContext } from '../../shared//context/auth-context';
 import './Login.css';
@@ -27,12 +26,12 @@ const SignUpIn = () => {
     {
       email: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       password: {
         value: '',
-        isValid: false,
-      },
+        isValid: false
+      }
     },
     false
   );
@@ -45,7 +44,7 @@ const SignUpIn = () => {
           ...formState.inputs,
           firstName: undefined,
           lastName: undefined,
-          phone: undefined,
+          phone: undefined
         },
         formState.formValidity
       );
@@ -55,16 +54,16 @@ const SignUpIn = () => {
           ...formState.inputs,
           firstName: {
             value: '',
-            isValid: false,
+            isValid: false
           },
           lastName: {
             value: '',
-            isValid: false,
+            isValid: false
           },
           phone: {
             value: '',
-            isValid: false,
-          },
+            isValid: false
+          }
         },
         formState.formValidity
       );
@@ -87,18 +86,17 @@ const SignUpIn = () => {
     if (formState.formValidity) {
       const user = {
         email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
+        password: formState.inputs.password.value
       };
       if (!signInUpState) {
         try {
           const res = await axios.post('http://localhost:5001/api/auth/login', user);
-          console.log(res.data);
-          auth.login(res.data.token);
+          auth.login(res.data.token, res.data.expiresIn);
         } catch (e) {
           console.log('incorrect password or email');
           setNotificationState({
             show: true,
-            message: 'Incorrect password or email',
+            message: 'Incorrect password or email'
           });
         }
       } else {
@@ -106,7 +104,7 @@ const SignUpIn = () => {
           ...user,
           first_name: formState.inputs.firstName.value,
           last_name: formState.inputs.lastName.value,
-          phone: formState.inputs.phone.value,
+          phone: formState.inputs.phone.value
         };
         try {
           const res = await axios.post('http://localhost:5001/api/auth/register', regUser);
@@ -119,8 +117,8 @@ const SignUpIn = () => {
               pathname: '/redirect',
               state: {
                 className: 'p-0 auth alert alert-success',
-                message: 'Check your email to confirm it',
-              },
+                message: 'Check your email to confirm it'
+              }
             });
           }
         } catch (e) {
@@ -220,7 +218,7 @@ const SignUpIn = () => {
             style={{
               width: '45%',
               borderTop: '1px solid #999',
-              borderBottom: '1px solid #999',
+              borderBottom: '1px solid #999'
             }}
           ></div>
           <p className="d-inline-block text-center mb-0" style={{ width: '10%' }}>
@@ -231,7 +229,7 @@ const SignUpIn = () => {
             style={{
               width: '45%',
               borderTop: '1px solid #999',
-              borderBottom: '1px solid #999',
+              borderBottom: '1px solid #999'
             }}
           ></div>
         </div>

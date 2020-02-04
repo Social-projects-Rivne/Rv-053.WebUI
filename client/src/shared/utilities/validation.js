@@ -48,7 +48,6 @@ const validatorsDictionary = {
 };
 
 export const validate = (value, validators) => {
-  console.log(validatorsDictionary);
   const valValid = validators.reduce((validAccum, validator) => {
     return validAccum && validatorsDictionary[validator.valType](value, validator);
   }, true);
