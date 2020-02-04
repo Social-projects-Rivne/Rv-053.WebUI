@@ -13,15 +13,15 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const tokenService = require('../services/tokenService');
 
-const updateTokens = user => {
+const updateTokens = (user, oldRefreshTokenId) => {
   const accessToken = tokenService.generateAccessToken(user);
   const idPlusToken = tokenService.generateRefreshToken(user);
   const refreshToken = idPlusToken.token;
   const decoded_access = jwt.decode(accessToken);
   const decoded_refresh = jwt.decode(refreshToken);
-  //console.log(idPlusToken.id, user.id, decoded_refresh.exp);
+  console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
-    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp)
+    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp, oldRefreshTokenId)
     .then(() => ({
       token: accessToken,
       refreshToken: refreshToken,
@@ -74,9 +74,7 @@ exports.signIn = async (req, res) => {
 
 exports.refreshTokens = async (req, res) => {
   //const { refreshToken } = req.body;
-  console.log('AAAAAAAAAAAAAAAAA');
   const { refreshToken } = req.cookies;
-  console.log(refreshToken);
   let payload;
   try {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
@@ -88,21 +86,20 @@ exports.refreshTokens = async (req, res) => {
     }
     return;
   }
-  //console.log(payload);
+  console.log('payload.id  ' + payload.id);
 
   await Token.findOne({ where: { id: payload.id } })
-    .then(token => {
+    .then(async token => {
       if (token === null) {
         throw new Error('Invalid token!');
       }
-      const user = User.findOne({ where: { id: token.user_id } });
+      const user = await User.findOne({ where: { id: token.user_id } });
       if (!user) {
         throw new Error("User dosn't exist");
       }
-      return updateTokens(user);
+      return updateTokens(user, payload.id);
     })
     .then(tokens => {
-      console.log(tokens);
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true
       });
