@@ -1,4 +1,10 @@
 const { body, validationResult } = require('express-validator');
+
+//Password should be contain at least one uppercase, one lowercase and one digit
+const regExpForPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
+//Cyrillic and Latin characters, space and -
+const regExpForNames = /[^A-Za-zа-яА-ЯіІїЇёЁ\s\-\']+/;
+
 const loginValidation = () => {
   return [
     // normalize email
@@ -7,16 +13,16 @@ const loginValidation = () => {
       .isEmail()
       .normalizeEmail(),
     // password must be at least 6 chars long
-    body('password', 'Your password must be between 6 and 30 characters').isLength({
-      min: 6,
-      max: 30
-    })
+    body('password', 'Your password must be between 6 and 30 characters')
+      .trim()
+      .isLength({
+        min: 6,
+        max: 30
+      })
   ];
 };
 
 const registerValidation = () => {
-  //Cyrillic and Latin characters, space and -
-  const regExpForNames = /[^A-Za-zа-яА-ЯіІїЇёЁ\s\-\']+/;
   return [
     // normalize email
     body('email', 'Email is invalid')
@@ -24,10 +30,16 @@ const registerValidation = () => {
       .isEmail()
       .normalizeEmail(),
     // password must be at least 6 chars long
-    body('password', 'Your password must be between 6 and 30 characters').isLength({
-      min: 6,
-      max: 30
-    }),
+    body('password', 'Your password must be between 6 and 30 characters')
+      .trim()
+      .isLength({
+        min: 6,
+        max: 30
+      })
+      .matches(regExpForPassword)
+      .withMessage(
+        'Password should be contain at least one uppercase, one lowercase and one digit'
+      ),
     //first_name must be more then 3 letters and matches regExpForNames
     body('first_name')
       .trim()
