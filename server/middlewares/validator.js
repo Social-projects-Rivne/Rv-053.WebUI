@@ -1,38 +1,55 @@
-const { body, validationResult } = require("express-validator");
+const { body, validationResult } = require('express-validator');
 const loginValidation = () => {
   return [
-    // username must be an email
-    body("email", "Email is invalid")
+    // normalize email
+    body('email', 'Email is invalid')
+      .trim()
       .isEmail()
       .normalizeEmail(),
-    // password must be at least 5 chars long
-    body(
-      "password",
-      "Your password must be between 6 and 30 characters"
-    ).isLength({ min: 6, max: 30 })
+    // password must be at least 6 chars long
+    body('password', 'Your password must be between 6 and 30 characters').isLength({
+      min: 6,
+      max: 30
+    })
   ];
 };
 
 const registerValidation = () => {
+  //Cyrillic and Latin characters, space and -
+  const regExpForNames = /[^A-Za-zа-яА-ЯіІїЇёЁ\s\-\']+/;
   return [
-    // username must be an email
-    body("email", "Email is invalid")
+    // normalize email
+    body('email', 'Email is invalid')
+      .trim()
       .isEmail()
       .normalizeEmail(),
-    // password must be at least 5 chars long
-    body(
-      "password",
-      "Your password must be between 6 and 30 characters"
-    ).isLength({ min: 6, max: 30 }),
-    body("first_name")
+    // password must be at least 6 chars long
+    body('password', 'Your password must be between 6 and 30 characters').isLength({
+      min: 6,
+      max: 30
+    }),
+    //first_name must be more then 3 letters and matches regExpForNames
+    body('first_name')
+      .trim()
+      .isLength({ min: 3, max: 100 })
+      .withMessage('Your first name must be between 3 and 100 characters')
+      .not()
+      .matches(regExpForNames, 'g')
+      .withMessage('Wrong symbol in first name'),
+    //last_name must be more then 2 letters and matches regExpForNames
+    body('last_name')
+      .trim()
       .isLength({ min: 2, max: 100 })
-      .isAlphanumeric(),
-    body("last_name")
-      .isLength({ min: 2, max: 100 })
-      .isAlphanumeric(),
-    body("phone")
-      .optional()
-      .isMobilePhone("uk-UA", { strictMode: false })
+      .withMessage('Your last name must be between 2 and 100 characters')
+      .not()
+      .matches(regExpForNames, 'g')
+      .withMessage('Wrong symbol in last name'),
+    //Phone number may contains digit + - ( ) and space. Phone may be any location
+    body('phone')
+      .trim()
+      .blacklist(/()\s\-\+/)
+      .isMobilePhone('any')
+      .withMessage('Wrong phone number')
   ];
 };
 
@@ -51,6 +68,6 @@ const validate = (req, res, next) => {
 
 module.exports = {
   loginValidation,
-  validate,
-  registerValidation
+  registerValidation,
+  validate
 };

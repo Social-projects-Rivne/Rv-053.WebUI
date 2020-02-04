@@ -1,17 +1,17 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 //!!!!!!!!!
 //Model User:
-const User = require("../models").users;
-const Token = require("../models").token;
+const User = require('../models').users;
+const Token = require('../models').token;
 //get value from config/default.json
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE_IN = process.env.JWT_EXPIRE_IN;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 const JWT_REFRESH_EXPIRE_IN = process.env.JWT_REFRESH_EXPIRE_IN;
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
-const tokenService = require("../services/tokenService");
+const tokenService = require('../services/tokenService');
 
 const updateTokens = user => {
   const accessToken = tokenService.generateAccessToken(user);
@@ -27,7 +27,6 @@ const updateTokens = user => {
       refreshToken: refreshToken,
       expiresIn: decoded_access.exp
     }));
-
 };
 // const tokenService = new TokenService();
 
@@ -48,8 +47,7 @@ exports.signUp = async (req, res) => {
     const foundUser = await User.findOne({ where: { email } });
     //if user exist return res
     if (foundUser) {
-      return res.status(200).json({ error: "Email is already in use" });
-
+      return res.status(200).json({ error: 'Email is already in use' });
     }
     //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
@@ -57,13 +55,12 @@ exports.signUp = async (req, res) => {
     await User.create({
       email: email,
       password: hashPassword,
-      sex: req.body.sex || "Unknown",
-      first_name: req.body.firstname || "",
-      last_name: req.body.lastname || "",
-      phone: req.body.phone || "",
-      role: "User",
+      sex: req.body.sex || 'Unknown',
+      first_name: req.body.firstname || '',
+      last_name: req.body.lastname || '',
+      phone: req.body.phone || '',
+      role: 'User',
       status_id: 1
-
     });
 
     res.status(201).json({ success: true });
@@ -92,9 +89,9 @@ exports.refreshTokens = async (req, res) => {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
   } catch (e) {
     if (e instanceof jwt.TokenExpiredError) {
-      res.status(400).json({ message: "Token expired" });
+      res.status(400).json({ message: 'Token expired' });
     } else if (e instanceof jwt.JsonWebTokenError) {
-      res.status(400).json({ message: "Invalid token" });
+      res.status(400).json({ message: 'Invalid token' });
     }
     return;
   }
@@ -103,7 +100,7 @@ exports.refreshTokens = async (req, res) => {
   await Token.findOne({ where: { id: payload.id } })
     .then(token => {
       if (token === null) {
-        throw new Error("Invalid token!");
+        throw new Error('Invalid token!');
       }
       const user = User.findOne({ where: { id: token.user_id } });
       if (!user) {
@@ -127,7 +124,7 @@ exports.signOut = async (req, res) => {
     });
     const token = jwt.sign(
       {
-        sub: "Logout",
+        sub: 'Logout',
         iat: new Date().getTime(), //current time
         exp: new Date().getTime() //current time
       },
@@ -148,5 +145,4 @@ exports.checkAuth = async (req, res) => {
   } catch (err) {
     return res.status(401).json({ error: err });
   }
-
 };
