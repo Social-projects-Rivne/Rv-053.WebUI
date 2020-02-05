@@ -56,8 +56,8 @@ exports.signUp = async (req, res) => {
       email: email,
       password: hashPassword,
       sex: req.body.sex || 'Unknown',
-      first_name: req.body.firstname || '',
-      last_name: req.body.lastname || '',
+      first_name: req.body.first_name || '',
+      last_name: req.body.last_name || '',
       phone: req.body.phone || '',
       role: 'User',
       status_id: 1

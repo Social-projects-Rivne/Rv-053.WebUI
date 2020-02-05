@@ -105,5 +105,6 @@ dist
 
 .eslintrc
 .prettierrc
+.eslintrc.json
 
 data/
