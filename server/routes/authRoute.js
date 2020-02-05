@@ -1,9 +1,10 @@
-const express = require("express");
-const passport = require("passport");
-const passportConf = require("../config/passport");
-const AuthController = require("../controllers/authController");
-const passportSingIn = function (req, res, next) {
-  passport.authenticate("local", function (err, user, info) {
+
+const express = require('express');
+const passport = require('passport');
+const passportConf = require('../config/passport');
+const AuthController = require('../controllers/authController');
+const passportSingIn = function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err);
     }
@@ -17,23 +18,25 @@ const passportSingIn = function (req, res, next) {
   })(req, res, next);
 };
 
-const passportGoogle = passport.authenticate("google", {
-  scope: ["profile", "email"],
+const passportGoogle = passport.authenticate('google', {
+  scope: ['profile', 'email'],
   session: false
 });
 const router = express.Router();
-const auth = require("../middlewares/authorization");
+const auth = require('../middlewares/authorization');
 
-router.post("/register", AuthController.signUp);
+const { loginValidation, registerValidation, validate } = require('../middlewares/validator');
 
-router.post("/login", passportSingIn, AuthController.signIn);
+router.post('/register', registerValidation(), validate, AuthController.signUp);
 
-router.post("/logout", AuthController.signOut);
+router.post('/login', loginValidation(), validate, passportSingIn, AuthController.signIn);
 
-router.post("/check", AuthController.checkAuth);
-router.post("/refresh", AuthController.refreshTokens);
+router.post('/logout', AuthController.signOut);
 
-router.get("/google", passportGoogle);
-router.get("/google/redirect", passportGoogle, AuthController.signIn);
+router.post('/check', AuthController.checkAuth);
+router.post('/refresh', AuthController.refreshTokens);
+
+router.get('/google', passportGoogle);
+router.get('/google/redirect', passportGoogle, AuthController.signIn);
 
 module.exports = router;
