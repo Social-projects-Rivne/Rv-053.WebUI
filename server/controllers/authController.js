@@ -21,11 +21,11 @@ const updateTokens = (user, oldRefreshTokenId) => {
   const decoded_refresh = jwt.decode(refreshToken);
   console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
-    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp, oldRefreshTokenId)
+    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp * 1000, oldRefreshTokenId)
     .then(() => ({
       token: accessToken,
       refreshToken: refreshToken,
-      expiresIn: decoded_access.exp
+      expiresIn: decoded_access.exp * 1000
     }));
 };
 
@@ -60,10 +60,13 @@ exports.signUp = async (req, res) => {
 exports.signIn = async (req, res) => {
   //Generate token
   //console.log("start authController.signIn ");
+  console.log('Cookie  ' + req.cookies.refreshToken);
+
   updateTokens(req.user).then(tokens => {
     //console.log(tokens);
     res.cookie('refreshToken', tokens.refreshToken, {
-      httpOnly: true
+      httpOnly: true,
+      expires: new Date(jwt.decode(tokens.refreshToken).exp * 1000)
     });
     res.status(200).json({
       token: tokens.token,
@@ -101,7 +104,8 @@ exports.refreshTokens = async (req, res) => {
     })
     .then(tokens => {
       res.cookie('refreshToken', tokens.refreshToken, {
-        httpOnly: true
+        httpOnly: true,
+        expires: new Date(jwt.decode(tokens.refreshToken).exp * 1000)
       });
       res.status(200).json({
         token: tokens.token,
