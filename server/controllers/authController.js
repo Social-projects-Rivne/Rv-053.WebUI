@@ -19,7 +19,7 @@ const updateTokens = (user, oldRefreshTokenId) => {
   const refreshToken = idPlusToken.token;
   const decoded_access = jwt.decode(accessToken);
   const decoded_refresh = jwt.decode(refreshToken);
-  console.log(idPlusToken.id, user.id, decoded_refresh.exp);
+  //console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
     .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp * 1000, oldRefreshTokenId)
     .then(() => ({
@@ -60,7 +60,6 @@ exports.signUp = async (req, res) => {
 exports.signIn = async (req, res) => {
   //Generate token
   //console.log("start authController.signIn ");
-  console.log('Cookie  ' + req.cookies.refreshToken);
 
   updateTokens(req.user).then(tokens => {
     //console.log(tokens);
@@ -89,7 +88,6 @@ exports.refreshTokens = async (req, res) => {
     }
     return;
   }
-  console.log('payload.id  ' + payload.id);
 
   await Token.findOne({ where: { id: payload.id } })
     .then(async token => {
@@ -116,15 +114,15 @@ exports.refreshTokens = async (req, res) => {
 };
 
 exports.signOut = async (req, res) => {
-  //Delete refresh token from DB, create expiration access token and pass to front-end
+  //Delete refresh token from DB
   try {
-    const payload = await jwt.verify(req.body.refreshToken, JWT_REFRESH_SECRET);
-
+    const payload = await jwt.verify(req.cookies.refreshToken, JWT_REFRESH_SECRET);
     await Token.findOne({ where: { id: payload.id } }).then(token => {
       if (token !== null) {
         Token.destroy({ where: { id: payload.id } });
       }
     });
+    //create expiration access token
     const token = jwt.sign(
       {
         sub: 'Logout',
@@ -133,19 +131,22 @@ exports.signOut = async (req, res) => {
       },
       JWT_SECRET
     );
+    //Clear httpOnly cookie 'refreshToken'
+    res.clearCookie('refreshToken');
+    //pass expired token to front-end
     res.status(200).json({ success: true, token: token });
-  } catch (e) {
-    res.status(400).json();
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 
-exports.checkAuth = async (req, res) => {
-  //console.log("start authController.checkAuth");
-  const { token } = req.body;
-  try {
-    jwt.verify(token, JWT_SECRET);
-    res.status(200).send();
-  } catch (err) {
-    return res.status(401).json({ error: err });
-  }
-};
+// exports.checkAuth = async (req, res) => {
+//   //console.log("start authController.checkAuth");
+//   const { token } = req.body;
+//   try {
+//     jwt.verify(token, JWT_SECRET);
+//     res.status(200).send();
+//   } catch (err) {
+//     return res.status(401).json({ error: err });
+//   }
+// };
