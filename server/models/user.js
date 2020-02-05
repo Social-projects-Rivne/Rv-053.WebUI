@@ -62,12 +62,12 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // User.associate = function (models) {
-  //   User.belongsTo(models.user_status, {
-  //     foreignKey: 'status_id',
-  //     onDelete: 'CASCADE',
-  //   });
-  // };
+  User.associate = function (models) {
+    User.belongsTo(models.user_status, {
+      foreignKey: 'status_id',
+      onDelete: 'CASCADE',
+    });
+  };
 
   User.associate = models => {
     User.hasMany(models.event, {

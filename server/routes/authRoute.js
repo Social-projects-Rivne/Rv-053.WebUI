@@ -1,13 +1,9 @@
-const express = require("express");
-const passport = require("passport");
-const AuthController = require("../controllers/authController");
-// const passportConf = require("../passport");
-// const auth = require("../middlewares/authorization");
-
-const router = express.Router();
-
+const express = require('express');
+const passport = require('passport');
+const passportConf = require('../config/passport');
+const AuthController = require('../controllers/authController');
 const passportSingIn = function (req, res, next) {
-  passport.authenticate("local", function (err, user, info) {
+  passport.authenticate('local', function (err, user, info) {
     if (err) {
       return next(err);
     }
@@ -21,21 +17,29 @@ const passportSingIn = function (req, res, next) {
   })(req, res, next);
 };
 
-// const passportGoogle = passport.authenticate("google", {
-//   scope: ["profile", "email"],
-//   session: false
-// });
+const passportGoogle = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+  session: false
+});
+const router = express.Router();
+const auth = require('../middlewares/authorization');
 
-router.post("/auth/register", AuthController.signUp);
+const {
+  loginValidation,
+  registerValidation,
+  validate
+} = require('../middlewares/validator');
 
-router.post("/auth/login", passportSingIn, AuthController.signIn);
+router.post('/register', registerValidation(), validate, AuthController.signUp);
 
-router.post("/auth/logout", AuthController.signOut);
+router.post('/login', loginValidation(), validate, passportSingIn, AuthController.signIn);
 
-router.post("/auth/check", AuthController.checkAuth);
-router.post("/auth/refresh", AuthController.refreshTokens);
+router.post('/logout', AuthController.signOut);
 
-// router.get("auth/google", passportGoogle);
-// router.get("auth/google/redirect", passportGoogle, AuthController.signIn);
+router.post('/check', AuthController.checkAuth);
+router.post('/refresh', AuthController.refreshTokens);
+
+router.get('/google', passportGoogle);
+router.get('/google/redirect', passportGoogle, AuthController.signIn);
 
 module.exports = router;

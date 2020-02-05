@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       description: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING(2048)
       },
       location: {
         type: DataTypes.STRING
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       max_participants: {
-        type: DataTypes.DATEONLY
+        type: DataTypes.INTEGER
       },
       min_age: {
         type: DataTypes.INTEGER
