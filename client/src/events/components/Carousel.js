@@ -25,13 +25,6 @@ class Carousel extends Component{
                   <p>неясно пікнік це чи весілля але гарно</p>
                 </div>
               </div>
-              <div className="carousel-item">
-              <img src="https://washington-org.s3.amazonaws.com/s3fs-public/homepage-hero_events-festivals_family-at-the-wharf-grand-opening_ddc-photo_1600x587.jpg" className="d-block w-100" alt="..."/>
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>Інші події</h5>
-                  <p>Все інше</p>
-                </div>
-              </div>
             </div>
             <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
               <span className="carousel-control-prev-icon" aria-hidden="true"></span>
