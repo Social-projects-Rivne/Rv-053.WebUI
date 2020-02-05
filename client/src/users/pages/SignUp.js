@@ -90,7 +90,9 @@ const SignUpIn = () => {
       };
       if (!signInUpState) {
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/login', user);
+          const res = await axios.post('http://localhost:5001/api/auth/login', user, {
+            withCredentials: true
+          });
           auth.login(res.data.token, res.data.expiresIn);
         } catch (e) {
           console.log('incorrect password or email');
@@ -107,7 +109,9 @@ const SignUpIn = () => {
           phone: formState.inputs.phone.value
         };
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/register', regUser);
+          const res = await axios.post('http://localhost:5001/api/auth/register', regUser, {
+            withCredentials: true
+          });
           console.log(res.data);
           if (res.data.error) {
             setNotificationState({ show: true, message: res.data.error });

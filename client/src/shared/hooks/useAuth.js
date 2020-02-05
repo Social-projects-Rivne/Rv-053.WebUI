@@ -7,33 +7,43 @@ export const useAuth = () => {
 
   const login = useCallback((accessToken, expiresIn) => {
     setAccessToken(accessToken);
-    setTokenExpirationDate(new Date(expiresIn * 1000));
+    setTokenExpirationDate(new Date(expiresIn));
   }, []);
 
   const logout = useCallback(() => {
+    axios.post('http://localhost:5001/api/auth/logout', null, {
+      withCredentials: true
+    });
     setAccessToken(null);
     setTokenExpirationDate(null);
   }, []);
 
   const refreshTokens = async () => {
-    const res = await axios.post('http://localhost:5001/api/auth/refresh');
-    // console.log(res);
-    // setTokenExpirationDate(res.data.tokens);
-    // setAccessToken(res.tokens);
-    console.log('refreshing token');
+    try {
+      const res = await axios.post('http://localhost:5001/api/auth/refresh', null, {
+        withCredentials: true
+      });
+      console.log('refreshing token');
+      setTokenExpirationDate(new Date(res.data.expiresIn));
+      setAccessToken(res.data.token);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     let refreshTimer;
-    if (accessToken && tokenExpirationDate) {
+    if (tokenExpirationDate) {
+      console.log('expirationdate: ' + tokenExpirationDate);
       refreshTimer = tokenExpirationDate.getTime() - new Date().getTime();
       console.log(refreshTimer);
       setTimeout(refreshTokens, refreshTimer);
-    } else {
-      clearTimeout(refreshTimer);
     }
-    console.log(tokenExpirationDate);
-  }, [login, logout, tokenExpirationDate, accessToken]);
+  }, [tokenExpirationDate]);
+
+  useEffect(() => {
+    refreshTokens();
+  }, []);
 
   return { accessToken, login, logout, tokenExpirationDate };
 };
