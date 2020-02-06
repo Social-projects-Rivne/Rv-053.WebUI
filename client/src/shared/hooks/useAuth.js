@@ -23,9 +23,9 @@ export const useAuth = () => {
       const res = await axios.post('http://localhost:5001/api/auth/refresh', null, {
         withCredentials: true
       });
-      console.log('refreshing token');
       setTokenExpirationDate(new Date(res.data.expiresIn));
       setAccessToken(res.data.token);
+      console.log('refreshing');
     } catch (e) {
       console.log(e);
     }
@@ -34,9 +34,7 @@ export const useAuth = () => {
   useEffect(() => {
     let refreshTimer;
     if (tokenExpirationDate) {
-      console.log('expirationdate: ' + tokenExpirationDate);
       refreshTimer = tokenExpirationDate.getTime() - new Date().getTime();
-      console.log(refreshTimer);
       setTimeout(refreshTokens, refreshTimer);
     }
   }, [tokenExpirationDate]);
@@ -45,5 +43,5 @@ export const useAuth = () => {
     refreshTokens();
   }, []);
 
-  return { accessToken, login, logout, tokenExpirationDate };
+  return { accessToken, login, logout, tokenExpirationDate, refreshTokens };
 };
