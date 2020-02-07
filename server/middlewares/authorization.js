@@ -8,13 +8,18 @@ module.exports = async (req, res, next) => {
   if (req.header('Authorization')) {
     token = req.header('Authorization').split(' ')[1];
   } else {
-    return res.status(401).json({ err: 'No token, authorization denied' });
+    return res.status(401).json({
+      err: 'No token, authorization denied'
+    });
   }
   //console.log("Authorization with token: " + token);
   try {
-    await JWT.verify(token, JWT_SECRET);
+    const payload = await JWT.verify(token, JWT_SECRET);
+    req.userId = payload.userId;
     next();
   } catch (err) {
-    res.status(401).json({ error: err.message ? err.message : err });
+    res.status(401).json({
+      error: err.message ? err.message : err
+    });
   }
 };

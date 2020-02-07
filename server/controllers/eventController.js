@@ -52,6 +52,7 @@ exports.createEvent = async (req, res) => {
   await Event.create({
     name,
     owner_id: 1,
+    // owner_id: req.userId,
     description,
     location,
     datetime,
