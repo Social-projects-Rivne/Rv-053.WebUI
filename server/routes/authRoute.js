@@ -36,7 +36,7 @@ router.post('/logout', AuthController.signOut);
 
 router.post('/refresh', AuthController.refreshTokens);
 
-router.get('/confirmemail', AuthController.confirmEmail);
+router.post('/confirmemail', AuthController.confirmEmail);
 
 router.get('/google', passportGoogle);
 router.get('/google/redirect', passportGoogle, AuthController.signIn);
