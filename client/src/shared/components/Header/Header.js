@@ -8,7 +8,7 @@ const Header = () => {
   const auth = useContext(AuthContext);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      <a className="navbar-brand" href="#">
+      <a className="navbar-brand" href="/">
         {' '}
         <span>E</span>eeeevent
       </a>
