@@ -13,7 +13,7 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const tokenService = require('../services/tokenService');
 
-const updateTokens = user => {
+const updateTokens = (user, oldRefreshTokenId) => {
   const accessToken = tokenService.generateAccessToken(user);
   const idPlusToken = tokenService.generateRefreshToken(user);
   const refreshToken = idPlusToken.token;
@@ -21,25 +21,13 @@ const updateTokens = user => {
   const decoded_refresh = jwt.decode(refreshToken);
   //console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
-    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp)
+    .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp * 1000, oldRefreshTokenId)
     .then(() => ({
       token: accessToken,
       refreshToken: refreshToken,
-      expiresIn: decoded_access.exp
+      expiresIn: decoded_access.exp * 1000
     }));
 };
-// const tokenService = new TokenService();
-
-// singToken = user => {
-//   return JWT.sign(
-//     {
-//       sub: user.id,
-//       iat: new Date().getTime(), //current time
-//       exp: new Date().getTime() + JWT_EXPIRE_IN //current time + JWT_EXPIRE_IN
-//     },
-//     JWT_SECRET
-//   );
-// };
 
 exports.signUp = async (req, res) => {
   try {
@@ -72,18 +60,23 @@ exports.signUp = async (req, res) => {
 exports.signIn = async (req, res) => {
   //Generate token
   //console.log("start authController.signIn ");
+
   updateTokens(req.user).then(tokens => {
     //console.log(tokens);
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      expires: new Date(jwt.decode(tokens.refreshToken).exp * 1000)
+    });
     res.status(200).json({
       token: tokens.token,
-      refreshToken: tokens.refreshToken,
       expiresIn: tokens.expiresIn
     });
   });
 };
 
 exports.refreshTokens = async (req, res) => {
-  const { refreshToken } = req.body;
+  //const { refreshToken } = req.body;
+  const { refreshToken } = req.cookies;
   let payload;
   try {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
@@ -95,33 +88,41 @@ exports.refreshTokens = async (req, res) => {
     }
     return;
   }
-  //console.log(payload);
 
   await Token.findOne({ where: { id: payload.id } })
-    .then(token => {
+    .then(async token => {
       if (token === null) {
         throw new Error('Invalid token!');
       }
-      const user = User.findOne({ where: { id: token.user_id } });
+      const user = await User.findOne({ where: { id: token.user_id } });
       if (!user) {
         throw new Error("User dosn't exist");
       }
-      return updateTokens(user);
+      return updateTokens(user, payload.id);
     })
-    .then(tokens => res.json(tokens))
+    .then(tokens => {
+      res.cookie('refreshToken', tokens.refreshToken, {
+        httpOnly: true,
+        expires: new Date(jwt.decode(tokens.refreshToken).exp * 1000)
+      });
+      res.status(200).json({
+        token: tokens.token,
+        expiresIn: tokens.expiresIn
+      });
+    })
     .catch(err => res.status(400).json({ message: err.message }));
 };
 
 exports.signOut = async (req, res) => {
-  //Delete refresh token from DB, create expiration access token and pass to front-end
+  //Delete refresh token from DB
   try {
-    const payload = await jwt.verify(req.body.refreshToken, JWT_REFRESH_SECRET);
-
+    const payload = await jwt.verify(req.cookies.refreshToken, JWT_REFRESH_SECRET);
     await Token.findOne({ where: { id: payload.id } }).then(token => {
       if (token !== null) {
         Token.destroy({ where: { id: payload.id } });
       }
     });
+    //create expiration access token
     const token = jwt.sign(
       {
         sub: 'Logout',
@@ -130,19 +131,22 @@ exports.signOut = async (req, res) => {
       },
       JWT_SECRET
     );
+    //Clear httpOnly cookie 'refreshToken'
+    res.clearCookie('refreshToken');
+    //pass expired token to front-end
     res.status(200).json({ success: true, token: token });
-  } catch (e) {
-    res.status(400).json();
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 
-exports.checkAuth = async (req, res) => {
-  //console.log("start authController.checkAuth");
-  const { token } = req.body;
-  try {
-    jwt.verify(token, JWT_SECRET);
-    res.status(200).send();
-  } catch (err) {
-    return res.status(401).json({ error: err });
-  }
-};
+// exports.checkAuth = async (req, res) => {
+//   //console.log("start authController.checkAuth");
+//   const { token } = req.body;
+//   try {
+//     jwt.verify(token, JWT_SECRET);
+//     res.status(200).send();
+//   } catch (err) {
+//     return res.status(401).json({ error: err });
+//   }
+// };

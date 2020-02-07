@@ -1,4 +1,3 @@
-
 const express = require('express');
 const passport = require('passport');
 const passportConf = require('../config/passport');
@@ -33,7 +32,8 @@ router.post('/login', loginValidation(), validate, passportSingIn, AuthControlle
 
 router.post('/logout', AuthController.signOut);
 
-router.post('/check', AuthController.checkAuth);
+// router.post('/check', AuthController.checkAuth);
+
 router.post('/refresh', AuthController.refreshTokens);
 
 router.get('/google', passportGoogle);
