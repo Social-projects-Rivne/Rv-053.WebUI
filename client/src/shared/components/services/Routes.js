@@ -53,24 +53,16 @@ const Routes = () => {
         ) : (
           <Switch>
             <Route path="/" exact>
-              <HeaderLayout>
-                <EventsList />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<EventsList />} />
             </Route>
             <Route path="/event/details">
-              <HeaderLayout>
-                <EventDetails />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/auth">
-              <HeaderLayout>
-                <SignUpIn />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<SignUpIn />} />
             </Route>
             <Route path="/redirect">
-              <HeaderLayout>
-                <Notificator />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<Notificator className="box" />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>
