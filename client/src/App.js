@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter, useRouteMatch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import Header from './shared/components/Header/Header';
 import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/useAuth';
 import Routes from './shared/components/services/Routes';

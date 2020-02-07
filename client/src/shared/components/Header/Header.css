@@ -17,3 +17,10 @@
 .nav-item:hover {
   color: grey;
 }
+.nav-link {
+  text-decoration: none;
+  color: #000;
+}
+.collapse.navbar-collapse {
+  justify-content: flex-end;
+}

@@ -12,7 +12,7 @@ import EventDetails from './../../../events/pages/EventDetails';
 import AddEvent from './../../../events/pages/AddEvent';
 import Notificator from './../../components/UI/Notificator';
 import HeaderLayout from '../UI/HeaderLayout';
-import Events from '../../../admin/components/Events/Event';
+import UserProfile from '../../../users/pages/UserProfile';
 
 const Routes = () => {
   return (
@@ -30,11 +30,12 @@ const Routes = () => {
               <HeaderLayout innerComponent={<AddEvent />} />
             </Route>
             <Route path="/profile/my">
-              <HeaderLayout innerComponent={<EventDetails />} />
+              <HeaderLayout innerComponent={<UserProfile />} />
             </Route>
             <Route path="/redirect">
               <HeaderLayout innerComponent={<Notificator />} />
             </Route>
+            {/* next routes for admin panel */}
             <Route path="/adminpanelpage" exact>
               <HeaderLayout innerComponent={<AdminPanelPage />} isAdmin />
             </Route>
