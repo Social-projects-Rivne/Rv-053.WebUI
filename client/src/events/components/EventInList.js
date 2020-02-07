@@ -5,7 +5,7 @@ class EventInList extends Component{
     render(){ 
         const { eventInfo } = this.props;
         return( 
-        <div className="cardish">
+        <div className="card">
             <img src={eventInfo.imageSrc} className="card-img-top" alt="..."/>
             <div className="card-body">
                 <h5 className="card-title">{eventInfo.name}</h5>
