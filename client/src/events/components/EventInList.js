@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
-import "./eventInList.css";
+import './eventInList.css';
 
 class EventInList extends Component {
   render() {
     const { eventInfo } = this.props;
     return (
-      <div className="card">
+      <div className="cardish">
         <img src={eventInfo.imageSrc} className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">{eventInfo.name}</h5>
           <p className="card-text">{eventInfo.description}</p>
           <div className="divInline">
             <p className="card-text">{eventInfo.price} грн </p>
-            <NavLink to="/event/details">
+            <NavLink className="nav-link" to="/event/details">
               <button type="button" className="btn btn-success">
                 Приєднатись
               </button>

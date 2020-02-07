@@ -15,7 +15,6 @@ module.exports = {
         max_participants: 30,
         min_age: 14,
         cover: 'http://linktoavatar',
-        status: 1,
         price: '100 UAH'
       },
       {
@@ -28,7 +27,6 @@ module.exports = {
         max_participants: 30,
         min_age: 14,
         cover: 'http://linktoavatar',
-        status: 1,
         price: '100 UAH'
       },
       {
@@ -41,7 +39,6 @@ module.exports = {
         max_participants: 30,
         min_age: 18,
         cover: 'http://linktoavatar',
-        status: 1,
         price: '200 UAH'
       },
       {
@@ -54,9 +51,8 @@ module.exports = {
         max_participants: 30,
         min_age: 12,
         cover: 'http://linktoavatar',
-        status: 1,
         price: '50 UAH'
-      }, ,
+      },
       {
         name: 'Event 4',
         owner_id: 1,
@@ -67,7 +63,6 @@ module.exports = {
         max_participants: 30,
         min_age: 12,
         cover: 'http://linktoavatar',
-        status: 1,
         price: '50 UAH'
       }
     ], {});

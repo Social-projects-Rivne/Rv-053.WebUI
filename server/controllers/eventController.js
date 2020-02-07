@@ -4,19 +4,6 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models").sequelize;
 const Op = Sequelize.Op;
 
-// Get all events
-exports.getAllEvent = async (req, res) => {
-  await Event.findAndCountAll({
-    raw: true
-  }).then(events => {
-    res.status(200).json(events);
-  }).catch(err => {
-    res.status(404).send({
-      message: err.message || "Not found"
-    });
-  });
-}
-
 // Get event by ID
 exports.getEventByID = async (req, res) => {
   // Get event ID from req.params
@@ -64,7 +51,7 @@ exports.createEvent = async (req, res) => {
 
   await Event.create({
     name,
-    owner_id: ownerID,
+    owner_id: 1,
     description,
     location,
     datetime,
@@ -73,7 +60,7 @@ exports.createEvent = async (req, res) => {
     min_age,
     cover,
     price
-  }).then(event => {
+  }).then(() => {
     res.status(200).send({
       message: 'Event was create successful'
     });
@@ -86,13 +73,13 @@ exports.createEvent = async (req, res) => {
 
 exports.searchEvent = async (req, res) => {
   //If there is query 'q=some text'
+  const limit = req.query.limit || 100;
+  const offset = req.query.offset || 0;
   if (req.query.q) {
-    const limit = req.query.limit || 100;
-    const offset = req.query.offset || 0;
     //Search in DB event by 'name' or 'description'
     //[Op.iLike] means case insensitive searching
     //Order by 'datetime'
-    Event.findAndCountAll({
+    await Event.findAndCountAll({
         where: {
           [Op.or]: [{
               name: {
@@ -106,8 +93,8 @@ exports.searchEvent = async (req, res) => {
             }
           ]
         },
-        offset: offset,
-        limit: limit,
+        offset,
+        limit,
         order: [sequelize.literal("datetime DESC")]
       })
       .then(data => {
@@ -121,7 +108,16 @@ exports.searchEvent = async (req, res) => {
       });
   } else {
     //Else get all events from DB
-    //TODO: uncomment when method will be ready
-    //this.getAllEvent(req, res);
+    await Event.findAndCountAll({
+      raw: true,
+      offset,
+      limit
+    }, ).then(events => {
+      res.status(200).json(events);
+    }).catch(err => {
+      res.status(404).send({
+        message: err.message || "Not found"
+      });
+    });
   }
 };
