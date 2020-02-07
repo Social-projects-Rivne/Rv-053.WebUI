@@ -1,80 +1,81 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { AuthContext } from './../../context/auth-context';
 import SignUpIn from './../../../users/pages/SignUp';
-import AdminPanelPage from './../../../admin/AdminPanelPage';
-import Users from './../../../admin/Users/Users';
-import Event from './../../../admin/Events/Event';
-import Logs from './../../../admin/Logs/Logs';
+import AdminPanelPage from '../../../admin/pages/AdminPanelPage';
+import Users from '../../../admin/components/Users/Users';
+import Event from '../../../admin/components/Events/Event';
+import Logs from '../../../admin/components/Logs/Logs';
 import EventsList from './../../../events/pages/EventsList';
 import EventDetails from './../../../events/pages/EventDetails';
 import AddEvent from './../../../events/pages/AddEvent';
 import Notificator from './../../components/UI/Notificator';
+import HeaderLayout from '../UI/HeaderLayout';
+import Events from '../../../admin/components/Events/Event';
 
 const Routes = () => {
-  //   const auth = useContext(AuthContext);
-
-  //   let routes;
-
-  //   if (auth.isLoggedIn) {
-  //     routes = (
-  //       <Switch>
-  //         <Route component={EventsList} path="/" exact />
-  //         <Route component={Notificator} path="/redirect" />
-  //         <Route component={AddEvent} path="/addevent" />
-  //         <Route component={EventDetails} path="/event/details" />
-  //         <Route component={EventDetails} path="/profile/my" />
-  //         <Route component={AdminPanelPage} path="/adminpanelpage" exact />
-  //         <Route component={Users} path="/adminpanelpage/users" />
-  //         <Route component={Logs} path="/adminpanelpage/logs" />
-  //         <Route component={Event} path="/adminpanelpage/events" />
-  //         <Redirect to="/" />
-  //       </Switch>
-  //     );
-  //   } else {
-  //     routes = (
-  //       <Switch>
-  //         <Route component={SignUpIn} path="/auth" />
-  //         <Route component={Notificator} path="/redirect" />
-  //         <Route component={EventsList} path="/events" />
-  //         <Route component={EventDetails} path="/event/details" />
-  //         <Redirect to="/auth" />
-  //       </Switch>
-  //     );
-  //   }
-
   return (
-    <React.Fragment>
-      {/* {console.log('accToken: ' + auth.token)} */}
-      <AuthContext.Consumer>
-        {context =>
-          context.token ? (
-            <Switch>
-              {console.log(context.token)}
-              <Route component={EventsList} path="/" exact />
-              <Route component={Notificator} path="/redirect" />
-              <Route component={AddEvent} path="/addevent" />
-              <Route component={EventDetails} path="/event/details" />
-              <Route component={EventDetails} path="/profile/my" />
-              <Route component={AdminPanelPage} path="/adminpanelpage" exact />
-              <Route component={Users} path="/adminpanelpage/users" />
-              <Route component={Logs} path="/adminpanelpage/logs" />
-              <Route component={Event} path="/adminpanelpage/events" />
-              <Redirect to="/" />
-            </Switch>
-          ) : (
-            <Switch>
-              <Route component={SignUpIn} path="/auth" />
-              <Route component={Notificator} path="/redirect" />
-              <Route component={EventsList} path="/events" />
-              <Route component={EventDetails} path="/event/details" />
-              <Redirect to="/auth" />
-            </Switch>
-          )
-        }
-      </AuthContext.Consumer>
-    </React.Fragment>
+    <AuthContext.Consumer>
+      {context =>
+        context.token ? (
+          <Switch>
+            <Route path="/" exact>
+              <HeaderLayout innerComponent={<EventsList />} />
+            </Route>
+            <Route path="/event/details">
+              <HeaderLayout innerComponent={<EventDetails />} />
+            </Route>
+            <Route path="/addevent">
+              <HeaderLayout innerComponent={<AddEvent />} />
+            </Route>
+            <Route path="/profile/my">
+              <HeaderLayout innerComponent={<EventDetails />} />
+            </Route>
+            <Route path="/redirect">
+              <HeaderLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/adminpanelpage" exact>
+              <HeaderLayout innerComponent={<AdminPanelPage />} isAdmin />
+            </Route>
+            <Route path="/adminpanelpage/users">
+              <HeaderLayout innerComponent={<Users />} isAdmin />
+            </Route>
+            <Route path="/adminpanelpage/events">
+              <HeaderLayout innerComponent={<Event />} isAdmin />
+            </Route>
+            <Route path="/adminpanelpage/logs">
+              <HeaderLayout innerComponent={<Logs />} isAdmin />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/" exact>
+              <HeaderLayout>
+                <EventsList />
+              </HeaderLayout>
+            </Route>
+            <Route path="/event/details">
+              <HeaderLayout>
+                <EventDetails />
+              </HeaderLayout>
+            </Route>
+            <Route path="/auth">
+              <HeaderLayout>
+                <SignUpIn />
+              </HeaderLayout>
+            </Route>
+            <Route path="/redirect">
+              <HeaderLayout>
+                <Notificator />
+              </HeaderLayout>
+            </Route>
+            <Redirect to="/auth" />
+          </Switch>
+        )
+      }
+    </AuthContext.Consumer>
   );
 };
 export default Routes;

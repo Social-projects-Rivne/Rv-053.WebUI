@@ -11,14 +11,8 @@ export const VAL_EMAIL = () => ({ valType: REQ_EMAIL });
 export const VAL_LETTERS = () => ({ valType: REQ_LETTERS });
 export const VAL_NUMBERS = () => ({ valType: REQ_NUMBERS });
 export const VAL_PASSWORD = (length, keys) => ({ valType: REQ_PASSWORD, length, keys });
-export const VAL_MIN_LENGTH = value => ({
-  valType: REQ_MIN_LENGTH,
-  length: value,
-});
-export const VAL_MAX_LENGTH = value => ({
-  valType: REQ_MAX_LENGTH,
-  length: value,
-});
+export const VAL_MIN_LENGTH = value => ({ valType: REQ_MIN_LENGTH, length: value });
+export const VAL_MAX_LENGTH = value => ({ valType: REQ_MAX_LENGTH, length: value });
 
 const validatorsDictionary = {
   [REQ_REQUIRED]: value => value.trim().length > 0,
@@ -44,7 +38,7 @@ const validatorsDictionary = {
   [REQ_PASSWORD]: value => {
     const expression = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.{6,})/;
     return expression.test(value);
-  },
+  }
 };
 
 export const validate = (value, validators) => {

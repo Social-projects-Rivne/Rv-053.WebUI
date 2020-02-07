@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import EventInList from '../components/EventInList';
 import Carousel from './../components/Carousel';
 import './EventsList.css';

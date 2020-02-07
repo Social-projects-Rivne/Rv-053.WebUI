@@ -4,6 +4,7 @@ import axios from 'axios';
 export const useAuth = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
+  const [inRefreshProcess, setInRefreshProcess] = useState(true);
 
   const login = useCallback((accessToken, expiresIn) => {
     setAccessToken(accessToken);
@@ -40,8 +41,12 @@ export const useAuth = () => {
   }, [tokenExpirationDate]);
 
   useEffect(() => {
-    refreshTokens();
+    (async function() {
+      setInRefreshProcess(true);
+      await refreshTokens();
+      setInRefreshProcess(false);
+    })();
   }, []);
 
-  return { accessToken, login, logout, tokenExpirationDate, refreshTokens };
+  return { accessToken, login, logout, tokenExpirationDate, inRefreshProcess };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useRouteMatch } from 'react-router-dom';
 
 import Header from './shared/components/Header/Header';
 import { AuthContext } from './shared/context/auth-context';
@@ -8,13 +8,7 @@ import Routes from './shared/components/services/Routes';
 import './App.css';
 
 const App = () => {
-  const { accessToken, login, logout, tokenExpirationDate } = useAuth();
-
-  // axios
-  //   .post('http://localhost:5001/api/auth/refresh', null, {
-  //     withCredentials: true
-  //   })
-  //   .then(res => {});
+  const { accessToken, login, logout, tokenExpirationDate, inRefreshProcess } = useAuth();
 
   return (
     <AuthContext.Provider
@@ -27,8 +21,11 @@ const App = () => {
       }}
     >
       <BrowserRouter>
-        <Header />
-        <Routes />
+        {!inRefreshProcess && (
+          <>
+            <Routes />
+          </>
+        )}
       </BrowserRouter>
     </AuthContext.Provider>
   );

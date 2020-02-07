@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'users',
-    {
+    'users', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -45,27 +44,26 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: "User"
       }
-    },
-    {
+    }, {
       timestamps: false,
       freezeTableName: true
     }
   );
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.hasMany(models.followers, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE',
     });
   };
 
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.hasMany(models.hub, {
       foreignKey: 'owner_id',
       onDelete: 'CASCADE',
     });
   };
 
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.belongsTo(models.user_status, {
       foreignKey: 'status_id',
       onDelete: 'CASCADE',
@@ -93,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.hasMany(models.token, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE'

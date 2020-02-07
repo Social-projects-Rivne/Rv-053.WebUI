@@ -21,7 +21,10 @@ const SignUpIn = () => {
   let history = useHistory();
   const auth = useContext(AuthContext);
   const [signInUpState, setSignInUpState] = useState(false);
-  const [notificationState, setNotificationState] = useState({ errMessage: '', show: false });
+  const [notificationState, setNotificationState] = useState({
+    errMessage: '',
+    show: false
+  });
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -37,7 +40,9 @@ const SignUpIn = () => {
   );
 
   const signInUpHandler = () => {
-    setNotificationState({ show: false });
+    setNotificationState({
+      show: false
+    });
     if (signInUpState) {
       setFormData(
         {
@@ -114,7 +119,10 @@ const SignUpIn = () => {
           });
           console.log(res.data);
           if (res.data.error) {
-            setNotificationState({ show: true, message: res.data.error });
+            setNotificationState({
+              show: true,
+              message: res.data.error
+            });
           }
           if (res.data.success) {
             history.push({
@@ -127,7 +135,10 @@ const SignUpIn = () => {
           }
         } catch (e) {
           console.log(e);
-          setNotificationState({ show: true, message: 'Something goes wrong, try again later' });
+          setNotificationState({
+            show: true,
+            message: 'Something goes wrong, try again later'
+          });
         }
       }
     }
@@ -135,18 +146,20 @@ const SignUpIn = () => {
 
   return (
     <React.Fragment>
+      {' '}
       {notificationState.show ? (
         <Notificator
           className="auth alert alert-danger p-0"
           message={notificationState.message}
           onExit={() => {
-            setNotificationState({ show: false });
+            setNotificationState({
+              show: false
+            });
           }}
         />
       ) : null}
-
       <Card className="auth shadow px-2">
-        <h2 className="text-center">{signInUpState === true ? 'Registration' : 'Login'}</h2>
+        <h2 className="text-center"> {signInUpState === true ? 'Registration' : 'Login'} </h2>{' '}
         <form onSubmit={submitFormHandler}>
           <Input
             id="email"
@@ -168,7 +181,6 @@ const SignUpIn = () => {
               className="form-control"
             />
           ) : null}
-
           {signInUpState ? (
             <React.Fragment>
               <Input
