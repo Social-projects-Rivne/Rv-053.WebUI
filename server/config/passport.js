@@ -1,10 +1,10 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 //const keys = require("./config/keys");
-const config = require("config");
-const User = require("../models").users;
-const bcrypt = require("bcryptjs");
+const config = require('config');
+const User = require('../models').users;
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 // Google strategy
@@ -44,13 +44,14 @@ const saltRounds = 10;
 // );
 //LOCAL STRATEGY
 passport.use(
-  new LocalStrategy({
+  new LocalStrategy(
+    {
       usernameField: 'email'
     },
     async (email, password, done) => {
       try {
         //find the user for given email
-        console.log("Passport Local stategy start");
+        console.log('Passport Local stategy start');
         let isPassword;
         const user = await User.findOne({
           where: {
@@ -61,10 +62,16 @@ passport.use(
         if (user) {
           isPassword = bcrypt.compareSync(password, user.password);
         }
+        //Check if user has inactive status
+        if (user && user.status_id == 3) {
+          return done(null, false, {
+            message: 'Please confirm email'
+          });
+        }
         //If non user or password is invalid, handle it
         if (!user || !isPassword) {
           return done(null, false, {
-            message: "invalid email or password"
+            message: 'invalid email or password'
           });
         }
         //If password is right, return the user

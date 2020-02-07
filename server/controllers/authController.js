@@ -12,6 +12,9 @@ const JWT_REFRESH_EXPIRE_IN = process.env.JWT_REFRESH_EXPIRE_IN;
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const tokenService = require('../services/tokenService');
+const { sendEmail } = require('../services/nodemailer');
+const MAIL_TOKEN_SECRET = process.env.MAIL_TOKEN_SECRET;
+const MAIL_TOKEN_EXPIRE_IN = process.env.MAIL_TOKEN_EXPIRE_IN;
 
 const updateTokens = (user, oldRefreshTokenId) => {
   const accessToken = tokenService.generateAccessToken(user);
@@ -34,13 +37,15 @@ exports.signUp = async (req, res) => {
     const { email, password } = req.body;
     const foundUser = await User.findOne({ where: { email } });
     //if user exist return res
-    if (foundUser) {
+    if (foundUser && foundUser.status_id != 3) {
       return res.status(200).json({ error: 'Email is already in use' });
     }
     //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
     // console.log(hashPassword);
-    await User.create({
+
+    //Add user in DB
+    const userInDB = {
       email: email,
       password: hashPassword,
       sex: req.body.sex || 'Unknown',
@@ -48,8 +53,41 @@ exports.signUp = async (req, res) => {
       last_name: req.body.last_name || '',
       phone: req.body.phone || '',
       role: 'User',
-      status_id: 1
+      status_id: 3 //Status - Inactive
+    };
+
+    if (foundUser === null) {
+      await User.create(userInDB);
+    } else {
+      await User.update(userInDB, { where: { id: foundUser.id } });
+    }
+
+    //TODO: send email
+    console.log('kjfdfsh');
+    console.log(`Token creating: ${foundUser.id} `);
+    console.log(`Token creating:  ${MAIL_TOKEN_SECRET}`);
+    console.log(`Token creating:   ${MAIL_TOKEN_EXPIRE_IN}`);
+    const payload = {
+      userId: foundUser.id
+    };
+    let mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
+      expiresIn: MAIL_TOKEN_EXPIRE_IN
     });
+    //const mailToken = 'ffffffffffffffffffffffffffffffffffffffff';
+    console.log('Token was created');
+    const mailURL = 'http://localhost:3001/confirmemail';
+    const emailOptions = {
+      email: email,
+      subject: 'Confirm your email to join Eeeeevent',
+      message: `Almost done, <strong style="color:#24292e!important">${req.body.first_name} ${req.body.last_name}</strong>!
+      To complete your Eeeeevent sign up,
+    we just need to verify your email address: ${email}<br>
+    <a href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
+  `
+    };
+    console.log('Sending email...');
+    await sendEmail(emailOptions);
+    //
 
     res.status(201).json({ success: true });
   } catch (error) {
@@ -150,3 +188,7 @@ exports.signOut = async (req, res) => {
 //     return res.status(401).json({ error: err });
 //   }
 // };
+
+exports.confirmEmail = async (req, res) => {
+  //Confirm email
+};
