@@ -13,6 +13,7 @@ import AddEvent from './../../../events/pages/AddEvent';
 import Notificator from './../../components/UI/Notificator';
 import HeaderLayout from '../UI/HeaderLayout';
 import UserProfile from '../../../users/pages/UserProfile';
+import EmailConfirmation from './EmailConfirmation';
 
 const Routes = () => {
   return (
@@ -34,6 +35,9 @@ const Routes = () => {
             </Route>
             <Route path="/redirect">
               <HeaderLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/auth/confirmemail/:token">
+              <HeaderLayout innerComponent={<EmailConfirmation />} />
             </Route>
             {/* next routes for admin panel */}
             <Route path="/adminpanelpage" exact>
@@ -62,7 +66,10 @@ const Routes = () => {
               <HeaderLayout innerComponent={<SignUpIn />} />
             </Route>
             <Route path="/redirect">
-              <HeaderLayout innerComponent={<Notificator className="box" />} />
+              <HeaderLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/auth/confirmemail/:token">
+              <HeaderLayout innerComponent={<EmailConfirmation />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>
