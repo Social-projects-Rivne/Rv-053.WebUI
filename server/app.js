@@ -7,7 +7,10 @@ const db = require('./models');
 const auth = require('./middlewares/authorization');
 const cookieParser = require('cookie-parser');
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3001'
+}));
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(

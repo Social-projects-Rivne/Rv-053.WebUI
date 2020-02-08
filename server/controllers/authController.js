@@ -32,7 +32,11 @@ const updateTokens = (user, oldRefreshTokenId) => {
 exports.signUp = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const foundUser = await User.findOne({ where: { email } });
+    const foundUser = await User.findOne({
+      where: {
+        email
+      }
+    });
     //if user exist return res
     if (foundUser && foundUser.status_id != 3) {
       return res.status(200).json({ error: 'Email is already in use' });
@@ -40,7 +44,6 @@ exports.signUp = async (req, res) => {
     //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
     // console.log(hashPassword);
-
     //Add user in DB
     const userInDB = {
       email: email,
@@ -122,19 +125,31 @@ exports.refreshTokens = async (req, res) => {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
   } catch (e) {
     if (e instanceof jwt.TokenExpiredError) {
-      res.status(400).json({ message: 'Token expired' });
+      res.status(400).json({
+        message: 'Token expired'
+      });
     } else if (e instanceof jwt.JsonWebTokenError) {
-      res.status(400).json({ message: 'Invalid token' });
+      res.status(400).json({
+        message: 'Invalid token'
+      });
     }
     return;
   }
 
-  await Token.findOne({ where: { id: payload.id } })
+  await Token.findOne({
+    where: {
+      id: payload.id
+    }
+  })
     .then(async token => {
       if (token === null) {
         throw new Error('Invalid token!');
       }
-      const user = await User.findOne({ where: { id: token.user_id } });
+      const user = await User.findOne({
+        where: {
+          id: token.user_id
+        }
+      });
       if (!user) {
         throw new Error("User dosn't exist");
       }
@@ -150,16 +165,28 @@ exports.refreshTokens = async (req, res) => {
         expiresIn: tokens.expiresIn
       });
     })
-    .catch(err => res.status(400).json({ message: err.message }));
+    .catch(err =>
+      res.status(400).json({
+        message: err.message
+      })
+    );
 };
 
 exports.signOut = async (req, res) => {
   //Delete refresh token from DB
   try {
     const payload = await jwt.verify(req.cookies.refreshToken, JWT_REFRESH_SECRET);
-    await Token.findOne({ where: { id: payload.id } }).then(token => {
+    await Token.findOne({
+      where: {
+        id: payload.id
+      }
+    }).then(token => {
       if (token !== null) {
-        Token.destroy({ where: { id: payload.id } });
+        Token.destroy({
+          where: {
+            id: payload.id
+          }
+        });
       }
     });
     //create expiration access token
@@ -174,9 +201,14 @@ exports.signOut = async (req, res) => {
     //Clear httpOnly cookie 'refreshToken'
     res.clearCookie('refreshToken');
     //pass expired token to front-end
-    res.status(200).json({ success: true, token: token });
+    res.status(200).json({
+      success: true,
+      token: token
+    });
   } catch (err) {
-    res.status(400).json({ error: err });
+    res.status(400).json({
+      error: err
+    });
   }
 };
 

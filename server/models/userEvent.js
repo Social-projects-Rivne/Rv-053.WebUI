@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const UserEvent = sequelize.define(
-    'user_event',
-    {
+    'user_event', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -27,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       event_status: {
         type: DataTypes.STRING
       }
-    },
-    {
+    }, {
       timestamps: false,
       freezeTableName: true
     }

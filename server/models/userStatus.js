@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true
     }
   );
-  // UserStatus.associate = function (models) {
-  //   UserStatus.hasMany(models.users, {
-  //     foreignKey: 'status_id'
-  //   });
-  // };
+  UserStatus.associate = function (models) {
+    UserStatus.hasMany(models.users, {
+      foreignKey: 'status_id'
+    });
+  };
   return UserStatus;
 };
