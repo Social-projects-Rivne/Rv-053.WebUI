@@ -13,9 +13,7 @@ class EventInList extends Component{
                 <div className="divInline">
                     <p className="card-text">{eventInfo.price} грн </p>
                     <button type="button" className="btn btn-success">Приєднатись</button>
-                    
                 </div>
-                
                 <p className="card-text"><small className="text-muted">{eventInfo.location}</small></p>
             </div>
         </div>

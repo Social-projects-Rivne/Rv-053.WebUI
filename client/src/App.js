@@ -8,7 +8,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Users from './admin/Users/Users';
 import Event from './admin/Events/Event';
 import Logs from './admin/Logs/Logs';
-import Carousel from './events/components/carousel';
+import Carousel from './events/components/Carousel';
 import EventsList from './events/pages/EventsList';
 import { AuthContext } from './shared/context/auth-context';
 import AddEvent from './events/pages/AddEvent'

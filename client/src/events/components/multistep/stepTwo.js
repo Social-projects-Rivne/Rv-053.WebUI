@@ -1,35 +1,63 @@
-var React = require('react'),
-  Geocoder = require('../../../shared/components/Map/MapBox');
+import React, { useState } from "react";
+// import DatePicker from "react-datepicker";
 
-const StepTwo = () => ({
-  getInitialState: function() {
-    return { value: null };
-  },
-  onSelect: function(value) {
-    this.setState({ value: value });
-  },
-  render: function() {
-    /* jshint ignore:start */
-    return (
-      <div>
-        <div className='clearfix pad1'>
-          {/* Geocoder:
-              accessToken -- Mapbox developer access token (required)
-              onSelect    -- function called after selecting result (required)
-              showLoader  -- Boolean to attach `.loading` class to results list
-          */}
-          <Geocoder
-            accessToken='sk.eyJ1IjoibWFyaW5hZnJhbmtvIiwiYSI6ImNrNmFsbzN4dDA5N2szbm12Y2E0OXNzbXgifQ.HKzWExgRpbNFrXMjME74GA'
-            onSelect={this.onSelect}
-            showLoader={true}
-            />
-        </div>
-        {this.state.value && <pre className='keyline-all'>{JSON.stringify(this.state.value, null, 2)}</pre>}
-      </div>
-    );
-    /* jshint ignore:end */
-  }
-});
+import Input from '../../../shared/components/FormElements/Input';
+import Selector from "../../../shared/components/FormElements/Select";
+import { useForm } from '../../../shared/hooks/useForm';
 
+import Map from '../../../shared/components/Map/MapBox';
+import {
+  VAL_MIN_LENGTH,
+  VAL_REQUIRED
+} from "../../../shared/utilities/validation";
+
+
+const StepTwo = () => {
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false
+      },
+      select: {
+        value: '',
+        isValid: false
+      },
+      description: {
+        value: '',
+        isValid: false
+      },
+      location: {
+        value: '',
+        isValid: false
+      },
+      price: {
+        value: '',
+        isValid: false
+      },
+      age:{
+        value: '',
+        isValid: false
+      },
+      amount:{
+        value: '',
+        isValid: false
+      }
+
+    },
+    
+    false
+  );
+
+  
+  const submitFormHandler = event => {
+    event.preventDefault();
+    console.log(formState.inputs);
+  };
+  
+  return (
+    <Map id = "map"/>
+  );
+};
 
 export default StepTwo;
