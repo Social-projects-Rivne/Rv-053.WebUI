@@ -12,7 +12,9 @@ module.exports = async (req, res, next) => {
   }
   //console.log("Authorization with token: " + token);
   try {
-    await JWT.verify(token, JWT_SECRET);
+    const payload = await JWT.verify(token, JWT_SECRET);
+    const userId = payload.userId;
+    req.userId = userId;
     next();
   } catch (err) {
     res.status(401).json({ error: err.message ? err.message : err });

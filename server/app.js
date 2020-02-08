@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const config = require("config");
-const cors = require("cors");
-const db = require("./models");
-const auth = require("./middlewares/authorization");
+const bodyParser = require('body-parser');
+const config = require('config');
+const cors = require('cors');
+const db = require('./models');
+const auth = require('./middlewares/authorization');
 
 app.use(cors());
 // Parse incoming requests data
@@ -14,15 +14,15 @@ app.use(
     extended: false
   })
 );
-app.use("/api/auth", require("./routes/authRoute"));
-app.use("/api/events", require("./routes/eventRoute"));
+app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 
 //Example:
 //Check if user authorized
 //app.use('/api/users', auth, require('./routes/usersRoute'));
 
 // set port
-const PORT = config.get("port") || 5000;
+const PORT = config.get('port') || 5000;
 
 async function start() {
   try {
@@ -35,7 +35,7 @@ async function start() {
       })
       .catch(err => console.error(err.message));
   } catch (e) {
-    console.log("Server Error", e.message);
+    console.log('Server Error', e.message);
     process.exit(1);
   }
 }
