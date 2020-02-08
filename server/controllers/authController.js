@@ -68,7 +68,7 @@ exports.signUp = async (req, res) => {
     const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
       expiresIn: MAIL_TOKEN_EXPIRE_IN
     });
-    const mailURL = 'http://localhost:3001/confirmemail';
+    const mailURL = `${process.env.FRONT_HOST}/confirmemail`;
     const emailOptions = {
       email: email,
       subject: 'Confirm your email to join Eeeeevent',
