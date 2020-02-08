@@ -47,7 +47,7 @@ exports.createEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-  const ownerID = req.userID;
+  const ownerID = req.userId;
 
   await Event.create({
     name,
