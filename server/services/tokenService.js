@@ -17,7 +17,9 @@ const generateAccessToken = user => {
     status_id: user.status_id,
     role: user.role
   };
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRE_IN });
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: JWT_EXPIRE_IN
+  });
 };
 
 const generateRefreshToken = user => {
@@ -36,17 +38,34 @@ const generateRefreshToken = user => {
 const replaceDbRefreshToken = async (tokenId, userId, expiredAt, oldRefreshTokenId) => {
   //console.log('token ' + tokenId + 'oldRefreshTokenId ' + oldRefreshTokenId);
   if (!oldRefreshTokenId) {
-    await tokenModel.create({ id: tokenId, user_id: userId, expiredAt });
+    await tokenModel.create({
+      id: tokenId,
+      user_id: userId,
+      expiredAt
+    });
   } else {
     console.log('oldRefreshTokenId ' + oldRefreshTokenId);
-    await tokenModel.findOne({ where: { id: oldRefreshTokenId } }).then(token => {
+    await tokenModel.findOne({
+      where: {
+        id: oldRefreshTokenId
+      }
+    }).then(token => {
       if (token === null) {
-        tokenModel.create({ id: tokenId, user_id: userId, expiredAt });
+        tokenModel.create({
+          id: tokenId,
+          user_id: userId,
+          expiredAt
+        });
       } else {
-        tokenModel.update(
-          { id: tokenId, user_id: userId, expiredAt: expiredAt },
-          { where: { id: oldRefreshTokenId } }
-        );
+        tokenModel.update({
+          id: tokenId,
+          user_id: userId,
+          expiredAt: expiredAt
+        }, {
+          where: {
+            id: oldRefreshTokenId
+          }
+        });
       }
     });
   }

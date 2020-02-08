@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const userCategory = sequelize.define(
-    'user_category',
-    {
+    'user_category', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -27,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       parent_id: {
         type: DataTypes.INTEGER
       }
-    },
-    {
+    }, {
       timestamps: false,
       freezeTableName: true
     }
