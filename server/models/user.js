@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-
         allowNull: false,
       },
       first_name: {
@@ -36,9 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: "Unknown"
       },
-      status_id: {
-        type: DataTypes.INTEGER
-      },
+      // status_id: {
+      //   type: DataTypes.INTEGER
+      // },
       role: {
         type: DataTypes.ENUM("Admin", "Moderator", "User"),
         allowNull: false,

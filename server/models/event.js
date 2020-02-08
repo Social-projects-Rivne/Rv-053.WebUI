@@ -37,7 +37,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       status: {
-        type: DataTypes.INTEGER
+        type: DataTypes.ENUM('Active', 'Passed', 'Canceled'),
+        allowNull: false,
+        defaultValue: 'Active'
       },
       price: {
         type: DataTypes.STRING
