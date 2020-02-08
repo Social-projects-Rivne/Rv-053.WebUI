@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import UserInfo from './../components/UserInfo';
 import CategoriesList from './../components/CategoriesList';
