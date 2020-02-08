@@ -1,10 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-//!!!!!!!!!
-//Model User:
 const User = require('../models').users;
 const Token = require('../models').token;
-//get value from config/default.json
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE_IN = process.env.JWT_EXPIRE_IN;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -65,7 +62,7 @@ exports.signUp = async (req, res) => {
         userId: foundUser.id
       };
     }
-    console.log('foundUser.id  ' + payload.userId);
+    //console.log('foundUser.id  ' + payload.userId);
     //TODO: send email
 
     const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
@@ -82,14 +79,14 @@ exports.signUp = async (req, res) => {
       To complete your Eeeeevent sign up,
     we just need to verify your email address: ${email}
     </p>
-    <div>
+    <div style="padding:10px; margin:10px;">
     <a style="min-width:196px;border-top:13px solid;border-bottom:13px solid;
     border-right:24px solid;border-left:24px solid;border-color:#2ea664;
     border-radius:4px;background-color:#2ea664;color:#ffffff;font-size:18px;
-    line-height:18px;/*! word-break:break-word; */display:inline-block;text-align:
-    center;font-weight:900;/*! text-decoration:none!important; */"
+    line-height:18px;"
      href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
      </div>
+     <p>The confirmation link will expire in 24 hours</p>
      </div>
   `
     };
@@ -200,24 +197,26 @@ exports.confirmEmail = async (req, res) => {
   try {
     const { token } = req.body;
     payload = await jwt.verify(token, MAIL_TOKEN_SECRET);
-  } catch (e) {
-    if (e instanceof jwt.TokenExpiredError) {
+
+    const foundUser = await User.findOne({ where: { id: payload.userId } });
+    if (foundUser === null) {
+      res.status(400).json({ message: "User wasn't found" });
+    } else if (foundUser.status_id == 3) {
+      await User.update({ status_id: 1 }, { where: { id: foundUser.id } });
+      res.status(201).json({ success: true });
+    } else if (foundUser.status_id == 1) {
+      res.status(201).json({ success: true });
+    } else if (foundUser.status_id == 2) {
+      res.status(400).json({ message: 'User was banned' });
+    }
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
       res.status(400).json({ message: 'Token expired' });
-    } else if (e instanceof jwt.JsonWebTokenError) {
+    } else if (err instanceof jwt.JsonWebTokenError) {
       res.status(400).json({ message: 'Invalid token' });
+    } else {
+      res.status(400).json({ err });
     }
     return;
-  }
-
-  const foundUser = await User.findOne({ where: { id: payload.userId } });
-  if (foundUser === null) {
-    res.status(400).json({ message: "User wasn't found" });
-  } else if (foundUser.status_id == 3) {
-    await User.update({ status_id: 1 }, { where: { id: foundUser.id } });
-    res.status(201).json({ success: true });
-  } else if (foundUser.status_id == 1) {
-    res.status(201).json({ success: true });
-  } else if (foundUser.status_id == 2) {
-    res.status(400).json({ message: 'User was banned' });
   }
 };

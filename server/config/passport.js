@@ -51,7 +51,7 @@ passport.use(
     async (email, password, done) => {
       try {
         //find the user for given email
-        console.log('Passport Local stategy start');
+        //console.log('Passport Local stategy start');
         let isPassword;
         const user = await User.findOne({
           where: {
