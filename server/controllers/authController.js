@@ -1,10 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-//!!!!!!!!!
-//Model User:
 const User = require('../models').users;
 const Token = require('../models').token;
-//get value from config/default.json
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE_IN = process.env.JWT_EXPIRE_IN;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -12,6 +9,9 @@ const JWT_REFRESH_EXPIRE_IN = process.env.JWT_REFRESH_EXPIRE_IN;
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const tokenService = require('../services/tokenService');
+const { sendEmail } = require('../services/nodemailer');
+const MAIL_TOKEN_SECRET = process.env.MAIL_TOKEN_SECRET;
+const MAIL_TOKEN_EXPIRE_IN = process.env.MAIL_TOKEN_EXPIRE_IN;
 
 const updateTokens = (user, oldRefreshTokenId) => {
   const accessToken = tokenService.generateAccessToken(user);
@@ -31,25 +31,21 @@ const updateTokens = (user, oldRefreshTokenId) => {
 
 exports.signUp = async (req, res) => {
   try {
-    const {
-      email,
-      password
-    } = req.body;
+    const { email, password } = req.body;
     const foundUser = await User.findOne({
       where: {
         email
       }
     });
     //if user exist return res
-    if (foundUser) {
-      return res.status(200).json({
-        error: 'Email is already in use'
-      });
+    if (foundUser && foundUser.status_id != 3) {
+      return res.status(200).json({ error: 'Email is already in use' });
     }
     //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
     // console.log(hashPassword);
-    await User.create({
+    //Add user in DB
+    const userInDB = {
       email: email,
       password: hashPassword,
       sex: req.body.sex || 'Unknown',
@@ -57,12 +53,48 @@ exports.signUp = async (req, res) => {
       last_name: req.body.last_name || '',
       phone: req.body.phone || '',
       role: 'User',
-      status_id: 1
-    });
+      status_id: 3 //Status - Inactive
+    };
+    let payload;
+    if (foundUser === null) {
+      const result = await User.create(userInDB);
+      payload = { userId: result.id };
+    } else {
+      await User.update(userInDB, { where: { id: foundUser.id } });
+      payload = {
+        userId: foundUser.id
+      };
+    }
+    //console.log('foundUser.id  ' + payload.userId);
+    //TODO: send email
 
-    res.status(201).json({
-      success: true
+    const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
+      expiresIn: MAIL_TOKEN_EXPIRE_IN
     });
+    const mailURL = `${process.env.FRONT_HOST}/confirmemail`;
+    const emailOptions = {
+      email: email,
+      subject: 'Confirm your email to join Eeeeevent',
+      message: `<div style="max-width:600px; margin:0 auto">
+      <h1>Confirm your email to join Eeeeevent</h1>
+      <p>
+      Almost done, <strong style="color:#24292e!important">${req.body.first_name} ${req.body.last_name}</strong>!
+      To complete your Eeeeevent sign up,
+    we just need to verify your email address: ${email}
+    </p>
+    <div style="padding:10px; margin:10px;">
+    <a style="min-width:196px;border-top:13px solid;border-bottom:13px solid;
+    border-right:24px solid;border-left:24px solid;border-color:#2ea664;
+    border-radius:4px;background-color:#2ea664;color:#ffffff;font-size:18px;
+    line-height:18px;"
+     href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
+     </div>
+     <p>The confirmation link will expire in 24 hours</p>
+     </div>
+  `
+    };
+    await sendEmail(emailOptions);
+    res.status(201).json({ success: true });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -87,9 +119,7 @@ exports.signIn = async (req, res) => {
 
 exports.refreshTokens = async (req, res) => {
   //const { refreshToken } = req.body;
-  const {
-    refreshToken
-  } = req.cookies;
+  const { refreshToken } = req.cookies;
   let payload;
   try {
     payload = await jwt.verify(refreshToken, JWT_REFRESH_SECRET);
@@ -107,10 +137,10 @@ exports.refreshTokens = async (req, res) => {
   }
 
   await Token.findOne({
-      where: {
-        id: payload.id
-      }
-    })
+    where: {
+      id: payload.id
+    }
+  })
     .then(async token => {
       if (token === null) {
         throw new Error('Invalid token!');
@@ -135,9 +165,11 @@ exports.refreshTokens = async (req, res) => {
         expiresIn: tokens.expiresIn
       });
     })
-    .catch(err => res.status(400).json({
-      message: err.message
-    }));
+    .catch(err =>
+      res.status(400).json({
+        message: err.message
+      })
+    );
 };
 
 exports.signOut = async (req, res) => {
@@ -158,7 +190,8 @@ exports.signOut = async (req, res) => {
       }
     });
     //create expiration access token
-    const token = jwt.sign({
+    const token = jwt.sign(
+      {
         sub: 'Logout',
         iat: new Date().getTime(), //current time
         exp: new Date().getTime() //current time
@@ -189,3 +222,33 @@ exports.signOut = async (req, res) => {
 //     return res.status(401).json({ error: err });
 //   }
 // };
+
+exports.confirmEmail = async (req, res) => {
+  //Confirm email
+  let payload;
+  try {
+    const { token } = req.body;
+    payload = await jwt.verify(token, MAIL_TOKEN_SECRET);
+
+    const foundUser = await User.findOne({ where: { id: payload.userId } });
+    if (foundUser === null) {
+      res.status(400).json({ message: "User wasn't found" });
+    } else if (foundUser.status_id == 3) {
+      await User.update({ status_id: 1 }, { where: { id: foundUser.id } });
+      res.status(201).json({ success: true });
+    } else if (foundUser.status_id == 1) {
+      res.status(201).json({ success: true });
+    } else if (foundUser.status_id == 2) {
+      res.status(400).json({ message: 'User was banned' });
+    }
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
+      res.status(400).json({ message: 'Token expired' });
+    } else if (err instanceof jwt.JsonWebTokenError) {
+      res.status(400).json({ message: 'Invalid token' });
+    } else {
+      res.status(400).json({ err });
+    }
+    return;
+  }
+};
