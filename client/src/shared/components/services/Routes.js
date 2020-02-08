@@ -68,7 +68,7 @@ const Routes = () => {
             <Route path="/redirect">
               <HeaderLayout innerComponent={<Notificator />} />
             </Route>
-            <Route path="/auth/confirmemail/:token">
+            <Route path="/confirmemail/:token">
               <HeaderLayout innerComponent={<EmailConfirmation />} />
             </Route>
             <Redirect to="/auth" />
