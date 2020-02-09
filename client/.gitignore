@@ -22,6 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+<<<<<<< HEAD
 .eslintrc
 .prettierrc
 
+=======
+.eslintrc.json
+>>>>>>> 9063e09cb60aed7f04a82286c6ff244cfdd3a1af
