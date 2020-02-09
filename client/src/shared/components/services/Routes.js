@@ -26,9 +26,7 @@ const Routes = () => {
             <Route path="/event/details">
               <HeaderLayout innerComponent={<EventDetails />} />
             </Route>
-            <Route path="/addevent">
-              <HeaderLayout innerComponent={<AddEvent />} />
-            </Route>
+
             <Route path="/profile/my">
               <HeaderLayout innerComponent={<UserProfile />} />
             </Route>
@@ -61,6 +59,9 @@ const Routes = () => {
               <HeaderLayout>
                 <EventDetails />
               </HeaderLayout>
+            </Route>
+            <Route path="/addevent">
+              <HeaderLayout innerComponent={<AddEvent />} />
             </Route>
             <Route path="/auth">
               <HeaderLayout>
