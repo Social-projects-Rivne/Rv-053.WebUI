@@ -1,92 +1,101 @@
-import React from "react";
+import React, { useReducer, useEffect } from "react";
 // import DatePicker from "react-datepicker";
 
-import Input from '../../../shared/components/FormElements/Input';
+import Input from "../../../shared/components/FormElements/Input";
 import Selector from "../../../shared/components/FormElements/Select";
-import { useForm } from '../../../shared/hooks/useForm';
+import { useForm } from "../../../shared/hooks/useForm";
 
 import {
   VAL_MIN_LENGTH,
   VAL_REQUIRED
 } from "../../../shared/utilities/validation";
 
+const inputReducer = (state, action) => {
+  switch (action.type) {
+    case "CHANGE":
+      return {
+        ...state,
+        value: action.val,
+        isValid: true
+      };
+    case "TOUCH":
+      return {
+        ...state,
+        isTouched: true
+      };
+    default:
+      return state;
+  }
+};
 
-const StepOne = () => {
+const StepOne = props => {
   const [formState, inputHandler] = useForm(
     {
       title: {
-        value: '',
+        value: "",
         isValid: false
       },
       select: {
-        value: '',
+        value: "",
         isValid: false
       },
       description: {
-        value: '',
+        value: "",
         isValid: false
       },
       location: {
-        value: '',
+        value: "",
         isValid: false
       },
       price: {
-        value: '',
+        value: "",
         isValid: false
       },
-      age:{
-        value: '',
+      age: {
+        value: "",
         isValid: false
       },
-      amount:{
-        value: '',
+      amount: {
+        value: "",
         isValid: false
       }
-
     },
-    
+
     false
   );
-  const submitFormHandler = event => {
-    event.preventDefault();
-    console.log(formState.inputs);
-  };
-  return (
-    
-    <form onSubmit={submitFormHandler} >
-        <div className="form-group">
-          <Input
-            id="title"
-            type="input"
-            label="Name event"
-            validations={[VAL_REQUIRED()]}
-            onInput={inputHandler}
-            errorMessage="The field is required"
-            className="form-control"
-          />
-        
-          
-          <Selector
-            type="select"
-            id="select"
-            label="Choose category"
-            onInput={inputHandler}
-            validations={[VAL_REQUIRED()]}
-            errorMessage="The field is required"
-            className="form-control"
-          />
 
-        <Input
-          id="description"
-          type="textarea"
-          label="Write description"
-          onInput={inputHandler}
-          validations={[VAL_MIN_LENGTH(5)]}
-          errorMessage="Write at least 5 characters!"
-          className="form-control"
-        />
- </div>
- </form>
+  return (
+    <div className="form-group">
+      <Input
+        id="title"
+        type="input"
+        label="Name event"
+        validations={[VAL_REQUIRED()]}
+        onInput={inputHandler}
+        errorMessage="The field is required"
+        className="form-control"
+      />
+
+      <Selector
+        type="select"
+        id="select"
+        label="Choose category"
+        onInput={inputHandler}
+        validations={[VAL_REQUIRED()]}
+        errorMessage="The field is required"
+        className="form-control"
+      />
+
+      <Input
+        id="description"
+        type="textarea"
+        label="Write description"
+        onInput={inputHandler}
+        validations={[VAL_MIN_LENGTH(5)]}
+        errorMessage="Write at least 5 characters!"
+        className="form-control"
+      />
+    </div>
   );
 };
 

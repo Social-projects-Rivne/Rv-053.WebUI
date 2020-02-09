@@ -56,7 +56,7 @@ const AddEvent = () => {
     console.log(formState.inputs);
   };
   return (
-    <Card className="addEvent">
+    <div className="addEvent">
       <h2>Create your own event</h2>
       <div className="containerAdd">
         <form onSubmit={submitFormHandler}>
@@ -65,7 +65,7 @@ const AddEvent = () => {
           </div>
         </form>
       </div>
-    </Card>
+    </div>
   );
 };
 

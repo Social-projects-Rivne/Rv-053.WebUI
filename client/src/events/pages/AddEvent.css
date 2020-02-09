@@ -1,8 +1,11 @@
 .addEvent {
   padding: 0;
+  padding-bottom: 20px;
   width: 70%;
   margin: 5rem auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
 .addEvent h2 {
   color: white;
   text-align: center;
@@ -22,8 +25,6 @@ label {
 .addBtn {
   text-align: right;
   margin-right: 190px;
-  position: absolute;
-  bottom: 15px;
 }
 
 .addBtn button {
@@ -75,7 +76,7 @@ ol.progtrckr li.progtrckr-done {
   border-bottom: 4px solid #16a085;
 }
 ol.progtrckr li:after {
-  content: '\00a0\00a0';
+  content: "\00a0\00a0";
 }
 ol.progtrckr li:before {
   position: relative;
@@ -84,7 +85,7 @@ ol.progtrckr li:before {
   left: 50%;
 }
 ol.progtrckr li.progtrckr-todo:before {
-  content: '\039F';
+  content: "\039F";
   color: silver;
   background-color: white;
   width: 1.2em;
@@ -95,7 +96,7 @@ ol.progtrckr li.progtrckr-todo:hover:before {
 }
 
 ol.progtrckr li.progtrckr-doing:before {
-  content: '\2022';
+  content: "\2022";
   color: white;
   background-color: #16a085;
   width: 1.2em;
@@ -107,7 +108,7 @@ ol.progtrckr li.progtrckr-doing:hover:before {
 }
 
 ol.progtrckr li.progtrckr-done:before {
-  content: '\2713';
+  content: "\2713";
   color: white;
   background-color: #16a085;
   width: 1.2em;
@@ -116,7 +117,4 @@ ol.progtrckr li.progtrckr-done:before {
 }
 ol.progtrckr li.progtrckr-done:hover:before {
   color: #16a085;
-}
-.containerAdd {
-  height: 500px;
 }

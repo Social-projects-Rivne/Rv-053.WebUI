@@ -1,63 +1,58 @@
 import React, { useState } from "react";
 // import DatePicker from "react-datepicker";
 
-import Input from '../../../shared/components/FormElements/Input';
+import Input from "../../../shared/components/FormElements/Input";
 import Selector from "../../../shared/components/FormElements/Select";
-import { useForm } from '../../../shared/hooks/useForm';
+import { useForm } from "../../../shared/hooks/useForm";
 
-import Map from '../../../shared/components/Map/MapBox';
+import Map from "../../../shared/components/Map/MapBox";
 import {
   VAL_MIN_LENGTH,
   VAL_REQUIRED
 } from "../../../shared/utilities/validation";
 
-
 const StepTwo = () => {
   const [formState, inputHandler] = useForm(
     {
       title: {
-        value: '',
+        value: "",
         isValid: false
       },
       select: {
-        value: '',
+        value: "",
         isValid: false
       },
       description: {
-        value: '',
+        value: "",
         isValid: false
       },
       location: {
-        value: '',
+        value: "",
         isValid: false
       },
       price: {
-        value: '',
+        value: "",
         isValid: false
       },
-      age:{
-        value: '',
+      age: {
+        value: "",
         isValid: false
       },
-      amount:{
-        value: '',
+      amount: {
+        value: "",
         isValid: false
       }
-
     },
-    
+
     false
   );
 
-  
   const submitFormHandler = event => {
     event.preventDefault();
     console.log(formState.inputs);
   };
-  
-  return (
-    <Map id = "map"/>
-  );
+
+  return <Map id="map" />;
 };
 
 export default StepTwo;

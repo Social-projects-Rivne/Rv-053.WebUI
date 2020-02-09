@@ -153,7 +153,7 @@ export default function MultiStep(props) {
             className="btn btn-outline-success"
             style={buttonsState.showSubmit ? {} : { display: "none" }}
           >
-            Submit
+            Create Event
           </button>
         </div>
       </div>
