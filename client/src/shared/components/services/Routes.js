@@ -30,13 +30,13 @@ const Routes = () => {
             <Route path="/addevent">
               <HeaderLayout innerComponent={<AddEvent />} />
             </Route>
-            <Route path="/profile/my">
+            <Route path="/profile/:id">
               <HeaderLayout innerComponent={<UserProfile />} />
             </Route>
             <Route path="/redirect">
               <HeaderLayout innerComponent={<Notificator />} />
             </Route>
-            <Route path="/auth/confirmemail/:token">
+            <Route path="/confirmemail/:token">
               <HeaderLayout innerComponent={<EmailConfirmation />} />
             </Route>
             {/* next routes for admin panel */}

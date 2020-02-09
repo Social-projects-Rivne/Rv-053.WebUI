@@ -1,36 +1,46 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
-import FollowedEventItem from './FollowedEventItem';
-
-const followedEvents = [
-    {
-        eventId: 1,
-        name: 'Walking with dog',
-        datetime: '20.09.19'
-    },
-    {
-        eventId: 2,
-        name: 'Nature',
-        datetime: '09.08.20'
-    }
-]
-
+import EventItem from './EventItem';
+import { api_server_url } from '../../../shared/utilities/globalVariables';
+import { AuthContext } from '../../../shared/context/auth-context';
 
 const FollowedEventList = () => {
-    return(
-        <div className="event_list-item">
-            <h3 className="profile-title">Your followed events</h3>
-            {followedEvents.map(event =>
-                <FollowedEventItem
-                    key={event.eventId} 
-                    title={event.name}
-                    date={event.datetime}
-                />
-            )}
+  const accessToken = useContext(AuthContext).token;
+  const [events, setEvents] = useState([]);
+  const headers = {
+    Authorization: 'Bearer ' + accessToken
+  };
+
+  const getEvents = async () => {
+    const res = await axios.get(api_server_url + '/api/user/sub-event', {
+      headers
+    });
+    setEvents(res.data.data.subEvent);
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      getEvents();
+    }
+  }, [accessToken]);
+
+  return (
+    <div className="event_list-item">
+      <h3 className="profile-title">Your followed events</h3>
+      {events.length > 0 ? (
+        events.map(event => (
+          <EventItem
+            key={event['event.id']}
+            title={event['event.name']}
+            date={event['event.datetime']}
+          />
+        ))
+      ) : (
+        <p>You have not follow any event.</p>
+      )}
     </div>
-
-    )
-}
-
+  );
+};
 
 export default FollowedEventList;

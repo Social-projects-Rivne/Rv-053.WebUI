@@ -1,6 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import UserInfo from './../components/UserInfo';
 import CategoriesList from './../components/CategoriesList';
@@ -8,29 +6,11 @@ import FollowedEventList from './../components/ProfileEvents/FollowedEventList';
 import CreatedEventList from './../components/ProfileEvents/CreatedEventList';
 import './UserProfile.css';
 
-const userInfo = [
-  {
-    id: 'u1',
-    name: 'Sasha',
-    surname: 'Kravets',
-    email: 'sasakravec663@gmail.com'
-  },
-  {
-    id: 'u2',
-    name: 'Marina',
-    surname: 'Franko',
-    email: 'marinafranko@gmail.com'
-  }
-];
-
 const UserProfile = () => {
-  const userId = useParams().userId;
-  const loadedUser = userInfo.find(user => user.id === userId);
-
   return (
     <div className="profile-container">
       <section className="profile_inner">
-        <UserInfo item={userInfo[0]} />
+        <UserInfo />
         <CategoriesList />
         <div className="profile-followed_events">
           <FollowedEventList />
