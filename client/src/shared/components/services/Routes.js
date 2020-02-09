@@ -13,6 +13,7 @@ import AddEvent from './../../../events/pages/AddEvent';
 import Notificator from './../../components/UI/Notificator';
 import HeaderLayout from '../UI/HeaderLayout';
 import UserProfile from '../../../users/pages/UserProfile';
+import EmailConfirmation from './EmailConfirmation';
 
 const Routes = () => {
   return (
@@ -35,6 +36,9 @@ const Routes = () => {
             <Route path="/redirect">
               <HeaderLayout innerComponent={<Notificator />} />
             </Route>
+            <Route path="/auth/confirmemail/:token">
+              <HeaderLayout innerComponent={<EmailConfirmation />} />
+            </Route>
             {/* next routes for admin panel */}
             <Route path="/adminpanelpage" exact>
               <HeaderLayout innerComponent={<AdminPanelPage />} isAdmin />
@@ -53,24 +57,19 @@ const Routes = () => {
         ) : (
           <Switch>
             <Route path="/" exact>
-              <HeaderLayout>
-                <EventsList />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<EventsList />} />
             </Route>
             <Route path="/event/details">
-              <HeaderLayout>
-                <EventDetails />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/auth">
-              <HeaderLayout>
-                <SignUpIn />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<SignUpIn />} />
             </Route>
             <Route path="/redirect">
-              <HeaderLayout>
-                <Notificator />
-              </HeaderLayout>
+              <HeaderLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/confirmemail/:token">
+              <HeaderLayout innerComponent={<EmailConfirmation />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>
