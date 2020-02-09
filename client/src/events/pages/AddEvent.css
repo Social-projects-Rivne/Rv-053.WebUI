@@ -1,3 +1,6 @@
+.navbar {
+  display: none !important;
+}
 .addEvent {
   padding: 0;
   width: 70%;
@@ -21,9 +24,7 @@ label {
 
 .addBtn {
   text-align: right;
-  margin-right: 190px;
-  position: absolute;
-  bottom: 15px;
+  margin: 20px 190px 0 0;
 }
 
 .addBtn button {
@@ -117,6 +118,6 @@ ol.progtrckr li.progtrckr-done:before {
 ol.progtrckr li.progtrckr-done:hover:before {
   color: #16a085;
 }
-.containerAdd {
+/* .containerAdd {
   height: 500px;
-}
+} */

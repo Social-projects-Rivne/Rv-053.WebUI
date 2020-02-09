@@ -42,9 +42,8 @@ const StepOne = () => {
         value: '',
         isValid: false
       }
-
     },
-    
+
     false
   );
   const submitFormHandler = event => {
@@ -64,8 +63,6 @@ const StepOne = () => {
             errorMessage="The field is required"
             className="form-control"
           />
-        
-          
           <Selector
             type="select"
             id="select"
@@ -75,7 +72,6 @@ const StepOne = () => {
             errorMessage="The field is required"
             className="form-control"
           />
-
         <Input
           id="description"
           type="textarea"

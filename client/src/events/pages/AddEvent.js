@@ -55,6 +55,7 @@ const AddEvent = () => {
     event.preventDefault();
     console.log(formState.inputs);
   };
+  
   return (
     <Card className="addEvent">
       <h2>Create your own event</h2>

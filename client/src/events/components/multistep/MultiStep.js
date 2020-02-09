@@ -4,40 +4,6 @@ import "./MultiStep.css";
 import { useForm } from "../../../shared/hooks/useForm";
 
 export default function MultiStep(props) {
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: "",
-        isValid: false
-      },
-      select: {
-        value: "",
-        isValid: false
-      },
-      description: {
-        value: "",
-        isValid: false
-      },
-      location: {
-        value: "",
-        isValid: false
-      },
-      price: {
-        value: "",
-        isValid: false
-      },
-      age: {
-        value: "",
-        isValid: false
-      },
-      amount: {
-        value: "",
-        isValid: false
-      }
-    },
-
-    false
-  );
 
   const getNavStyles = (indx, length) => {
     let styles = [];
@@ -122,7 +88,7 @@ export default function MultiStep(props) {
     ));
   const submitFormHandler = event => {
     event.preventDefault();
-    console.log(formState.inputs);
+    
   };
 
   return (

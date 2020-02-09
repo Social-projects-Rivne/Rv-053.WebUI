@@ -6,7 +6,7 @@ import StepFour from './stepFour'
 
 const steps = 
     [
-      {name: 'Details', component: <StepOne/>},
+      {name: 'Details', component: <StepOne />},
       {name: 'Location', component: <StepTwo/>},
       {name: 'Optional Information', component: <StepThree/>},
       {name: 'Agreement', component: <StepFour/>}
