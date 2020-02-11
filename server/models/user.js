@@ -6,91 +6,104 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       first_name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       last_name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
       },
       phone: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       avatar: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       birthday: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY
       },
       sex: {
         type: DataTypes.ENUM('Male', 'Female', 'Unknown'),
         allowNull: false,
-        defaultValue: 'Unknown',
+        defaultValue: 'Unknown'
       },
       status_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER
       },
       role: {
         type: DataTypes.ENUM('Admin', 'Moderator', 'User'),
         allowNull: false,
-        defaultValue: 'User',
-      },
+        defaultValue: 'User'
+      }
     },
     {
       timestamps: false,
-      freezeTableName: true,
+      freezeTableName: true
     }
   );
   User.associate = function(models) {
     User.hasMany(models.followers, {
       foreignKey: 'user_id',
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
     });
   };
 
   User.associate = function(models) {
     User.hasMany(models.hub, {
       foreignKey: 'owner_id',
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
     });
   };
 
   User.associate = function(models) {
     User.belongsTo(models.user_status, {
       foreignKey: 'status_id',
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
+    });
+  };
+
+  User.associate = function(models) {
+    User.hasMany(models.event, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
     });
   };
 
   User.associate = models => {
     User.hasMany(models.event, {
       foreignKey: 'owner_id',
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
     });
   };
 
   User.associate = models => {
     User.belongsToMany(models.event, {
       foreignKey: 'user_id',
-      through: 'user_event',
+      through: 'user_event'
     });
   };
 
   User.associate = models => {
     User.belongsToMany(models.category, {
       foreignKey: 'user_id',
-      through: 'user_category',
+      through: 'user_category'
     });
   };
 
+  User.associate = function(models) {
+    User.hasMany(models.token, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
+    });
+  };
   return User;
 };

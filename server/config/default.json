@@ -1,6 +1,4 @@
 {
   "port": 5000,
-  "baseUrl": "http://localhost",
-  "JWT_SECRET": "SuperPuperSecretEvent",
-  "JWT_EXPIRE_IN": 600000
+  "baseUrl": "http://localhost"
 }

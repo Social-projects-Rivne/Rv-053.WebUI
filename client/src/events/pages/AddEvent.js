@@ -1,52 +1,47 @@
-import React from "react";
+import React from 'react';
 // import DatePicker from "react-datepicker";
 
-import Card from "../../shared/components/UI/Card";
-import Input from "../../shared/components/FormElements/Input";
-import Selector from "../../shared/components/FormElements/Select";
+import Card from '../../shared/components/UI/Card';
+import Input from '../../shared/components/FormElements/Input';
+import Selector from '../../shared/components/FormElements/Select';
 import { useForm } from '../../shared/hooks/useForm';
 
-import "./AddEvent.css";
-import {
-  VAL_MIN_LENGTH,
-  VAL_REQUIRED
-} from "../../shared/utilities/validation";
-
+import './AddEvent.css';
+import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation';
 
 const AddEvent = () => {
   const [formState, inputHandler] = useForm(
     {
       title: {
         value: '',
-        isValid: false
+        isValid: false,
       },
       select: {
         value: '',
-        isValid: false
+        isValid: false,
       },
       description: {
         value: '',
-        isValid: false
+        isValid: false,
       },
       location: {
         value: '',
-        isValid: false
+        isValid: false,
       },
       price: {
         value: '',
-        isValid: false
+        isValid: false,
       },
-      age:{
+      age: {
         value: '',
-        isValid: false
+        isValid: false,
       },
-      amount:{
+      amount: {
         value: '',
-        isValid: false
-      }
-
+        isValid: false,
+      },
     },
-    
+
     false
   );
 
@@ -57,7 +52,7 @@ const AddEvent = () => {
   return (
     <Card className="addEvent">
       <h2>Create your own event</h2>
-      <form onSubmit={submitFormHandler}>
+      <form onSubmit={submitFormHandler} className="addEvent">
         <div className="form-group">
           <Input
             id="title"
@@ -70,7 +65,6 @@ const AddEvent = () => {
           />
         </div>
         <div>
-          
           <Selector
             type="select"
             id="select"
@@ -99,43 +93,47 @@ const AddEvent = () => {
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
         />
-           <Input
+        <Input
           id="price"
           type="number"
           label="Price"
-          step="1" 
-          min="0" 
+          step="1"
+          min="0"
           placeholder="0,00 hrn"
           onInput={inputHandler}
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
           className="form-control"
         />
-           <Input
+        <Input
           id="age"
           type="number"
           label="The min age of participants"
-          step="1" 
-          min="0" 
+          step="1"
+          min="0"
           placeholder="18..."
           onInput={inputHandler}
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
           className="form-control"
         />
-           <Input
+        <Input
           id="amount"
           type="number"
           label="The max amount of participants"
-          step="1" 
-          min="0" 
+          step="1"
+          min="0"
           placeholder="10"
           onInput={inputHandler}
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
           className="form-control"
         />
-        <button className="btn btn-outline-primary" type="submit" disabled={!formState.formValidity}>
+        <button
+          className="btn btn-outline-primary"
+          type="submit"
+          disabled={!formState.formValidity}
+        >
           Add Event
         </button>
       </form>

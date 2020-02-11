@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define(
-    'event',
-    {
+    'event', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -17,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       description: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING(2048)
       },
       location: {
         type: DataTypes.STRING
@@ -29,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       max_participants: {
-        type: DataTypes.DATEONLY
+        type: DataTypes.INTEGER
       },
       min_age: {
         type: DataTypes.INTEGER
@@ -38,13 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       status: {
-        type: DataTypes.INTEGER
+        type: DataTypes.ENUM('Active', 'Passed', 'Canceled'),
+        allowNull: false,
+        defaultValue: 'Active'
       },
       price: {
         type: DataTypes.STRING
       }
-    },
-    {
+    }, {
       timestamps: false,
       freezeTableName: true
     }

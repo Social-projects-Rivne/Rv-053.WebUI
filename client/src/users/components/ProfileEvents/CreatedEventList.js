@@ -1,46 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
-import CreatedEventItem from './CreatedEventItem';
-
-
-// const createdEvents = [
-//     {
-//         eventId: 1,
-//         name: 'Riding on the bike',
-//         datetime: '13.01.19'
-//     },
-//     {
-//         eventId: 2,
-//         name: 'Picnic',
-//         datetime: '06.12.20'
-//     }
-// ]
-
+import EventItem from './EventItem';
+import { api_server_url } from '../../../shared/utilities/globalVariables';
+import { AuthContext } from '../../../shared/context/auth-context';
 
 const CreatedEventList = () => {
+  const accessToken = useContext(AuthContext).token;
+  const [events, setEvents] = useState([]);
+  const headers = {
+    Authorization: 'Bearer ' + accessToken
+  };
 
-const [ createdEventState, setCreatedEventState ] = useState({createdEvents});
+  const getEvents = async () => {
+    const res = await axios.get(api_server_url + '/api/user/events', {
+      headers
+    });
+    setEvents(res.data.data.event);
+  };
 
-useEffect(()=>{
-    const createdEvents = await axios.get();
-    setCreatedEventState(createdEvents);
-}, [])
+  useEffect(() => {
+    if (accessToken) {
+      getEvents();
+    }
+  }, [accessToken]);
 
-    return(
-        <div  className="event_list-item">
-            <h3 className="profile-title">Your created events</h3>
-            {createdEventState.createdEvents.map(event => 
-                <CreatedEventItem
-                    key={event.eventId} 
-                    title={event.name}
-                    date={event.datetime}
-                />
-            )}
-        </div>
-
-    )
-
-}
+  return (
+    <div className="event_list-item">
+      <h3 className="profile-title">Created events</h3>
+      {events.length > 0 ? (
+        events.map(event => <EventItem key={event.id} title={event.name} date={event.datetime} />)
+      ) : (
+        <p>You haven`t created any events</p>
+      )}
+    </div>
+  );
+};
 
 export default CreatedEventList;
