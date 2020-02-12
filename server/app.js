@@ -4,13 +4,14 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const cors = require('cors');
 const db = require('./models');
-const auth = require('./middlewares/authorization');
 const cookieParser = require('cookie-parser');
 
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:3001'
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3001'
+  })
+);
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(
@@ -21,12 +22,8 @@ app.use(
 app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
+app.use('/api/adminpanel', require('./routes/adminRoute'));
 
-//Example:
-//Check if user authorized
-//app.use('/api/users', auth, require('./routes/usersRoute'));
-
-// set port
 const PORT = config.get('port') || 5000;
 
 async function start() {

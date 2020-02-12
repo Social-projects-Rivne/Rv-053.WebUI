@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
     token = req.header('Authorization').split(' ')[1];
   } else {
     return res.status(401).json({
-      err: 'No token, authorization denied'
+      error: 'No token, authorization denied'
     });
   }
   //console.log("Authorization with token: " + token);
