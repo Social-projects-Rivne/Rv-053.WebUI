@@ -60,7 +60,7 @@ const Header = () => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/">
                 <button className="btn btn-outline-success btn-block" onClick={auth.logout}>
-                  Logout
+                  Signout
                 </button>
               </NavLink>
             </li>
