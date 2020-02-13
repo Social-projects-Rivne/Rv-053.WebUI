@@ -159,7 +159,7 @@ const SignUpIn = () => {
         />
       ) : null}
       <Card className="auth shadow px-2">
-        <h2 className="text-center"> {signInUpState === true ? 'Registration' : 'Login'} </h2>{' '}
+        <h2 className="text-center"> {signInUpState === true ? 'Sign up' : 'Sign in'} </h2>{' '}
         <form onSubmit={submitFormHandler}>
           <Input
             id="email"
@@ -226,7 +226,7 @@ const SignUpIn = () => {
           </button>
         </form>
         <button className="btn btn-outline-primary mb-4" onClick={signInUpHandler}>
-          {signInUpState === false ? 'Switch to Sign Up' : 'Switch to Log In'}
+          {signInUpState === false ? 'Switch to Sign Up' : 'Switch to Sign In'}
         </button>
         <div className="mb-4" style={{ width: '100%' }}>
           <div
