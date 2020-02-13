@@ -72,9 +72,9 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-exports.getSubscribedEvents = async (req, res) => {
+exports.getFollowedEvents = async (req, res) => {
   try {
-    const subEvent = await UserEvent.findAll({
+    const followedEvent = await UserEvent.findAll({
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
@@ -83,7 +83,7 @@ exports.getSubscribedEvents = async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        subEvent
+        followedEvent
       }
     });
   } catch (err) {
@@ -91,9 +91,9 @@ exports.getSubscribedEvents = async (req, res) => {
   }
 };
 
-exports.getSubscribedCategories = async (req, res) => {
+exports.getFollowedCategories = async (req, res) => {
   try {
-    const subCategory = await UserCategory.findAll({
+    const followedCategory = await UserCategory.findAll({
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
@@ -102,8 +102,21 @@ exports.getSubscribedCategories = async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        subCategory
+        followedCategory
       }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message ? err.message : err });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  const { first_name, last_name, phone, avatar, birthday, sex } = req.body;
+  const newData = { first_name, last_name, phone, avatar, birthday, sex };
+  try {
+    await User.update(newData, { where: { id: req.userId } });
+    res.status(200).json({
+      status: 'success'
     });
   } catch (err) {
     res.status(500).json({ error: err.message ? err.message : err });
