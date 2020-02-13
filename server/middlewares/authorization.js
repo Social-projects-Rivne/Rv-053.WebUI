@@ -16,7 +16,11 @@ module.exports = async (req, res, next) => {
   try {
     const payload = await JWT.verify(token, JWT_SECRET);
     req.userId = payload.userId;
-    next();
+    if (payload.status_id == 1) {
+      next();
+    } else {
+      return res.status(401).json({ error: 'User is banned' });
+    }
   } catch (err) {
     res.status(401).json({
       error: err.message ? err.message : err
