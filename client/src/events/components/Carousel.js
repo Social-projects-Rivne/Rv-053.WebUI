@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './Carousel.css';
+
 class Carousel extends Component {
   render() {
     return (
@@ -15,9 +17,13 @@ class Carousel extends Component {
               className="d-block w-100"
               alt="..."
             />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Офіційні події</h5>
-              <p>Заворожуюче прекрасний опис переваг нашого сайту</p>
+            <div className="carousel__content">
+              <div class="slider__inner">
+                <div class="slider__title">Create And Organize Your Own Event</div>
+                <a href="" class="slider__btn">
+                  Create Event
+                </a>
+              </div>{' '}
             </div>
           </div>
           <div className="carousel-item">
@@ -26,9 +32,13 @@ class Carousel extends Component {
               className="d-block w-100"
               alt="..."
             />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Неофіційні події</h5>
-              <p>неясно пікнік це чи весілля але гарно</p>
+            <div className="carousel__content">
+              <div class="slider__inner">
+                <div class="slider__title">Create And Organize Your Own Event</div>
+                <a href="" class="slider__btn">
+                  Create Event
+                </a>
+              </div>{' '}
             </div>
           </div>
         </div>

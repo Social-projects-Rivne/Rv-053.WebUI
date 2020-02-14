@@ -14,6 +14,8 @@ import Notificator from './../../components/UI/Notificator';
 import HeaderLayout from '../UI/HeaderLayout';
 import UserProfile from '../../../users/pages/UserProfile';
 import EmailConfirmation from './EmailConfirmation';
+import MainPage from '../../../events/pages/MainPage';
+import EventsResult from './../../../events/pages/EventsResult';
 
 const Routes = () => {
   return (
@@ -22,7 +24,10 @@ const Routes = () => {
         context.token ? (
           <Switch>
             <Route path="/" exact>
-              <HeaderLayout innerComponent={<EventsList />} />
+              <HeaderLayout innerComponent={<MainPage />} />
+            </Route>
+            <Route path="/events" exact>
+              <HeaderLayout innerComponent={<EventsResult />} />
             </Route>
             <Route path="/event/details">
               <HeaderLayout innerComponent={<EventDetails />} />
