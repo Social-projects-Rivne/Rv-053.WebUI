@@ -11,26 +11,43 @@
 .profile-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
   margin-bottom: 30px;
 }
-.profile-avatar {
+.profile-avatar__wrapper {
   text-align: center;
 }
-.profile-avatar span {
+.profile-avatar {
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   background-color: #cdcdcd;
   border-radius: 50%;
-  font-size: 0;
   text-align: center;
   line-height: 150px;
-  color: #4e4e4e;
-  transition: all 0.3s cubic-bezier(0.4, 0, 1, 1);
+  position: relative;
+  overflow: hidden;
 }
-.profile-avatar span:hover {
-  font-size: 18px;
+.profile-avatar__body {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 40%;
+  right: 50%;
+  transform: translate(50%);
+  top: 90px;
+}
+.profile-avatar__head {
+  position: absolute;
+  background-color: #fff;
+  width: 55px;
+  height: 55px;
+  right: 50%;
+  transform: translate(50%);
+  top: 25px;
+  border-radius: 50%;
 }
 .profile-name {
   font-size: 30px;
@@ -64,16 +81,11 @@
   border: none;
   display: inline-block;
   background-color: #ddd;
-  padding: 5px 20px 5px 30px;
+  padding: 5px 20px;
   border-radius: 25px;
   position: relative;
   font-size: 15px;
   margin: 10px 10px 10px 0;
-}
-.profile_categories-item::before {
-  content: '#';
-  position: absolute;
-  left: 15px;
 }
 .profile_categories-item:focus {
   outline: none;

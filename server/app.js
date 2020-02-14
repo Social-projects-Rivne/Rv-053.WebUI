@@ -19,10 +19,12 @@ app.use(
     extended: false
   })
 );
+
 app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
 app.use('/api/adminpanel', require('./routes/adminRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 
 const PORT = config.get('port') || 5000;
 
