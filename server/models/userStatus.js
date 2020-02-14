@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true
     }
   );
-  UserStatus.associate = function(models) {
+  UserStatus.associate = models => {
     UserStatus.hasMany(models.users, {
       foreignKey: 'status_id'
     });

@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true
     }
   );
-  User.associate = function(models) {
+  User.associate = models => {
     User.hasMany(models.followers, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE'
