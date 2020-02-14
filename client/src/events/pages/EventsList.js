@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 
 import EventInList from '../components/EventInList';
 import Carousel from './../components/Carousel';
 import './EventsList.css';
+import Search from '../components/search';
+import { EventContext } from '../../shared/context/events-context';
 
 const eventInfo = {
   imageSrc:
@@ -17,19 +19,22 @@ const eventInfo = {
 
 const eventsArr = [eventInfo, eventInfo, eventInfo, eventInfo, eventInfo, eventInfo];
 
-class EventsList extends Component {
-  render() {
+const EventsList = () =>  {
+
+    const eventContext = useContext(EventContext);
+ 
     return (
       <React.Fragment>
         <Carousel />
+        <Search />
         <div className="d-flex flex-wrap justify-content-around">
-          {eventsArr.map(eventInfo => {
+          {eventContext.events.map(eventInfo => {
             return <EventInList eventInfo={eventInfo} />;
           })}
         </div>
       </React.Fragment>
     );
-  }
+  
 }
 
 export default EventsList;
