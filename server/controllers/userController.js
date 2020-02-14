@@ -4,6 +4,9 @@ const UserEvent = require('../models').user_event;
 const Category = require('../models').category;
 const UserCategory = require('../models').user_category;
 
+const ban = 2;
+const unban = 1;
+
 exports.getCurrent = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -126,7 +129,7 @@ exports.updateProfile = async (req, res) => {
 exports.ban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: 2 });
+    await user.update({ status_id: ban });
     res.status(200).json({
       status: 'success'
     });
@@ -138,7 +141,7 @@ exports.ban = async (req, res) => {
 exports.unban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: 1 });
+    await user.update({ status_id: unban });
     res.status(200).json({
       status: 'success'
     });
