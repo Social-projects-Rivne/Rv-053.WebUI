@@ -27,11 +27,11 @@ const CreatedEventList = () => {
 
   return (
     <div className="event_list-item">
-      <h3 className="profile-title">Your created events</h3>
+      <h3 className="profile-title">Created events</h3>
       {events.length > 0 ? (
         events.map(event => <EventItem key={event.id} title={event.name} date={event.datetime} />)
       ) : (
-        <p>You have not create any event.</p>
+        <p>You haven`t created any events</p>
       )}
     </div>
   );

@@ -13,10 +13,10 @@ const FollowedEventList = () => {
   };
 
   const getEvents = async () => {
-    const res = await axios.get(api_server_url + '/api/user/sub-event', {
+    const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
-    setEvents(res.data.data.subEvent);
+    setEvents(res.data.data.followedEvent);
   };
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const FollowedEventList = () => {
 
   return (
     <div className="event_list-item">
-      <h3 className="profile-title">Your followed events</h3>
+      <h3 className="profile-title">Followed events</h3>
       {events.length > 0 ? (
         events.map(event => (
           <EventItem
@@ -37,7 +37,7 @@ const FollowedEventList = () => {
           />
         ))
       ) : (
-        <p>You have not follow any event.</p>
+        <p>You haven`t followed any events</p>
       )}
     </div>
   );

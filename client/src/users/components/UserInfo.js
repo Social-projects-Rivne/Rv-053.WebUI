@@ -40,9 +40,12 @@ const UserInfo = props => {
     <div className="profile-top">
       {userData ? (
         <>
-          <div className="profile-avatar">
+          <div className="profile-avatar__wrapper">
             {!userData.avatar ? (
-              <span>Add photo</span>
+              <span className="profile-avatar">
+                <span className="profile-avatar__head"></span>
+                <span className="profile-avatar__body"></span>
+              </span>
             ) : (
               <img src={userData.avatar ? userData.avatar : '/'} alt="" />
             )}
@@ -53,10 +56,10 @@ const UserInfo = props => {
             </div>
             <div className="profile-email">{userData.email} </div>
             <div className="profile_btn">
-              <NavLink to="/addevent" className="profile_btn-item">
+              <NavLink to="/addevent" className="btn btn-outline-success btn-block">
                 Add event
               </NavLink>
-              <NavLink to="/" className="profile_btn-item">
+              <NavLink to="/" className="btn btn-outline-success btn-block">
                 Edit profile
               </NavLink>
             </div>
