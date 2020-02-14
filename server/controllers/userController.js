@@ -122,3 +122,27 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ error: err.message ? err.message : err });
   }
 };
+
+exports.ban = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    await user.update({ status_id: 2 });
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message ? err.message : err });
+  }
+};
+
+exports.unban = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    await user.update({ status_id: 1 });
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message ? err.message : err });
+  }
+};
