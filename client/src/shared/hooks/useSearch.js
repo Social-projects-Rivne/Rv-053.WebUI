@@ -1,12 +1,10 @@
 import { useState } from 'react';
 
 export const useSearch = () => {
+  const [events, setEvents] = useState([]);
 
-const[events, setEvents] = useState([]);
-
-return {
-  events, 
-  setEvents
+  return {
+    events,
+    setEvents
   };
-
 };

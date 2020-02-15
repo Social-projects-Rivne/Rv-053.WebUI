@@ -19,22 +19,20 @@ const eventInfo = {
 
 const eventsArr = [eventInfo, eventInfo, eventInfo, eventInfo, eventInfo, eventInfo];
 
-const EventsList = () =>  {
+const EventsList = () => {
+  const eventContext = useContext(EventContext);
 
-    const eventContext = useContext(EventContext);
- 
-    return (
-      <React.Fragment>
-        <Carousel />
-        <Search />
-        <div className="d-flex flex-wrap justify-content-around">
-          {eventContext.events.map(eventInfo => {
-            return <EventInList eventInfo={eventInfo} />;
-          })}
-        </div>
-      </React.Fragment>
-    );
-  
-}
+  return (
+    <React.Fragment>
+      <Carousel />
+      <Search />
+      <div className="d-flex flex-wrap justify-content-around">
+        {eventContext.events.map(eventInfo => {
+          return <EventInList eventInfo={eventInfo} />;
+        })}
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default EventsList;
