@@ -1,7 +1,6 @@
 const Event = require('../models').event;
 const User = require('../models').users;
 const Sequelize = require('sequelize');
-const sequelize = require('../models').sequelize;
 const Op = Sequelize.Op;
 
 // Get event by ID
@@ -81,9 +80,6 @@ exports.searchEvent = async (req, res) => {
   const limit = req.query.limit || 100;
   const offset = req.query.offset || 0;
   if (req.query.q) {
-    //Search in DB event by 'name' or 'description'
-    //[Op.iLike] means case insensitive searching
-    //Order by 'datetime'
     await Event.findAndCountAll({
       where: {
         [Op.or]: [
@@ -101,10 +97,9 @@ exports.searchEvent = async (req, res) => {
       },
       offset,
       limit,
-      order: [sequelize.literal('datetime DESC')]
+      order: [['datetime', 'DESC']]
     })
       .then(data => {
-        //send result to front-end
         res.status(200).json(data);
       })
       .catch(err => {

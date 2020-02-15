@@ -50,56 +50,37 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true
     }
   );
-  User.associate = function(models) {
+
+  User.associate = models => {
     User.hasMany(models.followers, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE'
     });
-  };
 
-  User.associate = function(models) {
     User.hasMany(models.hub, {
       foreignKey: 'owner_id',
       onDelete: 'CASCADE'
     });
-  };
 
-  User.associate = function(models) {
     User.belongsTo(models.user_status, {
-      foreignKey: 'status_id',
-      onDelete: 'CASCADE'
+      foreignKey: 'status_id'
     });
-  };
 
-  User.associate = function(models) {
-    User.hasMany(models.event, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE'
-    });
-  };
-
-  User.associate = models => {
     User.hasMany(models.event, {
       foreignKey: 'owner_id',
       onDelete: 'CASCADE'
     });
-  };
 
-  User.associate = models => {
     User.belongsToMany(models.event, {
       foreignKey: 'user_id',
       through: 'user_event'
     });
-  };
 
-  User.associate = models => {
     User.belongsToMany(models.category, {
       foreignKey: 'user_id',
       through: 'user_category'
     });
-  };
 
-  User.associate = function(models) {
     User.hasMany(models.token, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE'

@@ -149,7 +149,6 @@ exports.setRoleToModerator = async (req, res) => {
 exports.setRoleToUser = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    // console.log(user.role);
     if (user.role === ROLE_MODERATOR) {
       await user.update({ role: ROLE_USER });
       res.status(200).json({
