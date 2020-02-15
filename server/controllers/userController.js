@@ -4,6 +4,9 @@ const UserEvent = require('../models').user_event;
 const Category = require('../models').category;
 const UserCategory = require('../models').user_category;
 
+const ROLE_USER = 'User';
+const ROLE_MODERATOR = 'Moderator';
+
 exports.getCurrent = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -118,6 +121,45 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json({
       status: 'success'
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message ? err.message : err });
+  }
+};
+
+exports.setRoleToModerator = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user.role === ROLE_USER) {
+      await user.update({ role: ROLE_MODERATOR });
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(304).json({
+        message: 'Role of the moderator is already exist'
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+};
+
+exports.setRoleToUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    // console.log(user.role);
+    if (user.role === ROLE_MODERATOR) {
+      await user.update({ role: ROLE_USER });
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(304).json({
+        message: 'Role of the moderator is already exist'
+      });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message ? err.message : err });
   }
