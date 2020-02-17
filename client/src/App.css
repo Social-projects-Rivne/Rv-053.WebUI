@@ -132,30 +132,21 @@ html {
 body {
   height: 100%;
 }
-
-.wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
+* {
+  margin: 0;
+  padding: 0;
+}
+#root {
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   min-height: 100%;
 }
-
 .content {
-  -webkit-box-flex: 1;
-  -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-
 .footer {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-
 .my__container {
   max-width: 1450px;
   margin: 0 auto;

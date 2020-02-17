@@ -5,11 +5,18 @@ import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/useAuth';
 import Routes from './shared/components/services/Routes';
 import './App.css';
+import { useSearch } from './shared/hooks/useSearch';
+import { EventContext } from './shared/context/events-context';
 
 const App = () => {
   const { accessToken, login, logout, tokenExpirationDate, inRefreshProcess } = useAuth();
+  const { events, setEvents } = useSearch();
 
   return (
+    <EventContext.Provider
+    value = {{events: events, setEvents: setEvents }}
+    >
+      
     <AuthContext.Provider
       value={{
         isLoggedIn: !!accessToken,
@@ -27,6 +34,7 @@ const App = () => {
         )}
       </BrowserRouter>
     </AuthContext.Provider>
+    </EventContext.Provider>
   );
 };
 export default App;
