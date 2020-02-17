@@ -6,8 +6,8 @@ const UserCategory = require('../models').user_category;
 
 const ROLE_USER = 'User';
 const ROLE_MODERATOR = 'Moderator';
-const ban = 2;
-const unban = 1;
+const USER_BAN = 2;
+const USER_UNBAN = 1;
 
 exports.getCurrent = async (req, res) => {
   try {
@@ -171,7 +171,7 @@ exports.setRoleToUser = async (req, res) => {
 exports.ban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: ban });
+    await user.update({ status_id: USER_BAN });
     res.status(200).json({
       status: 'success'
     });
@@ -185,7 +185,7 @@ exports.ban = async (req, res) => {
 exports.unban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: unban });
+    await user.update({ status_id: USER_UNBAN });
     res.status(200).json({
       status: 'success'
     });
