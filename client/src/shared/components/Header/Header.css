@@ -120,10 +120,9 @@
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.06);
   max-width: 200px;
   position: absolute;
-  top: 103px;
-  z-index: 1;
-  right: 100px;
-  height: 0;
+  top: 100px;
+  z-index: 5;
+  right: 20%;
   overflow: hidden;
   -webkit-transition: all 0.9s;
   -o-transition: all 0.9s;

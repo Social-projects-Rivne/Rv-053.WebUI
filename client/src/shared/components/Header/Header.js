@@ -1,104 +1,45 @@
-// import React, { useContext } from 'react';
-// import { NavLink } from 'react-router-dom';
-// import { AuthContext } from '../../context/auth-context';
-
-// import './Header.css';
-
-// const Header = () => {
-//   const auth = useContext(AuthContext);
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-//       <a className="navbar-brand" href="/">
-//         {' '}
-//         <span>E</span>eeeevent
-//       </a>
-//       <button
-//         className="navbar-toggler"
-//         type="button"
-//         data-toggle="collapse"
-//         data-target="#navbarNav"
-//         aria-controls="navbarNav"
-//         aria-expanded="false"
-//         aria-label="Toggle navigation"
-//       >
-//         <span className="navbar-toggler-icon"></span>
-//       </button>
-//       <div className="collapse navbar-collapse" id="navbarNav">
-//         <ul className="navbar-nav">
-//           <li className="nav-item active">
-//             <NavLink className="nav-link" to="/">
-//               Home
-//             </NavLink>
-//           </li>
-//           {auth.isLoggedIn && (
-//             <li className="nav-item active">
-//               <NavLink className="nav-link" to="/addevent">
-//                 Add event
-//               </NavLink>
-//             </li>
-//           )}
-//           <li className="nav-item active">
-//             <NavLink className="nav-link" to="/">
-//               Calendar
-//             </NavLink>
-//           </li>
-//           {auth.isLoggedIn && (
-//             <li className="nav-item active">
-//               <NavLink className="nav-link" to="/profile/my">
-//                 Profile
-//               </NavLink>
-//             </li>
-//           )}
-//           {!auth.isLoggedIn && (
-//             <li className="nav-item active">
-//               <NavLink className="nav-link" to="/auth">
-//                 <button className="btn btn-outline-success btn-block">Sign In</button>
-//               </NavLink>
-//             </li>
-//           )}
-//           {auth.isLoggedIn && (
-//             <li className="nav-item">
-//               <NavLink className="nav-link" to="/">
-//                 <button className="btn btn-outline-success btn-block" onClick={auth.logout}>
-//                   Signout
-//                 </button>
-//               </NavLink>
-//             </li>
-//           )}
-//         </ul>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Header;
-
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-context';
 
 import './Header.css';
 import Logo from '../UI/Logo';
 import Button from '../UI/Button';
+import CalendarList from './CalendarList';
+import CitiesList from './CitiesList';
 
 const Header = () => {
+  const [toggleCalendarState, settoggleCalendarState] = useState({ isShownCalendar: false });
+  const [toggleCitiesState, settoggleCitiesState] = useState({ isShownCities: false });
+
+  const toggleCalendarHandler = () => {
+    let show = toggleCalendarState.isShownCalendar;
+    settoggleCalendarState({ isShownCalendar: !show });
+  };
+  const toggleCitiesHandler = () => {
+    let show = toggleCitiesState.isShownCities;
+    settoggleCitiesState({ isShownCities: !show });
+  };
+
   const auth = useContext(AuthContext);
   return (
-    <header class="header">
-      <div class="my__container">
-        <div class="header__inner">
-          <div class="header__logo">
+    <header className="header">
+      <div className="my__container">
+        <div className="header__inner">
+          <div className="header__logo">
             <Logo />
           </div>
-          <form class="form__search_event">
-            <input type="text" class="header__search" placeholder="Search event.." />
-            <button class="header__submit"></button>
+          <form className="form__search_event">
+            <input type="text" className="header__search" placeholder="Search event.." />
+            <button className="header__submit"></button>
           </form>
-          <div class="header__nav">
-            <button class="header__calendar" onClick={() => console.log('hello')}></button>
-            <button class="header__cities" onClick={() => console.log('hello')}>
+          <div className="header__nav">
+            <button className="header__calendar" onClick={toggleCalendarHandler}></button>
+            {toggleCalendarState.isShownCalendar ? <CalendarList /> : null}
+            <button className="header__cities" onClick={toggleCitiesHandler}>
               Kyiv
             </button>
+            {toggleCitiesState.isShownCities ? <CitiesList /> : null}
             {auth.isLoggedIn && (
               <NavLink className="header__nav-link" to="/profile/my">
                 Profile

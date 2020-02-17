@@ -4,15 +4,7 @@ import { NavLink } from 'react-router-dom';
 import './Button.css';
 
 const Button = props => {
-  return (
-    <React.Fragment>
-      {props.sort == 'button' ? (
-        <button className="button">{props.children}</button>
-      ) : (
-        <NavLink className="button" to="{props.to}"></NavLink>
-      )}
-    </React.Fragment>
-  );
+  return <button className="button">{props.children}</button>;
 };
 
 export default Button;

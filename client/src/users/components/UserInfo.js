@@ -54,10 +54,10 @@ const UserInfo = props => {
             </div>
             <div className="profile-email">{userData.email} </div>
             <div className="profile_btn">
-              <NavLink to="/addevent" className="btn btn-outline-success btn-block">
+              <NavLink to="/addevent" className="link-btn">
                 Add event
               </NavLink>
-              <NavLink to="/" className="btn btn-outline-success btn-block">
+              <NavLink to="/" className="link-btn">
                 Edit profile
               </NavLink>
             </div>
