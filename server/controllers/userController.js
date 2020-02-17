@@ -135,8 +135,8 @@ exports.setRoleToModerator = async (req, res) => {
         status: 'success'
       });
     } else {
-      res.status(304).json({
-        message: 'Role of the moderator is already exist'
+      res.status(400).json({
+        message: "You can't set a Moderator if you are a Moderator!"
       });
     }
   } catch (err) {
@@ -155,11 +155,13 @@ exports.setRoleToUser = async (req, res) => {
         status: 'success'
       });
     } else {
-      res.status(304).json({
-        message: 'Role of the moderator is already exist'
+      res.status(400).json({
+        message: "You can't set a User if you are a User!"
       });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({
+      error: err
+    });
   }
 };
