@@ -13,10 +13,10 @@ const FollowedEventList = () => {
   };
 
   const getEvents = async () => {
-    const res = await axios.get(api_server_url + '/api/user/sub-event', {
+    const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
-    setEvents(res.data.data.subEvent);
+    setEvents(res.data.data.followedEvent);
   };
 
   useEffect(() => {

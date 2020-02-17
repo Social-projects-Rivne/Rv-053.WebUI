@@ -6,6 +6,8 @@ const UserCategory = require('../models').user_category;
 
 const ROLE_USER = 'User';
 const ROLE_MODERATOR = 'Moderator';
+const ban = 2;
+const unban = 1;
 
 exports.getCurrent = async (req, res) => {
   try {
@@ -159,6 +161,34 @@ exports.setRoleToUser = async (req, res) => {
         message: "You can't set a User if you are a User!"
       });
     }
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+};
+
+exports.ban = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    await user.update({ status_id: ban });
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+};
+
+exports.unban = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    await user.update({ status_id: unban });
+    res.status(200).json({
+      status: 'success'
+    });
   } catch (err) {
     res.status(500).json({
       error: err
