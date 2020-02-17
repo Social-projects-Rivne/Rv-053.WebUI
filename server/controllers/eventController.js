@@ -2,6 +2,7 @@ const Event = require('../models').event;
 const User = require('../models').users;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const Redis = require('../services/redisService');
 
 // Get event by ID
 exports.getEventByID = async (req, res) => {
@@ -115,6 +116,7 @@ exports.searchEvent = async (req, res) => {
       limit
     })
       .then(events => {
+        Redis.addUrlInCache(req.baseUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
