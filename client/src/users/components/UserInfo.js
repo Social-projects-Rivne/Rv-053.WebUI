@@ -6,8 +6,8 @@ import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from '../../shared/context/auth-context';
 
 const UserInfo = props => {
-  const auth = useContext(AuthContext);
-  const accessToken = auth.token;
+  const accessToken = useContext(AuthContext).token;
+
   const [userData, setUserData] = useState();
   const userId = useParams().id;
   const headers = {
@@ -19,11 +19,13 @@ const UserInfo = props => {
       const res = await axios.get(api_server_url + '/api/user/current', {
         headers
       });
+      console.log(res);
       setUserData(res.data.data.user);
     } else {
       const res = await axios.get(api_server_url + '/api/user//by-id/' + userId, {
         headers
       });
+
       setUserData(res.data.data.user);
     }
   };
