@@ -1,19 +1,15 @@
+const { Op } = require('sequelize');
 const Event = require('../models').event;
 const User = require('../models').users;
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
-// Get event by ID
 exports.getEventByID = async (req, res) => {
-  // Get event ID from req.params
   const { id } = req.params;
   await Event.findOne({
     where: {
-      id: id
+      id
     },
     include: [
       {
-        // Add info about the user to res
         model: User,
         attributes: ['first_name', 'last_name', 'avatar']
       }
@@ -34,9 +30,7 @@ exports.getEventByID = async (req, res) => {
     });
 };
 
-// Add new event to DB
 exports.createEvent = async (req, res) => {
-  // Get event ID from req.params
   const {
     name,
     description,
@@ -48,12 +42,10 @@ exports.createEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-  const ownerID = req.userId;
 
   await Event.create({
     name,
-    owner_id: 1,
-    // owner_id: req.userId,
+    owner_id: req.userId,
     description,
     location,
     datetime,
@@ -75,13 +67,96 @@ exports.createEvent = async (req, res) => {
     });
 };
 
+exports.updateEvent = async (req, res) => {
+  const {
+    name,
+    description,
+    location,
+    datetime,
+    duration,
+    max_participants,
+    min_age,
+    cover,
+    price
+  } = req.body;
+
+  await Event.update(
+    { name, description, location, datetime, duration, max_participants, min_age, cover, price },
+    {
+      where: {
+        id: req.userId,
+        owner_id: req.userId
+      }
+    }
+  )
+    .then(event => {
+      if (event === null) {
+        res.status(404).json({
+          message: 'Event not found'
+        });
+      }
+      res.status(200).json({ status: 'Event was update successful' });
+    })
+    .catch(err => {
+      res.status(404).json({
+        message: err.message || 'Event not found'
+      });
+    });
+};
+
+exports.deleteEvent = async (req, res) => {
+  await Event.findOne(
+    { status: 'Deleted' },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(event => {
+      if (event === null) {
+        res.status(404).json({
+          message: 'Event not found'
+        });
+      }
+      if (req.userId === event.owner_id || req.role === 'Admin') {
+        Event.update(
+          { status: 'Deleted' },
+          {
+            where: {
+              id: req.params.id
+            }
+          }
+        )
+          .then(() => {
+            res.status(200).json({
+              status: 'Event was deleted'
+            });
+          })
+          .catch(err => {
+            res.status(404).json({
+              message: err.message || 'Event not found'
+            });
+          });
+      }
+      res.status(404).json({
+        message: 'Event not found'
+      });
+    })
+    .catch(err => {
+      res.status(404).json({
+        message: err.message || 'Event not found'
+      });
+    });
+};
+
 exports.searchEvent = async (req, res) => {
-  //If there is query 'q=some text'
   const limit = req.query.limit || 100;
   const offset = req.query.offset || 0;
   if (req.query.q) {
     await Event.findAndCountAll({
       where: {
+        status: 'Active',
         [Op.or]: [
           {
             name: {
@@ -108,12 +183,18 @@ exports.searchEvent = async (req, res) => {
         });
       });
   } else {
-    //Else get all events from DB
-    await Event.findAndCountAll({
-      raw: true,
-      offset,
-      limit
-    })
+    await Event.findAndCountAll(
+      {
+        where: {
+          status: 'Active'
+        }
+      },
+      {
+        raw: true,
+        offset,
+        limit
+      }
+    )
       .then(events => {
         res.status(200).json(events);
       })
