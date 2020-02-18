@@ -94,6 +94,21 @@ exports.getFollowedEvents = async (req, res) => {
   }
 };
 
+exports.unfollowFromEvent = async (req, res) => {
+  try {
+    const event = await UserEvent.findOne({
+      where: { user_id: req.userId },
+      include: [{ model: Event, where: { id: req.params.id } }]
+    });
+    await event.destroy();
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
 exports.getFollowedCategories = async (req, res) => {
   try {
     const followedCategory = await UserCategory.findAll({

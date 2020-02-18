@@ -11,6 +11,7 @@ route.post('/ban/:id', auth, userController.ban);
 route.delete('/unban/:id', auth, userController.unban);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
+route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);
 route.get('/categories', auth, userController.getCategories);
 route.get('/followed-categories', auth, userController.getFollowedCategories);
 
