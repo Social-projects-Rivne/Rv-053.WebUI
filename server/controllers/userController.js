@@ -22,7 +22,7 @@ exports.getCurrent = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -39,7 +39,7 @@ exports.getById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -56,7 +56,7 @@ exports.getEvents = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -73,7 +73,7 @@ exports.getCategories = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -92,7 +92,7 @@ exports.getFollowedEvents = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -107,7 +107,7 @@ exports.unfollowFromEvent = async (req, res) => {
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({ error: err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -126,7 +126,7 @@ exports.getFollowedCategories = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -139,7 +139,7 @@ exports.updateProfile = async (req, res) => {
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -157,9 +157,7 @@ exports.setRoleToModerator = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({
-      error: err
-    });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -177,9 +175,7 @@ exports.setRoleToUser = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({
-      error: err
-    });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -191,9 +187,7 @@ exports.ban = async (req, res) => {
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({
-      error: err
-    });
+    res.status(500).json({ err: err.message });
   }
 };
 
@@ -205,8 +199,6 @@ exports.unban = async (req, res) => {
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({
-      error: err
-    });
+    res.status(500).json({ err: err.message });
   }
 };
