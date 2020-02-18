@@ -26,6 +26,7 @@ exports.getEventByID = async (req, res) => {
           message: 'Event not found'
         });
       }
+      Redis.addUrlInCache(req.baseUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -100,8 +101,9 @@ exports.searchEvent = async (req, res) => {
       limit,
       order: [['datetime', 'DESC']]
     })
-      .then(data => {
-        res.status(200).json(data);
+      .then(events => {
+        Redis.addUrlInCache(req.baseUrl, events);
+        res.status(200).json(events);
       })
       .catch(err => {
         res.status(404).send({

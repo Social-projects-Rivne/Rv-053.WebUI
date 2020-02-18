@@ -10,6 +10,6 @@ router.get('/', CheckUrlInCache, eventController.searchEvent);
 // Create new event
 router.post('/', createEventValidation(), validate, eventController.createEvent);
 // Get info about current event by id
-router.get('/:id', eventController.getEventByID);
+router.get('/:id', CheckUrlInCache, eventController.getEventByID);
 
 module.exports = router;
