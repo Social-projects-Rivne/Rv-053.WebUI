@@ -1,0 +1,27 @@
+.carousel.slide {
+  font-family: 'Quicksand', sans-serif;
+}
+.d-block.w-100 {
+  position: relative;
+}
+.carousel__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  padding: 30px 15px;
+  background-color: rgba(78, 80, 69, 0.3);
+  border-radius: 15px;
+}
+.slider__title {
+  font-family: 'Quicksand', sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 50px;
+  margin-bottom: 50px;
+}
+.slider__btn:hover {
+  background-color: #17a589;
+}
