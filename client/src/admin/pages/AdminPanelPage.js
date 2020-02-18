@@ -1,9 +1,22 @@
 import React from 'react';
 
+import Events from '../components/Events/Event';
+import Logs from '../components/Logs/Logs';
+import Card from '../../shared/components/UI/Card';
+import UsersList from '../components/Users/UsersList';
+
 const AdminPanelPage = () => {
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top"></nav>
+      <Card>
+        <UsersList />
+      </Card>
+      <Card>
+        <Events />
+      </Card>
+      <Card>
+        <Logs />
+      </Card>
     </>
   );
 };

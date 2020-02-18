@@ -3,7 +3,6 @@ import React, { useReducer, useEffect } from 'react';
 import rawCountries from './PhoneCountriesData';
 import './Phone.css';
 import Transition from 'react-transition-group/Transition';
-import RollingAnimation from '../../UI/Animations/RollingAnimation';
 
 const reducer = (state, action) => {
   switch (action.type) {
