@@ -1,51 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from "react";
 
-import EventResultItem from './EventResultItem';
-import './EventsResult.css';
+import EventResultItem from "./EventResultItem";
+import "./EventsResult.css";
+import Search from "../components/search";
+import { EventContext } from "../../shared/context/events-context";
 
 const EventsResult = () => {
-  const events = [
-    {
-      id: 'e1',
-      title: 'Sport competition',
-      category: 'Sport',
-      description: 'lorem ipsum lorem ipsum lorem ipsum...',
-      price: '$100',
-      owner: 'Oleksandr',
-      location: 'Rivne, Korolenka 2',
-      date: '23.09.20'
-    },
-    {
-      id: 'e2',
-      title: 'Sport competition',
-      category: 'Sport',
-      description: 'lorem ipsum lorem ipsum lorem ipsum...',
-      price: '$100',
-      owner: 'Oleksandr',
-      location: 'Rivne, Korolenka 2',
-      date: '23.09.20'
-    },
-    {
-      id: 'e3',
-      title: 'Sport competition',
-      category: 'Sport',
-      description: 'lorem ipsum lorem ipsum lorem ipsum...',
-      price: '$100',
-      owner: 'Oleksandr',
-      location: 'Rivne, Korolenka 2',
-      date: '23.09.20'
-    },
-    {
-      id: 'e4',
-      title: 'Sport competition',
-      category: 'Sport',
-      description: 'lorem ipsum lorem ipsum lorem ipsum...',
-      price: '$100',
-      owner: 'Oleksandr',
-      location: 'Rivne, Korolenka 2',
-      date: '23.09.20'
-    }
-  ];
+  const eventContext = useContext(EventContext);
 
   const [toggleListState, setToggleListState] = useState({ list: true });
   const toggleListHandler = () => {
@@ -64,16 +25,16 @@ const EventsResult = () => {
               <button
                 className={
                   toggleListState.list
-                    ? 'list__events-sort_btn-item icon-th-list active'
-                    : 'list__events-sort_btn-item icon-th-list'
+                    ? "list__events-sort_btn-item icon-th-list active"
+                    : "list__events-sort_btn-item icon-th-list"
                 }
                 onClick={toggleListHandler}
               ></button>
               <button
                 className={
                   !toggleListState.list
-                    ? 'list__events-sort_btn-item icon-th-large active'
-                    : 'list__events-sort_btn-item icon-th-large'
+                    ? "list__events-sort_btn-item icon-th-large active"
+                    : "list__events-sort_btn-item icon-th-large"
                 }
                 onClick={toggleListHandler}
               ></button>
@@ -81,21 +42,27 @@ const EventsResult = () => {
           </div>
           <div
             className={
-              toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
+              toggleListState.list
+                ? "list__events-items"
+                : "list__events-items card-wrapper"
             }
           >
-            {events.map(event => {
+            {eventContext.events.map(event => {
               return (
                 <EventResultItem
                   key={event.id}
-                  className={toggleListState.list ? 'list__events-item' : 'list__events-item card'}
-                  title={event.title}
+                  className={
+                    toggleListState.list
+                      ? "list__events-item"
+                      : "list__events-item card"
+                  }
+                  title={event.name}
                   category={event.category}
                   description={event.description}
                   price={event.price}
                   owner={event.owner}
                   location={event.location}
-                  date={event.date}
+                  date={event.datetime}
                 />
               );
             })}

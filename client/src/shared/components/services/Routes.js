@@ -1,21 +1,21 @@
-import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 
-import { AuthContext } from './../../context/auth-context';
-import SignUpIn from './../../../users/pages/SignUp';
-import AdminPanelPage from '../../../admin/pages/AdminPanelPage';
-import Users from '../../../admin/components/Users/Users';
-import Event from '../../../admin/components/Events/Event';
-import Logs from '../../../admin/components/Logs/Logs';
-import EventsList from './../../../events/pages/EventsList';
-import EventDetails from './../../../events/pages/EventDetails';
-import AddEvent from './../../../events/pages/AddEvent';
-import Notificator from './../../components/UI/Notificator';
-import PageLayout from '../UI/PageLayout';
-import UserProfile from '../../../users/pages/UserProfile';
-import EmailConfirmation from './EmailConfirmation';
-import MainPage from '../../../events/pages/MainPage';
-import EventsResult from './../../../events/pages/EventsResult';
+import { AuthContext } from "./../../context/auth-context";
+import SignUpIn from "./../../../users/pages/SignUp";
+import AdminPanelPage from "../../../admin/pages/AdminPanelPage";
+import Users from "../../../admin/components/Users/Users";
+import Event from "../../../admin/components/Events/Event";
+import Logs from "../../../admin/components/Logs/Logs";
+import EventsList from "./../../../events/pages/EventsList";
+import EventDetails from "./../../../events/pages/EventDetails";
+import AddEvent from "./../../../events/pages/AddEvent";
+import Notificator from "./../../components/UI/Notificator";
+import PageLayout from "../UI/PageLayout";
+import UserProfile from "../../../users/pages/UserProfile";
+import EmailConfirmation from "./EmailConfirmation";
+import MainPage from "../../../events/pages/MainPage";
+import EventsResult from "./../../../events/pages/EventsResult";
 
 const Routes = () => {
   return (
