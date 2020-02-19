@@ -16,9 +16,9 @@ const EventResultItem = props => {
           <div className="list__events-item-price">{props.price}</div>
         </div>
         <div className="list__events-item-bottom_info">
-          <div className="list__events-item-creator"></div>
+          <div className="list__events-item-creator">{props.owner}</div>
           <div className="list__events-item-location">{props.location}</div>
-          <div className="list__events-item-date"></div>
+          <div className="list__events-item-date">{props.datetime}</div>
         </div>
       </div>
     </div>
