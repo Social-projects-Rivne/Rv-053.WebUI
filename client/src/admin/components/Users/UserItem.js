@@ -32,10 +32,10 @@ const UserItem = props => {
   };
 
   const banHandler = () => {
-    if (userStatus === 'active') {
-      setUserStatus('banned');
-    } else if (userStatus === 'banned') {
-      setUserStatus('active');
+    if (userStatus === 'Active') {
+      setUserStatus('Ban');
+    } else if (userStatus === 'Ban') {
+      setUserStatus('Active');
     }
   };
 
@@ -52,8 +52,8 @@ const UserItem = props => {
               />
             </div>
             <div className="float-left">
-              <p>{props.userInfo.name}</p>
-              <p>{props.userInfo.surname}</p>
+              <p>{props.userInfo.first_name}</p>
+              <p>{props.userInfo.last_name}</p>
             </div>
           </div>
         </div>
@@ -86,9 +86,9 @@ const UserItem = props => {
           <p
             className={
               'text-uppercase adminpanel__user-status mx-auto ' +
-              (userStatus === 'active'
+              (userStatus === 'Active'
                 ? 'adminpanel__user-status-active'
-                : userStatus === 'inactive'
+                : userStatus === 'Inactive'
                 ? 'adminpanel__user-status-inactive'
                 : 'adminpanel__user-status-banned')
             }
@@ -103,10 +103,12 @@ const UserItem = props => {
           <div className="col-lg-3 adminpanel__col"></div>
           <div className="col-lg-4 adminpanel__col"></div>
           <div className="col-lg-2 adminpanel__col">
-            <p className="adminpanel__float-left">{props.userInfo.birthday}</p>
+            <p className="adminpanel__float-left">
+              Birthday: {props.userInfo.birthday ? props.userInfo.birthday : 'Unknown'}
+            </p>
           </div>
           <div className="col-lg-2 adminpanel__col">
-            <p className="adminpanel__float-left">{props.userInfo.sex}</p>
+            <p className="adminpanel__float-left">Sex: {props.userInfo.sex}</p>
           </div>
           <div className="col-lg-1 adminpanel__col">
             <button className="btn btn-danger" onClick={banHandler}>
