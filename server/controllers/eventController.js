@@ -61,7 +61,7 @@ exports.createEvent = async (req, res) => {
     // owner_id: req.userId,
     description,
     location,
-    datetime,
+    datetime: new Date(parseInt(datetime)),
     duration,
     max_participants,
     min_age,
