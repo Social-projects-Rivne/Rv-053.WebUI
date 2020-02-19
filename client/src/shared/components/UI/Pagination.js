@@ -1,76 +1,84 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
 
 const Pagination = props => {
-  const [data, setData] = useState({ count: 0 });
-  const [limitItemsOnPage, setLimitItemsOnPage] = useState(0);
-  const [offsetItem, setOffsetItem] = useState(0);
-  const [pagesCount, setPagesCount] = useState(1);
+  const [rowsCount, setRowsCount] = useState(0);
+  const [loadingFlag, setLoadingFlag] = useState(false);
   const [page, setPage] = useState(1);
+  const query = props.query ? props.query : '';
+  const limitItemsOnPage = props.pageItemsLimit ? props.pageItemsLimit : 20;
+  const pagesCount = Math.ceil(rowsCount / limitItemsOnPage);
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getUsersList = async () => {
+  const getItemsList = async () => {
     if (props.api) {
       try {
+        const offsetItem = limitItemsOnPage * (page - 1);
+        setLoadingFlag(true);
         const res = await axios.get(
-          api_server_url + props.api + '?limit=' + limitItemsOnPage + '&offset=' + offsetItem,
+          api_server_url +
+            props.api +
+            '?limit=' +
+            limitItemsOnPage +
+            '&offset=' +
+            offsetItem +
+            query,
           {
             headers
           }
         );
-        setData(res.data);
+        setRowsCount(res.data.count);
+        props.onDataFetch(res.data);
+        setLoadingFlag(false);
       } catch (e) {
         console.log(e);
       }
     }
   };
 
-  const getPagesCount = () => {
-    if (limitItemsOnPage > 0) {
-      const pagesCountCalculation = Math.ceil(data.count / limitItemsOnPage);
-      setPagesCount(pagesCountCalculation);
+  useEffect(() => {
+    getItemsList();
+  }, [page]);
+
+  const formPageNumbers = (start, end) => {
+    const arr = [];
+    for (let i = start; i <= end; i++) {
+      arr.push(i);
     }
+    return arr;
   };
-
-  useEffect(() => {
-    setLimitItemsOnPage(props.limit ? props.limit : 20);
-  }, []);
-
-  useEffect(() => {
-    getPagesCount();
-    if (data) {
-      props.getData(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    getUsersList();
-  }, [limitItemsOnPage, offsetItem]);
 
   let pageNumbers = [];
-
-  for (let i = 1; i <= pagesCount; i++) {
-    pageNumbers.push(i);
+  if (pagesCount <= 5) {
+    pageNumbers = formPageNumbers(1, pagesCount);
+  } else {
+    if (page <= 3) {
+      pageNumbers = formPageNumbers(1, 5);
+    } else if (page > 3 && page <= pagesCount - 3) {
+      pageNumbers = formPageNumbers(page - 2, page + 2);
+    } else if (page > pagesCount - 3) {
+      pageNumbers = formPageNumbers(pagesCount - 4, pagesCount);
+    }
   }
 
-  const PageHandler = pageAction => {
-    if (pageAction === 'next') {
-      setPage(page + 1);
-      setOffsetItem(offsetItem + limitItemsOnPage);
-    } else if (pageAction === 'prev') {
-      setPage(page - 1);
-      setOffsetItem(offsetItem - limitItemsOnPage);
-    } else {
-      setPage(pageAction);
-      setOffsetItem(pageAction * limitItemsOnPage - limitItemsOnPage);
-    }
-  };
+  const PageHandler = useCallback(
+    pageAction => {
+      if (pageAction === 'next') {
+        setPage(page + 1);
+      } else if (pageAction === 'prev') {
+        setPage(page - 1);
+      } else {
+        setPage(pageAction);
+      }
+    },
+    [setPage, page]
+  );
 
   return (
     <>
@@ -78,7 +86,22 @@ const Pagination = props => {
       <nav aria-label="Page navigation">
         <ul className="pagination justify-content-center">
           <li className={'page-item ' + (page < 2 ? 'disabled' : '')}>
-            <button className="page-link" aria-label="Previous" onClick={() => PageHandler('prev')}>
+            <button
+              className="page-link"
+              aria-label="Previous"
+              onClick={() => PageHandler(1)}
+              disabled={loadingFlag}
+            >
+              <span aria-hidden="true">First</span>
+            </button>
+          </li>
+          <li className={'page-item ' + (page < 2 ? 'disabled' : '')}>
+            <button
+              className="page-link"
+              aria-label="Previous"
+              onClick={() => PageHandler('prev')}
+              disabled={loadingFlag}
+            >
               <span aria-hidden="true">&laquo;</span>
             </button>
           </li>
@@ -90,21 +113,39 @@ const Pagination = props => {
                 (page === '...' ? 'disabled' : '')
               }
               key={'pagenumber' + pageNamber}
-              onClick={() => PageHandler(pageNamber)}
             >
-              <button className="page-link" aria-label="Previous">
+              <button
+                className="page-link"
+                aria-label="Previous"
+                onClick={() => PageHandler(pageNamber)}
+                disabled={loadingFlag}
+              >
                 {pageNamber}
               </button>
             </li>
           ))}
           <li className={'page-item ' + (page === pagesCount ? 'disabled' : '')}>
-            <button className="page-link" aria-label="Next" onClick={() => PageHandler('next')}>
+            <button
+              className="page-link"
+              aria-label="Next"
+              onClick={() => PageHandler('next')}
+              disabled={loadingFlag}
+            >
               <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+          <li className={'page-item ' + (page === pagesCount ? 'disabled' : '')}>
+            <button
+              className="page-link"
+              aria-label="Next"
+              onClick={() => PageHandler(pagesCount)}
+              disabled={loadingFlag}
+            >
+              <span aria-hidden="true">Last</span>
             </button>
           </li>
         </ul>
       </nav>
-      {props.children}
     </>
   );
 };

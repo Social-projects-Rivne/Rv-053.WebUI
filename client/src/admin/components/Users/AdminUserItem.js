@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
-import './UserItem.css';
+import './AdminUserItem.css';
 
-const UserItem = props => {
+const AdminUserItem = props => {
   const [extraInfoFlag, setExtraInfoFlag] = useState(false);
   const [editRoleFlag, setEditRoleFlag] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -11,8 +11,8 @@ const UserItem = props => {
 
   useEffect(() => {
     setUserRole(props.userInfo.role);
-    setUserStatus(props.userInfo.user_status.s);
-  }, [setUserRole, props.userInfo.role]);
+    setUserStatus(props.userInfo.user_status.status);
+  }, [setUserRole, props.userInfo]);
 
   useEffect(() => {
     setUserStatus(props.userInfo.user_status.status);
@@ -52,8 +52,8 @@ const UserItem = props => {
               />
             </div>
             <div className="float-left">
-              <p>{props.userInfo.first_name}</p>
-              <p>{props.userInfo.last_name}</p>
+              <p className="text-left">{props.userInfo.first_name}</p>
+              <p className="text-left">{props.userInfo.last_name}</p>
             </div>
           </div>
         </div>
@@ -126,4 +126,4 @@ const UserItem = props => {
   );
 };
 
-export default UserItem;
+export default AdminUserItem;

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
 import {
   VAL_EMAIL,

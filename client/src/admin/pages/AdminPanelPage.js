@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Events from '../components/Events/Event';
-import Logs from '../components/Logs/Logs';
 import Card from '../../shared/components/UI/Card';
-import UsersList from '../components/Users/UsersList';
+import UsersList from '../components/Users/AdminUsersList';
+import EventsList from '../components/Events/AdminEventsList';
+import Logs from '../components/Logs/Logs';
 
 const AdminPanelPage = () => {
   return (
@@ -12,7 +12,7 @@ const AdminPanelPage = () => {
         <UsersList />
       </Card>
       <Card>
-        <Events />
+        <EventsList />
       </Card>
       <Card>
         <Logs />
