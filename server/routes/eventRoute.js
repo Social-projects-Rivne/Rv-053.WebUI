@@ -3,14 +3,14 @@ const eventController = require('../controllers/eventController');
 const router = express.Router();
 
 const { createEventValidation, validate } = require('../middlewares/validator');
+const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
+const auth = require('../middlewares/authorization');
 
-// Search event by name or description/get all event
-router.get('/', eventController.searchEvent);
-// Create new event
-router.post('/', createEventValidation(), validate, eventController.createEvent);
-// Get info about current event by id
-router.get('/:id', eventController.getEventByID);
-router.delete('/:id', eventController.deleteEvent);
-router.put('/:id', eventController.updateEvent);
+router.get('/', auth, CheckUrlInCache, eventController.searchEvent);
+router.post('/', auth, createEventValidation(), validate, eventController.createEvent);
+
+router.get('/:id', auth, CheckUrlInCache, eventController.getEventByID);
+router.delete('/:id', auth, eventController.deleteEvent);
+router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
 
 module.exports = router;

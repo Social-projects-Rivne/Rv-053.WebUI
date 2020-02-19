@@ -1,9 +1,10 @@
 const { Op } = require('sequelize');
 const Event = require('../models').event;
 const User = require('../models').users;
+const Redis = require('../services/redisService');
 
 exports.getEventByID = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params.id;
   await Event.findOne({
     where: {
       id
@@ -21,6 +22,7 @@ exports.getEventByID = async (req, res) => {
           message: 'Event not found'
         });
       }
+      Redis.addUrlInCache(req.baseUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -56,7 +58,7 @@ exports.createEvent = async (req, res) => {
     price
   })
     .then(() => {
-      res.status(200).send({
+      res.status(201).send({
         message: 'Event was create successful'
       });
     })
@@ -68,6 +70,7 @@ exports.createEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
+  const { id } = req.params.id;
   const {
     name,
     description,
@@ -82,44 +85,29 @@ exports.updateEvent = async (req, res) => {
 
   await Event.findOne({
     where: {
-      id: req.userId
+      id
     }
   }).then(event => {
-    const editEvent = {};
-    if (name !== event.name && name !== null) {
-      editEvent.name = name;
-    }
-    if (description !== event.description && description !== null) {
-      editEvent.description = description;
-    }
-    if (location !== event.location && location !== null) {
-      editEvent.location = location;
-    }
-    if (datetime !== event.datetime && datetime !== null) {
-      editEvent.datetime = datetime;
-    }
-    if (duration !== event.duration && duration !== null) {
-      editEvent.duration = duration;
-    }
-    if (max_participants !== event.max_participants && max_participants !== null) {
-      editEvent.max_participants = max_participants;
-    }
-    if (min_age !== event.min_age && min_age !== null) {
-      editEvent.min_age = min_age;
-    }
-    if (cover !== event.cover && cover !== null) {
-      editEvent.cover = cover;
-    }
-    if (price !== event.price && price !== null) {
-      editEvent.price = price;
-    }
     if (req.userId === event.owner_id || req.role === 'Admin') {
-      Event.update(editEvent, {
-        where: {
-          id: req.userId,
-          owner_id: req.userId
+      Event.update(
+        {
+          name,
+          description,
+          location,
+          datetime,
+          duration,
+          max_participants,
+          min_age,
+          cover,
+          price
+        },
+        {
+          where: {
+            id: req.userId,
+            owner_id: req.userId
+          }
         }
-      })
+      )
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
         })
@@ -130,35 +118,13 @@ exports.updateEvent = async (req, res) => {
         });
     }
   });
-
-  await Event.update(
-    { name, description, location, datetime, duration, max_participants, min_age, cover, price },
-    {
-      where: {
-        id: req.userId,
-        owner_id: req.userId
-      }
-    }
-  )
-    .then(event => {
-      if (event === null) {
-        res.status(404).json({
-          message: 'Event not found'
-        });
-      }
-      res.status(200).json({ status: 'Event was update successful' });
-    })
-    .catch(err => {
-      res.status(404).json({
-        message: err.message || 'Event not found'
-      });
-    });
 };
 
 exports.deleteEvent = async (req, res) => {
+  const { id } = req.params.id;
   await Event.findOne({
     where: {
-      id: req.params.id
+      id
     }
   })
     .then(event => {
@@ -172,7 +138,7 @@ exports.deleteEvent = async (req, res) => {
           { status: 'Deleted' },
           {
             where: {
-              id: req.params.id
+              id
             }
           }
         )
@@ -187,8 +153,8 @@ exports.deleteEvent = async (req, res) => {
             });
           });
       }
-      res.status(404).json({
-        message: 'Event not found'
+      res.status(403).json({
+        message: 'Access forbidden'
       });
     })
     .catch(err => {
@@ -222,8 +188,9 @@ exports.searchEvent = async (req, res) => {
       limit,
       order: [['datetime', 'DESC']]
     })
-      .then(data => {
-        res.status(200).json(data);
+      .then(events => {
+        Redis.addUrlInCache(req.baseUrl, events);
+        res.status(200).json(events);
       })
       .catch(err => {
         res.status(404).send({
@@ -240,10 +207,12 @@ exports.searchEvent = async (req, res) => {
       {
         raw: true,
         offset,
-        limit
+        limit,
+        order: [['datetime', 'DESC']]
       }
     )
       .then(events => {
+        Redis.addUrlInCache(req.baseUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
