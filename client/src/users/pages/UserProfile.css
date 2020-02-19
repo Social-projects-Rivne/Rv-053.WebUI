@@ -1,6 +1,8 @@
 .profile-container {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 20px;
 }
 .profile_inner {
@@ -52,10 +54,12 @@
 .profile-name {
   font-size: 30px;
   margin-bottom: 15px;
+  font-family: 'Lato', sans-serif;
 }
 .profile-email {
   font-size: 16px;
   margin-bottom: 30px;
+  font-family: 'Lato', sans-serif;
 }
 .profile-info {
   text-align: center;
@@ -106,6 +110,7 @@
 }
 .event_list-item {
   margin-bottom: 30px;
+  font-family: 'Lato', sans-serif;
 }
 .user_profile_event-item {
   width: 100%;
@@ -128,7 +133,7 @@
   margin-bottom: 18px;
 }
 .profile_categories-item.added {
-  background-color: #58be66;
+  background-color: rgba(45, 169, 145, 0.6);
 }
 @media (max-width: 600px) {
   .profile_inner {

@@ -4,8 +4,10 @@ const UserEvent = require('../models').user_event;
 const Category = require('../models').category;
 const UserCategory = require('../models').user_category;
 
-const ban = 2;
-const unban = 1;
+const ROLE_USER = 'User';
+const ROLE_MODERATOR = 'Moderator';
+const USER_BAN = 2;
+const USER_UNBAN = 1;
 
 exports.getCurrent = async (req, res) => {
   try {
@@ -126,26 +128,70 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+exports.setRoleToModerator = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user.role === ROLE_USER) {
+      await user.update({ role: ROLE_MODERATOR });
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(400).json({
+        message: "You can't set a Moderator if you are a Moderator!"
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+};
+
+exports.setRoleToUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user.role === ROLE_MODERATOR) {
+      await user.update({ role: ROLE_USER });
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(400).json({
+        message: "You can't set a User if you are a User!"
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+};
+
 exports.ban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: ban });
+    await user.update({ status_id: USER_BAN });
     res.status(200).json({
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({
+      error: err
+    });
   }
 };
 
 exports.unban = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: unban });
+    await user.update({ status_id: USER_UNBAN });
     res.status(200).json({
       status: 'success'
     });
   } catch (err) {
-    res.status(500).json({ error: err.message ? err.message : err });
+    res.status(500).json({
+      error: err
+    });
   }
 };
