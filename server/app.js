@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -10,7 +11,7 @@ const adminAuth = require("./middlewares/adminAuthorization");
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3001"
+    origin: process.env.FRONT_HOST
   })
 );
 // Parse incoming requests data
