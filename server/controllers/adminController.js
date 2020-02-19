@@ -67,7 +67,10 @@ exports.getAllEventsOrSearch = async (req, res) => {
       include: { model: User, attributes: ['id', 'first_name', 'last_name', 'email'] },
       offset,
       limit,
-      order: [['id', 'DESC']]
+      order: [
+        ['datetime', 'DESC'],
+        ['id', 'DESC']
+      ]
     });
 
     res.status(200).json(events);
