@@ -140,19 +140,24 @@ exports.filterEvent = async (req, res) => {
   let includeQuery = null;
 
   if (startDate !== null && endDate === null) {
-    searchQuery.datetime = { [Op.gte]: parseInt(startDate) };
+    searchQuery.datetime = { [Op.gte]: isNaN(parseInt(startDate)) ? 0 : parseInt(startDate) };
   }
   if (startDate !== null && endDate !== null) {
-    searchQuery.datetime = { [Op.between]: [parseInt(startDate), parseInt(endDate)] };
+    searchQuery.datetime = {
+      [Op.between]: [
+        isNaN(parseInt(startDate)) ? 0 : parseInt(startDate),
+        isNaN(parseInt(endDate)) ? 0 : parseInt(endDate)
+      ]
+    };
   }
   if (startDate === null && endDate !== null) {
-    searchQuery.datetime = { [Op.lte]: parseInt(endDate) };
+    searchQuery.datetime = { [Op.lte]: isNaN(parseInt(endDate)) ? 0 : parseInt(endDate) };
   }
   if (category !== null) {
     includeQuery = {
       model: Categories,
       where: {
-        id: category
+        id: isNaN(parseInt(category)) ? 0 : parseInt(category)
       }
     };
   }
