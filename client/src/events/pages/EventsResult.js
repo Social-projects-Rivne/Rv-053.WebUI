@@ -1,19 +1,48 @@
-import React, { useState, useContext } from "react";
-
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import EventResultItem from "./EventResultItem";
 import "./EventsResult.css";
-import Search from "../components/search";
 import { EventContext } from "../../shared/context/events-context";
+import { useLocation } from "react-router-dom";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const EventsResult = () => {
+  const urlParams = useQuery();
   const eventContext = useContext(EventContext);
 
+  const searchQuery = urlParams.get("query");
+
+  const [allEvents, setAllEvents] = useState([]);
   const [toggleListState, setToggleListState] = useState({ list: true });
   const toggleListHandler = () => {
     let isList = toggleListState.list;
     setToggleListState({ list: !isList });
     console.log(window.screen.width);
   };
+
+  const getAllEvents = () => {
+    console.log("AAAAAA");
+    axios({
+      method: "get",
+      url: `http://localhost:5001/api/events`,
+      params: {
+        q: searchQuery
+      }
+    }).then(response => {
+      setAllEvents(response.data.rows);
+    });
+  };
+
+  useEffect(() => {
+    eventContext.setEvents(allEvents);
+  }, [allEvents]);
+
+  useEffect(() => {
+    getAllEvents();
+  }, [searchQuery]);
 
   return (
     <section className="list__events">
