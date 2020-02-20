@@ -137,7 +137,7 @@ exports.filterEvent = async (req, res) => {
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
   let searchQuery = {};
-  let includeQuery = {};
+  let includeQuery = null;
 
   if (startDate !== null && endDate === null) {
     searchQuery.datetime = { [Op.gte]: parseInt(startDate) };

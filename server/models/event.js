@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE
       },
       duration: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
       },
       max_participants: {
         type: DataTypes.INTEGER
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       status: {
-        type: DataTypes.ENUM('Active', 'Passed', 'Canceled'),
+        type: DataTypes.ENUM('Active', 'Banned', 'Deleted'),
         allowNull: false,
         defaultValue: 'Active'
       },
