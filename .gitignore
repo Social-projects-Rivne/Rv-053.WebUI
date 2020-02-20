@@ -108,3 +108,4 @@ dist
 .eslintrc.json
 
 data/
+redis/**

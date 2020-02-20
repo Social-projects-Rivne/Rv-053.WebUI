@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const CreatedEventItem = props => {
+const EventItem = props => {
   return (
     <NavLink to="/" className="user_profile_event-item">
       <div>{props.title}</div>
@@ -10,4 +10,4 @@ const CreatedEventItem = props => {
   );
 };
 
-export default CreatedEventItem;
+export default EventItem;

@@ -16,7 +16,8 @@
     "react-map-gl": "^5.2.2",
     "react-mapbox-gl-geocoder": "^1.1.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "react-transition-group": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.0",

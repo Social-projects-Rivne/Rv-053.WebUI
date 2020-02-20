@@ -1,16 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const config = require('config');
 const cors = require('cors');
 const db = require('./models');
-const auth = require('./middlewares/authorization');
 const cookieParser = require('cookie-parser');
+const adminAuth = require('./middlewares/adminAuthorization');
 
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:3001'
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONT_HOST
+  })
+);
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(
@@ -18,15 +21,13 @@ app.use(
     extended: false
   })
 );
+
 app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
+app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 
-//Example:
-//Check if user authorized
-//app.use('/api/users', auth, require('./routes/usersRoute'));
-
-// set port
 const PORT = config.get('port') || 5000;
 
 async function start() {

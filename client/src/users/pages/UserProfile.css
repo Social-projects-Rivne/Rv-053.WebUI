@@ -1,6 +1,8 @@
 .profile-container {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 20px;
 }
 .profile_inner {
@@ -11,34 +13,53 @@
 .profile-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
   margin-bottom: 30px;
 }
-.profile-avatar {
+.profile-avatar__wrapper {
   text-align: center;
 }
-.profile-avatar span {
+.profile-avatar {
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   background-color: #cdcdcd;
   border-radius: 50%;
-  font-size: 0;
   text-align: center;
   line-height: 150px;
-  color: #4e4e4e;
-  transition: all 0.3s cubic-bezier(0.4, 0, 1, 1);
+  position: relative;
+  overflow: hidden;
 }
-.profile-avatar span:hover {
-  font-size: 18px;
+.profile-avatar__body {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 40%;
+  right: 50%;
+  transform: translate(50%);
+  top: 90px;
+}
+.profile-avatar__head {
+  position: absolute;
+  background-color: #fff;
+  width: 55px;
+  height: 55px;
+  right: 50%;
+  transform: translate(50%);
+  top: 25px;
+  border-radius: 50%;
 }
 .profile-name {
   font-size: 30px;
   margin-bottom: 15px;
+  font-family: 'Lato', sans-serif;
 }
 .profile-email {
   font-size: 16px;
   margin-bottom: 30px;
+  font-family: 'Lato', sans-serif;
 }
 .profile-info {
   text-align: center;
@@ -64,16 +85,11 @@
   border: none;
   display: inline-block;
   background-color: #ddd;
-  padding: 5px 20px 5px 30px;
+  padding: 5px 20px;
   border-radius: 25px;
   position: relative;
   font-size: 15px;
   margin: 10px 10px 10px 0;
-}
-.profile_categories-item::before {
-  content: '#';
-  position: absolute;
-  left: 15px;
 }
 .profile_categories-item:focus {
   outline: none;
@@ -94,6 +110,7 @@
 }
 .event_list-item {
   margin-bottom: 30px;
+  font-family: 'Lato', sans-serif;
 }
 .user_profile_event-item {
   width: 100%;
@@ -116,7 +133,7 @@
   margin-bottom: 18px;
 }
 .profile_categories-item.added {
-  background-color: #58be66;
+  background-color: rgba(45, 169, 145, 0.6);
 }
 @media (max-width: 600px) {
   .profile_inner {

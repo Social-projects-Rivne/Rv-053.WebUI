@@ -1,16 +1,23 @@
-.navbar {
-  display: none !important;
-}
 .addEvent {
   padding: 0;
-  width: 70%;
+  padding-bottom: 20px;
+  width: 55%;
+  /* height: 700px; */
   margin: 5rem auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 .addEvent h2 {
   color: white;
   text-align: center;
   background-color: #16a085;
   padding: 5px;
+}
+.addEvent h3 {
+  color: white;
+  text-align: center;
+  background-color: #16a085;
+  padding: 10px;
+  margin-bottom: 30px;
 }
 
 label {
@@ -24,11 +31,13 @@ label {
 
 .addBtn {
   text-align: right;
-  margin: 20px 190px 0 0;
+  margin-top: 20px;
 }
 
 .addBtn button {
-  margin-left: 10px;
+  width: 80px;
+  margin-left: 12px;
+  color: #16a085;
 }
 
 ol.progtrckr {
@@ -76,7 +85,7 @@ ol.progtrckr li.progtrckr-done {
   border-bottom: 4px solid #16a085;
 }
 ol.progtrckr li:after {
-  content: '\00a0\00a0';
+  content: "\00a0\00a0";
 }
 ol.progtrckr li:before {
   position: relative;
@@ -85,7 +94,7 @@ ol.progtrckr li:before {
   left: 50%;
 }
 ol.progtrckr li.progtrckr-todo:before {
-  content: '\039F';
+  content: "\039F";
   color: silver;
   background-color: white;
   width: 1.2em;
@@ -96,7 +105,7 @@ ol.progtrckr li.progtrckr-todo:hover:before {
 }
 
 ol.progtrckr li.progtrckr-doing:before {
-  content: '\2022';
+  content: "\2022";
   color: white;
   background-color: #16a085;
   width: 1.2em;
@@ -108,7 +117,7 @@ ol.progtrckr li.progtrckr-doing:hover:before {
 }
 
 ol.progtrckr li.progtrckr-done:before {
-  content: '\2713';
+  content: "\2713";
   color: white;
   background-color: #16a085;
   width: 1.2em;
