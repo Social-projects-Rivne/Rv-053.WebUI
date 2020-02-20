@@ -11,7 +11,7 @@ router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.post('/', createEventValidation(), validate, eventController.createEvent);
 // Get info about current event by id
 
-router.get('/filter', eventController.filterEvent);
+router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.get('/:id', CheckUrlInCache, eventController.getEventByID);
 
 module.exports = router;
