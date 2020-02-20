@@ -6,6 +6,7 @@ import { VAL_REQUIRED } from "../../../shared/utilities/validation";
 
 import Input from "../../../shared/components/FormElements/Input";
 import Price from "../../../shared/components/FormElements/Price";
+import Number from "../../../shared/components/FormElements/Number";
 import Switch from "../../../shared/components/FormElements/Checkbox";
 
 const StepThree = props => {
@@ -66,7 +67,7 @@ const StepThree = props => {
           onInput={inputHandler}
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
-          className="form-control"
+          className="price-div"
         />
       ) : null}
       <Switch
@@ -80,7 +81,7 @@ const StepThree = props => {
         onColor="#16a085"
       />
       {ageChechbox ? (
-        <Input
+        <Number
           id="age"
           type="number"
           label="The min age of participants"
@@ -90,7 +91,7 @@ const StepThree = props => {
           onInput={inputHandler}
           validations={[VAL_REQUIRED()]}
           errorMessage="The field is required"
-          className="form-control"
+          className="price-div"
         />
       ) : null}
       <Switch
@@ -105,7 +106,7 @@ const StepThree = props => {
         onColor="#16a085"
       />
       {amountCheckbox ? (
-        <Input
+        <Number
           id="amount"
           type="number"
           label="The max amount of participants"
@@ -119,13 +120,13 @@ const StepThree = props => {
         />
       ) : null}
       <div className="addBtn">
-      <button className="btn btn-outline-success" onClick={back}>
-        Back
-      </button>
-      <button className="btn btn-outline-success" onClick={cont}>
-        Next
-      </button>
-    </div>
+        <button className="btn btn-outline-success" onClick={back}>
+          Back
+        </button>
+        <button className="btn btn-outline-success" onClick={cont}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };

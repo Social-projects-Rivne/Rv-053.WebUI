@@ -64,7 +64,7 @@ export const AddEvent = () => {
       );
     case 3:
       return (
-        <div className="addEvent">
+        <div className="addEvent3">
           <h3>Add some details</h3>
         <StepThree 
         nextStep={nextStep} 

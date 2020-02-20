@@ -62,8 +62,9 @@ const StepTwo = props => {
   };
 
   return (
-    <div className="form-group">
+    <div>
       <Map id="map" />
+      <div className="form-group">
       <div className="addBtn">
       <button className="btn btn-outline-success" onClick={back}>
         Back
@@ -72,6 +73,7 @@ const StepTwo = props => {
         Next
       </button>
       </div>
+    </div>
     </div>
   );
 };

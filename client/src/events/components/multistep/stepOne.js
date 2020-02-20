@@ -1,10 +1,10 @@
-import React, { useReducer, useEffect } from "react";
-// import DatePicker from "react-datepicker";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import Input from "../../../shared/components/FormElements/Input";
 import Selector from "../../../shared/components/FormElements/Select";
 import { useForm } from "../../../shared/hooks/useForm";
-import Card from "../../../shared/components/UI/Card";
 import "../../pages/AddEvent.css";
 
 import {
@@ -31,6 +31,9 @@ const StepOne = props => {
 
     false
   );
+
+  const [startDate, setStartDate] = useState(new Date());
+
   const cont = e => {
     e.preventDefault();
     props.nextStep();
@@ -66,6 +69,13 @@ const StepOne = props => {
         errorMessage="Write at least 5 characters!"
         className="form-control"
       />
+      <label className="datelab">Select the date</label>
+        <DatePicker
+          selected={startDate}
+          onChange={date => setStartDate(date)}
+          className="form-control date-control"
+        />
+      
       <div className="addBtn">
         <button className="btn btn-outline-success" onClick={cont}>
           Next

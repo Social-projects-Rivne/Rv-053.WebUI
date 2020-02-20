@@ -2,15 +2,24 @@
   padding: 0;
   padding-bottom: 20px;
   width: 55%;
-  /* height: 700px; */
+  height: 600px;
   margin: 5rem auto;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
-.addEvent h2 {
+.addEvent3 {
+  padding: 0;
+  padding-bottom: 20px;
+  width: 55%;
+  height: 600px;
+  margin: 5rem auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.addEvent3 h3 {
   color: white;
   text-align: center;
   background-color: #16a085;
-  padding: 5px;
+  padding: 10px;
+  margin-bottom: 30px;
 }
 .addEvent h3 {
   color: white;
@@ -37,96 +46,38 @@ label {
 .addBtn button {
   width: 80px;
   margin-left: 12px;
-  color: #16a085;
+  color: #16a085 !important;
+  border-color: #16a085 !important;
 }
 
-ol.progtrckr {
-  margin: 0;
-  padding-bottom: 2.2rem;
-  list-style-type: none;
-  text-align: center;
+.addBtn button:hover {
+  background-color: #16a085 !important;
+  color: white !important;
 }
-ol.progtrckr li {
+
+.react-switch-div {
   display: inline-block;
-  text-align: center;
-  line-height: 4.5rem;
-  padding: 0 0.7rem;
-  cursor: pointer;
-}
-ol.progtrckr li span {
-  padding: 0 1.5rem;
-}
-@media (max-width: 650px) {
-  .progtrckr li span {
-    display: none;
-  }
-}
-.progtrckr em {
-  display: none;
-  font-weight: 700;
-  padding-left: 1rem;
-}
-@media (max-width: 650px) {
-  .progtrckr em {
-    display: inline;
-  }
+  margin-left: 65px;
+  width: 38%;
 }
 
-ol.progtrckr li.progtrckr-todo {
-  color: silver;
-  border-bottom: 4px solid silver;
-}
-ol.progtrckr li.progtrckr-doing {
-  color: black;
-  border-bottom: 4px solid #16a085;
-}
-ol.progtrckr li.progtrckr-done {
-  color: black;
-  border-bottom: 4px solid #16a085;
-}
-ol.progtrckr li:after {
-  content: "\00a0\00a0";
-}
-ol.progtrckr li:before {
-  position: relative;
-  bottom: -3.7rem;
-  float: left;
-  left: 50%;
-}
-ol.progtrckr li.progtrckr-todo:before {
-  content: "\039F";
-  color: silver;
-  background-color: white;
-  width: 1.2em;
-  line-height: 1.4em;
-}
-ol.progtrckr li.progtrckr-todo:hover:before {
-  color: #16a085;
+.price-div {
+  display: inline-block;
 }
 
-ol.progtrckr li.progtrckr-doing:before {
-  content: "\2022";
-  color: white;
-  background-color: #16a085;
-  width: 1.2em;
-  line-height: 1.2em;
-  border-radius: 1.2em;
+.react-datepicker__input-container {
+  margin-left: 68px;
 }
-ol.progtrckr li.progtrckr-doing:hover:before {
-  color: #16a085;
+.react-datepicker-wrapper {
+  display: block;
 }
 
-ol.progtrckr li.progtrckr-done:before {
-  content: "\2713";
-  color: white;
-  background-color: #16a085;
-  width: 1.2em;
-  line-height: 1.2em;
-  border-radius: 1.2em;
+.datelab {
+  margin-left: 65px;
 }
-ol.progtrckr li.progtrckr-done:hover:before {
-  color: #16a085;
+.form-control.react-datepicker-ignore-onclickoutside {
+  width: 80% !important;
 }
-/* .containerAdd {
-  height: 500px;
-} */
+.form-control.date-control {
+  width: 80% !important;
+}
