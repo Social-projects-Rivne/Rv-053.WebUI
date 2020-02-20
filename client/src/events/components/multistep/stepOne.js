@@ -4,6 +4,8 @@ import React, { useReducer, useEffect } from "react";
 import Input from "../../../shared/components/FormElements/Input";
 import Selector from "../../../shared/components/FormElements/Select";
 import { useForm } from "../../../shared/hooks/useForm";
+import Card from "../../../shared/components/UI/Card";
+import "../../pages/AddEvent.css";
 
 import {
   VAL_MIN_LENGTH,
@@ -63,7 +65,10 @@ const StepOne = props => {
 
     false
   );
-
+  const cont = e => {
+    e.preventDefault();
+    props.nextStep();
+  };
   return (
     <div className="form-group">
       <Input
@@ -95,6 +100,11 @@ const StepOne = props => {
         errorMessage="Write at least 5 characters!"
         className="form-control"
       />
+      <div className="addBtn">
+      <button className="btn btn-outline-success" onClick={cont}>
+        Next
+      </button>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,13 @@
+.shaking-element {
+  animation: 50ms linear 0s 4 alternate shake;
+}
+@keyframes shake {
+  from {
+    margin-left: -0.5rem;
+    margin-right: 0.5rem;
+  }
+  to {
+    margin-left: 0.5rem;
+    margin-right: -0.5rem;
+  }
+}

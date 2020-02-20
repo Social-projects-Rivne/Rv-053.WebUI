@@ -1,0 +1,14 @@
+.rolling-element {
+  display: block !important;
+  max-height: 1000px !important;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+.rolling-element-show {
+  display: block !important;
+  max-height: 1000px !important;
+}
+.rolling-element-hide {
+  display: block !important;
+  max-height: 0px !important;
+}

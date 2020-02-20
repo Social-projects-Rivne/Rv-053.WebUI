@@ -1,33 +1,33 @@
 .form-input {
-	margin: 1rem 0;
+  margin: 1rem 0;
 }
 
 .form-input label,
 .form-input input,
 .form-input textarea {
-	display: block;
+  display: block;
 }
 
 .form-input label {
-	font-weight: bold;
-	margin-bottom: 0.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .form-input input,
 .form-input textarea {
-	width: 100%;
-	font: inherit;
-	border: 1px solid #ccc;
-	background: #f8f8f8;
-	padding: 0.1rem 0.2rem;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  padding: 0.1rem 0.2rem;
 }
 
 .form-input input:focus,
 .form-input textarea:focus {
-	outline: none;
-	background: #ebebeb;
-	border-color: #1a0077;
+  outline: none;
+  background: #ebebeb;
+  border-color: #1a0077;
 }
 .invalid-feedback {
-	/* display: block !important; */
+  display: block !important;
 }

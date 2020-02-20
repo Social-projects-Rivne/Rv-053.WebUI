@@ -8,7 +8,7 @@ import Input from "../../../shared/components/FormElements/Input";
 import Price from "../../../shared/components/FormElements/Price";
 import Switch from "../../../shared/components/FormElements/Checkbox";
 
-const StepThree = () => {
+const StepThree = props => {
   const [formState, inputHandler] = useForm(
     {
       price: {
@@ -30,6 +30,15 @@ const StepThree = () => {
   const [priceChechbox, setPriceChechbox] = useState(false);
   const [ageChechbox, setAgeChechbox] = useState(false);
   const [amountCheckbox, setAmount] = useState(false);
+
+  const cont = e => {
+    e.preventDefault();
+    props.nextStep();
+  };
+  const back = e => {
+    e.preventDefault();
+    props.prevStep();
+  };
 
   return (
     <div className="form-group">
@@ -109,6 +118,12 @@ const StepThree = () => {
           className="form-control"
         />
       ) : null}
+      <button className="btn btn-outline-success" onClick={cont}>
+        Next
+      </button>
+      <button className="btn btn-outline-success" onClick={back}>
+        Back
+      </button>
     </div>
   );
 };

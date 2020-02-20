@@ -8,7 +8,7 @@ class EventInList extends Component {
     const { eventInfo } = this.props;
     return (
       <div className="cardish">
-        <img src={eventInfo.imageSrc} className="card-img-top" alt="..." />
+        <img src={eventInfo.cover} className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">{eventInfo.name}</h5>
           <p className="card-text">{eventInfo.description}</p>

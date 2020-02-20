@@ -11,7 +11,7 @@ import {
   VAL_REQUIRED
 } from "../../../shared/utilities/validation";
 
-const StepTwo = () => {
+const StepTwo = props => {
   const [formState, inputHandler] = useForm(
     {
       title: {
@@ -51,8 +51,27 @@ const StepTwo = () => {
     event.preventDefault();
     console.log(formState.inputs);
   };
+  const cont = e => {
+    e.preventDefault();
+    props.nextStep();
+  };
+  const back = e => {
+    e.preventDefault();
+    props.prevStep();
+  };
 
-  return <Map id="map" />;
+  return (
+    <div>
+      <Map id="map" />
+
+      <button className="btn btn-outline-success" onClick={cont}>
+        Next
+      </button>
+      <button className="btn btn-outline-success" onClick={back}>
+        Back
+      </button>
+    </div>
+  );
 };
 
 export default StepTwo;

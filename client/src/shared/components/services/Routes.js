@@ -1,18 +1,21 @@
-import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 
-import { AuthContext } from './../../context/auth-context';
-import SignUpIn from './../../../users/pages/SignUp';
-import AdminPanelPage from '../../../admin/pages/AdminPanelPage';
-import Users from '../../../admin/components/Users/Users';
-import Event from '../../../admin/components/Events/Event';
-import Logs from '../../../admin/components/Logs/Logs';
-import EventsList from './../../../events/pages/EventsList';
-import EventDetails from './../../../events/pages/EventDetails';
-import AddEvent from './../../../events/pages/AddEvent';
-import Notificator from './../../components/UI/Notificator';
-import HeaderLayout from '../UI/HeaderLayout';
-import UserProfile from '../../../users/pages/UserProfile';
+import { AuthContext } from "./../../context/auth-context";
+import SignUpIn from "./../../../users/pages/SignUp";
+import AdminPanelPage from "../../../admin/pages/AdminPanelPage";
+import Users from "../../../admin/components/Users/Users";
+import Event from "../../../admin/components/Events/Event";
+import Logs from "../../../admin/components/Logs/Logs";
+import EventsList from "./../../../events/pages/EventsList";
+import EventDetails from "./../../../events/pages/EventDetails";
+import AddEvent from "./../../../events/pages/AddEvent";
+import Notificator from "./../../components/UI/Notificator";
+import PageLayout from "../UI/PageLayout";
+import UserProfile from "../../../users/pages/UserProfile";
+import EmailConfirmation from "./EmailConfirmation";
+import MainPage from "../../../events/pages/MainPage";
+import EventsResult from "./../../../events/pages/EventsResult";
 
 const Routes = () => {
   return (
@@ -21,57 +24,58 @@ const Routes = () => {
         context.token ? (
           <Switch>
             <Route path="/" exact>
-              <HeaderLayout innerComponent={<EventsList />} />
+              <PageLayout innerComponent={<MainPage />} />
+            </Route>
+            <Route path="/events" exact>
+              <PageLayout innerComponent={<EventsResult />} />
             </Route>
             <Route path="/event/details">
-              <HeaderLayout innerComponent={<EventDetails />} />
+              <PageLayout innerComponent={<EventDetails />} />
             </Route>
 
             <Route path="/profile/my">
-              <HeaderLayout innerComponent={<UserProfile />} />
+              <PageLayout innerComponent={<UserProfile />} />
             </Route>
             <Route path="/redirect">
-              <HeaderLayout innerComponent={<Notificator />} />
+              <PageLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/confirmemail/:token">
+              <PageLayout innerComponent={<EmailConfirmation />} />
             </Route>
             {/* next routes for admin panel */}
             <Route path="/adminpanelpage" exact>
-              <HeaderLayout innerComponent={<AdminPanelPage />} isAdmin />
+              <PageLayout innerComponent={<AdminPanelPage />} isAdmin />
             </Route>
             <Route path="/adminpanelpage/users">
-              <HeaderLayout innerComponent={<Users />} isAdmin />
+              <PageLayout innerComponent={<Users />} isAdmin />
             </Route>
             <Route path="/adminpanelpage/events">
-              <HeaderLayout innerComponent={<Event />} isAdmin />
+              <PageLayout innerComponent={<Event />} isAdmin />
             </Route>
             <Route path="/adminpanelpage/logs">
-              <HeaderLayout innerComponent={<Logs />} isAdmin />
+              <PageLayout innerComponent={<Logs />} isAdmin />
             </Route>
             <Redirect to="/" />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact>
-              <HeaderLayout>
-                <EventsList />
-              </HeaderLayout>
+              <PageLayout innerComponent={<MainPage />} />
             </Route>
             <Route path="/event/details">
-              <HeaderLayout>
-                <EventDetails />
-              </HeaderLayout>
+              <PageLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/addevent">
-              <HeaderLayout innerComponent={<AddEvent />} />
+              <PageLayout innerComponent={<AddEvent />} />
             </Route>
             <Route path="/auth">
-              <HeaderLayout>
-                <SignUpIn />
-              </HeaderLayout>
+              <PageLayout innerComponent={<SignUpIn />} />
             </Route>
             <Route path="/redirect">
-              <HeaderLayout>
-                <Notificator />
-              </HeaderLayout>
+              <PageLayout innerComponent={<Notificator />} />
+            </Route>
+            <Route path="/confirmemail/:token">
+              <PageLayout innerComponent={<EmailConfirmation />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>
