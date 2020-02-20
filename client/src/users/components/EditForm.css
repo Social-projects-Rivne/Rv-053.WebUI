@@ -1,0 +1,20 @@
+.change_sex-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.change_sex {
+  position: absolute;
+  top: 32px;
+  right: 15px;
+  background-color: transparent;
+  border: none;
+}
+.change_sex:before {
+  position: absolute;
+  content: '\f054';
+  font-family: 'icomoon';
+  font-size: 15px;
+}
+.button_block {
+  display: block;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from '../../shared/components/UI/Card';
 import Input from '../../shared/components/FormElements/Input';
+import Button from './../../shared/components/UI/Button';
 import {
   VAL_EMAIL,
   VAL_REQUIRED,
@@ -60,13 +61,11 @@ const Signup = props => {
           errorMessage="Phone a valid Number"
           className="form-control"
         />
-        <button className="btn btn-outline-primary float-right" type="submit">
-          Sign Up
-        </button>
+        <div className="btn-container">
+          <Button>Sign Up</Button>
+          <Button onClick={props.signInUpHandler}>Switch to Sign In</Button>
+        </div>
       </form>
-      <button className="btn btn-outline-primary mb-4" onClick={props.signInUpHandler}>
-        Switch to Sign In
-      </button>
     </>
   );
 };

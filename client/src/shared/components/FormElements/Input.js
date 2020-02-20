@@ -84,6 +84,8 @@ const Input = props => {
         onBlur={blurHandler}
         onChange={typingHandler}
         type={props.type}
+        min={props.min}
+        max={props.max}
       />
     );
   } else if (props.type === 'date') {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
+import Button from './../../shared/components/UI/Button';
 import { VAL_EMAIL, VAL_REQUIRED } from '../../shared/utilities/validation';
 
 const Signin = props => {
@@ -26,13 +27,11 @@ const Signin = props => {
           errorMessage="Password is required"
           className="form-control"
         />
-        <button className="btn btn-outline-primary float-right" type="submit">
-          Sign In
-        </button>
+        <div className="btn-container">
+          <Button onClick={props.signInUpHandler}>Switch to Sign Up</Button>
+          <Button type="submit">Sign In</Button>{' '}
+        </div>
       </form>
-      <button className="btn btn-outline-primary mb-4" onClick={props.signInUpHandler}>
-        Switch to Sign Up
-      </button>
     </>
   );
 };

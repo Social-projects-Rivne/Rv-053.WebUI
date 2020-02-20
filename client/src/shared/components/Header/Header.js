@@ -7,6 +7,7 @@ import Logo from '../UI/Logo';
 import Button from '../UI/Button';
 import CalendarList from './CalendarList';
 import CitiesList from './CitiesList';
+import RollingAnimation from '../UI/Animations/RollingAnimation';
 
 const Header = () => {
   const [toggleCalendarState, settoggleCalendarState] = useState({ isShownCalendar: false });
@@ -35,7 +36,15 @@ const Header = () => {
           </form>
           <div className="header__nav">
             <button className="header__calendar" onClick={toggleCalendarHandler}></button>
-            {toggleCalendarState.isShownCalendar ? <CalendarList /> : null}
+            <RollingAnimation
+              triger={toggleCalendarState.isShownCalendar}
+              timeout={300}
+              mountOnEnter
+              unmountOnExit
+            >
+              <CalendarList />
+            </RollingAnimation>
+            {/* {toggleCalendarState.isShownCalendar ? <CalendarList /> : null} */}
             <button className="header__cities" onClick={toggleCitiesHandler}>
               Kyiv
             </button>
