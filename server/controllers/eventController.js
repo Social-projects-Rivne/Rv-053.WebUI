@@ -1,5 +1,6 @@
 const Event = require('../models').event;
 const User = require('../models').users;
+const Categories = require('../models').category;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Redis = require('../services/redisService');
@@ -127,4 +128,49 @@ exports.searchEvent = async (req, res) => {
         });
       });
   }
+};
+
+exports.filterEvent = async (req, res) => {
+  const limit = req.query.limit || null;
+  const offset = req.query.offset || 0;
+  const startDate = req.query.startDate || null;
+  const endDate = req.query.endDate || null;
+  const category = req.query.category || null;
+  let searchQuery = {};
+  let includeQuery = {};
+
+  if (startDate !== null && endDate === null) {
+    searchQuery.datetime = { [Op.gte]: parseInt(startDate) };
+  }
+  if (startDate !== null && endDate !== null) {
+    searchQuery.datetime = { [Op.between]: [parseInt(startDate), parseInt(endDate)] };
+  }
+  if (startDate === null && endDate !== null) {
+    searchQuery.datetime = { [Op.lte]: parseInt(endDate) };
+  }
+  if (category !== null) {
+    includeQuery = {
+      model: Categories,
+      where: {
+        id: category
+      }
+    };
+  }
+
+  await Event.findAndCountAll({
+    where: searchQuery,
+    include: includeQuery,
+    offset,
+    limit,
+    order: [['datetime', 'DESC']]
+  })
+    .then(events => {
+      Redis.addUrlInCache(req.baseUrl, events);
+      res.status(200).json(events);
+    })
+    .catch(err => {
+      res.status(404).send({
+        message: err.message || 'Not found'
+      });
+    });
 };

@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define(
-    'event', {
+    'event',
+    {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       datetime: {
-        type: DataTypes.DATEONLY
+        type: DataTypes.DATE
       },
       duration: {
         type: DataTypes.STRING
@@ -44,7 +45,8 @@ module.exports = (sequelize, DataTypes) => {
       price: {
         type: DataTypes.STRING
       }
-    }, {
+    },
+    {
       timestamps: false,
       freezeTableName: true
     }

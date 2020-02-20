@@ -25,8 +25,9 @@ app.use(
 app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
-app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
 app.use('/api/user', require('./routes/userRoute'));
+app.use('/api/tags', require('./routes/tagsRoute'));
+app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
 
 const PORT = config.get('port') || 5000;
 
