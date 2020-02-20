@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const config = require("config");
-const cors = require("cors");
-const db = require("./models");
-const cookieParser = require("cookie-parser");
-const adminAuth = require("./middlewares/adminAuthorization");
+const bodyParser = require('body-parser');
+const config = require('config');
+const cors = require('cors');
+const db = require('./models');
+const cookieParser = require('cookie-parser');
+const adminAuth = require('./middlewares/adminAuthorization');
 
 app.use(
   cors({
@@ -23,12 +23,12 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use("/api/auth", require("./routes/authRoute"));
-app.use("/api/events", require("./routes/eventRoute"));
-app.use("/api/adminpanel", adminAuth, require("./routes/adminRoute"));
-app.use("/api/user", require("./routes/userRoute"));
+app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/events', require('./routes/eventRoute'));
+app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 
-const PORT = config.get("port") || 5000;
+const PORT = config.get('port') || 5000;
 
 async function start() {
   try {
@@ -41,7 +41,7 @@ async function start() {
       })
       .catch(err => console.error(err.message));
   } catch (e) {
-    console.log("Server Error", e.message);
+    console.log('Server Error', e.message);
     process.exit(1);
   }
 }
