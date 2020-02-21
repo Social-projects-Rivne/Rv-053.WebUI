@@ -15,12 +15,13 @@ const AdminUsersList = () => {
 
   return (
     <>
-      <Pagination api="/api/adminpanel/users" onDataFetch={getUsers} pageItemsLimit={1} />
-      <ul className="list-group">
-        {users.rows
-          ? users.rows.map(user => <AdminUserItem key={user.id} userInfo={user} />)
-          : null}
-      </ul>
+      <Pagination api="/api/adminpanel/users" onDataFetch={getUsers} pageItemsLimit={5}>
+        <ul className="list-group mb-4">
+          {users.rows
+            ? users.rows.map(user => <AdminUserItem key={user.id} userInfo={user} />)
+            : null}
+        </ul>
+      </Pagination>
     </>
   );
 };

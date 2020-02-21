@@ -1,25 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
+import { api_server_url } from '../../../shared/utilities/globalVariables';
+import { AuthContext } from '../../../shared/context/auth-context';
 import './AdminUserItem.css';
 
 const AdminUserItem = props => {
   const [extraInfoFlag, setExtraInfoFlag] = useState(false);
   const [editRoleFlag, setEditRoleFlag] = useState(false);
-  const [userRole, setUserRole] = useState('');
-  const [userStatus, setUserStatus] = useState('');
-
-  useEffect(() => {
-    setUserRole(props.userInfo.role);
-    setUserStatus(props.userInfo.user_status.status);
-  }, [setUserRole, props.userInfo]);
-
-  useEffect(() => {
-    setUserStatus(props.userInfo.user_status.status);
-  }, [setUserStatus, props.userInfo.user_status.status]);
+  const [userRole, setUserRole] = useState(props.userInfo.role);
+  const [userStatus, setUserStatus] = useState(props.userInfo.user_status.status);
+  const accessToken = useContext(AuthContext).token;
+  const headers = {
+    Authorization: 'Bearer ' + accessToken
+  };
 
   const extraInfoFlagHandler = () => {
     setExtraInfoFlag(!extraInfoFlag);
+  };
+
+  const sendRoleToServer = async (id, role) => {
+    try {
+      const res = await axios.put(api_server_url + '/api/user/role-set', { headers }, { id, role });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const roleFlagHandler = () => {
@@ -28,7 +34,12 @@ const AdminUserItem = props => {
 
   const userRoleHandler = event => {
     roleFlagHandler(false);
-    setUserRole(event.target.value);
+    if (userRole === event.target.value) {
+      return;
+    } else {
+      setUserRole(event.target.value);
+      sendRoleToServer(props.userInfo.id, event.target.value);
+    }
   };
 
   const banHandler = () => {
@@ -40,7 +51,7 @@ const AdminUserItem = props => {
   };
 
   return (
-    <li className="list-group-item adminpanel__user-list">
+    <li className="adminpanel__user-list">
       <div className="row adminpanel__row align-items-center text-center mt-2">
         <div className="col-lg-3 adminpanel__col">
           <div className="d-flex adminpanel__lg-justify-content-center">
@@ -85,15 +96,15 @@ const AdminUserItem = props => {
         <div className="col-lg-1 adminpanel__col">
           <p
             className={
-              'text-uppercase adminpanel__user-status mx-auto ' +
+              'text-uppercase badge ' +
               (userStatus === 'Active'
                 ? 'adminpanel__user-status-active'
                 : userStatus === 'Inactive'
-                ? 'adminpanel__user-status-inactive'
-                : 'adminpanel__user-status-banned')
+                ? 'badge-secondary'
+                : 'badge-danger')
             }
           >
-            {userStatus[0]}
+            {userStatus}
           </p>
         </div>
       </div>
@@ -101,8 +112,7 @@ const AdminUserItem = props => {
       <RollingAnimation triger={extraInfoFlag} mountOnEnter unmountOnExit>
         <div className="row adminpanel__row text-center mb-3 pt-2 align-items-center">
           <div className="col-lg-3 adminpanel__col"></div>
-          <div className="col-lg-4 adminpanel__col"></div>
-          <div className="col-lg-2 adminpanel__col">
+          <div className="col-lg-4 adminpanel__col">
             <p className="adminpanel__float-left">
               Birthday: {props.userInfo.birthday ? props.userInfo.birthday : 'Unknown'}
             </p>
@@ -110,15 +120,21 @@ const AdminUserItem = props => {
           <div className="col-lg-2 adminpanel__col">
             <p className="adminpanel__float-left">Sex: {props.userInfo.sex}</p>
           </div>
-          <div className="col-lg-1 adminpanel__col">
-            <button className="btn btn-danger" onClick={banHandler}>
-              {userStatus === 'banned' ? 'unban' : 'ban'}
+          <div className="col-lg-3 adminpanel__col">
+            <button className="button-danger adminpanel__float-right" onClick={banHandler}>
+              {userStatus === 'Ban' ? 'unban' : 'ban'}
             </button>
           </div>
         </div>
       </RollingAnimation>
       <div className="row adminpanel__row">
-        <span className="col-12 adminpanel__toggler-icon" onClick={extraInfoFlagHandler}>
+        <span
+          className={
+            'col-12 adminpanel__toggler-icon ' +
+            (extraInfoFlag ? 'adminpanel__toggler-icon_expanded' : '')
+          }
+          onClick={extraInfoFlagHandler}
+        >
           &#8645;
         </span>
       </div>

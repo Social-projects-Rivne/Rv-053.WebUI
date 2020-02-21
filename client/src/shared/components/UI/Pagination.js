@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
+import './Pagination.css';
 
 const Pagination = props => {
   const [rowsCount, setRowsCount] = useState(0);
@@ -80,72 +81,77 @@ const Pagination = props => {
     [setPage, page]
   );
 
+  const pagingLine = (
+    <nav aria-label="Page navigation">
+      <ul className="pagination justify-content-center">
+        <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
+          <button
+            className="pagination__page-link"
+            aria-label="Previous"
+            onClick={() => PageHandler(1)}
+            disabled={loadingFlag}
+          >
+            <span aria-hidden="true">First</span>
+          </button>
+        </li>
+        <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
+          <button
+            className="pagination__page-link"
+            aria-label="Previous"
+            onClick={() => PageHandler('prev')}
+            disabled={loadingFlag}
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        {pageNumbers.map(pageNamber => (
+          <li
+            className={
+              'pagination__page-item ' +
+              (page === pageNamber ? 'active' : '') +
+              (page === '...' ? 'disabled' : '')
+            }
+            key={'pagenumber' + pageNamber}
+          >
+            <button
+              className="pagination__page-link"
+              aria-label="Previous"
+              onClick={() => PageHandler(pageNamber)}
+              disabled={loadingFlag}
+            >
+              {pageNamber}
+            </button>
+          </li>
+        ))}
+        <li className={'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')}>
+          <button
+            className="pagination__page-link"
+            aria-label="Next"
+            onClick={() => PageHandler('next')}
+            disabled={loadingFlag}
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+        <li className={'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')}>
+          <button
+            className="pagination__page-link"
+            aria-label="Next"
+            onClick={() => PageHandler(pagesCount)}
+            disabled={loadingFlag}
+          >
+            <span aria-hidden="true">Last</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  );
+
   return (
     <>
-      {}
-      <nav aria-label="Page navigation">
-        <ul className="pagination justify-content-center">
-          <li className={'page-item ' + (page < 2 ? 'disabled' : '')}>
-            <button
-              className="page-link"
-              aria-label="Previous"
-              onClick={() => PageHandler(1)}
-              disabled={loadingFlag}
-            >
-              <span aria-hidden="true">First</span>
-            </button>
-          </li>
-          <li className={'page-item ' + (page < 2 ? 'disabled' : '')}>
-            <button
-              className="page-link"
-              aria-label="Previous"
-              onClick={() => PageHandler('prev')}
-              disabled={loadingFlag}
-            >
-              <span aria-hidden="true">&laquo;</span>
-            </button>
-          </li>
-          {pageNumbers.map(pageNamber => (
-            <li
-              className={
-                'page-item ' +
-                (page === pageNamber ? 'active' : '') +
-                (page === '...' ? 'disabled' : '')
-              }
-              key={'pagenumber' + pageNamber}
-            >
-              <button
-                className="page-link"
-                aria-label="Previous"
-                onClick={() => PageHandler(pageNamber)}
-                disabled={loadingFlag}
-              >
-                {pageNamber}
-              </button>
-            </li>
-          ))}
-          <li className={'page-item ' + (page === pagesCount ? 'disabled' : '')}>
-            <button
-              className="page-link"
-              aria-label="Next"
-              onClick={() => PageHandler('next')}
-              disabled={loadingFlag}
-            >
-              <span aria-hidden="true">&raquo;</span>
-            </button>
-          </li>
-          <li className={'page-item ' + (page === pagesCount ? 'disabled' : '')}>
-            <button
-              className="page-link"
-              aria-label="Next"
-              onClick={() => PageHandler(pagesCount)}
-              disabled={loadingFlag}
-            >
-              <span aria-hidden="true">Last</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      {pagingLine}
+      {props.children}
+      {props.children && limitItemsOnPage > 3 ? pagingLine : null}
     </>
   );
 };
