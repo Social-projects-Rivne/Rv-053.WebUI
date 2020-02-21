@@ -15,7 +15,6 @@ const Signin = props => {
           validations={[VAL_EMAIL()]}
           onInput={props.inputHandler}
           errorMessage="Input a valid email"
-          className="form-control"
         />
         <Input
           id="password"
@@ -24,13 +23,12 @@ const Signin = props => {
           validations={[VAL_REQUIRED()]}
           onInput={props.inputHandler}
           errorMessage="Password is required"
-          className="form-control"
         />
-        <button className="btn btn-outline-primary float-right" type="submit">
+        <button className="btn btn-outline-primary float-right mt-4" type="submit">
           Sign In
         </button>
       </form>
-      <button className="btn btn-outline-primary mb-4" onClick={props.signInUpHandler}>
+      <button className="btn btn-outline-primary mb-4 mt-4" onClick={props.signInUpHandler}>
         Switch to Sign Up
       </button>
     </>

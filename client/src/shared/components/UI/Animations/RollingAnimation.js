@@ -22,7 +22,6 @@ const RollingAnimation = props => {
             ? 'rolling-element-hide'
             : null
         ];
-        console.log(transition);
         return <div className={cssClasses.join(' ')}>{props.children}</div>;
       }}
     </Transition>

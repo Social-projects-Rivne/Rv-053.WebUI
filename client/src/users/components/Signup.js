@@ -21,7 +21,6 @@ const Signup = props => {
           validations={[VAL_EMAIL()]}
           onInput={props.inputHandler}
           errorMessage="Input a valid email"
-          className="form-control"
         />
         <Input
           id="password"
@@ -30,7 +29,6 @@ const Signup = props => {
           validations={[VAL_PASSWORD()]}
           onInput={props.inputHandler}
           errorMessage="Password must be at least 6 symbols and contain uppercase, lowercase, numbers"
-          className="form-control"
         />
         <Input
           id="firstName"
@@ -39,7 +37,6 @@ const Signup = props => {
           validations={[VAL_MIN_LENGTH(3), VAL_LETTERS()]}
           onInput={props.inputHandler}
           errorMessage="Input a valid first name"
-          className="form-control"
         />
         <Input
           id="lastName"
@@ -48,7 +45,6 @@ const Signup = props => {
           validations={[VAL_MIN_LENGTH(2), VAL_LETTERS()]}
           onInput={props.inputHandler}
           errorMessage="Input a valid last name"
-          className="form-control"
         />
         <Input
           id="phone"
@@ -56,14 +52,13 @@ const Signup = props => {
           label="Phone"
           validations={[VAL_REQUIRED()]}
           onInput={props.inputHandler}
-          errorMessage="Phone a valid Number"
-          className="form-control"
+          errorMessage="Phone a valid phone number"
         />
-        <button className="btn btn-outline-primary float-right" type="submit">
+        <button className="btn btn-outline-primary float-right mt-4" type="submit">
           Sign Up
         </button>
       </form>
-      <button className="btn btn-outline-primary mb-4" onClick={props.signInUpHandler}>
+      <button className="btn btn-outline-primary mb-4 mt-4" onClick={props.signInUpHandler}>
         Switch to Sign In
       </button>
     </>

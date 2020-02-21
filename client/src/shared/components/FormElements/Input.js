@@ -72,6 +72,8 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        onClick={typingHandler}
+        required
       />
     );
   } else if (props.type === 'number') {
@@ -83,7 +85,10 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        onClick={typingHandler}
         type={props.type}
+        autoComplete="off"
+        required
       />
     );
   } else if (props.type === 'date') {
@@ -94,6 +99,9 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        onClick={typingHandler}
+        autoComplete="off"
+        required
       />
     );
   } else if (props.type === 'textarea') {
@@ -105,6 +113,9 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        onClick={typingHandler}
+        autoComplete="off"
+        required
       />
     );
   } else if (props.type === 'password') {
@@ -115,6 +126,7 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        onClick={typingHandler}
         isValid={state.isValid}
         isClicked={state.isClicked}
       />
@@ -127,6 +139,7 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={inputPhoneHandler}
+        onClick={typingHandler}
         isValid={state.isValid}
         isClicked={state.isClicked}
       />
@@ -139,6 +152,8 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+        autoComplete="off"
+        required
       />
     );
   } else if (props.type === 'select') {
@@ -154,21 +169,31 @@ const Input = props => {
   }
 
   return (
-    <div className="form-group">
-      <label htmlFor={props.id}>{props.label}</label>
+    <>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
-        {inputEl}
+        <div className="input__form">
+          {inputEl}
+          <label htmlFor={props.id} className="input__label-name">
+            <span
+              className={
+                'input__label-content ' +
+                (!state.isValid && state.isClicked ? 'input__invalid' : '')
+              }
+            >
+              {props.label}
+            </span>
+          </label>
+        </div>
       </ShakingAnimation>
-
       <RollingAnimation
         triger={!state.isValid && state.isClicked}
         timout={400}
         unmountOnExit
         mountOnEnter
       >
-        <div className="invalid-feedback">{props.errorMessage}</div>
+        <div className="input__invalid-feedback">{props.errorMessage}</div>
       </RollingAnimation>
-    </div>
+    </>
   );
 };
 
