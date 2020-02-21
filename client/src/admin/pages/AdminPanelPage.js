@@ -15,9 +15,9 @@ const AdminPanelPage = () => {
       <Card className="adminpanel_card">
         <EventsList />
       </Card>
-      <Card className="adminpanel_card">
+      {/* <Card className="adminpanel_card">
         <Logs />
-      </Card>
+      </Card> */}
     </div>
   );
 };
