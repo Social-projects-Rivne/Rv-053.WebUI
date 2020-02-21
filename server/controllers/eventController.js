@@ -59,7 +59,7 @@ exports.createEvent = async (req, res) => {
     // owner_id: req.userId,
     description,
     location,
-    datetime,
+    datetime: new Date(parseInt(datetime)),
     duration,
     max_participants,
     min_age,
@@ -86,18 +86,11 @@ exports.searchEvent = async (req, res) => {
     await Event.findAndCountAll({
       where: {
         [Op.or]: [
-          {
-            name: {
-              [Op.iLike]: `%${req.query.q}%`
-            }
-          },
-          {
-            description: {
-              [Op.iLike]: `%${req.query.q}%`
-            }
-          }
+          { name: { [Op.iLike]: `%${req.query.q}%` } },
+          { description: { [Op.iLike]: `%${req.query.q}%` } }
         ]
       },
+      raw: true,
       offset,
       limit,
       order: [['datetime', 'DESC']]
@@ -107,8 +100,8 @@ exports.searchEvent = async (req, res) => {
         res.status(200).json(events);
       })
       .catch(err => {
-        res.status(404).send({
-          message: err.message || 'Not found'
+        res.status(400).send({
+          message: err.message || 'Bad Request'
         });
       });
   } else {
@@ -123,8 +116,8 @@ exports.searchEvent = async (req, res) => {
         res.status(200).json(events);
       })
       .catch(err => {
-        res.status(404).send({
-          message: err.message || 'Not found'
+        res.status(400).send({
+          message: err.message || 'Bad Request'
         });
       });
   }
@@ -174,8 +167,8 @@ exports.filterEvent = async (req, res) => {
       res.status(200).json(events);
     })
     .catch(err => {
-      res.status(404).send({
-        message: err.message || 'Not found'
+      res.status(400).send({
+        message: err.message || 'Bad Request'
       });
     });
 };
