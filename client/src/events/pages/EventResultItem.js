@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const EventResultItem = props => {
   return (
     <div className={props.className}>
       <div className="list__events-item-img">
-        <img src="" alt="" />
+        <img src="cover" alt="" />
       </div>
       <div className="list__events-item-info">
         <div className="list__events-item-top_info">
@@ -18,7 +18,7 @@ const EventResultItem = props => {
         <div className="list__events-item-bottom_info">
           <div className="list__events-item-creator">{props.owner}</div>
           <div className="list__events-item-location">{props.location}</div>
-          <div className="list__events-item-date">{props.date}</div>
+          <div className="list__events-item-date">{props.datetime}</div>
         </div>
       </div>
     </div>
