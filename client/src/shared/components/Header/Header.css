@@ -1,38 +1,7 @@
-.form__search_event {
-  position: relative;
-}
-
-.form__search_event input {
-  border: none;
-  padding: 8px 40px 7px 20px;
-  font-size: 15px;
-  color: #323232;
-  border-radius: 15px;
-  outline: none;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-}
-
-.form__search_event button {
-  border: none;
-  background-color: #16a085;
-  color: #fff;
-  border-radius: 15px;
-  position: absolute;
-  right: 0;
-  width: 40px;
-}
-
-.form__search_event button::before {
-  content: '\f002';
-  font-family: 'icomoon';
-}
-
 .header {
   font-size: 18px;
   background-color: rgba(47, 49, 60, 0.9);
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 500;
 }
 
@@ -46,28 +15,6 @@
   position: relative;
   margin-right: 15px;
   margin-left: auto;
-}
-
-.header__search {
-  min-width: 250px;
-  width: 100%;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-}
-
-.header__search:focus {
-  min-width: 400px;
-  width: 100%;
-}
-
-.header__submit {
-  height: 37px;
-}
-
-.header__submit::before {
-  content: '\f002';
-  font-family: 'icomoon';
 }
 
 .header__nav {
@@ -91,8 +38,8 @@
 }
 
 .header .header__calendar:before {
-  content: '\f073';
-  font-family: 'icomoon';
+  content: "\f073";
+  font-family: "icomoon";
   font-size: 20px;
   color: #fff;
 }
@@ -108,8 +55,8 @@
 .header__cities:before {
   position: absolute;
   color: #fff;
-  content: '\f041';
-  font-family: 'icomoon';
+  content: "\f041";
+  font-family: "icomoon";
   left: 0px;
 }
 
@@ -147,7 +94,7 @@
   width: auto;
   text-transform: uppercase;
   font-size: 20px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 900;
 }
 

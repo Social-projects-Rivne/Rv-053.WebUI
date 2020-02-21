@@ -23,60 +23,60 @@ const Routes = () => {
       {context =>
         context.token ? (
           <Switch>
-            <Route path="/" exact>
+            <Route path='/' exact>
               <PageLayout innerComponent={<MainPage />} />
             </Route>
-            <Route path="/events" exact>
+            <Route path='/events' exact>
               <PageLayout innerComponent={<EventsResult />} />
             </Route>
-            <Route path="/event/details">
+            <Route path='/event/details'>
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
-            <Route path="/addevent">
+            <Route path='/addevent'>
               <PageLayout innerComponent={<AddEvent />} />
             </Route>
-            <Route path="/profile/:id">
+            <Route path='/profile/:id'>
               <PageLayout innerComponent={<UserProfile />} />
             </Route>
-            <Route path="/redirect">
+            <Route path='/redirect'>
               <PageLayout innerComponent={<Notificator />} />
             </Route>
-            <Route path="/confirmemail/:token">
+            <Route path='/confirmemail/:token'>
               <PageLayout innerComponent={<EmailConfirmation />} />
             </Route>
             {/* next routes for admin panel */}
-            <Route path="/adminpanelpage" exact>
+            <Route path='/adminpanelpage' exact>
               <PageLayout innerComponent={<AdminPanelPage />} isAdmin />
             </Route>
-            <Route path="/adminpanelpage/users">
+            <Route path='/adminpanelpage/users'>
               <PageLayout innerComponent={<Users />} isAdmin />
             </Route>
-            <Route path="/adminpanelpage/events">
+            <Route path='/adminpanelpage/events'>
               <PageLayout innerComponent={<Event />} isAdmin />
             </Route>
-            <Route path="/adminpanelpage/logs">
+            <Route path='/adminpanelpage/logs'>
               <PageLayout innerComponent={<Logs />} isAdmin />
             </Route>
-            <Redirect to="/" />
+            <Redirect to='/' />
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact>
+            <Route path='/' exact>
               <PageLayout innerComponent={<MainPage />} />
             </Route>
-            <Route path="/event/details">
+            <Route path='/event/details'>
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
-            <Route path="/auth">
+            <Route path='/auth'>
               <PageLayout innerComponent={<SignUpIn />} />
             </Route>
-            <Route path="/redirect">
+            <Route path='/redirect'>
               <PageLayout innerComponent={<Notificator />} />
             </Route>
-            <Route path="/confirmemail/:token">
+            <Route path='/confirmemail/:token'>
               <PageLayout innerComponent={<EmailConfirmation />} />
             </Route>
-            <Redirect to="/auth" />
+            <Redirect to='/auth' />
           </Switch>
         )
       }
