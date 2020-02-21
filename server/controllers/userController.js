@@ -132,14 +132,7 @@ exports.getFollowedCategories = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   const { first_name, last_name, phone, avatar, birthday, sex } = req.body;
-  const newData = {
-    first_name,
-    last_name,
-    phone,
-    avatar,
-    birthday: new Date(parseInt(birthday)),
-    sex
-  };
+  const newData = { first_name, last_name, phone, avatar, birthday, sex };
   try {
     await User.update(newData, { where: { id: req.userId } });
     res.status(200).json({
