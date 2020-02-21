@@ -144,6 +144,7 @@
 }
 
 .list__events-item-description {
+  max-width: 350px;
   padding: 20px 0px 25px 30px;
 }
 
@@ -167,7 +168,8 @@
 }
 
 .list__events-item-price {
-  padding: 20px 20px 15px 30px;
+  text-align: center;
+  padding: 20px 20px 15px 15px;
   font-weight: 700;
   font-size: 25px;
 }
@@ -227,4 +229,11 @@
   background-color: #17a589;
   text-decoration: none;
   color: #fff;
+}
+.list__events-sort_btn-item.icon-th-list:focus,
+.list__events-sort_btn-item.icon-th-large:focus {
+  outline: none;
+}
+.list__events-item-description {
+  min-height: 200px;
 }

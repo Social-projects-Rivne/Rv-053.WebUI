@@ -153,10 +153,23 @@ const Input = props => {
         onChange={typingHandler}
       />
     );
+  } else if (props.type === 'radio') {
+    inputEl = (
+      <input
+        type={props.type}
+        id={props.id}
+        value={props.value}
+        name={props.name}
+        onBlur={blurHandler}
+        onChange={typingHandler}
+        checked={props.checked}
+      />
+    );
   }
 
   return (
     <div className="form-group">
+      {console.log(props.checked)}
       <label htmlFor={props.id}>{props.label}</label>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
         {inputEl}

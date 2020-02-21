@@ -7,11 +7,15 @@ import Logo from '../UI/Logo';
 import Button from '../UI/Button';
 import CalendarList from './CalendarList';
 import CitiesList from './CitiesList';
-import RollingAnimation from '../UI/Animations/RollingAnimation';
+import Search from '../../../events/components/search';
 
 const Header = () => {
-  const [toggleCalendarState, settoggleCalendarState] = useState({ isShownCalendar: false });
-  const [toggleCitiesState, settoggleCitiesState] = useState({ isShownCities: false });
+  const [toggleCalendarState, settoggleCalendarState] = useState({
+    isShownCalendar: false
+  });
+  const [toggleCitiesState, settoggleCitiesState] = useState({
+    isShownCities: false
+  });
 
   const toggleCalendarHandler = () => {
     let show = toggleCalendarState.isShownCalendar;
@@ -30,21 +34,12 @@ const Header = () => {
           <div className="header__logo">
             <Logo />
           </div>
-          <form className="form__search_event">
-            <input type="text" className="header__search" placeholder="Search event.." />
-            <button className="header__submit"></button>
-          </form>
+
+          <Search />
+
           <div className="header__nav">
             <button className="header__calendar" onClick={toggleCalendarHandler}></button>
-            <RollingAnimation
-              triger={toggleCalendarState.isShownCalendar}
-              timeout={300}
-              mountOnEnter
-              unmountOnExit
-            >
-              <CalendarList />
-            </RollingAnimation>
-            {/* {toggleCalendarState.isShownCalendar ? <CalendarList /> : null} */}
+            {toggleCalendarState.isShownCalendar ? <CalendarList /> : null}
             <button className="header__cities" onClick={toggleCitiesHandler}>
               Kyiv
             </button>

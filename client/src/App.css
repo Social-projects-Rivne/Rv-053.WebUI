@@ -214,6 +214,11 @@ button:hover {
   justify-content: space-between;
   align-items: center;
 }
+@media (max-width: 1590px) {
+  .header__calendar-list {
+    right: 10%;
+  }
+}
 @media (max-width: 1440px) {
   .list__events-item.card {
     -ms-flex-preferred-size: calc(33% - 50px);
@@ -317,6 +322,9 @@ button:hover {
     width: 100%;
     padding: 15px;
   }
+  .header__calendar-list {
+    right: 20%;
+  }
 }
 @media (max-width: 650px) {
   .slider__title {
@@ -332,6 +340,7 @@ button:hover {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
+    padding: 20px 20px;
   }
   .footer__col {
     max-width: 100%;

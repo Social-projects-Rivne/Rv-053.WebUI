@@ -28,7 +28,7 @@ const EditProfile = () => {
       },
       sex: {
         value: '',
-        isValid: false
+        isValid: true
       }
     },
     false

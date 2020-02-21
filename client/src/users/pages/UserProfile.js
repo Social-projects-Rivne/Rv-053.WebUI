@@ -16,7 +16,6 @@ const UserProfile = () => {
     setShowSuccessNote(false);
   };
   useEffect(() => {
-    // setShowSuccessNote({ showUpdateNotification: false });
     history.replace(location.pathname, { showUpdateNotification: false });
   }, []);
   return (

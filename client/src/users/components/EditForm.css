@@ -1,20 +1,23 @@
-.change_sex-wrapper {
-  position: relative;
-  display: inline-block;
+.update-title {
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  margin-bottom: 20px;
 }
-.change_sex {
-  position: absolute;
-  top: 32px;
-  right: 15px;
-  background-color: transparent;
-  border: none;
+
+.input_wrapper-number {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
 }
-.change_sex:before {
-  position: absolute;
-  content: '\f054';
-  font-family: 'icomoon';
-  font-size: 15px;
+.input_wrapper-radio {
+  display: flex;
+  justify-content: space-between;
+  max-width: 200px;
 }
-.button_block {
-  display: block;
+.input_wrapper-radio label {
+  margin-left: 10px;
+}
+.input_wrapper-radio .form-group {
+  display: flex;
+  flex-direction: row-reverse;
 }
