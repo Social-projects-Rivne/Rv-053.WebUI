@@ -16,6 +16,7 @@ module.exports = async (req, res, next) => {
   try {
     const payload = await JWT.verify(token, JWT_SECRET);
     req.userId = payload.userId;
+    req.role = payload.role;
     if (payload.status_id == 1) {
       next();
     } else {
