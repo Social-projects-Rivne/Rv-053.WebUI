@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
-import './eventInList.css';
+import "./eventInList.css";
 
 class EventInList extends Component {
   render() {
