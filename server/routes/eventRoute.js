@@ -11,6 +11,8 @@ router.get('/', CheckUrlInCache, eventController.searchEvent);
 // Create new event
 router.post('/', createEventValidation(), validate, eventController.createEvent);
 // Get info about current event by id
+
+router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.get('/:id', CheckUrlInCache, eventController.getEventByID);
 router.put('/:id/ban', adminAuth, eventController.banEvent);
 router.put('/:id/unban', adminAuth, eventController.unbanEvent);
