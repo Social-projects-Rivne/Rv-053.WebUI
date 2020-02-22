@@ -2,7 +2,15 @@ const multer = require('multer');
 
 const storageCover = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, './uploads/avatars');
+  },
+  filename(req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+  }
+});
+const storageAvatars = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/covers');
   },
   filename(req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
@@ -10,7 +18,6 @@ const storageCover = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  // reject a file
   if (
     file.mimetype === 'image/jpeg' ||
     file.mimetype === 'image/png' ||
@@ -23,7 +30,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({
-  storageCover,
+  storage: storageCover,
   limits: {
     //  file size max 2mb
     fileSize: 1024 * 1024 * 2
@@ -31,4 +38,13 @@ const uploadCover = multer({
   fileFilter
 });
 
-module.exports = uploadCover;
+const uploadAvatar = multer({
+  storage: storageAvatars,
+  limits: {
+    //  file size max 2mb
+    fileSize: 1024 * 1024 * 2
+  },
+  fileFilter
+});
+
+module.exports = { uploadCover, uploadAvatar };

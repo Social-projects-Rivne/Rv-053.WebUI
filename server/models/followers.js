@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Followers = sequelize.define(
-    'followers', {
+    'followers',
+    {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -14,12 +15,13 @@ module.exports = (sequelize, DataTypes) => {
       folowed_id: {
         type: DataTypes.INTEGER
       }
-    }, {
+    },
+    {
       timestamps: false,
       freezeTableName: true
     }
   );
-  Followers.associate = function (models) {
+  Followers.associate = models => {
     Followers.belongsTo(models.users, {
       foreignKey: 'user_id'
     });

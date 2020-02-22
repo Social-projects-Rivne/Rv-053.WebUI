@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Hub = sequelize.define(
-    "hub", {
+    'hub',
+    {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -29,14 +30,15 @@ module.exports = (sequelize, DataTypes) => {
       owner_id: {
         type: DataTypes.INTEGER
       }
-    }, {
+    },
+    {
       timestamps: false,
       freezeTableName: true
     }
   );
-  Hub.associate = function (models) {
+  Hub.associate = models => {
     Hub.belongsTo(models.users, {
-      foreignKey: "owner_id"
+      foreignKey: 'owner_id'
     });
   };
   return Hub;
