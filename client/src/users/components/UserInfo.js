@@ -47,7 +47,11 @@ const UserInfo = props => {
                 <span className="profile-avatar__body"></span>
               </span>
             ) : (
-              <img src={userData.avatar ? userData.avatar : '/'} alt="" />
+              <img
+                className="profile-avatar"
+                src={userData.avatar ? userData.avatar : '/'}
+                alt=""
+              />
             )}
           </div>
           <div className="profile-info">

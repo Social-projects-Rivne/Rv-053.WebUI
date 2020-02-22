@@ -25,11 +25,12 @@ const Pagination = props => {
         const res = await axios.get(
           api_server_url +
             props.api +
-            '?limit=' +
+            '?' +
+            query +
+            '&limit=' +
             limitItemsOnPage +
             '&offset=' +
-            offsetItem +
-            query,
+            offsetItem,
           {
             headers
           }
@@ -45,7 +46,7 @@ const Pagination = props => {
 
   useEffect(() => {
     getItemsList();
-  }, [page]);
+  }, [page, props.query]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];
