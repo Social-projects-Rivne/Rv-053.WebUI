@@ -105,7 +105,7 @@ const createEventValidation = () => {
       .notEmpty({
         ignore_whitespace: false
       })
-      .isString(),
+      .isNumeric(),
     body('max_participants', 'Max part field should not be empty').notEmpty({
       ignore_whitespace: false
     }),
