@@ -24,7 +24,7 @@ const EventsResult = () => {
   };
 
   const getAllEvents = () => {
-    console.log('AAAAAA');
+    // console.log('AAAAAA');
     axios({
       method: 'get',
       url: `http://localhost:5001/api/events`,
