@@ -8,7 +8,6 @@ const adminAuth = require('../middlewares/adminAuthorization');
 
 const { uploadCover } = require('../middlewares/upload-images');
 
-router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.get('/', auth, CheckUrlInCache, eventController.searchEvent);
 router.post(
   '/',

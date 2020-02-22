@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       date: {
-        type: 'TIMESTAMP',
+        type: DataTypes.BIGINT,
         allowNull: false
       }
     },
