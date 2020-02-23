@@ -89,6 +89,8 @@ const Input = props => {
         type={props.type}
         autoComplete="off"
         required
+        min={props.min}
+        max={props.max}
       />
     );
   } else if (props.type === 'date') {
@@ -164,6 +166,18 @@ const Input = props => {
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
+      />
+    );
+  } else if (props.type === 'radio') {
+    inputEl = (
+      <input
+        type={props.type}
+        id={props.id}
+        value={props.value}
+        name={props.name}
+        onBlur={blurHandler}
+        onChange={typingHandler}
+        checked={props.checked}
       />
     );
   }

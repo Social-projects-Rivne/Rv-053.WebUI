@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
+import React, { useContext, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../context/auth-context';
 
-import "./Header.css";
-import Logo from "../UI/Logo";
-import Button from "../UI/Button";
-import CalendarList from "./CalendarList";
-import CitiesList from "./CitiesList";
-import Search from "../../../events/components/search";
+import './Header.css';
+import Logo from '../UI/Logo';
+import Button from '../UI/Button';
+import CalendarList from './CalendarList';
+import CitiesList from './CitiesList';
+import Search from '../../../events/components/search';
 
 const Header = () => {
   const [toggleCalendarState, settoggleCalendarState] = useState({
@@ -38,10 +38,7 @@ const Header = () => {
           <Search />
 
           <div className="header__nav">
-            <button
-              className="header__calendar"
-              onClick={toggleCalendarHandler}
-            ></button>
+            <button className="header__calendar" onClick={toggleCalendarHandler}></button>
             {toggleCalendarState.isShownCalendar ? <CalendarList /> : null}
             <button className="header__cities" onClick={toggleCitiesHandler}>
               Kyiv
@@ -58,11 +55,7 @@ const Header = () => {
               </NavLink>
             )}
             {auth.isLoggedIn && (
-              <NavLink
-                className="header__nav-link"
-                to="/"
-                onClick={auth.logout}
-              >
+              <NavLink className="header__nav-link" to="/" onClick={auth.logout}>
                 Signout
               </NavLink>
             )}

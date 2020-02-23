@@ -54,11 +54,11 @@ const Signup = props => {
           onInput={props.inputHandler}
           errorMessage="Phone a valid phone number"
         />
-        <button className="btn btn-outline-primary float-right mt-4" type="submit">
+        <button className="my__button float-right mt-4" type="submit">
           Sign Up
         </button>
       </form>
-      <button className="btn btn-outline-primary mb-4 mt-4" onClick={props.signInUpHandler}>
+      <button className="my__button mb-4 mt-4" onClick={props.signInUpHandler}>
         Switch to Sign In
       </button>
     </>
