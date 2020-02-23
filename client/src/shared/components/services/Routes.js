@@ -33,7 +33,7 @@ const Routes = () => {
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
 
-            <Route path="/profile/my">
+            <Route path="/profile/:id">
               <PageLayout innerComponent={<UserProfile />} />
             </Route>
             <Route path="/redirect">
@@ -59,14 +59,14 @@ const Routes = () => {
           </Switch>
         ) : (
           <Switch>
+            <Route path="/addevent">
+              <PageLayout innerComponent={<AddEvent />} />
+            </Route>
             <Route path="/" exact>
               <PageLayout innerComponent={<MainPage />} />
             </Route>
             <Route path="/event/details">
               <PageLayout innerComponent={<EventDetails />} />
-            </Route>
-            <Route path="/addevent">
-              <PageLayout innerComponent={<AddEvent />} />
             </Route>
             <Route path="/auth">
               <PageLayout innerComponent={<SignUpIn />} />

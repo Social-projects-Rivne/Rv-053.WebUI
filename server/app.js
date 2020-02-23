@@ -25,8 +25,9 @@ app.use(
 app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
-app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
 app.use('/api/user', require('./routes/userRoute'));
+app.use('/api/tags', require('./routes/tagsRoute'));
+app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
 
 const PORT = config.get('port') || 5000;
 
@@ -35,7 +36,9 @@ async function start() {
     await db.sequelize
       .sync()
       .then(() => {
-        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+        app.listen(PORT, () =>
+          console.log(`App has been started on port ${PORT}...`)
+        );
       })
       .catch(err => console.error(err.message));
   } catch (e) {

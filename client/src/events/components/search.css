@@ -1,0 +1,43 @@
+.form__search_event {
+  position: relative;
+}
+
+.form__search_event input {
+  border: none;
+  padding: 8px 40px 7px 20px;
+  font-size: 15px;
+  color: #323232;
+  border-radius: 15px;
+  outline: none;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.form__search_event button {
+  border: none;
+  background-color: #16a085;
+  color: #fff;
+  border-radius: 15px;
+  position: absolute;
+  right: 0;
+  width: 40px;
+}
+
+.form__search_event button::before {
+  content: "\f002";
+  font-family: "icomoon";
+}
+.header__search {
+  min-width: 300px;
+  width: 100%;
+}
+
+.header__submit {
+  height: 37px;
+}
+
+.header__submit::before {
+  content: "\f002";
+  font-family: "icomoon";
+}
