@@ -1,5 +1,5 @@
 .list__events {
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 .list__events-sort {
   max-width: 750px;
@@ -34,7 +34,7 @@
 }
 
 .list__events-sort_btn-item:before {
-  font-family: "icomoon";
+  font-family: 'icomoon';
   font-size: 20px;
   color: rgba(47, 49, 60, 0.6);
 }
@@ -157,14 +157,14 @@
 .list__events-item-category {
   font-size: 16px;
   color: #16a085;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   margin-bottom: 10px;
 }
 
 .list__events-item-descr {
   font-size: 15px;
   color: #cdcdcd;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .list__events-item-price {
@@ -198,20 +198,20 @@
 .list__events-item-location::before,
 .list__events-item-date::before {
   position: absolute;
-  font-family: "icomoon";
+  font-family: 'icomoon';
   left: 0;
 }
 
 .list__events-item-creator::before {
-  content: "\f007";
+  content: '\f007';
 }
 
 .list__events-item-location::before {
-  content: "\f276";
+  content: '\f276';
 }
 
 .list__events-item-date::before {
-  content: "\f133";
+  content: '\f133';
 }
 
 .list__events-item-join {
@@ -229,4 +229,11 @@
   background-color: #17a589;
   text-decoration: none;
   color: #fff;
+}
+.list__events-sort_btn-item.icon-th-list:focus,
+.list__events-sort_btn-item.icon-th-large:focus {
+  outline: none;
+}
+.list__events-item-description {
+  min-height: 200px;
 }

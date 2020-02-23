@@ -11,7 +11,8 @@ exports.getEventByID = async (req, res) => {
   const { id } = req.params.id;
   await Event.findOne({
     where: {
-      id
+      id,
+      status: 'Active'
     },
     include: [
       {
@@ -48,7 +49,6 @@ exports.createEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-
   await Event.create({
     name,
     owner_id: req.userId,
@@ -58,11 +58,11 @@ exports.createEvent = async (req, res) => {
     duration,
     max_participants,
     min_age,
-    cover,
+    cover: req.file.path,
     price
   })
     .then(() => {
-      res.status(201).send({
+      res.status(200).send({
         message: 'Event was create successful'
       });
     })
@@ -93,6 +93,7 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin') {
+      const cover = cover || req.file.path;
       Event.update(
         {
           name,
@@ -195,19 +196,15 @@ exports.searchEvent = async (req, res) => {
         });
       });
   } else {
-    await Event.findAndCountAll(
-      {
-        where: {
-          status: 'Active'
-        }
+    await Event.findAndCountAll({
+      where: {
+        status: 'Active'
       },
-      {
-        raw: true,
-        offset,
-        limit,
-        order: [['datetime', 'DESC']]
-      }
-    )
+      raw: true,
+      offset,
+      limit,
+      order: [['datetime', 'DESC']]
+    })
       .then(events => {
         Redis.addUrlInCache(req.baseUrl, events);
         res.status(200).json(events);
@@ -269,6 +266,7 @@ exports.filterEvent = async (req, res) => {
       });
     });
 };
+
 exports.banEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);

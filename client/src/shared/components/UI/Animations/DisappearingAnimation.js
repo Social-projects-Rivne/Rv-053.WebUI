@@ -22,7 +22,6 @@ const DisappearingAnimation = props => {
             ? 'disappearing-element-hide'
             : null
         ];
-        console.log(transition);
         return <div className={cssClasses.join(' ')}>{props.children}</div>;
       }}
     </Transition>

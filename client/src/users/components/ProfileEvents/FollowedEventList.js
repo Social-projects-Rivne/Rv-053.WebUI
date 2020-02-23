@@ -19,6 +19,21 @@ const FollowedEventList = () => {
     setEvents(res.data.data.followedEvent);
   };
 
+  const unfollowFromEvent = async id => {
+    await axios
+      .delete(api_server_url + `/api/user/unfollow-event/${id}`, {
+        headers
+      })
+      .then(() => {
+        const newEvents = [...events];
+        newEvents.splice(
+          newEvents.findIndex(item => item['event.id'] === id),
+          1
+        );
+        setEvents(newEvents);
+      });
+  };
+
   useEffect(() => {
     if (accessToken) {
       getEvents();
@@ -26,14 +41,16 @@ const FollowedEventList = () => {
   }, [accessToken]);
 
   return (
-    <div className="event_list-item">
-      <h3 className="profile-title">Followed events</h3>
+    <div className='event_list-item'>
+      <h3 className='profile-title'>Followed events</h3>
       {events.length > 0 ? (
         events.map(event => (
           <EventItem
             key={event['event.id']}
+            id={event['event.id']}
             title={event['event.name']}
             date={event['event.datetime']}
+            unfollowFromEvent={unfollowFromEvent}
           />
         ))
       ) : (

@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const EventResultItem = props => {
   return (
@@ -16,9 +17,9 @@ const EventResultItem = props => {
           <div className="list__events-item-price">{props.price}</div>
         </div>
         <div className="list__events-item-bottom_info">
-          <div className="list__events-item-creator">{props.owner}</div>
+          <div className="list__events-item-creator">Oleksandr</div>
           <div className="list__events-item-location">{props.location}</div>
-          <div className="list__events-item-date">{props.datetime}</div>
+          <div className="list__events-item-date">{props.date}</div>
         </div>
       </div>
     </div>

@@ -1,0 +1,29 @@
+.note__wrapper {
+  margin: 0 auto 30px;
+  padding: 20px;
+  background-color: rgba(163, 191, 163, 0.3);
+  text-align: center;
+  border-radius: 6px;
+  max-width: 250px;
+  position: relative;
+}
+.close_note {
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  cursor: pointer;
+  transform: rotate(45deg);
+}
+.close_note:focus {
+  outline: none;
+}
+.close_note:after {
+  font-family: 'icomoon';
+  content: '\f067';
+}
+.note__wrapper span {
+  font-size: 18px;
+}

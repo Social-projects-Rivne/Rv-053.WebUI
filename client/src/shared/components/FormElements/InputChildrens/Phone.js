@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 
 import rawCountries from './PhoneCountriesData';
 import './Phone.css';
 import Transition from 'react-transition-group/Transition';
-import RollingAnimation from '../../UI/Animations/RollingAnimation';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,12 +45,13 @@ const Phone = props => {
     dropdownShow: false,
     value: props.initValue || '',
     prefix: '+380',
-    phoneValue: '+380'
+    phoneValue: ''
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [firstTimeLoadFlag, setFirstTimeLoadFlag] = useState(true);
 
-  const counties = rawCountries.map(country => ({
+  const countriesArr = rawCountries.map(country => ({
     name: country[0],
     regions: country[1],
     iso2: country[2],
@@ -60,6 +60,12 @@ const Phone = props => {
     priority: country[5] || 0,
     hasAreaCodes: country[6] ? true : false
   }));
+
+  const filteredCountries = countriesArr.filter(country => {
+    return country.regions.some(element => {
+      return element === 'europe';
+    });
+  });
 
   const dropdownHandler = event => {
     if (event.type === 'click') {
@@ -76,7 +82,15 @@ const Phone = props => {
     }
   };
 
+  const firstTimeLoadPrefix = () => {
+    if (firstTimeLoadFlag) {
+      setFirstTimeLoadFlag(false);
+      dispatch({ type: 'PICK', pickedCountry: initialState.pickedCountry });
+    }
+  };
+
   const countryPickHandler = country => {
+    setFirstTimeLoadFlag(false);
     dispatch({ type: 'PICK', pickedCountry: country });
   };
 
@@ -116,7 +130,7 @@ const Phone = props => {
 
   const selecItem = (
     <ul style={{ padding: '0' }}>
-      {counties.map(country => {
+      {filteredCountries.map(country => {
         return (
           <li
             key={country.iso2}
@@ -133,16 +147,16 @@ const Phone = props => {
   );
 
   return (
-    <div className={`input-group ${!props.isValid && props.isClicked && 'is-invalid'}`}>
+    <>
       <div
-        className="input-group-prepend"
+        className="input__input-group-append"
         onClick={dropdownHandler}
         onBlur={dropdownHandler}
         tabIndex="-1"
       >
-        <span className="input-group-text cursor-pointer">
-          <div className={`flag d-inline-block ${state.pickedCountry.iso2} mr-2`}></div>
-          <div className="arrow"></div>
+        <span className="phone__flag-container">
+          <div className={'mb-1 ' + (state.dropdownShow ? 'arrow-up' : 'arrow-down')}></div>
+          <div className={`flag d-inline-block ${state.pickedCountry.iso2} ml-2`}></div>
         </span>
       </div>
       <Transition
@@ -177,8 +191,11 @@ const Phone = props => {
         onBlur={props.onBlur}
         onChange={inputPhoneHandler}
         onKeyPress={inputKeyDownHandler}
+        onClick={firstTimeLoadPrefix}
+        autoComplete="off"
+        required
       />
-    </div>
+    </>
   );
 };
 
