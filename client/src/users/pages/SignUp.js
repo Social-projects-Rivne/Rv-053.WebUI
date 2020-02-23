@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import Transition from 'react-transition-group/Transition';
 import axios from 'axios';
 
 import { useForm } from '../../shared/hooks/useForm.js';
@@ -11,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup.js';
 import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation.js';
-import RollingAnimation from '../../shared/components/UI/Animations/RollingAnimation.js';
 
 const SignUpIn = () => {
   let history = useHistory();
@@ -119,9 +117,7 @@ const SignUpIn = () => {
           phone: formState.inputs.phone.value
         };
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/register', regUser, {
-            withCredentials: true
-          });
+          const res = await axios.post('http://localhost:5001/api/auth/register', regUser);
           if (res.data.error) {
             setNotificationState({
               show: true,

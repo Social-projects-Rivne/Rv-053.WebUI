@@ -17,13 +17,29 @@
   background-color: #e4e9ee !important;
 }
 
-.arrow {
+.arrow-down {
   border: solid black;
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 2px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+.arrow-up {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 2px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+.phone__flag-container {
+  padding: 3px 4px 0 6px;
+  background-color: #cdcdcd80;
+  border-radius: 5px;
+}
+.phone__flag-container:hover {
+  background-color: #cdcdcd;
 }
 
 .flag {

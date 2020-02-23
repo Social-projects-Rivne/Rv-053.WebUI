@@ -23,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       datetime: {
-        type: DataTypes.DATE
+        type: DataTypes.BIGINT
       },
       duration: {
-        type: DataTypes.STRING
+        type: DataTypes.BIGINT
       },
       max_participants: {
         type: DataTypes.INTEGER

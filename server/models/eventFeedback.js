@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const EventFeedback = sequelize.define(
-    'event_feedback', {
+    'event_feedback',
+    {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -18,15 +19,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.BIGINT,
         allowNull: false
       }
-    }, {
+    },
+    {
       timestamps: false,
       freezeTableName: true
     }
   );
-  EventFeedback.associate = function (models) {
+  EventFeedback.associate = models => {
     EventFeedback.belongsTo(models.user_event, {
       foreignKey: 'user_event_id'
     });

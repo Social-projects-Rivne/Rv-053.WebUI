@@ -2,7 +2,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 //const keys = require("./config/keys");
-const config = require('config');
 const User = require('../models').users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;

@@ -22,8 +22,8 @@
 }
 .profile-avatar {
   display: inline-block;
-  width: 160px;
-  height: 160px;
+  width: 15rem;
+  height: 15rem;
   background-color: #cdcdcd;
   border-radius: 50%;
   text-align: center;

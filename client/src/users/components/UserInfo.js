@@ -29,13 +29,12 @@ const UserInfo = props => {
       setUserData(res.data.data.user);
     }
   };
-
   useEffect(() => {
     if (accessToken) {
       getUserData();
     }
   }, [accessToken]);
-
+  // console.log(userData);
   return (
     <div className="profile-top">
       {userData ? (
@@ -47,7 +46,11 @@ const UserInfo = props => {
                 <span className="profile-avatar__body"></span>
               </span>
             ) : (
-              <img src={userData.avatar ? userData.avatar : '/'} alt="" />
+              <img
+                className="profile-avatar"
+                src={userData.avatar ? userData.avatar : '/'}
+                alt=""
+              />
             )}
           </div>
           <div className="profile-info">
@@ -59,7 +62,7 @@ const UserInfo = props => {
               <NavLink to="/addevent" className="link-btn">
                 Add event
               </NavLink>
-              <NavLink to="/" className="link-btn">
+              <NavLink to="/editprofile" className="link-btn">
                 Edit profile
               </NavLink>
             </div>
