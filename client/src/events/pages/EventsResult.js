@@ -58,7 +58,7 @@ const EventsResult = () => {
             </div>
           </div>
           <Pagination
-            api="/api/events"
+            api="/api/events/"
             onDataFetch={getEvents}
             pageItemsLimit={2}
             query={'q=' + (searchQuery ? searchQuery : '')}

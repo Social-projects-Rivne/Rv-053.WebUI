@@ -54,6 +54,9 @@ const Routes = () => {
             <Route path="/" exact>
               <PageLayout innerComponent={<MainPage />} />
             </Route>
+            <Route path="/events" exact>
+              <PageLayout innerComponent={<EventsResult />} />
+            </Route>
             <Route path="/event/details">
               <PageLayout innerComponent={<EventDetails />} />
             </Route>

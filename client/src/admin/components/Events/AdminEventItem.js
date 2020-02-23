@@ -8,7 +8,6 @@ const AdminEventItem = props => {
   const extraInfoFlagHandler = () => {
     setExtraInfoFlag(!extraInfoFlag);
   };
-  console.log(props.eventInfo);
   return (
     <li className="adminpanel__user-list">
       <div className="row adminpanel__row align-items-center text-center mt-2">
