@@ -117,9 +117,7 @@ const SignUpIn = () => {
           phone: formState.inputs.phone.value
         };
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/register', regUser, {
-            withCredentials: true
-          });
+          const res = await axios.post('http://localhost:5001/api/auth/register', regUser);
           if (res.data.error) {
             setNotificationState({
               show: true,
