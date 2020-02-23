@@ -6,8 +6,53 @@ const UserCategory = require('../models').user_category;
 
 const ROLE_USER = 'User';
 const ROLE_MODERATOR = 'Moderator';
+const ROLE_ADMIN = 'Admin';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
+
+const findUser = async userId => User.findOne({ where: { id: userId } });
+
+const updateUserStatus = async (user, status_id) => user.update({ status_id });
+
+const changeUserStatus = async (req, res, statusId) => {
+  try {
+    const user = await findUser(req.params.id);
+    await updateUserStatus(user, statusId);
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+const isCurrentUserRole = (user, newRole) => {
+  if (user.role !== newRole) {
+    return false;
+  }
+  return true;
+};
+
+const updateUserRole = async (user, role) => user.update({ role });
+
+const changeUserRole = async (req, res, newRole) => {
+  try {
+    const user = await findUser(req.params.id);
+    const isCurrentUserRole1 = isCurrentUserRole(user, newRole);
+    if (!isCurrentUserRole1) {
+      await updateUserRole(user, newRole);
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(400).json({
+        message: `You can't set a ${newRole} if you are a ${newRole}!`
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
 
 exports.getCurrent = async (req, res) => {
   try {
@@ -161,44 +206,9 @@ exports.setRoleToModerator = async (req, res) => {
   }
 };
 
-exports.setRoleToUser = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { id: req.params.id } });
-    if (user.role === ROLE_MODERATOR) {
-      await user.update({ role: ROLE_USER });
-      res.status(200).json({
-        status: 'success'
-      });
-    } else {
-      res.status(400).json({
-        message: "You can't set a User if you are a User!"
-      });
-    }
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-};
+exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
+exports.setRoleToModerator = async (req, res) => changeUserRole(req, res, ROLE_MODERATOR);
+exports.setRoleToAdmin = async (req, res) => changeUserRole(req, res, ROLE_ADMIN);
 
-exports.ban = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: USER_BAN });
-    res.status(200).json({
-      status: 'success'
-    });
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-};
-
-exports.unban = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { id: req.params.id } });
-    await user.update({ status_id: USER_UNBAN });
-    res.status(200).json({
-      status: 'success'
-    });
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-};
+exports.ban = async (req, res) => changeUserStatus(req, res, USER_BAN);
+exports.unban = async (req, res) => changeUserStatus(req, res, USER_UNBAN);
