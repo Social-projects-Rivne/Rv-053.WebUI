@@ -4,12 +4,15 @@ import EventResultItem from './EventResultItem';
 import './EventsResult.css';
 import { EventContext } from '../../shared/context/events-context';
 import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../../shared/context/auth-context';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const EventsResult = () => {
+  const accessToken = useContext(AuthContext).token;
+
   const urlParams = useQuery();
   const eventContext = useContext(EventContext);
 
@@ -24,13 +27,14 @@ const EventsResult = () => {
   };
 
   const getAllEvents = () => {
-    console.log('AAAAAA');
+    // console.log('AAAAAA');
     axios({
       method: 'get',
       url: `http://localhost:5001/api/events`,
       params: {
         q: searchQuery
-      }
+      },
+      headers: { Authorization: 'Bearer ' + accessToken }
     }).then(response => {
       setAllEvents(response.data.rows);
       console.log(response.data.rows);
