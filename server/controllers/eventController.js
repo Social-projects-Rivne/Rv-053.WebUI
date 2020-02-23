@@ -196,19 +196,15 @@ exports.searchEvent = async (req, res) => {
         });
       });
   } else {
-    await Event.findAndCountAll(
-      {
-        where: {
-          status: 'Active'
-        }
+    await Event.findAndCountAll({
+      where: {
+        status: 'Active'
       },
-      {
-        raw: true,
-        offset,
-        limit,
-        order: [['datetime', 'DESC']]
-      }
-    )
+      raw: true,
+      offset,
+      limit,
+      order: [['datetime', 'DESC']]
+    })
       .then(events => {
         Redis.addUrlInCache(req.baseUrl, events);
         res.status(200).json(events);
