@@ -4,6 +4,7 @@ const route = express.Router();
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/authorization');
 const authAdmin = require('../middlewares/adminAuthorization');
+
 route.get('/current', auth, userController.getCurrent);
 route.put('/current', auth, userController.updateProfile);
 route.get('/events', auth, userController.getEvents);
