@@ -22,7 +22,37 @@ const AdminUserItem = props => {
 
   const sendRoleToServer = async (id, role) => {
     try {
-      const res = await axios.put(api_server_url + '/api/user/role-set', { headers }, { id, role });
+      const api_role =
+        role === 'User'
+          ? 'role-user/'
+          : role === 'Moderator'
+          ? 'role-moderator/'
+          : role === 'Admin'
+          ? 'role-admin/'
+          : '';
+      const api_url = api_server_url + '/api/user/' + api_role + id;
+      const res = await axios.put(api_url, {}, { headers });
+      if (res.data.status === 'success') {
+        setUserRole(role);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const changeUserStatus = async (id, action) => {
+    try {
+      const api_url = api_server_url + '/api/user/' + action + '/' + id;
+      if (action === 'ban') {
+        const res = await axios.post(api_url, {}, { headers });
+        if (res.data.status === 'success') {
+          setUserStatus('Ban');
+        }
+      } else if (action === 'unban') {
+        const res = await axios.delete(api_url, { headers }, {});
+        if (res.data.status === 'success') {
+          setUserStatus('Active');
+        }
+      }
     } catch (e) {
       console.log(e);
     }
@@ -37,16 +67,15 @@ const AdminUserItem = props => {
     if (userRole === event.target.value) {
       return;
     } else {
-      setUserRole(event.target.value);
       sendRoleToServer(props.userInfo.id, event.target.value);
     }
   };
 
   const banHandler = () => {
     if (userStatus === 'Active') {
-      setUserStatus('Ban');
+      changeUserStatus(props.userInfo.id, 'ban');
     } else if (userStatus === 'Ban') {
-      setUserStatus('Active');
+      changeUserStatus(props.userInfo.id, 'unban');
     }
   };
 
