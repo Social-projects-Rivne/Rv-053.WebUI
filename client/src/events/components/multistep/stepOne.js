@@ -5,8 +5,6 @@ import Datetime from "react-datetime";
 import Input from "../../../shared/components/FormElements/Input";
 import Selector from "../../../shared/components/FormElements/Select";
 
-// import "../../pages/AddEvent.css";
-
 import {
   VAL_MIN_LENGTH,
   VAL_REQUIRED

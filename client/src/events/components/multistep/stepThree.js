@@ -4,6 +4,7 @@ import { VAL_REQUIRED } from "../../../shared/utilities/validation";
 
 import Input from "../../../shared/components/FormElements/Input";
 import Price from "../../../shared/components/FormElements/Price";
+import Number from "../../../shared/components/FormElements/Number";
 import Switch from "../../../shared/components/FormElements/Checkbox";
 
 const StepThree = props => {
@@ -117,7 +118,7 @@ const StepThree = props => {
         onColor="#16a085"
       />
       {amountCheckbox ? (
-        <Input
+        <Number
           id="amount"
           type="number"
           label="The max amount of participants"

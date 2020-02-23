@@ -42,39 +42,21 @@ label {
 }
 
 .addBtn button {
-  margin-left: 10px;
+  width: 80px;
+  margin-left: 12px;
+  color: #16a085 !important;
+  border-color: #16a085 !important;
 }
 
-ol.progtrckr {
-  margin: 0;
-  padding-bottom: 2.2rem;
-  list-style-type: none;
-  text-align: center;
+.addBtn button:hover {
+  background-color: #16a085 !important;
+  color: white !important;
 }
-ol.progtrckr li {
+
+.react-switch-div {
   display: inline-block;
-  text-align: center;
-  line-height: 4.5rem;
-  padding: 0 0.7rem;
-  cursor: pointer;
-}
-ol.progtrckr li span {
-  padding: 0 1.5rem;
-}
-@media (max-width: 650px) {
-  .progtrckr li span {
-    display: none;
-  }
-}
-.progtrckr em {
-  display: none;
-  font-weight: 700;
-  padding-left: 1rem;
-}
-@media (max-width: 650px) {
-  .progtrckr em {
-    display: inline;
-  }
+  margin-left: 65px;
+  width: 38%;
 }
 
 ol.progtrckr li.progtrckr-todo {
@@ -117,8 +99,8 @@ ol.progtrckr li.progtrckr-doing:before {
   line-height: 1.2em;
   border-radius: 1.2em;
 }
-ol.progtrckr li.progtrckr-doing:hover:before {
-  color: #16a085;
+.react-datepicker-wrapper {
+  display: block;
 }
 
 ol.progtrckr li.progtrckr-done:before {
@@ -129,8 +111,8 @@ ol.progtrckr li.progtrckr-done:before {
   line-height: 1.2em;
   border-radius: 1.2em;
 }
-ol.progtrckr li.progtrckr-done:hover:before {
-  color: #16a085;
+.form-control.react-datepicker-ignore-onclickoutside {
+  width: 80% !important;
 }
 
 /*!

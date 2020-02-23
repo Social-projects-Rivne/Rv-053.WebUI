@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 
-import "./Price.css";
+
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -20,7 +20,7 @@ const inputReducer = (state, action) => {
   }
 };
 
-const Price = props => {
+const Number = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: "",
     isValid: false,
@@ -42,7 +42,7 @@ const Price = props => {
       type: "TOUCH"
     });
   };
-  console.log(inputState.value);
+  
   return (
     <div className="price-div">
       <label>Enter the price</label>
@@ -50,7 +50,7 @@ const Price = props => {
         <input
           type="number"
           min={0}
-          className="form-control currency-amount"
+          className="form-control"
           id="price"
           placeholder="0.00"
           onBlur={touchHandler}
@@ -58,27 +58,9 @@ const Price = props => {
           value={inputState.value}
           size="8"
         />
-        <div className="input-group-addon currency-addon">
-          <select
-            onBlur={touchHandler}
-            onChange={changeHandler}
-            value={inputState.value}
-            className="currency-selector"
-          >
-            <option data-symbol="$" data-placeholder="0.00" defaultValue>
-              USD
-            </option>
-            <option data-symbol="€" data-placeholder="0.00">
-              EUR
-            </option>
-            <option data-symbol="₴" data-placeholder="0.00">
-              HRN
-            </option>
-          </select>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Price;
+export default Number;

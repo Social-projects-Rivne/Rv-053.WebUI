@@ -30,6 +30,7 @@ const Map = () => {
       map.on("load", () => {
         setMap(map);
         map.resize();
+        console.log(view);
       });
       map.on("move", () => {
         setView({

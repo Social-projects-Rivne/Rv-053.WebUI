@@ -36,7 +36,7 @@ const Routes = () => {
             <Route path="/profile/:id">
               <PageLayout innerComponent={<UserProfile />} />
             </Route>
-            <Route path="/redirect">
+          <Route path="/redirect">
               <PageLayout innerComponent={<Notificator />} />
             </Route>
             <Route path="/confirmemail/:token">
