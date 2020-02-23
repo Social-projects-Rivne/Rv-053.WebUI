@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
-import Button from './../../shared/components/UI/Button';
 import { VAL_EMAIL, VAL_REQUIRED } from '../../shared/utilities/validation';
 
 const Signin = props => {
@@ -16,7 +15,6 @@ const Signin = props => {
           validations={[VAL_EMAIL()]}
           onInput={props.inputHandler}
           errorMessage="Input a valid email"
-          className="form-control"
         />
         <Input
           id="password"
@@ -25,13 +23,14 @@ const Signin = props => {
           validations={[VAL_REQUIRED()]}
           onInput={props.inputHandler}
           errorMessage="Password is required"
-          className="form-control"
         />
-        <div className="btn-container">
-          <Button onClick={props.signInUpHandler}>Switch to Sign Up</Button>
-          <Button type="submit">Sign In</Button>{' '}
-        </div>
+        <button className="my__button float-right mt-4" type="submit">
+          Sign In
+        </button>
       </form>
+      <button className="my__button mb-4 mt-4" onClick={props.signInUpHandler}>
+        Switch to Sign Up
+      </button>
     </>
   );
 };

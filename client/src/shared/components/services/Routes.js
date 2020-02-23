@@ -4,10 +4,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { AuthContext } from './../../context/auth-context';
 import SignUpIn from './../../../users/pages/SignUp';
 import AdminPanelPage from '../../../admin/pages/AdminPanelPage';
-import Users from '../../../admin/components/Users/Users';
-import Event from '../../../admin/components/Events/Event';
-import Logs from '../../../admin/components/Logs/Logs';
-import EventsList from './../../../events/pages/EventsList';
 import EventDetails from './../../../events/pages/EventDetails';
 import AddEvent from './../../../events/pages/AddEvent';
 import Notificator from './../../components/UI/Notificator';
@@ -48,18 +44,8 @@ const Routes = () => {
             <Route path="/confirmemail/:token">
               <PageLayout innerComponent={<EmailConfirmation />} />
             </Route>
-            {/* next routes for admin panel */}
             <Route path="/adminpanelpage" exact>
               <PageLayout innerComponent={<AdminPanelPage />} isAdmin />
-            </Route>
-            <Route path="/adminpanelpage/users">
-              <PageLayout innerComponent={<Users />} isAdmin />
-            </Route>
-            <Route path="/adminpanelpage/events">
-              <PageLayout innerComponent={<Event />} isAdmin />
-            </Route>
-            <Route path="/adminpanelpage/logs">
-              <PageLayout innerComponent={<Logs />} isAdmin />
             </Route>
             <Redirect to="/" />
           </Switch>
@@ -67,6 +53,9 @@ const Routes = () => {
           <Switch>
             <Route path="/" exact>
               <PageLayout innerComponent={<MainPage />} />
+            </Route>
+            <Route path="/events" exact>
+              <PageLayout innerComponent={<EventsResult />} />
             </Route>
             <Route path="/event/details">
               <PageLayout innerComponent={<EventDetails />} />
