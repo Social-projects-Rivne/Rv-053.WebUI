@@ -3,16 +3,14 @@ const { body, validationResult } = require('express-validator');
 //Password should be contain at least one uppercase, one lowercase and one digit
 const regExpForPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
 //Cyrillic and Latin characters, space and -
-const regExpForNames = /[^A-Za-zа-яА-ЯіІїЇёЁ\s\-\']+/;
+const regExpForNames = /[^A-Za-zа-яА-Я\s\-\']+/;
 
 const loginValidation = () => {
   return [
-    // normalize email
     body('email', 'Email is invalid')
       .trim()
       .isEmail()
       .normalizeEmail(),
-    // password must be at least 6 chars long
     body('password', 'Your password must be between 6 and 30 characters')
       .trim()
       .isLength({
@@ -24,12 +22,10 @@ const loginValidation = () => {
 
 const registerValidation = () => {
   return [
-    // normalize email
     body('email', 'Email is invalid')
       .trim()
       .isEmail()
       .normalizeEmail(),
-    // password must be at least 6 chars long
     body('password', 'Your password must be between 6 and 30 characters')
       .trim()
       .isLength({
@@ -40,7 +36,6 @@ const registerValidation = () => {
       .withMessage(
         'Password should be contain at least one uppercase, one lowercase and one digit'
       ),
-    //first_name must be more then 3 letters and matches regExpForNames
     body('first_name')
       .trim()
       .isLength({
@@ -51,7 +46,6 @@ const registerValidation = () => {
       .not()
       .matches(regExpForNames, 'g')
       .withMessage('Wrong symbol in first name'),
-    //last_name must be more then 2 letters and matches regExpForNames
     body('last_name')
       .trim()
       .isLength({
@@ -62,7 +56,6 @@ const registerValidation = () => {
       .not()
       .matches(regExpForNames, 'g')
       .withMessage('Wrong symbol in last name'),
-    //Phone number may contains digit + - ( ) and space. Phone may be any location
     body('phone')
       .trim()
       .blacklist(/()\s\-\+/)
@@ -73,39 +66,31 @@ const registerValidation = () => {
 
 const createEventValidation = () => {
   return [
-    // normalize email
     body('name', 'Name of event is invalid')
       .notEmpty({
         ignore_whitespace: false
       })
       .isString(),
-    // Event description >30
     body('description', 'Description should be more then 10 symbols')
       .notEmpty({
         ignore_whitespace: false
       })
       .isString()
       .isLength({
-        min: 10
+        min: 10,
+        max: 1000
       }),
-    //Location is string
     body('location', 'location field should not be empty')
       .notEmpty({
         ignore_whitespace: false
       })
       .isString(),
-    // The format of Date YYYY-MM-DD
-    body('datetime', 'Datetime field is invalid')
-      .notEmpty({
-        ignore_whitespace: false
-      })
-      .isNumeric(),
-    //Phone number may contains digit + - ( ) and space. Phone may be any location
-    body('duration', 'Duration field should not be empty')
-      .notEmpty({
-        ignore_whitespace: false
-      })
-      .isNumeric(),
+    body('datetime', 'Datetime field is invalid').notEmpty({
+      ignore_whitespace: false
+    }),
+    body('duration', 'Duration field should not be empty').notEmpty({
+      ignore_whitespace: false
+    }),
     body('max_participants', 'Max part field should not be empty').notEmpty({
       ignore_whitespace: false
     }),
@@ -117,9 +102,11 @@ const createEventValidation = () => {
         ignore_whitespace: false
       })
       .isString(),
-    body('price', 'price field should not be empty').notEmpty({
-      ignore_whitespace: false
-    })
+    body('price', 'price field should not be empty')
+      .notEmpty({
+        ignore_whitespace: false
+      })
+      .isString()
   ];
 };
 

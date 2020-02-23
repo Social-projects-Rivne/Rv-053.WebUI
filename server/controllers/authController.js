@@ -19,7 +19,6 @@ const updateTokens = (user, oldRefreshTokenId) => {
   const refreshToken = idPlusToken.token;
   const decoded_access = jwt.decode(accessToken);
   const decoded_refresh = jwt.decode(refreshToken);
-  //console.log(idPlusToken.id, user.id, decoded_refresh.exp);
   return tokenService
     .replaceDbRefreshToken(idPlusToken.id, user.id, decoded_refresh.exp * 1000, oldRefreshTokenId)
     .then(() => ({
@@ -37,14 +36,10 @@ exports.signUp = async (req, res) => {
         email
       }
     });
-    //if user exist return res
     if (foundUser && foundUser.status_id != 3) {
       return res.status(200).json({ error: 'Email is already in use' });
     }
-    //else create new user into DB and generate token
     const hashPassword = await bcrypt.hash(password, saltRounds);
-    // console.log(hashPassword);
-    //Add user in DB
     const userInDB = {
       email: email,
       password: hashPassword,
@@ -65,8 +60,6 @@ exports.signUp = async (req, res) => {
         userId: foundUser.id
       };
     }
-    //console.log('foundUser.id  ' + payload.userId);
-    //TODO: send email
 
     const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
       expiresIn: MAIL_TOKEN_EXPIRE_IN
@@ -101,11 +94,7 @@ exports.signUp = async (req, res) => {
 };
 
 exports.signIn = async (req, res) => {
-  //Generate token
-  //console.log("start authController.signIn ");
-
   updateTokens(req.user).then(tokens => {
-    //console.log(tokens);
     res.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       expires: new Date(jwt.decode(tokens.refreshToken).exp * 1000)
@@ -118,7 +107,6 @@ exports.signIn = async (req, res) => {
 };
 
 exports.refreshTokens = async (req, res) => {
-  //const { refreshToken } = req.body;
   const { refreshToken } = req.cookies;
   let payload;
   try {
@@ -173,7 +161,6 @@ exports.refreshTokens = async (req, res) => {
 };
 
 exports.signOut = async (req, res) => {
-  //Delete refresh token from DB
   try {
     const payload = await jwt.verify(req.cookies.refreshToken, JWT_REFRESH_SECRET);
     await Token.findOne({
@@ -189,18 +176,16 @@ exports.signOut = async (req, res) => {
         });
       }
     });
-    //create expiration access token
+
     const token = jwt.sign(
       {
         sub: 'Logout',
-        iat: new Date().getTime(), //current time
-        exp: new Date().getTime() //current time
+        iat: new Date().getTime(),
+        exp: new Date().getTime()
       },
       JWT_SECRET
     );
-    //Clear httpOnly cookie 'refreshToken'
     res.clearCookie('refreshToken');
-    //pass expired token to front-end
     res.status(200).json({
       success: true,
       token: token
@@ -212,19 +197,7 @@ exports.signOut = async (req, res) => {
   }
 };
 
-// exports.checkAuth = async (req, res) => {
-//   //console.log("start authController.checkAuth");
-//   const { token } = req.body;
-//   try {
-//     jwt.verify(token, JWT_SECRET);
-//     res.status(200).send();
-//   } catch (err) {
-//     return res.status(401).json({ error: err });
-//   }
-// };
-
 exports.confirmEmail = async (req, res) => {
-  //Confirm email
   let payload;
   try {
     const { token } = req.body;

@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const config = require('config');
 const cors = require('cors');
 const db = require('./models');
 const cookieParser = require('cookie-parser');
@@ -14,7 +13,6 @@ app.use(
     origin: process.env.FRONT_HOST
   })
 );
-// Parse incoming requests data
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -28,17 +26,16 @@ app.use('/api/events', require('./routes/eventRoute'));
 app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/tags', require('./routes/tagsRoute'));
 app.use('/api/adminpanel', adminAuth, require('./routes/adminRoute'));
+app.use('/uploads', express.static('uploads'));
 
-const PORT = config.get('port') || 5000;
+const PORT = process.env.PORT || 5000;
 
 async function start() {
   try {
     await db.sequelize
       .sync()
       .then(() => {
-        app.listen(PORT, () =>
-          console.log(`App has been started on port ${PORT}...`)
-        );
+        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
       })
       .catch(err => console.error(err.message));
   } catch (e) {

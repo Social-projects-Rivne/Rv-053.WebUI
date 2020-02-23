@@ -6,12 +6,15 @@ import { useLocation } from 'react-router-dom';
 import Pagination from '../../shared/components/UI/Pagination';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
 import './EventsResult.css';
+import { AuthContext } from '../../shared/context/auth-context';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const EventsResult = () => {
+  const accessToken = useContext(AuthContext).token;
+
   const urlParams = useQuery();
   const eventContext = useContext(EventContext);
 
