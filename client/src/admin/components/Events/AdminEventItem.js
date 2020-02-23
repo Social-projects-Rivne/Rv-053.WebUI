@@ -19,7 +19,7 @@ const AdminEventItem = props => {
           />
         </div>
         <div className="col-lg-3 adminpanel__col">
-          <p className="adminpanel__float-left adminpanel__text-left">{props.eventInfo.name}</p>
+          <p className="adminpanel__text-left">{props.eventInfo.name}</p>
         </div>
         <div className="col-lg-2 adminpanel__col">
           <p className="adminpanel__text-left">{props.eventInfo.user.first_name}</p>
@@ -29,7 +29,16 @@ const AdminEventItem = props => {
           <p className="adminpanel__text-left">{props.eventInfo.user.email}</p>
         </div>
         <div className="col-lg-1 adminpanel__col">
-          <p className="adminpanel__float-left">{props.eventInfo.price}</p>
+          {props.eventInfo.price ? (
+            <>
+              <p className="adminpanel__text-left">{props.eventInfo.price.match(/\d+/)[0]}</p>
+              <p className="adminpanel__text-left">
+                {props.eventInfo.price.match(/[A-Za-zа-яА-ЯіІёЁ]+/)}
+              </p>
+            </>
+          ) : (
+            <p className="adminpanel__text-left">Free</p>
+          )}
         </div>
         <div className="col-lg-1 adminpanel__col">
           <p
@@ -50,7 +59,7 @@ const AdminEventItem = props => {
       <RollingAnimation triger={extraInfoFlag} mountOnEnter unmountOnExit>
         <div className="row adminpanel__row text-center mb-3 pt-2 align-items-center">
           <div className="col-12 adminpanel__col adminpanel__lg-justify-content-center">
-            <p className="adminpanel__float-left text-left">
+            <p className="adminpanel__text-left">
               {props.eventInfo.description ? props.eventInfo.description : 'Here is no description'}
             </p>
           </div>
