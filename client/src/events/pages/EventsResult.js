@@ -33,6 +33,7 @@ const EventsResult = () => {
       }
     }).then(response => {
       setAllEvents(response.data.rows);
+      console.log(response.data.rows);
     });
   };
 
@@ -45,12 +46,12 @@ const EventsResult = () => {
   }, [searchQuery]);
 
   return (
-    <section className='list__events'>
-      <div className='my__container'>
-        <div className='list__events__inner'>
-          <div className='list__events-sort'>
+    <section className="list__events">
+      <div className="my__container">
+        <div className="list__events__inner">
+          <div className="list__events-sort">
             <span>Sort by</span>
-            <div className='list__events-sort_btn'>
+            <div className="list__events-sort_btn">
               <button
                 className={
                   toggleListState.list
@@ -71,20 +72,14 @@ const EventsResult = () => {
           </div>
           <div
             className={
-              toggleListState.list
-                ? 'list__events-items'
-                : 'list__events-items card-wrapper'
+              toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
             }
           >
             {eventContext.events.map(event => {
               return (
                 <EventResultItem
                   key={event.id}
-                  className={
-                    toggleListState.list
-                      ? 'list__events-item'
-                      : 'list__events-item card'
-                  }
+                  className={toggleListState.list ? 'list__events-item' : 'list__events-item card'}
                   title={event.name}
                   category={event.category}
                   description={event.description}

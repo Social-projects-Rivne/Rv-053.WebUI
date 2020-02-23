@@ -1,0 +1,23 @@
+.update-title {
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  margin-bottom: 20px;
+}
+
+.input_wrapper-number {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+}
+.input_wrapper-radio {
+  display: flex;
+  justify-content: space-between;
+  max-width: 200px;
+}
+.input_wrapper-radio label {
+  margin-left: 10px;
+}
+.input_wrapper-radio .form-group {
+  display: flex;
+  flex-direction: row-reverse;
+}

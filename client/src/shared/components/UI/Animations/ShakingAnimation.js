@@ -15,7 +15,7 @@ const ShakingAnimation = props => {
         const cssClasses = [
           transition === 'entering' ? '' : transition === 'entered' ? 'shaking-element' : null
         ];
-        console.log(transition);
+        // console.log(transition);
         return <div className={cssClasses.join(' ')}>{props.children}</div>;
       }}
     </Transition>
