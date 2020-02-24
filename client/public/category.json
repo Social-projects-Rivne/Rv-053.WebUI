@@ -1,0 +1,53 @@
+[{
+        "id": "1",
+        "category": "Music"
+    },
+    {
+        "id": "2",
+        "category": "Sport"
+    },
+    {
+        "id": "3",
+        "category": "Art"
+    },
+    {
+        "id": "4",
+        "category": "Tech"
+    },
+    {
+        "id": "5",
+        "category": "Films"
+    },
+    {
+        "id": "6",
+        "category": "Drink"
+    },
+    {
+        "id": "7",
+        "category": "Dance"
+    },
+    {
+        "id": "8",
+        "category": "Travel"
+    },
+    {
+        "id": "9",
+        "category": "Pictures"
+    },
+    {
+        "id": "10",
+        "category": "Nature"
+    },
+    {
+        "id": "11",
+        "category": "Pictures"
+    },
+    {
+        "id": "12",
+        "category": "Pictures"
+    },
+    {
+        "id": "13",
+        "category": "Dance"
+    }
+]
