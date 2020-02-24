@@ -27,7 +27,7 @@ exports.getEventByID = async (req, res) => {
           message: 'Event not found'
         });
       }
-      Redis.addUrlInCache(req.baseUrl, event);
+      Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -187,7 +187,7 @@ exports.searchEvent = async (req, res) => {
       order: [['datetime', 'DESC']]
     })
       .then(events => {
-        Redis.addUrlInCache(req.baseUrl, events);
+        Redis.addUrlInCache(req.originalUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
@@ -206,7 +206,7 @@ exports.searchEvent = async (req, res) => {
       order: [['datetime', 'DESC']]
     })
       .then(events => {
-        Redis.addUrlInCache(req.baseUrl, events);
+        Redis.addUrlInCache(req.originalUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
@@ -257,7 +257,7 @@ exports.filterEvent = async (req, res) => {
     order: [['datetime', 'DESC']]
   })
     .then(events => {
-      Redis.addUrlInCache(req.baseUrl, events);
+      Redis.addUrlInCache(req.originalUrl, events);
       res.status(200).json(events);
     })
     .catch(err => {
