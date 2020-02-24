@@ -1,7 +1,7 @@
 const Redis = require('../services/redisService');
 
 const CheckUrlInCache = async (req, res, next) => {
-  Redis.getUrlFromCache(req.baseUrl)
+  Redis.getUrlFromCache(req.originalUrl)
     .then(cache => {
       if (!cache) {
         return next();
