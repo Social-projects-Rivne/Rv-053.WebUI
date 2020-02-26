@@ -9,15 +9,10 @@
   justify-content: space-between;
   max-width: 300px;
 }
-.input_wrapper-radio {
+.radio-wrapper {
   display: flex;
-  justify-content: space-between;
-  max-width: 200px;
+  justify-content: flex-start;
 }
-.input_wrapper-radio label {
-  margin-left: 10px;
-}
-.input_wrapper-radio .form-group {
-  display: flex;
-  flex-direction: row-reverse;
+.radio-wrapper div + div {
+  margin-left: 80px;
 }
