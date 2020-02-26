@@ -11,7 +11,7 @@ function useQuery() {
 
 const EventsList = props => {
   const urlParams = useQuery();
-  const searchQuery = urlParams.get('query');
+  const searchQuery = urlParams.get('q');
   const [events, setEvents] = useState({
     count: 0,
     rows: []

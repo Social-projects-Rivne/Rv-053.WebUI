@@ -13,7 +13,7 @@ const AdminSearchEvents = () => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    history.push(`?query=${searchQuery}`);
+    history.push(`?q=${searchQuery}`);
   };
 
   useEffect(() => {
