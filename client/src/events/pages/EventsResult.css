@@ -152,6 +152,11 @@
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .list__events-item-category {
@@ -165,11 +170,17 @@
   font-size: 15px;
   color: #cdcdcd;
   font-family: 'Lato', sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  height: 66px;
 }
 
 .list__events-item-price {
   text-align: center;
-  padding: 20px 20px 15px 15px;
+  padding: 20px 20px 5px 15px;
   font-weight: 700;
   font-size: 25px;
 }
@@ -233,7 +244,4 @@
 .list__events-sort_btn-item.icon-th-list:focus,
 .list__events-sort_btn-item.icon-th-large:focus {
   outline: none;
-}
-.list__events-item-description {
-  min-height: 200px;
 }
