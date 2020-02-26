@@ -92,3 +92,28 @@ select:-webkit-autofill:focus {
     rgba(0, 174, 255, 0.03) 100%
   );
 }
+input[type='radio'] {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0;
+  top: -16px;
+  height: 30px;
+  width: 30px;
+  left: 10px;
+  opacity: 0;
+  cursor: pointer;
+}
+input[type='radio'] + label {
+  border-bottom: 0px solid #000;
+  top: 25px;
+}
+.input__form input[type='radio'] + .input__label-name .input__label-content {
+  position: absolute;
+}
+.input__form input[type='radio']:checked + .input__label-name .input__label-content {
+  position: absolute;
+  border-bottom: 3px solid #16a085;
+}
+.input__form input[type='radio'] + .input__label-name .input__invalid {
+  color: #16a085 !important;
+}
