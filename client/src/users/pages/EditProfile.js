@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-//import { format } from 'date-fns';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -43,9 +42,7 @@ const EditProfile = () => {
       'DD MM YYYY'
     );
     userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
-    console.log(userData.data.data.user.birthday);
     setUserDataState(userData.data.data.user);
-    console.log('unupdated');
   };
 
   useEffect(() => {
@@ -88,12 +85,6 @@ const EditProfile = () => {
 
   const submitFormHandler = async event => {
     event.preventDefault();
-    console.log(formState);
-    let birth = [
-      formState.inputs.birth_day.value,
-      formState.inputs.birth_month.value,
-      formState.inputs.birth_year.value
-    ];
     if (formState.formValidity) {
       const updatedUser = {
         first_name: formState.inputs.firstname.value,
@@ -105,9 +96,6 @@ const EditProfile = () => {
           .valueOf(),
         sex: formState.inputs.sex.value
       };
-      console.log('updated');
-      console.log(updatedUser.birthday);
-      console.log(updatedUser);
       const res = await axios.put('http://localhost:5001/api/user/current/', updatedUser, {
         headers
       });

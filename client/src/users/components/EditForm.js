@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { VAL_REQUIRED } from './../../shared/utilities/validation';
 import Input from './../../shared/components/FormElements/Input';
