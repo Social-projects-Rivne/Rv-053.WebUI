@@ -8,7 +8,7 @@ const adminAuth = require('../middlewares/adminAuthorization');
 
 const { uploadCover } = require('../middlewares/upload-images');
 
-router.get('/', auth, CheckUrlInCache, eventController.searchEvent);
+router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.post(
   '/',
   auth,
@@ -19,7 +19,6 @@ router.post(
 );
 router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
-router.get('/:id', auth, CheckUrlInCache, eventController.getEventByID);
 router.delete('/:id', auth, eventController.deleteEvent);
 router.get('/:id', CheckUrlInCache, eventController.getEventByID);
 router.put('/:id/ban', adminAuth, eventController.banEvent);
