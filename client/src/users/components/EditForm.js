@@ -31,7 +31,7 @@ const EditForm = props => {
           initValue={props.user.last_name}
           initValid="true"
         />
-        <div className="input_wrapper-number">
+        <div className="input_wrapper-number mb-4">
           <Input
             id="birth_day"
             type="number"
@@ -39,7 +39,7 @@ const EditForm = props => {
             onInput={props.inputHandler}
             initValid="true"
             validations={[VAL_REQUIRED()]}
-            initValue={props.user.birthday[2] || null}
+            initValue={props.user.birthday[0] || null}
             min="0"
             max="31"
           />
@@ -58,13 +58,13 @@ const EditForm = props => {
             type="number"
             label="Year"
             onInput={props.inputHandler}
-            initValue={props.user.birthday[0] || null}
+            initValue={props.user.birthday[2] || null}
             validations={[VAL_REQUIRED()]}
             min="1960"
             max="2015"
           />
         </div>
-        <div className="input_wrapper-radio">
+        <div className="radio-wrapper mb-4">
           <Input
             type="radio"
             name="sex"
@@ -75,6 +75,7 @@ const EditForm = props => {
             validations={[]}
             checked={props.user.sex == 'Female' ? true : null}
             label="Woman"
+            initValid="true"
           />
           <Input
             type="radio"
@@ -85,6 +86,7 @@ const EditForm = props => {
             validations={[]}
             checked={props.user.sex == 'Male' ? true : null}
             label="Man"
+            initValid="true"
           />
         </div>
         <Button type="submit">UPDATE</Button>
