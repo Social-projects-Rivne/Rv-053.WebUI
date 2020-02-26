@@ -70,7 +70,6 @@ const EditForm = props => {
             name="sex"
             id="sex"
             value="Female"
-            checked={true}
             onInput={props.inputHandler}
             validations={[]}
             checked={props.user.sex == 'Female' ? true : null}

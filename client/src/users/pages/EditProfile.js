@@ -96,6 +96,7 @@ const EditProfile = () => {
           .valueOf(),
         sex: formState.inputs.sex.value
       };
+      console.log(formState.inputs.sex.value);
       const res = await axios.put('http://localhost:5001/api/user/current/', updatedUser, {
         headers
       });

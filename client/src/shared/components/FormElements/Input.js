@@ -176,10 +176,10 @@ const Input = props => {
         name={props.name}
         onBlur={blurHandler}
         checked={props.checked}
+        onChange={typingHandler}
       />
     );
   }
-  console.log(inputEl);
   return (
     <>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
