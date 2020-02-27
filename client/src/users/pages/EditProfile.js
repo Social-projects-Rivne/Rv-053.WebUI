@@ -101,7 +101,7 @@ const EditProfile = () => {
         headers
       });
       if (res.data.status == 'success') {
-        history.push('/profile/my', { showUpdateNotification: true });
+        history.push('/profile/my', { show: true });
       }
     }
   };

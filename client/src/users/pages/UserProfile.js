@@ -5,34 +5,42 @@ import UserInfo from './../components/UserInfo';
 import CategoriesList from './../components/CategoriesList';
 import FollowedEventList from './../components/ProfileEvents/FollowedEventList';
 import CreatedEventList from './../components/ProfileEvents/CreatedEventList';
-import SuccessNote from './../../shared/components/UI/SuccessNote';
+import Notificator from './../../shared/components/UI/Notificator';
 import './UserProfile.css';
 
 const UserProfile = () => {
   const history = useHistory();
   const location = useLocation();
-  const [showSuccessNote, setShowSuccessNote] = useState(location.state?.showUpdateNotification);
+  const [showNotificator, setShowNotificator] = useState(location.state?.show);
   const closeNote = () => {
-    setShowSuccessNote(false);
+    setShowNotificator(false);
   };
   useEffect(() => {
-    history.replace(location.pathname, { showUpdateNotification: false });
+    history.replace(location.pathname, { show: false });
   }, []);
+  console.log(showNotificator);
   return (
-    <div className="profile-container">
-      {' '}
-      {showSuccessNote ? <SuccessNote click={closeNote} /> : null}
-      <section className="profile_inner">
-        <UserInfo />
-        <CategoriesList />
-        <div className="profile-followed_events">
-          <FollowedEventList />
-        </div>
-        <div className="profile-created_events">
-          <CreatedEventList />
-        </div>
-      </section>
-    </div>
+    <>
+      <Notificator
+        className="success-note"
+        onExit={closeNote}
+        message="Profile updated!"
+        show={showNotificator || false}
+      />
+      <div className="profile-container">
+        {' '}
+        <section className="profile_inner">
+          <UserInfo />
+          <CategoriesList />
+          <div className="profile-followed_events">
+            <FollowedEventList />
+          </div>
+          <div className="profile-created_events">
+            <CreatedEventList />
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 
