@@ -19,19 +19,21 @@ const UserProfile = () => {
     history.replace(location.pathname, { showUpdateNotification: false });
   }, []);
   return (
-    <div className="profile-container">
-      {' '}
-      {showSuccessNote ? <SuccessNote click={closeNote} /> : null}
-      <section className="profile_inner">
-        <UserInfo />
-        <CategoriesList />
-        <div className="profile-followed_events">
-          <FollowedEventList />
-        </div>
-        <div className="profile-created_events">
-          <CreatedEventList />
-        </div>
-      </section>
+    <div className="my__container">
+      <div className="profile-container">
+        {' '}
+        {showSuccessNote ? <SuccessNote click={closeNote} /> : null}
+        <section className="profile_inner">
+          <UserInfo />
+          <CategoriesList />
+          <div className="profile-followed_events">
+            <FollowedEventList />
+          </div>
+          <div className="profile-created_events">
+            <CreatedEventList />
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
