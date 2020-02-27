@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const User = require('../models').users;
 const Event = require('../models').event;
 const UserEvent = require('../models').user_event;
@@ -91,7 +92,7 @@ exports.getById = async (req, res) => {
 exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
-      where: { owner_id: req.userId },
+      where: { owner_id: req.userId, status: { [Op.ne]: 'Deleted' } },
       raw: true
     });
     res.status(200).json({
@@ -207,8 +208,10 @@ exports.setRoleToModerator = async (req, res) => {
 };
 
 exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
-exports.setRoleToModerator = async (req, res) => changeUserRole(req, res, ROLE_MODERATOR);
-exports.setRoleToAdmin = async (req, res) => changeUserRole(req, res, ROLE_ADMIN);
+exports.setRoleToModerator = async (req, res) =>
+  changeUserRole(req, res, ROLE_MODERATOR);
+exports.setRoleToAdmin = async (req, res) =>
+  changeUserRole(req, res, ROLE_ADMIN);
 
 exports.ban = async (req, res) => changeUserStatus(req, res, USER_BAN);
 exports.unban = async (req, res) => changeUserStatus(req, res, USER_UNBAN);
