@@ -27,7 +27,7 @@ const CreatedEventList = () => {
       .then(() => {
         const Events = [...events];
         Events.splice(
-          Events.findIndex(item => item['event.id'] === id),
+          Events.findIndex(item => item['id'] === id),
           1
         );
         setEvents(Events);
