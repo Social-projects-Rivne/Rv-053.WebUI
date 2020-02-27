@@ -157,6 +157,34 @@ exports.unfollowFromEvent = async (req, res) => {
   }
 };
 
+exports.followEvent = async (req, res) => {
+  const eventId = req.params.id;
+  try {
+    const userEvent = await UserEvent.findOne({
+      where: { user_id: req.userId, event_id: eventId },
+      raw: true
+    });
+    const event = await Event.findOne({ where: { id: eventId }, raw: true });
+    if (!event) {
+      return res.status(400).json({ err: 'The event does not exist' });
+    }
+    if (event.status !== 'Active') {
+      return res.status(400).json({ err: "The event isn't active" });
+    }
+    if (parseInt(event.datetime, 10) + parseInt(event.duration, 10) * 60 * 1000 < Date.now()) {
+      return res.status(400).json({ err: 'The event ended' });
+    }
+    if (!userEvent) {
+      await UserEvent.create({ user_id: req.userId, event_id: eventId });
+    }
+    res.status(201).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
 exports.getFollowedCategories = async (req, res) => {
   try {
     const followedCategory = await UserCategory.findAll({
