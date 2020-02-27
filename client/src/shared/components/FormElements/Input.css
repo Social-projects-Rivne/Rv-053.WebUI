@@ -18,6 +18,16 @@
   border: none;
   outline: none;
 }
+.input__form textarea {
+  height: 100%;
+  width: 100%;
+  padding-top: 20px;
+  resize: vertical;
+  overflow-y: hidden;
+  /* scroll-padding-top: 20px; */
+  border: none;
+  outline: none;
+}
 .input__form label {
   position: absolute;
   margin: 0px;
@@ -52,6 +62,16 @@
 }
 .input__form input:focus + .input__label-name::after,
 .input__form input :valid + .input__label-name::after {
+  width: 100%;
+}
+.input__form textarea:focus + .input__label-name .input__label-content,
+.input__form textarea:valid + .input__label-name .input__label-content {
+  transform: translateY(-450%);
+  color: #16a085;
+  font-size: 90%;
+}
+.input__form textarea:focus + .input__label-name::after,
+.input__form textarea:valid + .input__label-name::after {
   width: 100%;
 }
 .input__invalid {

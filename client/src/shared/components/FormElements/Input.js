@@ -109,9 +109,9 @@ const Input = props => {
   } else if (props.type === 'textarea') {
     inputEl = (
       <textarea
-        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
+        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'} mt-4`}
         id={props.id}
-        rows={props.rows || 3}
+        rows={1}
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}

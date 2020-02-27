@@ -13,6 +13,7 @@ import EmailConfirmation from './EmailConfirmation';
 import MainPage from '../../../events/pages/MainPage';
 import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
+import EditEvent from '../../../events/pages/EditEvent';
 
 const Routes = () => {
   return (
@@ -31,6 +32,9 @@ const Routes = () => {
             </Route>
             <Route path="/addevent">
               <PageLayout innerComponent={<AddEvent />} />
+            </Route>
+            <Route path="/editevent/:id">
+              <PageLayout innerComponent={<EditEvent />} />
             </Route>
             <Route path="/profile/:id">
               <PageLayout innerComponent={<UserProfile />} />
