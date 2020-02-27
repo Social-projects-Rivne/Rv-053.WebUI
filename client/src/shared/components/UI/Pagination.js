@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
@@ -35,6 +36,12 @@ const Pagination = props => {
             headers
           }
         );
+        for (const event of res.data.rows) {
+          event.datetime = moment(+event.datetime)
+            .format('DD MM YYYY')
+            .split(' ')
+            .join('.');
+        }
         setRowsCount(res.data.count);
         props.onDataFetch(res.data);
         setLoadingFlag(false);

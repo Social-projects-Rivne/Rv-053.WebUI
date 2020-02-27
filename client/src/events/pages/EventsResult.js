@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import EventResultItem from './EventResultItem';
-import { EventContext } from '../../shared/context/events-context';
-import { useLocation } from 'react-router-dom';
 import Pagination from '../../shared/components/UI/Pagination';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
-import './EventsResult.css';
 import { AuthContext } from '../../shared/context/auth-context';
+import { EventContext } from '../../shared/context/events-context';
+import './EventsResult.css';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
