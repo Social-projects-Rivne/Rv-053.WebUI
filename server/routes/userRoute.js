@@ -10,6 +10,7 @@ route.put('/current', auth, userController.updateProfile);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
 route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);
+//route.post('/follow-event/:id', auth, userController.followEvent);
 route.get('/categories', auth, userController.getCategories);
 route.get('/followed-categories', auth, userController.getFollowedCategories);
 route.put('/role-admin/:id', authAdmin, userController.setRoleToAdmin);

@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const User = require('../models').users;
 const Event = require('../models').event;
 const UserEvent = require('../models').user_event;
@@ -91,7 +92,7 @@ exports.getById = async (req, res) => {
 exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
-      where: { owner_id: req.userId },
+      where: { owner_id: req.userId, status: { [Op.ne]: 'Deleted' } },
       raw: true
     });
     res.status(200).json({
@@ -128,7 +129,7 @@ exports.getFollowedEvents = async (req, res) => {
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
-      include: [{ model: Event }]
+      include: [{ model: Event, where: { status: { [Op.ne]: 'Deleted' } } }]
     });
     res.status(200).json({
       status: 'success',

@@ -126,7 +126,7 @@ exports.updateEvent = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res) => {
-  const { id } = req.params.id;
+  const id = req.params.id;
   await Event.findOne({
     where: {
       id
@@ -157,10 +157,11 @@ exports.deleteEvent = async (req, res) => {
               message: err.message || 'Event not found'
             });
           });
+      } else {
+        res.status(403).json({
+          message: 'Access forbidden'
+        });
       }
-      res.status(403).json({
-        message: 'Access forbidden'
-      });
     })
     .catch(err => {
       res.status(404).json({
