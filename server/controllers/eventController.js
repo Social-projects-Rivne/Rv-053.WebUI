@@ -1,40 +1,66 @@
+require('dotenv').config();
+const JWT = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 const { Op } = require('sequelize');
 const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
+const UserEvent = require('../models').user_event;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
 
+function checkToken(req) {
+  let token;
+  let result = { isAuthorization: false };
+  if (req.header('Authorization')) {
+    token = req.header('Authorization').split(' ')[1];
+    try {
+      const payload = JWT.verify(token, JWT_SECRET);
+      result = { isAuthorization: true, userId: payload.userId };
+    } catch (err) {
+      return result;
+    }
+  }
+  return result;
+}
+
 exports.getEventByID = async (req, res) => {
-  const { id } = req.params.id;
-  await Event.findOne({
-    where: {
-      id,
-      status: 'Active'
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['first_name', 'last_name', 'avatar']
-      }
-    ]
-  })
-    .then(event => {
-      if (event === null) {
-        res.status(404).send({
-          message: 'Event not found'
-        });
-      }
-      Redis.addUrlInCache(req.originalUrl, event);
-      res.status(200).json(event);
-    })
-    .catch(err => {
-      res.status(404).send({
-        message: err.message || 'Not found'
-      });
+  const { id } = req.params;
+
+  try {
+    const event = await Event.findOne({
+      where: { id },
+      include: [
+        {
+          model: User,
+          attributes: ['first_name', 'last_name', 'avatar']
+        }
+      ],
+      raw: true
     });
+    if (event === null) {
+      return res.status(404).send({ message: 'Event not found' });
+    }
+    event.isSubscribe = false;
+    const authUser = checkToken(req);
+    if (authUser.isAuthorization) {
+      subscribe = await UserEvent.findOne({
+        where: { user_id: authUser.userId, event_id: id }
+      });
+      if (subscribe !== null) {
+        event.isSubscribe = true;
+      }
+    }
+
+    Redis.addUrlInCache(req.originalUrl, event);
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
 };
 
 exports.createEvent = async (req, res) => {
@@ -74,7 +100,7 @@ exports.createEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params;
   const {
     name,
     description,
@@ -126,7 +152,7 @@ exports.updateEvent = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   await Event.findOne({
     where: {
       id
@@ -173,48 +199,52 @@ exports.deleteEvent = async (req, res) => {
 exports.searchEvent = async (req, res) => {
   const limit = req.query.limit || 100;
   const offset = req.query.offset || 0;
+  let queryString;
   if (req.query.q) {
-    await Event.findAndCountAll({
-      where: {
-        status: 'Active',
-        [Op.or]: [
-          { name: { [Op.iLike]: `%${req.query.q}%` } },
-          { description: { [Op.iLike]: `%${req.query.q}%` } }
-        ]
-      },
-      raw: true,
-      offset,
-      limit,
-      order: [['datetime', 'DESC']]
-    })
-      .then(events => {
-        Redis.addUrlInCache(req.originalUrl, events);
-        res.status(200).json(events);
-      })
-      .catch(err => {
-        res.status(400).send({
-          message: err.message || 'Bad Request'
-        });
-      });
+    queryString = {
+      status: STATUS_ACTIVE,
+      [Op.or]: [
+        { name: { [Op.iLike]: `%${req.query.q}%` } },
+        { description: { [Op.iLike]: `%${req.query.q}%` } }
+      ]
+    };
   } else {
-    await Event.findAndCountAll({
-      where: {
-        status: 'Active'
-      },
-      raw: true,
+    queryString = {
+      status: STATUS_ACTIVE
+    };
+  }
+  try {
+    const events = await Event.findAndCountAll({
+      where: queryString,
       offset,
       limit,
-      order: [['datetime', 'DESC']]
-    })
-      .then(events => {
-        Redis.addUrlInCache(req.originalUrl, events);
-        res.status(200).json(events);
-      })
-      .catch(err => {
-        res.status(400).send({
-          message: err.message || 'Bad Request'
-        });
+      order: [['datetime', 'DESC']],
+      raw: true
+    });
+
+    const authUser = checkToken(req);
+    let newSubscribe = [];
+    if (authUser.isAuthorization) {
+      const subscribe = await UserEvent.findAll({
+        where: { user_id: authUser.userId },
+        attributes: ['event_id'],
+        raw: true
       });
+      newSubscribe = subscribe.map(el => el.event_id);
+    }
+    events.rows.forEach((item, index, array) => {
+      if (newSubscribe.indexOf(item.id) === -1) {
+        item.isSubscribe = false;
+      } else {
+        item.isSubscribe = true;
+      }
+    });
+    Redis.addUrlInCache(req.originalUrl, events);
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(400).send({
+      message: err.message || 'Bad Request'
+    });
   }
 };
 
@@ -224,7 +254,7 @@ exports.filterEvent = async (req, res) => {
   const startDate = req.query.startDate || null;
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
-  let searchQuery = {};
+  let searchQuery = { status: STATUS_ACTIVE };
   let includeQuery = null;
 
   if (startDate !== null && endDate === null) {
