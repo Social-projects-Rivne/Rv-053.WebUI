@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const User = require('../models').users;
 const Event = require('../models').event;
 const UserEvent = require('../models').user_event;
@@ -91,7 +92,7 @@ exports.getById = async (req, res) => {
 exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
-      where: { owner_id: req.userId },
+      where: { owner_id: req.userId, status: { [Op.ne]: 'Deleted' } },
       raw: true
     });
     res.status(200).json({
@@ -128,7 +129,7 @@ exports.getFollowedEvents = async (req, res) => {
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
-      include: [{ model: Event }]
+      include: [{ model: Event, where: { status: { [Op.ne]: 'Deleted' } } }]
     });
     res.status(200).json({
       status: 'success',
@@ -149,6 +150,34 @@ exports.unfollowFromEvent = async (req, res) => {
     });
     await event.destroy();
     res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+exports.followEvent = async (req, res) => {
+  const eventId = req.params.id;
+  try {
+    const userEvent = await UserEvent.findOne({
+      where: { user_id: req.userId, event_id: eventId },
+      raw: true
+    });
+    const event = await Event.findOne({ where: { id: eventId }, raw: true });
+    if (!event) {
+      return res.status(400).json({ err: 'The event does not exist' });
+    }
+    if (event.status !== 'Active') {
+      return res.status(400).json({ err: "The event isn't active" });
+    }
+    if (parseInt(event.datetime, 10) + parseInt(event.duration, 10) * 60 * 1000 < Date.now()) {
+      return res.status(400).json({ err: 'The event ended' });
+    }
+    if (!userEvent) {
+      await UserEvent.create({ user_id: req.userId, event_id: eventId });
+    }
+    res.status(201).json({
       status: 'success'
     });
   } catch (err) {
@@ -207,8 +236,10 @@ exports.setRoleToModerator = async (req, res) => {
 };
 
 exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
-exports.setRoleToModerator = async (req, res) => changeUserRole(req, res, ROLE_MODERATOR);
-exports.setRoleToAdmin = async (req, res) => changeUserRole(req, res, ROLE_ADMIN);
+exports.setRoleToModerator = async (req, res) =>
+  changeUserRole(req, res, ROLE_MODERATOR);
+exports.setRoleToAdmin = async (req, res) =>
+  changeUserRole(req, res, ROLE_ADMIN);
 
 exports.ban = async (req, res) => changeUserStatus(req, res, USER_BAN);
 exports.unban = async (req, res) => changeUserStatus(req, res, USER_UNBAN);
