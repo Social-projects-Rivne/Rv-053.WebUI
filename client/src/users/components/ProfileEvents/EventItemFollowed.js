@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Button from '../../../shared/components/UI/Button';
 
-const EventItem = props => {
+const EventItemFollowed = props => {
   return (
     <NavLink to='/profile/my' className='user_profile_event-item'>
       <div>{props.title}</div>
@@ -14,4 +14,4 @@ const EventItem = props => {
   );
 };
 
-export default EventItem;
+export default EventItemFollowed;

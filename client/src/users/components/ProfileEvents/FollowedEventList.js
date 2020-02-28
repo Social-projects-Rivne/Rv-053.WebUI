@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-import EventItem from './EventItem';
+import EventItemFollowed from './EventItemFollowed';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 
@@ -45,7 +45,7 @@ const FollowedEventList = () => {
       <h3 className='profile-title'>Followed events</h3>
       {events.length > 0 ? (
         events.map(event => (
-          <EventItem
+          <EventItemFollowed
             key={event['event.id']}
             id={event['event.id']}
             title={event['event.name']}
