@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import EventResultItem from './EventResultItem';
-import { EventContext } from '../../shared/context/events-context';
-import { useLocation } from 'react-router-dom';
 import Pagination from '../../shared/components/UI/Pagination';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
-import './EventsResult.css';
+import { EventContext } from '../../shared/context/events-context';
 import { AuthContext } from '../../shared/context/auth-context';
+import './EventsResult.css';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -34,7 +34,7 @@ const EventsResult = () => {
   const getEvents = useCallback(data => {
     setAllEvents(data.rows);
   }, []);
-
+  console.log(allEvents);
   return (
     <section className="list__events">
       <div className="my__container">
@@ -63,7 +63,7 @@ const EventsResult = () => {
           <Pagination
             api="/api/events/"
             onDataFetch={getEvents}
-            pageItemsLimit={2}
+            pageItemsLimit={4}
             query={'q=' + (searchQuery ? searchQuery : '')}
           >
             <div
@@ -75,7 +75,9 @@ const EventsResult = () => {
                 allEvents.map(event => {
                   return (
                     <EventResultItem
+                      cover={event.cover}
                       key={event.id}
+                      id={event.id}
                       className={
                         toggleListState.list ? 'list__events-item' : 'list__events-item card'
                       }

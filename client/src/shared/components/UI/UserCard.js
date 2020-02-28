@@ -1,9 +1,10 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-import "./UserCard.css";
+import './UserCard.css';
+import { parseWithOptions } from 'date-fns/fp';
 
-const UserCard = () => {
+const UserCard = props => {
   return (
     <div className="user-profile">
       <div className="user-header">
@@ -13,23 +14,12 @@ const UserCard = () => {
           alt="Jon Snow"
         />
         <div className="user-names">
-          <div id="fullname">Jon Snow</div>
-          <div id="username">kingofnorth</div>
+          <div id="fullname">
+            {props.owner.first_name + ' '}
+            {props.owner.last_name}
+          </div>
         </div>
       </div>
-      <div className="user-contacts">
-        <div>
-          Email: <span id="email">jon@hotmail.com</span>
-        </div>
-        <div>
-          City: <span id="city">Winterfell</span>
-        </div>
-      </div>
-      <NavLink to="/userId">
-        <button type="button" className=" btn btn-info">
-          Follow
-        </button>
-      </NavLink>
     </div>
   );
 };

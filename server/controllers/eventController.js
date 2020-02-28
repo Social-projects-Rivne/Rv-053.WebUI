@@ -8,7 +8,7 @@ const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
 
 exports.getEventByID = async (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params;
   await Event.findOne({
     where: {
       id,

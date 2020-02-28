@@ -150,7 +150,7 @@ body {
 .my__container {
   max-width: 1450px;
   margin: 0 auto;
-  padding: 0px 40px;
+  padding: 0px 20px;
 }
 
 .logo {
@@ -364,6 +364,14 @@ button:hover {
   .list__events-sort_btn-item {
     display: none;
   }
+  .event-item__desctiption,
+  .event-item__info {
+    font-size: 17px;
+  }
+  .event-item__desctiption h3,
+  .event-item__info h3 {
+    font-size: 25px;
+  }
 }
 
 @media (max-width: 450px) {
@@ -387,6 +395,9 @@ button:hover {
   }
   .header span {
     margin-left: 0px;
+  }
+  .map-container {
+    height: 30vh;
   }
 }
 
