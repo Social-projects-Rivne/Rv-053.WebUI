@@ -25,24 +25,48 @@ function checkToken(req) {
   }
   return result;
 }
+async function addFlagIsSubscribe(req, res, events) {
+  const authUser = checkToken(req);
+  let newSubscribe = [];
+  if (authUser.isAuthorization) {
+    const subscribe = await UserEvent.findAll({
+      where: { user_id: authUser.userId },
+      attributes: ['event_id'],
+      raw: true
+    });
+    newSubscribe = subscribe.map(el => el.event_id);
+  }
+  events.rows.forEach((item, index, array) => {
+    if (newSubscribe.indexOf(item.id) === -1) {
+      item.isSubscribe = false;
+    } else {
+      item.isSubscribe = true;
+    }
+  });
+
+  //console.log(req.originalUrl + (authUser.userId || 'anonymouse'));
+  // Redis.addUrlInCache(req.originalUrl, events);
+  res.status(200).json(events);
+}
 
 exports.getEventByID = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const event = await Event.findOne({
+    let event = await Event.findOne({
       where: { id },
       include: [
         {
           model: User,
           attributes: ['first_name', 'last_name', 'avatar']
-        }
-      ],
-      raw: true
+        },
+        { model: Categories }
+      ]
     });
     if (event === null) {
       return res.status(404).send({ message: 'Event not found' });
     }
+    event = event.toJSON();
     event.isSubscribe = false;
     const authUser = checkToken(req);
     if (authUser.isAuthorization) {
@@ -54,7 +78,7 @@ exports.getEventByID = async (req, res) => {
       }
     }
 
-    Redis.addUrlInCache(req.originalUrl, event);
+    //Redis.addUrlInCache(req.originalUrl, event);
     res.status(200).json(event);
   } catch (err) {
     res.status(404).send({
@@ -214,33 +238,15 @@ exports.searchEvent = async (req, res) => {
     };
   }
   try {
-    const events = await Event.findAndCountAll({
+    let events = await Event.findAndCountAll({
       where: queryString,
       offset,
       limit,
       order: [['datetime', 'DESC']],
-      raw: true
+      raw: true,
+      nest: true
     });
-
-    const authUser = checkToken(req);
-    let newSubscribe = [];
-    if (authUser.isAuthorization) {
-      const subscribe = await UserEvent.findAll({
-        where: { user_id: authUser.userId },
-        attributes: ['event_id'],
-        raw: true
-      });
-      newSubscribe = subscribe.map(el => el.event_id);
-    }
-    events.rows.forEach((item, index, array) => {
-      if (newSubscribe.indexOf(item.id) === -1) {
-        item.isSubscribe = false;
-      } else {
-        item.isSubscribe = true;
-      }
-    });
-    Redis.addUrlInCache(req.originalUrl, events);
-    res.status(200).json(events);
+    addFlagIsSubscribe(req, res, events);
   } catch (err) {
     res.status(400).send({
       message: err.message || 'Bad Request'
@@ -280,26 +286,29 @@ exports.filterEvent = async (req, res) => {
       model: Categories,
       where: {
         id: isNaN(parseInt(category)) ? 0 : parseInt(category)
+      },
+      attributes: ['id', 'category'],
+      through: {
+        attributes: []
       }
     };
   }
-
-  await Event.findAndCountAll({
-    where: searchQuery,
-    include: includeQuery,
-    offset,
-    limit,
-    order: [['datetime', 'DESC']]
-  })
-    .then(events => {
-      Redis.addUrlInCache(req.originalUrl, events);
-      res.status(200).json(events);
-    })
-    .catch(err => {
-      res.status(400).send({
-        message: err.message || 'Bad Request'
-      });
+  try {
+    let events = await Event.findAndCountAll({
+      where: searchQuery,
+      include: includeQuery,
+      offset,
+      limit,
+      order: [['datetime', 'DESC']],
+      raw: true,
+      nest: true
     });
+    addFlagIsSubscribe(req, res, events);
+  } catch (err) {
+    res.status(400).send({
+      message: err.message || 'Bad Request'
+    });
+  }
 };
 
 exports.banEvent = async (req, res) => {
