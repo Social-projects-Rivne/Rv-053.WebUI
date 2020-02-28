@@ -1,56 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
-import Selector from '../../shared/components/FormElements/Select';
 import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EditEventForm = props => {
+  const eventID = useParams().id;
+
+  const fetchEventData = async () => {
+    try {
+      const res = await axios.get(api_server_url + '/api/events/' + eventID);
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchEventData();
+  }, []);
+
   return (
     <form onSubmit={props.onSubmitFormHandler} className="addEvent">
-      <div className="form-group">
-        <Input
-          id="title"
-          type="input"
-          label="Name event"
-          validations={[VAL_REQUIRED()]}
-          onInput={props.onInputHandler}
-          errorMessage="The field is required"
-        />
-      </div>
-      <div>
-        <Selector
-          type="select"
-          id="select"
-          label="Choose category"
-          onInput={props.onInputHandler}
-          validations={[VAL_REQUIRED()]}
-          errorMessage="The field is required"
-        />
-      </div>
+      <Input
+        id="title"
+        type="input"
+        label="Name"
+        validations={[VAL_REQUIRED()]}
+        onInput={props.onInputHandler}
+        errorMessage="The field is required"
+      />
       <Input
         id="description"
         type="textarea"
-        label="Write description"
+        label="Description"
         onInput={props.onInputHandler}
         validations={[VAL_MIN_LENGTH(5)]}
         errorMessage="Write at least 5 characters!"
       />
       <Input
-        className="form-control"
-        id="location"
-        type="location"
-        onInput={props.onInputHandler}
-        label="Location"
-        validations={[VAL_REQUIRED()]}
-        errorMessage="The field is required"
-      />
-      <Input
         id="price"
-        type="number"
+        type="input"
         label="Price"
-        step="1"
-        min="0"
-        placeholder="0,00 hrn"
         onInput={props.onInputHandler}
         validations={[VAL_REQUIRED()]}
         errorMessage="The field is required"
@@ -58,10 +51,9 @@ const EditEventForm = props => {
       <Input
         id="age"
         type="number"
-        label="The min age of participants"
+        label="Age limit"
         step="1"
         min="0"
-        placeholder="18..."
         onInput={props.onInputHandler}
         validations={[VAL_REQUIRED()]}
         errorMessage="The field is required"
@@ -69,15 +61,14 @@ const EditEventForm = props => {
       <Input
         id="amount"
         type="number"
-        label="The max amount of participants"
+        label="Places amount"
         step="1"
         min="0"
-        placeholder="10"
         onInput={props.onInputHandler}
         validations={[VAL_REQUIRED()]}
         errorMessage="The field is required"
       />
-      <button className="btn btn-outline-primary" type="submit">
+      <button className="my__button mb-4 mt-4" type="submit">
         Add Event
       </button>
     </form>

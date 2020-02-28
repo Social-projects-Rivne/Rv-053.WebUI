@@ -5,44 +5,18 @@ import { useForm } from '../../shared/hooks/useForm';
 import EditEventForm from '../components/EditEventForm';
 
 const EditEvent = () => {
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: false
-      },
-      select: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      },
-      location: {
-        value: '',
-        isValid: false
-      },
-      price: {
-        value: '',
-        isValid: false
-      },
-      age: {
-        value: '',
-        isValid: false
-      },
-      amount: {
-        value: '',
-        isValid: false
-      }
-    },
+  const [formState, inputHandler] = useForm();
 
-    false
-  );
+  const updateEventData = async () => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const submitFormHandler = event => {
     event.preventDefault();
-    console.log(formState.inputs);
+    console.log(formState);
   };
   return (
     <Card className="addEvent">

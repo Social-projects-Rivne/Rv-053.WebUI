@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useRef } from 'react';
 import Selector from '../FormElements/Select';
 
 import Password from './InputChildrens/Password';
@@ -29,6 +29,7 @@ const reducer = (state, action) => {
 };
 
 const Input = props => {
+  const texareaLabelRef = useRef(null);
   const initialState = {
     value: props.initValue || '',
     isValid: props.initValid || false,
@@ -46,6 +47,21 @@ const Input = props => {
       value: event.target.value,
       validations: props.validations
     });
+  };
+
+  const keyDownHandler = event => {
+    event.target.style.height = 'inherit';
+    event.target.style.height = `${event.target.scrollHeight}px`;
+    event.target.style.height = `${Math.min(event.target.scrollHeight, 300)}px`;
+    if (state.value.length < 1) {
+      texareaLabelRef.current.style.bottom = '0px';
+      texareaLabelRef.current.style.transition = 'all 0.3s ease';
+    } else {
+      texareaLabelRef.current.style.bottom = 'inherit';
+      texareaLabelRef.current.style.transition = 'none';
+      texareaLabelRef.current.style.bottom = `${event.target.scrollHeight - 24}px`;
+      texareaLabelRef.current.style.bottom = `${Math.min(event.target.scrollHeight, 300) - 24}px`;
+    }
   };
 
   const inputPhoneHandler = useCallback((value, isValid) => {
@@ -109,13 +125,17 @@ const Input = props => {
   } else if (props.type === 'textarea') {
     inputEl = (
       <textarea
-        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'} mt-4`}
+        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
         rows={1}
         value={state.value}
         onBlur={blurHandler}
-        onChange={typingHandler}
+        onChange={event => {
+          typingHandler(event);
+          keyDownHandler(event);
+        }}
         onClick={typingHandler}
+        onKeyDown={keyDownHandler}
         autoComplete="off"
         required
       />
@@ -193,6 +213,7 @@ const Input = props => {
                 'input__label-content ' +
                 (!state.isValid && state.isClicked ? 'input__invalid' : '')
               }
+              ref={texareaLabelRef}
             >
               {props.label}
             </span>

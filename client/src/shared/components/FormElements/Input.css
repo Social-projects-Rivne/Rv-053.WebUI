@@ -9,7 +9,6 @@
   width: 100%;
   position: relative;
   height: auto;
-  /* overflow: hidden; */
 }
 .input__form input {
   height: 100%;
@@ -21,10 +20,10 @@
 .input__form textarea {
   height: 100%;
   width: 100%;
-  padding-top: 20px;
-  resize: vertical;
+  margin-top: 1rem;
+  margin-bottom: -5px;
+  resize: none;
   overflow-y: hidden;
-  /* scroll-padding-top: 20px; */
   border: none;
   outline: none;
 }
@@ -66,12 +65,11 @@
 }
 .input__form textarea:focus + .input__label-name .input__label-content,
 .input__form textarea:valid + .input__label-name .input__label-content {
-  transform: translateY(-450%);
+  transform: translateY(-100%);
   color: #16a085;
   font-size: 90%;
 }
-.input__form textarea:focus + .input__label-name::after,
-.input__form textarea:valid + .input__label-name::after {
+.input__form textarea:focus + .input__label-name::after {
   width: 100%;
 }
 .input__invalid {
