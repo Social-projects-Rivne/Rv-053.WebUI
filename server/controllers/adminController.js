@@ -50,7 +50,7 @@ exports.getAllEventsOrSearch = async (req, res) => {
       const reqQ = req.query.q;
       let roleQuery = null;
       if (await Event.rawAttributes.status.values.includes(reqQ)) {
-        roleQuery = { role: reqQ };
+        roleQuery = { status: reqQ };
       }
       searchQuery = {
         [Op.or]: [

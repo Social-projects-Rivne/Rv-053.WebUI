@@ -51,7 +51,7 @@
 }
 
 .user-profile:hover {
-  box-shadow: 5px 5px 10px #16a085;
+  box-shadow: 1px 1px 10px #16a085;
 }
 .event-item__info {
   padding: 20px;

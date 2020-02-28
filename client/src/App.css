@@ -288,11 +288,6 @@ button:hover {
   .list__events-item-title {
     margin-bottom: 0;
   }
-  .list__events-item .list__events-item-bottom_info {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
 }
 
 @media (max-width: 750px) {

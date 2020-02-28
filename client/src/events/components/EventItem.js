@@ -1,16 +1,10 @@
 import React from 'react';
-import Map from '../../shared/components/UI/Map';
 
-import './EventItem.css';
+import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
+import './EventItem.css';
 
 const EventItem = props => {
-  const coordinates = props.event.location.split(',');
-  const map = {
-    lat: coordinates[0],
-    lng: coordinates[1]
-  };
-  console.log(map);
   return (
     <div className="container event-item">
       <div className="row">
@@ -62,7 +56,7 @@ const EventItem = props => {
 
       <div className="row">
         <div className="col-md-12 map-container">
-          <Map center={map} zoom={16} />
+          <Map center={props.event.location} zoom={16} />
         </div>
       </div>
     </div>
