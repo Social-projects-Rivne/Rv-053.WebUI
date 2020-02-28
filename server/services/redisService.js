@@ -11,17 +11,17 @@ clientRedis.on('connect', function() {
   console.log('Redis connected');
 });
 
-const addUrlInCache = async (baseURL, value, time = process.env.REDIS_TIME) => {
+const addUrlInCache = async (URL, value, time = process.env.REDIS_TIME) => {
   try {
-    await clientRedis.setex(baseURL, time, JSON.stringify(value));
+    await clientRedis.setex(URL, time, JSON.stringify(value));
   } catch (err) {
     throw err;
   }
 };
 
-const getUrlFromCache = async baseUrl => {
+const getUrlFromCache = async Url => {
   return new Promise((resolve, reject) => {
-    clientRedis.get(baseUrl, (err, data) => {
+    clientRedis.get(Url, (err, data) => {
       if (err) {
         reject(err);
         return;

@@ -196,17 +196,17 @@ const Input = props => {
         value={props.value}
         name={props.name}
         onBlur={blurHandler}
-        onChange={typingHandler}
         checked={props.checked}
+        onChange={typingHandler}
       />
     );
   }
-
   return (
     <>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
         <div className="input__form">
           {inputEl}
+
           <label htmlFor={props.id} className="input__label-name">
             <span
               className={

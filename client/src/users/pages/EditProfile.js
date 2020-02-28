@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
+import moment from 'moment';
 import axios from 'axios';
-
+import { format } from 'date-fns';
 import { api_server_url } from './../../shared/utilities/globalVariables';
 import { useForm } from './../../shared/hooks/useForm';
 import { AuthContext } from './../../shared/context/auth-context';
@@ -38,10 +38,13 @@ const EditProfile = () => {
     const userData = await axios.get(api_server_url + '/api/user/current', {
       headers
     });
-    userData.data.data.user.birthday = userData.data.data.user.birthday.split('-');
+    userData.data.data.user.birthday = moment(
+      +userData.data.data.user.birthday
+    ).format('DD MM YYYY');
+    userData.data.data.user.birthday = userData.data.data.user.birthday.split(
+      ' '
+    );
     setUserDataState(userData.data.data.user);
-    console.log('unupdated');
-    console.log(userData.data.data.user);
   };
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const EditProfile = () => {
             isValid: true
           },
           birth_day: {
-            value: userDataState.birthday[2],
+            value: userDataState.birthday[0],
             isValid: true
           },
           birth_month: {
@@ -69,7 +72,7 @@ const EditProfile = () => {
             isValid: true
           },
           birth_year: {
-            value: userDataState.birthday[0],
+            value: userDataState.birthday[2],
             isValid: true
           },
           sex: {
@@ -84,27 +87,25 @@ const EditProfile = () => {
 
   const submitFormHandler = async event => {
     event.preventDefault();
-    console.log(formState);
-
     if (formState.formValidity) {
       const updatedUser = {
         first_name: formState.inputs.firstname.value,
         last_name: formState.inputs.lastname.value,
-        birthday: format(
-          new Date(
-            formState.inputs.birth_year.value,
-            formState.inputs.birth_month.value - 1,
-            formState.inputs.birth_day.value
-          ),
-          'MM/dd/yyyy'
-        ),
+        birthday: moment()
+          .date(formState.inputs.birth_day.value)
+          .month(formState.inputs.birth_month.value - 1)
+          .year(formState.inputs.birth_year.value)
+          .valueOf(),
         sex: formState.inputs.sex.value
       };
-      console.log('updated');
-      console.log(updatedUser);
-      const res = await axios.put('http://localhost:5001/api/user/current/', updatedUser, {
-        headers
-      });
+      console.log(formState.inputs.sex.value);
+      const res = await axios.put(
+        'http://localhost:5001/api/user/current/',
+        updatedUser,
+        {
+          headers
+        }
+      );
       if (res.data.status == 'success') {
         history.push('/profile/my', { showUpdateNotification: true });
       }

@@ -150,7 +150,7 @@ body {
 .my__container {
   max-width: 1450px;
   margin: 0 auto;
-  padding: 0px 40px;
+  padding: 0px 20px;
 }
 
 .logo {
@@ -287,11 +287,6 @@ button:hover {
   .list__events-item-category,
   .list__events-item-title {
     margin-bottom: 0;
-  }
-  .list__events-item .list__events-item-bottom_info {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
   }
 }
 

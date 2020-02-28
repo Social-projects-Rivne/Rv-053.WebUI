@@ -27,7 +27,7 @@ exports.getEventByID = async (req, res) => {
           message: 'Event not found'
         });
       }
-      Redis.addUrlInCache(req.baseUrl, event);
+      Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -126,7 +126,7 @@ exports.updateEvent = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res) => {
-  const { id } = req.params.id;
+  const id = req.params.id;
   await Event.findOne({
     where: {
       id
@@ -157,10 +157,11 @@ exports.deleteEvent = async (req, res) => {
               message: err.message || 'Event not found'
             });
           });
+      } else {
+        res.status(403).json({
+          message: 'Access forbidden'
+        });
       }
-      res.status(403).json({
-        message: 'Access forbidden'
-      });
     })
     .catch(err => {
       res.status(404).json({
@@ -187,7 +188,7 @@ exports.searchEvent = async (req, res) => {
       order: [['datetime', 'DESC']]
     })
       .then(events => {
-        Redis.addUrlInCache(req.baseUrl, events);
+        Redis.addUrlInCache(req.originalUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
@@ -206,7 +207,7 @@ exports.searchEvent = async (req, res) => {
       order: [['datetime', 'DESC']]
     })
       .then(events => {
-        Redis.addUrlInCache(req.baseUrl, events);
+        Redis.addUrlInCache(req.originalUrl, events);
         res.status(200).json(events);
       })
       .catch(err => {
@@ -227,7 +228,9 @@ exports.filterEvent = async (req, res) => {
   let includeQuery = null;
 
   if (startDate !== null && endDate === null) {
-    searchQuery.datetime = { [Op.gte]: isNaN(parseInt(startDate)) ? 0 : parseInt(startDate) };
+    searchQuery.datetime = {
+      [Op.gte]: isNaN(parseInt(startDate)) ? 0 : parseInt(startDate)
+    };
   }
   if (startDate !== null && endDate !== null) {
     searchQuery.datetime = {
@@ -238,7 +241,9 @@ exports.filterEvent = async (req, res) => {
     };
   }
   if (startDate === null && endDate !== null) {
-    searchQuery.datetime = { [Op.lte]: isNaN(parseInt(endDate)) ? 0 : parseInt(endDate) };
+    searchQuery.datetime = {
+      [Op.lte]: isNaN(parseInt(endDate)) ? 0 : parseInt(endDate)
+    };
   }
   if (category !== null) {
     includeQuery = {
@@ -257,7 +262,7 @@ exports.filterEvent = async (req, res) => {
     order: [['datetime', 'DESC']]
   })
     .then(events => {
-      Redis.addUrlInCache(req.baseUrl, events);
+      Redis.addUrlInCache(req.originalUrl, events);
       res.status(200).json(events);
     })
     .catch(err => {
