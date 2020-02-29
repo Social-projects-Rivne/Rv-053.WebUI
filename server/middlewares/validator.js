@@ -110,6 +110,64 @@ const createEventValidation = () => {
   ];
 };
 
+const profileValidation = () => {
+  return [
+    body('first_name')
+      .trim()
+      .isLength({
+        min: 3,
+        max: 100
+      })
+      .withMessage('Your first name must be between 3 and 100 characters')
+      .not()
+      .matches(regExpForNames, 'g')
+      .withMessage('Wrong symbol in first name'),
+    body('last_name')
+      .trim()
+      .isLength({
+        min: 2,
+        max: 100
+      })
+      .withMessage('Your last name must be between 2 and 100 characters')
+      .not()
+      .matches(regExpForNames, 'g')
+      .withMessage('Wrong symbol in last name'),
+    body('phone')
+      .trim()
+      .blacklist(/()\s\-\+/)
+      .isMobilePhone('any')
+      .withMessage('Wrong phone number'),
+    body('birthday').custom(date => {
+      const dateNow = new Date();
+      const yearNow = dateNow.getFullYear();
+      const birthDate = new Date(date * 1000);
+
+      if (birthDate instanceof Date && !isNaN(birthDate)) {
+        const birthYear = birthDate.getFullYear();
+
+        if (yearNow - birthYear <= 10) {
+          throw Error('You are very young');
+        }
+
+        if (yearNow - birthYear > 100) {
+          throw Error('You are very old');
+        }
+
+        return true;
+      }
+      throw Error('Invalid date');
+    }),
+    body('avatar').custom(url => {
+      try {
+        return Boolean(new URL(url));
+      } catch (e) {
+        throw Error('Invalid url');
+      }
+    }),
+    body('sex').isIn(['Male', 'Female'])
+  ];
+};
+
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
@@ -131,5 +189,6 @@ module.exports = {
   loginValidation,
   registerValidation,
   createEventValidation,
+  profileValidation,
   validate
 };
