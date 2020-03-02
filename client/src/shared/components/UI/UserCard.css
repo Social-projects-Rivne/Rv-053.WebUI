@@ -1,53 +1,58 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway|Varela+Round|Coda);
 
 .user-profile {
-    margin: auto;
-    background: #fff;
-    border-radius: .3rem;
+  margin: auto;
+  background: #fff;
+  border-radius: 0.3rem;
+  transition: all 0.2s;
+  margin-bottom: 20px;
 }
 
 .user-header {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .user-header .user-names {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
 .user-profile .user-names #fullname {
-    color: #16a085;
-    font-size: 1.5rem;
-    font-family: "Coda", sans-serif;
-    font-weight: bold;
+  color: #16a085;
+  font-size: 1.5rem;
+  font-family: 'Coda', sans-serif;
+  font-weight: bold;
 }
 
 #username {
-    color: #3498db;
-    font-size: .87rem;
-    font-family: "varela round", sans-serif;
+  color: #3498db;
+  font-size: 0.87rem;
+  font-family: 'varela round', sans-serif;
 }
 
-.user-profile>.user-contacts {
-    margin: auto;
-    margin-top: 1.35rem;
-    width: 18em;
-    color: #7f8c8d;
-    font-size: 1rem;
-    font-family: "varela round", sans-serif;
+.user-profile > .user-contacts {
+  margin: auto;
+  margin-top: 1.35rem;
+  width: 18em;
+  color: #7f8c8d;
+  font-size: 1rem;
+  font-family: 'varela round', sans-serif;
 }
 
 .user-profile img#avatar {
-    padding: .7rem;
-    height: 7rem;
-    width: 7rem;
-    border-radius: 18rem;
+  padding: 0.7rem;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 18rem;
 }
 
 .user-profile .btn {
-    margin: 1rem 0rem 1rem 2rem;
+  margin: 1rem 0rem 1rem 2rem;
 }
 
 .user-profile:hover {
-    box-shadow: 5px 5px 10px #16a085;
+  box-shadow: 1px 1px 10px #16a085;
+}
+.event-item__info {
+  padding: 20px;
 }

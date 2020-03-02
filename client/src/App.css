@@ -201,12 +201,6 @@ li {
   list-style: none;
 }
 
-/* button {
-  cursor: pointer;
-}
-button:hover {
-  background-color: #17a589;
-} */
 .my__button {
   color: #16a085;
   border: 1px solid #16a085;
@@ -231,15 +225,22 @@ button:hover {
   text-decoration: none;
   color: #fff;
 }
+.link-btn-dark {
+  background-color: rgba(47, 49, 60, 0.9);
+}
 .link-btn {
+  background-color: rgba(22, 160, 133, 0.9);
+}
+.link-btn,
+.link-btn-dark {
   padding: 7px 30px;
   color: #fff;
   text-decoration: none;
-  background-color: rgba(22, 160, 133, 0.9);
   border-radius: 15px;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
+  border: none;
 }
 .link-btn:hover {
   text-decoration: none;
@@ -398,6 +399,14 @@ button:hover {
   .list__events-sort_btn-item {
     display: none;
   }
+  .event-item__desctiption,
+  .event-item__info {
+    font-size: 17px;
+  }
+  .event-item__desctiption h3,
+  .event-item__info h3 {
+    font-size: 25px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -422,6 +431,9 @@ button:hover {
   }
   .header span {
     margin-left: 0px;
+  }
+  .map-container {
+    height: 30vh;
   }
 }
 
