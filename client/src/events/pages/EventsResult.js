@@ -36,12 +36,12 @@ const EventsResult = () => {
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>
-        <section className="list__events">
-          <div className="my__container">
-            <div className="list__events__inner">
-              <div className="list__events-sort">
-                <Filter className="" />
-                <div className="list__events-sort_btn">
+        <section className='list__events'>
+          <div className='my__container'>
+            <div className='list__events__inner'>
+              <div className='list__events-sort'>
+                <Filter className='' />
+                <div className='list__events-sort_btn'>
                   <button
                     className={
                       toggleListState.list
@@ -60,53 +60,49 @@ const EventsResult = () => {
                   ></button>
                 </div>
               </div>
+            </div>
 
-              <Pagination
-                api={
-                  filterCategory || filterStartDate || filterEndDate
-                    ? '/api/events/filter'
-                    : '/api/events/'
-                }
-                onDataFetch={getEvents}
-                pageItemsLimit={4}
-                query={
-                  filterCategory || filterStartDate || filterEndDate
-                    ? apiFilterQuery
-                    : `q=${searchQuery ? searchQuery : ''}`
+            <Pagination
+              api='/api/events/'
+              onDataFetch={getEvents}
+              pageItemsLimit={4}
+              query={'q=' + (searchQuery ? searchQuery : '')}
+            >
+              <div
+                className={
+                  toggleListState.list
+                    ? 'list__events-items'
+                    : 'list__events-items card-wrapper'
                 }
               >
-                <div
-                  className={
-                    toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
-                  }
-                >
-                  {allEvents[0] ? (
-                    allEvents.map(event => {
-                      return (
-                        <EventResultItem
-                          key={event.id}
-                          cover={event.cover}
-                          className={
-                            toggleListState.list ? 'list__events-item' : 'list__events-item card'
-                          }
-                          id={event.id}
-                          title={event.name}
-                          // category={event.categories[0].category}
-                          description={event.description}
-                          price={event.price}
-                          owner={event.owner}
-                          location={event.location}
-                          date={event.datetime}
-                          user={event.user}
-                        />
-                      );
-                    })
-                  ) : (
-                    <p className="text-center">Doesn't find anything</p>
-                  )}
-                </div>
-              </Pagination>
-            </div>
+                {allEvents[0] ? (
+                  allEvents.map(event => {
+                    return (
+                      <EventResultItem
+                        key={event.id}
+                        cover={event.cover}
+                        className={
+                          toggleListState.list
+                            ? 'list__events-item'
+                            : 'list__events-item card'
+                        }
+                        id={event.id}
+                        title={event.name}
+                        category={event.categories[0].category}
+                        description={event.description}
+                        price={event.price}
+                        owner={event.owner}
+                        location={event.location}
+                        date={event.datetime}
+                        user={event.user}
+                      />
+                    );
+                  })
+                ) : (
+                  <p className='text-center'>Doesn't find anything</p>
+                )}
+              </div>
+            </Pagination>
             <ScrollToTop />
           </div>
         </section>
