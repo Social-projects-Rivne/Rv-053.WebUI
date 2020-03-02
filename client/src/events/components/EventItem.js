@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
 import './EventItem.css';
 
 const EventItem = props => {
+  const [address, setAddres] = useState();
   const coordinates = props.event.location.split(',');
   const map = {
     lat: +coordinates[0],
     lng: +coordinates[1]
   };
+
+  const getAddressFromLatLng = async () => {
+    const KEY = 'AIzaSyBm7XQkNxvkDvy1KPfh6R_vxuh2BfsADdE';
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${+coordinates[0]},${+coordinates[1]}&key=${KEY}`;
+    await fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        let address = data.results[0].formatted_address;
+        setAddres(address);
+        console.log(address);
+      })
+      .catch(err => console.warn(err.message));
+  };
+  useEffect(() => {
+    getAddressFromLatLng();
+  }, []);
+
   console.log(map);
   return (
     <div className='container event-item'>
@@ -23,7 +42,7 @@ const EventItem = props => {
           <h3>{props.event.name}</h3>
           <div>
             <span>Address: </span>
-            {props.event.location}
+            {address}
           </div>
           <div>
             <span>Date: </span>
