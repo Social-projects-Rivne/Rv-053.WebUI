@@ -317,35 +317,3 @@ exports.unbanEvent = async (req, res) => {
     });
   }
 };
-
-exports.getListOfEventsInFavoriteCategories = async (req, res) => {
-  try {
-    const userId = req.userId;
-    await Event.findAndCountAll({
-      where: searchQuery,
-      include: [
-        {
-          model: User,
-          where: {},
-          attributes: ['first_name', 'last_name', 'avatar']
-        }
-      ],
-      offset,
-      limit,
-      order: [['datetime', 'DESC']]
-    })
-      .then(events => {
-        Redis.addUrlInCache(req.originalUrl, events);
-        res.status(200).json(events);
-      })
-      .catch(err => {
-        res.status(400).send({
-          message: err.message || 'Bad Request'
-        });
-      });
-  } catch (err) {
-    res.status(400).send({
-      message: err.message || 'Bad request'
-    });
-  }
-};

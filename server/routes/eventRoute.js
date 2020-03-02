@@ -17,7 +17,6 @@ router.post(
   validate,
   eventController.createEvent
 );
-router.get('/favoritecategories', auth, eventController.getListOfEventsInFavoriteCategories);
 router.get('/filter', eventController.filterEvent);
 router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
 router.delete('/:id', auth, eventController.deleteEvent);
