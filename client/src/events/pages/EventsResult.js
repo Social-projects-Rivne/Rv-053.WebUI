@@ -21,7 +21,6 @@ const EventsResult = () => {
   const filterStartDate = urlParams.get("startDate");
   const filterEndDate = urlParams.get("endDate");
   const apiFilterQuery = `startDate=${filterStartDate}&endDate=${filterEndDate}&category=${filterCategory}`;
-  console.log(apiFilterQuery);
 
   const [allEvents, setAllEvents] = useState([]);
   const [toggleListState, setToggleListState] = useState({ list: true });
@@ -63,20 +62,16 @@ const EventsResult = () => {
               </div>
               <Pagination
                 api={
-                  searchQuery
-                    ? `/api/events/`
-                    : filterCategory || filterStartDate || filterEndDate
+                  filterCategory || filterStartDate || filterEndDate
                     ? "/api/events/filter"
-                    : ""
+                    : "/api/events/"
                 }
                 onDataFetch={getEvents}
                 pageItemsLimit={2}
                 query={
-                  searchQuery
-                    ? `q=${searchQuery}`
-                    : filterCategory || filterStartDate || filterEndDate
+                  filterCategory || filterStartDate || filterEndDate
                     ? apiFilterQuery
-                    : ""
+                    : `q=${searchQuery ? searchQuery : ""}`
                 }
               >
                 <div
