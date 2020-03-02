@@ -17,8 +17,6 @@ const Filter = () => {
   }`;
 
   useEffect(() => {
-    console.log("THIS IS OUR URL FOR FILTER");
-    console.log("flag", `api/events/filter?${url}`);
     filterHistory.push(`/events?${url}`);
   }, [url]);
 
