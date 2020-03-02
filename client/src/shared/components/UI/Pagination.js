@@ -1,21 +1,23 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
-import axios from "axios";
-import moment from "moment";
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
-import { AuthContext } from "../../context/auth-context";
-import { api_server_url } from "../../utilities/globalVariables";
-import "./Pagination.css";
+import DateRangesContext from '../Filter/DateRange/DateRangesContext';
+import CategoryContext from '../Filter/Category/CategoryContext';
+import { AuthContext } from '../../context/auth-context';
+import { api_server_url } from '../../utilities/globalVariables';
+import './Pagination.css';
 
 const Pagination = props => {
   const [rowsCount, setRowsCount] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(false);
   const [page, setPage] = useState(1);
-  const query = props.query ? props.query : "";
+  const query = props.query ? props.query : '';
   const limitItemsOnPage = props.pageItemsLimit ? props.pageItemsLimit : 20;
   const pagesCount = Math.ceil(rowsCount / limitItemsOnPage);
   const accessToken = useContext(AuthContext).token;
   const headers = {
-    Authorization: "Bearer " + accessToken
+    Authorization: 'Bearer ' + accessToken
   };
   const getItemsList = async () => {
     if (props.api) {
@@ -26,24 +28,26 @@ const Pagination = props => {
         const res = await axios.get(
           api_server_url +
             props.api +
-            "?" +
+            '?' +
             query +
-            "&limit=" +
+            '&limit=' +
             limitItemsOnPage +
-            "&offset=" +
+            '&offset=' +
             offsetItem,
           {
             headers
           }
         );
-        for (const event of res.data.rows) {
-          event.datetime = moment(+event.datetime)
-            .format("DD MM YYYY")
-            .split(" ")
-            .join(".");
+        for (const id in res.data.rows) {
+          res.data.rows[id].datetime = moment(+res.data.rows[id].datetime)
+            .format('DD MM YYYY')
+            .split(' ')
+            .join('.');
         }
         setRowsCount(res.data.count);
         props.onDataFetch(res.data);
+
+        console.log('OIRGUPORU', res.data);
         setLoadingFlag(false);
       } catch (e) {
         console.log(e);
@@ -79,9 +83,9 @@ const Pagination = props => {
 
   const PageHandler = useCallback(
     pageAction => {
-      if (pageAction === "next") {
+      if (pageAction === 'next') {
         setPage(page + 1);
-      } else if (pageAction === "prev") {
+      } else if (pageAction === 'prev') {
         setPage(page - 1);
       } else {
         setPage(pageAction);
@@ -93,7 +97,7 @@ const Pagination = props => {
   const pagingLine = (
     <nav aria-label='Page navigation'>
       <ul className='pagination justify-content-center'>
-        <li className={"pagination__page-item " + (page < 2 ? "disabled" : "")}>
+        <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
           <button
             className='pagination__page-link'
             aria-label='Previous'
@@ -103,11 +107,11 @@ const Pagination = props => {
             <span aria-hidden='true'>First</span>
           </button>
         </li>
-        <li className={"pagination__page-item " + (page < 2 ? "disabled" : "")}>
+        <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
           <button
             className='pagination__page-link'
             aria-label='Previous'
-            onClick={() => PageHandler("prev")}
+            onClick={() => PageHandler('prev')}
             disabled={loadingFlag}
           >
             <span aria-hidden='true'>&laquo;</span>
@@ -116,11 +120,11 @@ const Pagination = props => {
         {pageNumbers.map(pageNamber => (
           <li
             className={
-              "pagination__page-item " +
-              (page === pageNamber ? "active" : "") +
-              (page === "..." ? "disabled" : "")
+              'pagination__page-item ' +
+              (page === pageNamber ? 'active' : '') +
+              (page === '...' ? 'disabled' : '')
             }
-            key={"pagenumber" + pageNamber}
+            key={'pagenumber' + pageNamber}
           >
             <button
               className='pagination__page-link'
@@ -134,13 +138,13 @@ const Pagination = props => {
         ))}
         <li
           className={
-            "pagination__page-item " + (page === pagesCount ? "disabled" : "")
+            'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')
           }
         >
           <button
             className='pagination__page-link'
             aria-label='Next'
-            onClick={() => PageHandler("next")}
+            onClick={() => PageHandler('next')}
             disabled={loadingFlag}
           >
             <span aria-hidden='true'>&raquo;</span>
@@ -148,7 +152,7 @@ const Pagination = props => {
         </li>
         <li
           className={
-            "pagination__page-item " + (page === pagesCount ? "disabled" : "")
+            'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')
           }
         >
           <button
