@@ -7,7 +7,7 @@ const auth = require('../middlewares/authorization');
 const authAdmin = require('../middlewares/adminAuthorization');
 
 route.get('/current', auth, userController.getCurrent);
-route.put('/current', auth, profileValidation(), validate, userController.updateProfile);
+route.put('/current', auth, validate, userController.updateProfile);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
 route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);

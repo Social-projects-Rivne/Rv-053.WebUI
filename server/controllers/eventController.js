@@ -254,7 +254,12 @@ exports.filterEvent = async (req, res) => {
       [Op.gte]: isNaN(parseInt(startDate)) ? 0 : parseInt(startDate)
     };
   }
-  if (startDate !== null && endDate !== null) {
+  if (
+    startDate !== null &&
+    endDate !== null &&
+    startDate !== 'undefined' &&
+    endDate !== 'undefined'
+  ) {
     searchQuery.datetime = {
       [Op.between]: [
         isNaN(parseInt(startDate)) ? 0 : parseInt(startDate),
