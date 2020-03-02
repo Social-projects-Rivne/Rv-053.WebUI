@@ -7,6 +7,10 @@ import CategoryContext from '../Filter/Category/CategoryContext';
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
 import './Pagination.css';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 30d4881dc2da875e823674eb56e89cdae0c0febb
 
 const Pagination = props => {
   const [rowsCount, setRowsCount] = useState(0);
