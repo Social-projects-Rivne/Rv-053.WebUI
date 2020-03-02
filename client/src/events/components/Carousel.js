@@ -11,11 +11,13 @@ const Carousel = () => {
       <ol className="carousel-indicators">
         <li data-target="#carouselExampleCaptions" data-slide-to="0" className="active"></li>
         <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
       </ol>
       <div className="carousel-inner">
         <div className="carousel-item active">
           <img
-            src="https://theoxfordmagazine.com/wp-content/uploads/oxford-festival-of-arts-2019-1920x756.jpg"
+            src="http://localhost:5001/uploads/covers/carousel1.jpg"
             className="d-block w-100"
             alt="..."
           />
@@ -30,7 +32,37 @@ const Carousel = () => {
         </div>
         <div className="carousel-item">
           <img
-            src="https://theoxfordmagazine.com/wp-content/uploads/oxford-festival-of-arts-2019-1920x756.jpg"
+            src="http://localhost:5001/uploads/covers/carousel2.jpg"
+            className="d-block w-100"
+            alt="..."
+          />
+          <div className="carousel__content">
+            <div className="slider__inner">
+              <div className="slider__title">Create And Organize Your Own Event</div>
+              <NavLink to={isLoggedIn ? '/addevent' : '/auth'} className="link-btn">
+                Create Event
+              </NavLink>
+            </div>{' '}
+          </div>
+        </div>
+        <div className="carousel-item">
+          <img
+            src="http://localhost:5001/uploads/covers/carousel3.jpg"
+            className="d-block w-100"
+            alt="..."
+          />
+          <div className="carousel__content">
+            <div className="slider__inner">
+              <div className="slider__title">Create And Organize Your Own Event</div>
+              <NavLink to={isLoggedIn ? '/addevent' : '/auth'} className="link-btn">
+                Create Event
+              </NavLink>
+            </div>{' '}
+          </div>
+        </div>
+        <div className="carousel-item">
+          <img
+            src="http://localhost:5001/uploads/covers/carousel4.jpg"
             className="d-block w-100"
             alt="..."
           />

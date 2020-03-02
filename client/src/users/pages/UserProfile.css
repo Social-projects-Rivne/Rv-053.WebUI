@@ -22,8 +22,8 @@
 }
 .profile-avatar {
   display: inline-block;
-  width: 15rem;
-  height: 15rem;
+  width: 11rem;
+  height: 11rem;
   background-color: #cdcdcd;
   border-radius: 50%;
   text-align: center;
@@ -134,6 +134,13 @@
 }
 .profile_categories-item.added {
   background-color: rgba(45, 169, 145, 0.6);
+}
+.card.success-note {
+  background-color: rgba(163, 191, 163, 0.3);
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
 }
 @media (max-width: 600px) {
   .profile_inner {

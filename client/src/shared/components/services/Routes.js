@@ -27,7 +27,7 @@ const Routes = () => {
             <Route path="/events" exact>
               <PageLayout innerComponent={<EventsResult />} />
             </Route>
-            <Route path="/event/details">
+            <Route path="/event/:eventId">
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/addevent">
@@ -61,7 +61,7 @@ const Routes = () => {
             <Route path="/events" exact>
               <PageLayout innerComponent={<EventsResult />} />
             </Route>
-            <Route path="/event/details">
+            <Route path="/event/:eventId">
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/auth">

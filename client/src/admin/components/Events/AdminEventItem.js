@@ -67,10 +67,10 @@ const AdminEventItem = props => {
           <p className="adminpanel__text-left">{props.eventInfo.user.first_name}</p>
           <p className="adminpanel__text-left">{props.eventInfo.user.last_name}</p>
         </div>
-        <div className="col-lg-4 adminpanel__col">
+        <div className="col-lg-3 adminpanel__col">
           <p className="adminpanel__text-left">{props.eventInfo.user.email}</p>
         </div>
-        <div className="col-lg-1 adminpanel__col">
+        <div className="col-lg-2 adminpanel__col">
           <button
             className="my__button"
             onClick={() => {
