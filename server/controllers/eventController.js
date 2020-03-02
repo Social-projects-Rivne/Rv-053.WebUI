@@ -36,6 +36,9 @@ exports.getEventByID = async (req, res) => {
       {
         model: User,
         attributes: ['first_name', 'last_name', 'avatar']
+      },
+      {
+        model: Categories
       }
     ]
   })
@@ -205,13 +208,15 @@ exports.searchEvent = async (req, res) => {
 
   await Event.findAndCountAll({
     where: searchQuery,
-    raw: true,
     offset,
     limit,
     include: [
       {
         model: User,
         attributes: ['first_name', 'last_name']
+      },
+      {
+        model: Categories
       }
     ],
     order: [
@@ -237,7 +242,12 @@ exports.filterEvent = async (req, res) => {
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
   let searchQuery = { status: STATUS_ACTIVE };
-  let includeQuery = null;
+  let includeQuery = [
+    {
+      model: User,
+      attributes: ['first_name', 'last_name']
+    }
+  ];
 
   if (startDate !== null && endDate === null) {
     searchQuery.datetime = {
@@ -258,19 +268,21 @@ exports.filterEvent = async (req, res) => {
     };
   }
   if (category !== null) {
-    includeQuery = {
-      model: Categories,
-      where: {
-        id: isNaN(parseInt(category)) ? 0 : parseInt(category)
-      }
-    };
+    if (!isNaN(parseInt(category))) {
+      includeQuery.push({
+        model: Categories,
+        where: {
+          id: parseInt(category)
+        }
+      });
+    }
   }
 
   await Event.findAndCountAll({
     where: searchQuery,
-    include: includeQuery,
     offset,
     limit,
+    include: includeQuery,
     order: [['datetime', 'DESC']]
   })
     .then(events => {
