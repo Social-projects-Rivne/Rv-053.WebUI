@@ -64,16 +64,15 @@ const EventsResult = () => {
               <Pagination
                 api={
                   filterCategory || filterStartDate || filterEndDate
-                    ? "/api/events/filter"
-                    : "/api/events/"
+                    ? '/api/events/filter'
+                    : '/api/events/'
                 }
                 onDataFetch={getEvents}
                 pageItemsLimit={2}
                 query={
                   filterCategory || filterStartDate || filterEndDate
                     ? apiFilterQuery
-                    : `q=${searchQuery ? searchQuery : ""}`
-
+                    : `q=${searchQuery ? searchQuery : ''}`
                 }
               >
                 {allEvents[0] ? (
@@ -100,8 +99,8 @@ const EventsResult = () => {
                 ) : (
                   <p className="text-center">Doesn't find anything</p>
                 )}
-              </div>
-            </Pagination>
+              </Pagination>
+            </div>
             <ScrollToTop />
           </div>
         </section>
