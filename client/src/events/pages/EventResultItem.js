@@ -15,10 +15,13 @@ const EventResultItem = props => {
             <div className="list__events-item-category">{props.category}</div>
             <div className="list__events-item-descr">{props.description}</div>
           </div>
-          <div className="list__events-item-price">{props.price}</div>
+          <div className="list__events-item-price">{props.price || 'Free'}</div>
         </div>
         <div className="list__events-item-bottom_info">
-          <div className="list__events-item-creator">{props.owner}</div>
+          <div className="list__events-item-creator">
+            {props.user.first_name + ' '}
+            {props.user.last_name}
+          </div>
           <div className="list__events-item-location">{props.location}</div>
           <div className="list__events-item-date">{props.date}</div>
         </div>

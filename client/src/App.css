@@ -35,87 +35,126 @@ font-family: 'Lato', sans-serif;
 .icon-plus:before {
   content: '\f067';
 }
-
 .icon-search:before {
   content: '\f002';
 }
-
 .icon-envelope-o:before {
   content: '\f003';
 }
-
 .icon-user:before {
   content: '\f007';
 }
-
+.icon-film:before {
+  content: '\f008';
+}
 .icon-th-large:before {
   content: '\f009';
 }
-
 .icon-th-list:before {
   content: '\f00b';
 }
-
+.icon-headphones:before {
+  content: '\f025';
+}
 .icon-camera:before {
   content: '\f030';
 }
-
 .icon-map-marker:before {
   content: '\f041';
 }
-
 .icon-chevron-right:before {
   content: '\f054';
 }
-
 .icon-calendar:before {
   content: '\f073';
 }
-
 .icon-facebook-square:before {
   content: '\f082';
 }
-
+.icon-cogs:before {
+  content: '\f085';
+}
+.icon-gears:before {
+  content: '\f085';
+}
 .icon-github:before {
   content: '\f09b';
 }
-
+.icon-globe:before {
+  content: '\f0ac';
+}
+.icon-cut:before {
+  content: '\f0c4';
+}
+.icon-scissors:before {
+  content: '\f0c4';
+}
+.icon-stethoscope:before {
+  content: '\f0f1';
+}
 .icon-calendar-o:before {
   content: '\f133';
 }
-
 .icon-instagram:before {
   content: '\f16d';
 }
-
+.icon-graduation-cap:before {
+  content: '\f19d';
+}
+.icon-mortar-board:before {
+  content: '\f19d';
+}
 .icon-google:before {
   content: '\f1a0';
 }
-
+.icon-child:before {
+  content: '\f1ae';
+}
 .icon-paper-plane:before {
   content: '\f1d8';
 }
-
 .icon-send:before {
   content: '\f1d8';
 }
-
+.icon-futbol-o:before {
+  content: '\f1e3';
+}
+.icon-soccer-ball-o:before {
+  content: '\f1e3';
+}
 .icon-trash:before {
   content: '\f1f8';
 }
-
+.icon-paint-brush:before {
+  content: '\f1fc';
+}
+.icon-bicycle:before {
+  content: '\f206';
+}
 .icon-creative-commons:before {
   content: '\f25e';
 }
-
 .icon-map-pin:before {
   content: '\f276';
 }
-
+.icon-shopping-bag:before {
+  content: '\f290';
+}
+.icon-envira:before {
+  content: '\f299';
+}
+.icon-american-sign-language-interpreting:before {
+  content: '\f2a3';
+}
+.icon-asl-interpreting:before {
+  content: '\f2a3';
+}
+.icon-handshake-o:before {
+  content: '\f2b5';
+}
 .icon-telegram:before {
   content: '\f2c6';
 }
-
 html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -370,7 +409,7 @@ li {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
   .header .header__inner {
     display: block;
   }
@@ -388,6 +427,7 @@ li {
     left: 0;
     right: 0;
     max-width: none;
+    margin-left: 15px;
   }
   .header span {
     margin-left: 0px;

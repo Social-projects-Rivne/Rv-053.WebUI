@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
+import DateRangesContext from '../Filter/DateRange/DateRangesContext';
+import CategoryContext from '../Filter/Category/CategoryContext';
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
 import './Pagination.css';
@@ -17,12 +19,17 @@ const Pagination = props => {
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
+  // const { endtDate, startDate } = useContext(DateRangesContext);
+  // const { selectedCategoryId } = useContext(CategoryContext);
+  // const url = `startDate=${startDate}&endDate=${endtDate}&category=${selectedCategoryId}`;
+  // console.log(props.query);
 
   const getItemsList = async () => {
     if (props.api) {
       try {
         const offsetItem = limitItemsOnPage * (page - 1);
         setLoadingFlag(true);
+        // if()
         const res = await axios.get(
           api_server_url +
             props.api +
@@ -44,10 +51,13 @@ const Pagination = props => {
         }
         setRowsCount(res.data.count);
         props.onDataFetch(res.data);
+
+        console.log('OIRGUPORU', res.data);
         setLoadingFlag(false);
       } catch (e) {
         console.log(e);
       }
+      console.log(props.api);
     }
   };
 
