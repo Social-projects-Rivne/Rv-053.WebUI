@@ -42,22 +42,30 @@ const Input = props => {
   };
 
   const typingHandler = event => {
-    dispatch({
-      type: 'TYPING',
-      value: event.target.value,
-      validations: props.validations
-    });
+    // console.log(event.target.type);
+    if (event.target.type === 'file') {
+      dispatch({
+        type: 'TYPING',
+        value: event.target.files[0],
+        validations: props.validations
+      });
+    } else {
+      dispatch({
+        type: 'TYPING',
+        value: event.target.value,
+        validations: props.validations
+      });
+    }
   };
 
   const keyDownHandler = event => {
     event.target.style.height = 'inherit';
     event.target.style.height = `${event.target.scrollHeight}px`;
     event.target.style.height = `${Math.min(event.target.scrollHeight, 300)}px`;
-    if (state.value.length < 1) {
+    if (state.value.length < 1 || props.initValue < 1) {
       texareaLabelRef.current.style.bottom = '0px';
       texareaLabelRef.current.style.transition = 'all 0.3s ease';
     } else {
-      texareaLabelRef.current.style.bottom = 'inherit';
       texareaLabelRef.current.style.transition = 'none';
       texareaLabelRef.current.style.bottom = `${event.target.scrollHeight - 24}px`;
       texareaLabelRef.current.style.bottom = `${Math.min(event.target.scrollHeight, 300) - 24}px`;
@@ -85,7 +93,7 @@ const Input = props => {
       <input
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
-        value={state.value}
+        value={state.value || props.initValue}
         onBlur={blurHandler}
         onChange={typingHandler}
         onClick={typingHandler}
@@ -97,7 +105,6 @@ const Input = props => {
       <input
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
-        rows={props.rows || 3}
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
@@ -113,7 +120,6 @@ const Input = props => {
     inputEl = (
       <input
         id={props.id}
-        rows={props.rows || 3}
         value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
@@ -134,7 +140,10 @@ const Input = props => {
           typingHandler(event);
           keyDownHandler(event);
         }}
-        onClick={typingHandler}
+        onClick={event => {
+          typingHandler(event);
+          keyDownHandler(event);
+        }}
         onKeyDown={keyDownHandler}
         autoComplete="off"
         required
@@ -200,11 +209,24 @@ const Input = props => {
         onChange={typingHandler}
       />
     );
+  } else if (props.type === 'file') {
+    inputEl = (
+      <input
+        ref={props.refer}
+        type={props.type}
+        id={props.id}
+        value={props.value}
+        name={props.name}
+        onBlur={blurHandler}
+        onChange={typingHandler}
+      />
+    );
   }
+
   return (
     <>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
-        <div className="input__form">
+        <div className="input__form" style={{ display: props.type !== 'file' ? 'block' : 'none' }}>
           {inputEl}
 
           <label htmlFor={props.id} className="input__label-name">

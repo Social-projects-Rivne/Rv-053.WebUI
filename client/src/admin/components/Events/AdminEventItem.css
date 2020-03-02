@@ -12,3 +12,13 @@
     text-align: left !important;
   }
 }
+.adminpanel__button {
+  text-decoration: none;
+  color: '#16a085';
+}
+.adminpanel__button:hover {
+  color: #fff;
+}
+.adminpanel__badge-button {
+  cursor: pointer;
+}

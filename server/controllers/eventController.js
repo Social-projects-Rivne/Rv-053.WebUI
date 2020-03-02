@@ -8,7 +8,7 @@ const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
 
 exports.getEventByID = async (req, res) => {
-  const { id } = req.params.id;
+  const id = req.params.id;
   await Event.findOne({
     where: {
       id,
@@ -74,8 +74,8 @@ exports.createEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  const { id } = req.params.id;
-  const {
+  const id = req.params.id;
+  let {
     name,
     description,
     location,
@@ -93,9 +93,9 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin') {
-      const cover = cover || req.file.path;
-      Event.update(
-        {
+      cover = cover || req.file.path;
+      event
+        .update({
           name,
           description,
           location,
@@ -105,14 +105,7 @@ exports.updateEvent = async (req, res) => {
           min_age,
           cover,
           price
-        },
-        {
-          where: {
-            id: req.userId,
-            owner_id: req.userId
-          }
-        }
-      )
+        })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
         })
