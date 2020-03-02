@@ -1,12 +1,30 @@
 const { Op } = require('sequelize');
+const JWT = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
+const UserEvent = require('../models').user_event;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
 const STATUS_DELETED = 'Deleted';
+
+function checkToken(req) {
+  let token;
+  let result = { isAuthorization: false };
+  if (req.header('Authorization')) {
+    token = req.header('Authorization').split(' ')[1];
+    try {
+      const payload = JWT.verify(token, JWT_SECRET);
+      result = { isAuthorization: true, userId: payload.userId };
+    } catch (err) {
+      return result;
+    }
+  }
+  return result;
+}
 
 exports.getEventByID = async (req, res) => {
   const { id } = req.params;
@@ -21,13 +39,25 @@ exports.getEventByID = async (req, res) => {
       }
     ]
   })
-    .then(event => {
+    .then(async event => {
       if (event === null) {
         res.status(404).send({
           message: 'Event not found'
         });
       }
-      Redis.addUrlInCache(req.originalUrl, event);
+      event = event.toJSON();
+      event.isSubscribe = false;
+      const authUser = checkToken(req);
+      if (authUser.isAuthorization) {
+        subscribe = await UserEvent.findOne({
+          where: { user_id: authUser.userId, event_id: id }
+        });
+        if (subscribe !== null) {
+          event.isSubscribe = true;
+        }
+      }
+
+      //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
