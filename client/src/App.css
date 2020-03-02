@@ -201,18 +201,35 @@ li {
   list-style: none;
 }
 
-.my__button {
+/* button {
+  cursor: pointer;
+}
+button:hover {
+  background-color: #17a589;
+} */
+.user-profile__link {
+  text-decoration: none;
+  color: #000;
+  transition: all 0.3s ease;
+}
+.user-profile__link:hover {
+  text-decoration: none;
   color: #16a085;
+  cursor: pointer;
+}
+.my__button {
+  color: #fff;
   border: 1px solid #16a085;
-  background-color: #fff;
-  padding: 6px 15px;
-  border-radius: 5px;
+  background-color: #16a085;
+  padding: 4px 30px;
+  border-radius: 15px;
+
   transition: all 0.2s;
 }
 .my__button:hover {
   background-color: rgba(22, 160, 133, 0.9);
   color: #fff;
-  box-shadow: 0px 0px 9px -2px rgba(22, 160, 132, 1);
+  /* box-shadow: 0px 0px 9px -2px rgba(22, 160, 132, 1); */
 }
 .my__button:focus {
   outline: none;

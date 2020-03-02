@@ -36,12 +36,12 @@ const EventsResult = () => {
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>
-        <section className='list__events'>
-          <div className='my__container'>
-            <div className='list__events__inner'>
-              <div className='list__events-sort'>
-                <Filter className='' />
-                <div className='list__events-sort_btn'>
+        <section className="list__events">
+          <div className="my__container">
+            <div className="list__events__inner">
+              <div className="list__events-sort">
+                <Filter className="" />
+                <div className="list__events-sort_btn">
                   <button
                     className={
                       toggleListState.list
@@ -63,16 +63,14 @@ const EventsResult = () => {
             </div>
 
             <Pagination
-              api='/api/events/'
+              api="/api/events/"
               onDataFetch={getEvents}
               pageItemsLimit={4}
               query={'q=' + (searchQuery ? searchQuery : '')}
             >
               <div
                 className={
-                  toggleListState.list
-                    ? 'list__events-items'
-                    : 'list__events-items card-wrapper'
+                  toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
                 }
               >
                 {allEvents[0] ? (
@@ -82,9 +80,7 @@ const EventsResult = () => {
                         key={event.id}
                         cover={event.cover}
                         className={
-                          toggleListState.list
-                            ? 'list__events-item'
-                            : 'list__events-item card'
+                          toggleListState.list ? 'list__events-item' : 'list__events-item card'
                         }
                         id={event.id}
                         title={event.name}
@@ -99,7 +95,7 @@ const EventsResult = () => {
                     );
                   })
                 ) : (
-                  <p className='text-center'>Doesn't find anything</p>
+                  <p className="text-center">Doesn't find anything</p>
                 )}
               </div>
             </Pagination>

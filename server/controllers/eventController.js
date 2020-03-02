@@ -27,7 +27,7 @@ function checkToken(req) {
 }
 
 exports.getEventByID = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   await Event.findOne({
     where: {
       id
@@ -107,7 +107,7 @@ exports.createEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   let {
     name,
     description,
@@ -254,7 +254,12 @@ exports.filterEvent = async (req, res) => {
       [Op.gte]: isNaN(parseInt(startDate)) ? 0 : parseInt(startDate)
     };
   }
-  if (startDate !== null && endDate !== null) {
+  if (
+    startDate !== null &&
+    endDate !== null &&
+    startDate !== 'undefined' &&
+    endDate !== 'undefined'
+  ) {
     searchQuery.datetime = {
       [Op.between]: [
         isNaN(parseInt(startDate)) ? 0 : parseInt(startDate),

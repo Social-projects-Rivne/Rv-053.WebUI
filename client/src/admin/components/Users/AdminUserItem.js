@@ -11,6 +11,8 @@ const AdminUserItem = props => {
   const [editRoleFlag, setEditRoleFlag] = useState(false);
   const [userRole, setUserRole] = useState(props.userInfo.role);
   const [userStatus, setUserStatus] = useState(props.userInfo.user_status.status);
+  const birthDate = new Date(props.userInfo.birthday / 1000);
+  console.log(birthDate.toISOString);
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken
