@@ -1,64 +1,73 @@
-import React from "react";
-import Map from "../../shared/components/UI/Map";
+import React from 'react';
 
-import "./EventItem.css";
-import UserCard from "../../shared/components/UI/UserCard";
+import Map from '../../shared/components/UI/Map';
+import UserCard from '../../shared/components/UI/UserCard';
+import './EventItem.css';
 
 const EventItem = props => {
-  const [main, ...defaultImages] = props.image;
-  console.log(defaultImages);
+  const coordinates = props.event.location.split(',');
+  const map = {
+    lat: +coordinates[0],
+    lng: +coordinates[1]
+  };
+  console.log(map);
   return (
-    <div className="container event-item">
-      <div className="row">
-        <div className="col-md-8 event-item__img">
+    <div className='container event-item'>
+      <div className='row'>
+        <div className='col-md-8 event-item__img'>
           <figure>
-            <img src={main} alt="sometext" />
+            <img src={props.event.cover} alt='sometext' />
           </figure>
         </div>
-        <div className="col-md-4 event-item__info">
-          <h3>{props.title}</h3>
+        <div className='col-md-4 event-item__info'>
+          <h3>{props.event.name}</h3>
           <div>
             <span>Address: </span>
-            {props.address}
+            {props.event.location}
           </div>
           <div>
             <span>Date: </span>
-            {props.datetime}
+            {props.event.datetime}
           </div>
           <div>
             <span>Time: </span>
-            {props.duration}
+            {props.event.duration}
           </div>
           <div>
             <span>Age: </span>
-            {props.min_age} years
+            {props.event.min_age} years
           </div>
           <h6>
             Max participants:
             {props.max_participants > 1
-              ? ` ${props.max_participants} people`
-              : ` ${props.max_participants} person`}
+              ? ` ${props.event.max_participants} people`
+              : ` ${props.event.max_participants} person`}
           </h6>
-          <button type="button" className="btn btn-dark">
-            Join
+          <button
+            type='button'
+            className='my__button'
+            onClick={() => props.joinEvent(props.id)}
+            disabled={!props.event.isSubscribe ? false : true}
+          >
+            {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
           </button>
         </div>
       </div>
-      <div className="row">
-        <div className="col-md-8 event-item__desctiption">
-          <div className="">
+      <div className='row'>
+        <div className='col-md-8 event-item__desctiption'>
+          <div className=''>
             <h3>Details</h3>
-            <p>{props.description}</p>
+            <p>{props.event.description}</p>
           </div>
         </div>
-        <div className="col-md-4 event-item__owner">
-          <UserCard />
+        <div className='col-md-4 event-item__owner'>
+          <UserCard owner={props.owner} />
         </div>
       </div>
 
-      <div className="row">
-        <div className="col-md-12 map-container">
-          <Map center={props.coordinates} zoom={16} />
+      <div className='row'>
+        <div className='col-md-12 map-container'>
+          <Map center={map} zoom={16} />
         </div>
       </div>
     </div>

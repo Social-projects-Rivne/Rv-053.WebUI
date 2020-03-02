@@ -59,7 +59,7 @@ module.exports = {
         },
         {
           name: 'WordPress Kyiv February Meetup',
-          owner_id: 1,
+          owner_id: 2,
           description:
             "Запрошуємо вас на останній зимовий мітап у Києві! Якщо ви дизайнер, розробник, контент-менеджер, блогер, адміністратор або пов'язані з WordPress у будь який інший спосіб, приходьте!",
           location: '50.6205378,26.250742',
@@ -72,7 +72,7 @@ module.exports = {
         },
         {
           name: 'Acting Boost Course',
-          owner_id: 1,
+          owner_id: 2,
           description:
             'Настав час попрацювати над вашими новорічними планами та бажаннями! Курс акторської прокачки - найкраще рішення для одного з них ;) Ідея курсу – у поєднанні тренінгів та семінарів, які не закінчується виступом. Це потужне підвищення ваших акторських навичок. Програма також розглядається як "Курс нуль" - для початківців в акторській майстерності. Її проводять різні викладачі, які передають інформацію про попередні сесії та планують свої сесії таким чином, щоб зробити їх однорідним. Так ви зможете розвити різні навички та попрацювати в різних техніках.',
           location: '50.6205378,26.250742',
@@ -81,11 +81,11 @@ module.exports = {
           max_participants: 30,
           min_age: 12,
           cover: 'http://localhost:5001/uploads/covers/cover6.png',
-          price: '50'
+          price: '50 UAH'
         },
         {
           name: 'Frontend MeetUp Kyiv by Geekle',
-          owner_id: 1,
+          owner_id: 3,
           description:
             'Hey everyone! Join us on our 4th around-the-table meetup in Kyiv, which will be dedicated to the most painful topic in the Universe - f*cked up projects.',
           location: '50.6205378,26.250742',
@@ -98,7 +98,7 @@ module.exports = {
         },
         {
           name: 'Bachata Party',
-          owner_id: 1,
+          owner_id: 3,
           description:
             "Let's dance bachata!! Dj Rubens selecting best music for you Spacious dancefloor! Great international atmosphere!",
           location: '50.6205378,26.250742',
@@ -111,7 +111,7 @@ module.exports = {
         },
         {
           name: 'RockStar Night: Craftsmanship Night',
-          owner_id: 1,
+          owner_id: 2,
           description:
             'Speaker: Eduards Sizovs is a software architect and software development trainer who helps awesome teams around the globe excel at software architecture, engineering practices, and leadership. Eduards leads DevTernity – the top tech conference in Europe, and is the founder of a startup DevTube . He is a well-known international speaker, who had spoken at the largest conferences Worldwide. Eduards is a certified enterprise Java architect, CSM, CSPO, and ICF coach.',
           location: '50.6205378,26.250742',
@@ -124,7 +124,7 @@ module.exports = {
         },
         {
           name: 'Flutter Europe - Impressions and Conclusions',
-          owner_id: 1,
+          owner_id: 2,
           description:
             'Meeting with Majid Hajian (Oslo, Norway) European Flutter Community activist, award-winning author of "Progressive web app with Angular" book, speaker of Flutter Europe 2020 conference and conference participants - Kateryna Novytska and Vasyl Ditsyak, members of GDG Kyiv-Center.',
           location: '50.6205378,26.250742',

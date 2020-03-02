@@ -1,0 +1,20 @@
+.edit-event__change-cover-container {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.edit-event__change-cover-btn {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.274);
+  transition: all 0.2s ease-in-out;
+}
+.edit-event__change-cover-btn:hover {
+  cursor: pointer;
+  color: #16a085;
+  background-color: rgba(0, 0, 0, 0.322);
+}

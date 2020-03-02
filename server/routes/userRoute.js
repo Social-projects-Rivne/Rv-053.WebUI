@@ -1,12 +1,13 @@
 const express = require('express');
 
 const route = express.Router();
+const { profileValidation, validate } = require('../middlewares/validator');
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/authorization');
 const authAdmin = require('../middlewares/adminAuthorization');
 
 route.get('/current', auth, userController.getCurrent);
-route.put('/current', auth, userController.updateProfile);
+route.put('/current', auth, validate, userController.updateProfile);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
 route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);

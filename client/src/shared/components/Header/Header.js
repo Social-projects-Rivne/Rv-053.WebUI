@@ -4,26 +4,21 @@ import { AuthContext } from '../../context/auth-context';
 
 import './Header.css';
 import Logo from '../UI/Logo';
-import Button from '../UI/Button';
 import CalendarList from './CalendarList';
 import CitiesList from './CitiesList';
 import Search from '../../../events/components/search';
 
 const Header = () => {
-  const [toggleCalendarState, settoggleCalendarState] = useState({
-    isShownCalendar: false
-  });
-  const [toggleCitiesState, settoggleCitiesState] = useState({
-    isShownCities: false
-  });
+  const [toggleCalendarState, settoggleCalendarState] = useState(false);
+  const [toggleCitiesState, settoggleCitiesState] = useState(false);
 
   const toggleCalendarHandler = () => {
-    let show = toggleCalendarState.isShownCalendar;
-    settoggleCalendarState({ isShownCalendar: !show });
+    let show = toggleCalendarState;
+    settoggleCalendarState(!show);
   };
   const toggleCitiesHandler = () => {
-    let show = toggleCitiesState.isShownCities;
-    settoggleCitiesState({ isShownCities: !show });
+    let show = toggleCitiesState;
+    settoggleCitiesState(!show);
   };
 
   const auth = useContext(AuthContext);
@@ -36,14 +31,28 @@ const Header = () => {
           </div>
 
           <Search />
-
           <div className="header__nav">
-            <button className="header__calendar" onClick={toggleCalendarHandler}></button>
-            {toggleCalendarState.isShownCalendar ? <CalendarList /> : null}
-            <button className="header__cities" onClick={toggleCitiesHandler}>
+            <button
+              className="header__calendar"
+              onClick={toggleCalendarHandler}
+              onBlur={() => {
+                settoggleCalendarState(false);
+              }}
+            ></button>
+            {toggleCalendarState ? <CalendarList /> : null}
+            <button
+              className="header__cities"
+              onClick={toggleCitiesHandler}
+              onBlur={() => {
+                settoggleCitiesState(false);
+              }}
+            >
               Kyiv
             </button>
-            {toggleCitiesState.isShownCities ? <CitiesList /> : null}
+            {toggleCitiesState ? <CitiesList /> : null}
+            <NavLink className="header__nav-link" to="/events">
+              All events
+            </NavLink>
             {auth.isLoggedIn && (
               <NavLink className="header__nav-link" to="/profile/my">
                 Profile
