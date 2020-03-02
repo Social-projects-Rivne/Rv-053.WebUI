@@ -105,6 +105,19 @@ const Input = props => {
         required
       />
     );
+  } else if (props.type === 'file') {
+    inputEl = (
+      <input
+        id={props.id}
+        rows={props.rows || 3}
+        value={state.value}
+        onBlur={blurHandler}
+        onChange={typingHandler}
+        onClick={typingHandler}
+        autoComplete="off"
+        required
+      />
+    );
   } else if (props.type === 'textarea') {
     inputEl = (
       <textarea

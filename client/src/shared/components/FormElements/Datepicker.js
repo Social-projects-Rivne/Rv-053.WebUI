@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import Datetime from 'react-datetime';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -18,7 +19,7 @@ const inputReducer = (state, action) => {
   }
 };
 
-const Selector = props => {
+const Datepicker = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: '',
     isValid: false,
@@ -32,7 +33,7 @@ const Selector = props => {
   }, [id, value, onInput, isValid]);
 
   const changeHandler = event => {
-    dispatch({ type: 'CHANGE', val: event.target.value });
+    // dispatch({ type: 'CHANGE', val: event.target.value });
   };
 
   const touchHandler = () => {
@@ -47,8 +48,15 @@ const Selector = props => {
         inputState.isTouched &&
         'form-control--invalid'} `}
     >
-      <label htmlFor={props.id}>{props.label}</label>
-      <select
+      <Datetime
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        inputProps={{ placeholder: 'Date', id: 'date' }}
+        closeOnSelect={true}
+        closeOnTab={true}
+        disableCloseOnClickOutside={true}
+      />
+      {/* <select
         id={props.id}
         type={props.type}
         placeholder={props.placeholder}
@@ -69,9 +77,10 @@ const Selector = props => {
         <option value="nature">Nature</option>
         <option value="arts">Arts</option>
         <option value="hobbies">Hobbies & Crafts</option>
-      </select>
+      </select> */}
+
       {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>
   );
 };
-export default Selector;
+export default Datepicker;
