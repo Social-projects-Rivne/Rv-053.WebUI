@@ -34,7 +34,7 @@ const Categories = () => {
     {
       name: 'Health & Wellness',
       background: img_url + 'health.jpg',
-      icon: ''
+      icon: 'icon-stethoscope'
     },
     {
       name: 'Education',
@@ -62,7 +62,6 @@ const Categories = () => {
       icon: 'icon-paint-brush'
     },
     {
-      id: 3,
       name: 'Hobbies & Crafts',
       background: img_url + 'crafts.jpg',
       icon: 'icon-cut'

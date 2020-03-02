@@ -276,6 +276,8 @@ exports.filterEvent = async (req, res) => {
         }
       });
     }
+  } else {
+    includeQuery.push({ model: Categories });
   }
 
   await Event.findAndCountAll({
