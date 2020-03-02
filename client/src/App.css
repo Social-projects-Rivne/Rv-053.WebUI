@@ -162,12 +162,6 @@ li {
   list-style: none;
 }
 
-/* button {
-  cursor: pointer;
-}
-button:hover {
-  background-color: #17a589;
-} */
 .my__button {
   color: #16a085;
   border: 1px solid #16a085;
@@ -192,15 +186,22 @@ button:hover {
   text-decoration: none;
   color: #fff;
 }
+.link-btn-dark {
+  background-color: rgba(47, 49, 60, 0.9);
+}
 .link-btn {
+  background-color: rgba(22, 160, 133, 0.9);
+}
+.link-btn,
+.link-btn-dark {
   padding: 7px 30px;
   color: #fff;
   text-decoration: none;
-  background-color: rgba(22, 160, 133, 0.9);
   border-radius: 15px;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
+  border: none;
 }
 .link-btn:hover {
   text-decoration: none;

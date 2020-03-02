@@ -75,12 +75,12 @@ const EventsResult = () => {
                 allEvents.map(event => {
                   return (
                     <EventResultItem
-                      cover={event.cover}
                       key={event.id}
-                      id={event.id}
+                      cover={event.cover}
                       className={
                         toggleListState.list ? 'list__events-item' : 'list__events-item card'
                       }
+                      id={event.id}
                       title={event.name}
                       category={event.category}
                       description={event.description}
@@ -88,6 +88,7 @@ const EventsResult = () => {
                       owner={event.owner}
                       location={event.location}
                       date={event.datetime}
+                      // user={event}
                     />
                   );
                 })

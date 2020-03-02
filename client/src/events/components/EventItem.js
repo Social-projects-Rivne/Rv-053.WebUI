@@ -5,6 +5,12 @@ import UserCard from '../../shared/components/UI/UserCard';
 import './EventItem.css';
 
 const EventItem = props => {
+  const coordinates = props.event.location.split(',');
+  const map = {
+    lat: +coordinates[0],
+    lng: +coordinates[1]
+  };
+  console.log(map);
   return (
     <div className="container event-item">
       <div className="row">
@@ -37,7 +43,7 @@ const EventItem = props => {
               ? ` ${props.event.max_participants} people`
               : ` ${props.event.max_participants} person`}
           </h6>
-          <button type="button" className="btn btn-dark">
+          <button type="button" className="link-btn-dark">
             Join
           </button>
         </div>
@@ -56,7 +62,7 @@ const EventItem = props => {
 
       <div className="row">
         <div className="col-md-12 map-container">
-          <Map center={props.event.location} zoom={16} />
+          <Map center={map} zoom={16} />
         </div>
       </div>
     </div>

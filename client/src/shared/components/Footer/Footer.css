@@ -94,6 +94,7 @@
 
 .footer__col-follow li.social:hover {
   color: #fff;
+  cursor: pointer;
 }
 
 .footer__col-follow li + li {
