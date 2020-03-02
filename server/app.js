@@ -35,9 +35,7 @@ async function start() {
     await db.sequelize
       .sync()
       .then(() => {
-        app.listen(PORT, () =>
-          console.log(`App has been started on port ${PORT}...`)
-        );
+        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
       })
       .catch(err => console.error(err.message));
   } catch (e) {

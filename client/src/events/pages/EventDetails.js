@@ -26,8 +26,8 @@ const EventDetails = () => {
   };
 
   useEffect(() => {
-    if (accessToken) getEvent();
-  }, [accessToken]);
+    getEvent();
+  }, []);
   return (
     <div>
       {eventData ? (

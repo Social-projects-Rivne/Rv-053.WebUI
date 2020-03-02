@@ -1,18 +1,36 @@
 const { Op } = require('sequelize');
+const JWT = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
+const UserEvent = require('../models').user_event;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
+const STATUS_DELETED = 'Deleted';
+
+function checkToken(req) {
+  let token;
+  let result = { isAuthorization: false };
+  if (req.header('Authorization')) {
+    token = req.header('Authorization').split(' ')[1];
+    try {
+      const payload = JWT.verify(token, JWT_SECRET);
+      result = { isAuthorization: true, userId: payload.userId };
+    } catch (err) {
+      return result;
+    }
+  }
+  return result;
+}
 
 exports.getEventByID = async (req, res) => {
   const { id } = req.params;
   await Event.findOne({
     where: {
-      id,
-      status: 'Active'
+      id
     },
     include: [
       {
@@ -21,13 +39,25 @@ exports.getEventByID = async (req, res) => {
       }
     ]
   })
-    .then(event => {
+    .then(async event => {
       if (event === null) {
         res.status(404).send({
           message: 'Event not found'
         });
       }
-      Redis.addUrlInCache(req.originalUrl, event);
+      event = event.toJSON();
+      event.isSubscribe = false;
+      const authUser = checkToken(req);
+      if (authUser.isAuthorization) {
+        subscribe = await UserEvent.findOne({
+          where: { user_id: authUser.userId, event_id: id }
+        });
+        if (subscribe !== null) {
+          event.isSubscribe = true;
+        }
+      }
+
+      //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -74,8 +104,8 @@ exports.createEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  const { id } = req.params.id;
-  const {
+  const { id } = req.params;
+  let {
     name,
     description,
     location,
@@ -93,9 +123,9 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin') {
-      const cover = cover || req.file.path;
-      Event.update(
-        {
+      cover = cover || req.file.path;
+      event
+        .update({
           name,
           description,
           location,
@@ -105,14 +135,7 @@ exports.updateEvent = async (req, res) => {
           min_age,
           cover,
           price
-        },
-        {
-          where: {
-            id: req.userId,
-            owner_id: req.userId
-          }
-        }
-      )
+        })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
         })
@@ -126,7 +149,7 @@ exports.updateEvent = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   await Event.findOne({
     where: {
       id
@@ -134,19 +157,13 @@ exports.deleteEvent = async (req, res) => {
   })
     .then(event => {
       if (event === null) {
-        res.status(404).json({
+        return res.status(404).json({
           message: 'Event not found'
         });
       }
       if (req.userId === event.owner_id || req.role === 'Admin') {
-        Event.update(
-          { status: 'Deleted' },
-          {
-            where: {
-              id
-            }
-          }
-        )
+        event
+          .update({ status: STATUS_DELETED })
           .then(() => {
             res.status(200).json({
               status: 'Event was deleted'
@@ -173,49 +190,44 @@ exports.deleteEvent = async (req, res) => {
 exports.searchEvent = async (req, res) => {
   const limit = req.query.limit || 100;
   const offset = req.query.offset || 0;
+  let searchQuery = null;
   if (req.query.q) {
-    await Event.findAndCountAll({
-      where: {
-        status: 'Active',
-        [Op.or]: [
-          { name: { [Op.iLike]: `%${req.query.q}%` } },
-          { description: { [Op.iLike]: `%${req.query.q}%` } }
-        ]
-      },
-      raw: true,
-      offset,
-      limit,
-      order: [['datetime', 'DESC']]
-    })
-      .then(events => {
-        Redis.addUrlInCache(req.originalUrl, events);
-        res.status(200).json(events);
-      })
-      .catch(err => {
-        res.status(400).send({
-          message: err.message || 'Bad Request'
-        });
-      });
+    searchQuery = {
+      status: STATUS_ACTIVE,
+      [Op.or]: [
+        { name: { [Op.iLike]: `%${req.query.q}%` } },
+        { description: { [Op.iLike]: `%${req.query.q}%` } }
+      ]
+    };
   } else {
-    await Event.findAndCountAll({
-      where: {
-        status: 'Active'
-      },
-      raw: true,
-      offset,
-      limit,
-      order: [['datetime', 'DESC']]
-    })
-      .then(events => {
-        Redis.addUrlInCache(req.originalUrl, events);
-        res.status(200).json(events);
-      })
-      .catch(err => {
-        res.status(400).send({
-          message: err.message || 'Bad Request'
-        });
-      });
+    searchQuery = { status: STATUS_ACTIVE };
   }
+
+  await Event.findAndCountAll({
+    where: searchQuery,
+    raw: true,
+    offset,
+    limit,
+    include: [
+      {
+        model: User,
+        attributes: ['first_name', 'last_name']
+      }
+    ],
+    order: [
+      ['datetime', 'DESC'],
+      ['id', 'DESC']
+    ]
+  })
+    .then(events => {
+      Redis.addUrlInCache(req.originalUrl, events);
+      res.status(200).json(events);
+    })
+    .catch(err => {
+      res.status(400).send({
+        message: err.message || 'Bad Request'
+      });
+    });
 };
 
 exports.filterEvent = async (req, res) => {
@@ -224,7 +236,7 @@ exports.filterEvent = async (req, res) => {
   const startDate = req.query.startDate || null;
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
-  let searchQuery = {};
+  let searchQuery = { status: STATUS_ACTIVE };
   let includeQuery = null;
 
   if (startDate !== null && endDate === null) {
