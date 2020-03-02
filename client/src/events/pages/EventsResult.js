@@ -21,7 +21,6 @@ const EventsResult = () => {
   const filterStartDate = urlParams.get('startDate');
   const filterEndDate = urlParams.get('endDate');
   const apiFilterQuery = `startDate=${filterStartDate}&endDate=${filterEndDate}&category=${filterCategory}`;
-  console.log(apiFilterQuery);
 
   const [allEvents, setAllEvents] = useState([]);
   const [toggleListState, setToggleListState] = useState({ list: true });
@@ -61,17 +60,20 @@ const EventsResult = () => {
                   ></button>
                 </div>
               </div>
-            </div>
 
-            <Pagination
-              api="/api/events/"
-              onDataFetch={getEvents}
-              pageItemsLimit={4}
-              query={'q=' + (searchQuery ? searchQuery : '')}
-            >
-              <div
-                className={
-                  toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
+              <Pagination
+                api={
+                  filterCategory || filterStartDate || filterEndDate
+                    ? "/api/events/filter"
+                    : "/api/events/"
+                }
+                onDataFetch={getEvents}
+                pageItemsLimit={2}
+                query={
+                  filterCategory || filterStartDate || filterEndDate
+                    ? apiFilterQuery
+                    : `q=${searchQuery ? searchQuery : ""}`
+
                 }
               >
                 {allEvents[0] ? (

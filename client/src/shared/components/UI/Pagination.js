@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
 import './Pagination.css';
 
+
 const Pagination = props => {
   const [rowsCount, setRowsCount] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(false);
@@ -19,11 +20,6 @@ const Pagination = props => {
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
-  // const { endtDate, startDate } = useContext(DateRangesContext);
-  // const { selectedCategoryId } = useContext(CategoryContext);
-  // const url = `startDate=${startDate}&endDate=${endtDate}&category=${selectedCategoryId}`;
-  // console.log(props.query);
-
   const getItemsList = async () => {
     if (props.api) {
       try {

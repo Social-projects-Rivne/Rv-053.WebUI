@@ -16,7 +16,6 @@ const CategoryContextProvider = props => {
     };
     fetchData();
   }, []);
-  console.log(data);
   return (
     <CategoryContext.Provider
       value={{

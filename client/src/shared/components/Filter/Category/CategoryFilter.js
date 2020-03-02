@@ -26,7 +26,6 @@ const CategoryFilter = props => {
   };
 
   const uniqueCategory = getUnique(data, "category");
-  console.log({ uniqueCategory });
 
   return (
     <>

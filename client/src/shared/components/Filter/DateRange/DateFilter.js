@@ -4,14 +4,12 @@ import { DateRangesContext } from "./DateRangesContext";
 
 const DateFilter = props => {
   const { dateRanges, dispatch } = useContext(DateRangesContext);
-  console.log({ dateRanges });
   const handleDate = e => {
     e.preventDefault();
     dispatch({
       type: e.target.value,
       timeStamp: {}
     });
-    console.log(e.target.value);
   };
 
   useEffect(() => {
