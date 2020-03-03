@@ -25,11 +25,7 @@ const ImageUpload = () => {
   if (imagePreviewUrl) {
     $imagePreview = <img src={imagePreviewUrl} />;
   } else {
-    $imagePreview = (
-      <div className="previewText">
-        <img src="./public/src/img/logo.png" />
-      </div>
-    );
+    $imagePreview = <img className="defaultImg" src="./src/img/logo.png" />;
   }
 
   return (

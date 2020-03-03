@@ -1,23 +1,36 @@
-import React from 'react';
-// import Datetime from 'react-datetime';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Selector from '../../shared/components/FormElements/Select';
 import Datepicker from '../../shared/components/FormElements/Datepicker';
 import { useForm } from '../../shared/hooks/useForm';
 import ImageUpload from '../components/ImageUpload';
+import { AuthContext } from '../../shared/context/auth-context';
+
+import { api_server_url } from '../../shared/utilities/globalVariables';
 
 import './AddEvent.css';
 import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation';
 
 const AddEvent = () => {
+  const history = useHistory();
+  const accessToken = useContext(AuthContext).token;
+  const headers = {
+    Authorization: 'Bearer ' + accessToken
+  };
+  const [notificationState, setNotificationState] = useState({
+    message: 'some message',
+    show: false
+  });
   const [formState, inputHandler] = useForm(
     {
       title: {
         value: '',
         isValid: false
       },
-      select: {
+      category: {
         value: '',
         isValid: false
       },
@@ -25,23 +38,23 @@ const AddEvent = () => {
         value: '',
         isValid: false
       },
-      // address: {
-      //   value: '',
-      //   isValid: false
-      // },
-      // country: {
-      //   value: '',
-      //   isValid: false
-      // },
-      // price: {
-      //   value: '',
-      //   isValid: false
-      // },
+      address: {
+        value: '',
+        isValid: false
+      },
+      country: {
+        value: '',
+        isValid: false
+      },
+      price: {
+        value: '',
+        isValid: false
+      },
       age: {
         value: '',
         isValid: false
       },
-      amount: {
+      participants: {
         value: '',
         isValid: false
       },
@@ -50,9 +63,46 @@ const AddEvent = () => {
         isValid: false
       }
     },
-
     false
   );
+  const eventID = useParams().id;
+
+  const createEventData = async () => {
+    if (formState.formValidity) {
+      try {
+        const createEventData = {
+          name: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          location: `${formState.inputs.address.value}, ${formState.inputs.country.value}`,
+          datetime: formState.inputs.date.value,
+          duration: formState.inputs.location.value,
+          max_participants: formState.inputs.participants.value,
+          min_age: formState.inputs.age.value,
+          price: formState.inputs.price.value
+        };
+        const res = await axios.post(api_server_url + '/api/events/' + eventID, createEventData, {
+          headers
+        });
+
+        if (res.status === 200) {
+          console.log(res);
+          // setNotificationState({
+          //   message: res.data.status,
+          //   show: true
+          // });
+          history.push({
+            pathname: '/redirect',
+            state: {
+              className: 'p-0 auth alert alert-success',
+              message: res.data.status
+            }
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
   const submitFormHandler = event => {
     event.preventDefault();
@@ -77,7 +127,7 @@ const AddEvent = () => {
           <div className="col-md-6">
             <Selector
               type="select"
-              id="select"
+              id="category"
               label="Category"
               onInput={inputHandler}
               validations={[VAL_REQUIRED()]}
@@ -164,7 +214,7 @@ const AddEvent = () => {
           </div>
           <div className="col-md-6">
             <Input
-              id="amount"
+              id="participants"
               type="number"
               label="The max amount of participants"
               step="1"

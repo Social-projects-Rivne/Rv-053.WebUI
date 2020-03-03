@@ -1,6 +1,6 @@
 .imgPreview {
   text-align: center;
-  background: #eee;
+  background: rgb(250, 250, 250);
   border: 2px solid #eee;
   width: 100px;
   height: 200px;
@@ -66,10 +66,10 @@ h1 small {
   right: 0;
   text-align: center;
   margin: auto;
-  font-size: 30px;
+  font-size: 25px;
 }
-.cover-edit input + label:after:hover {
-  color: #76e5d0;
+.cover-edit input:hover + label:after {
+  color: #2b5a51;
 }
 .avatar-preview {
   width: 192px;
@@ -87,4 +87,8 @@ h1 small {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.defaultImg {
+  opacity: 0.4;
 }

@@ -33,7 +33,7 @@ const Datepicker = props => {
   }, [id, value, onInput, isValid]);
 
   const changeHandler = event => {
-    // dispatch({ type: 'CHANGE', val: event.target.value });
+    dispatch({ type: 'CHANGE', val: event.unix() });
   };
 
   const touchHandler = () => {
@@ -48,6 +48,7 @@ const Datepicker = props => {
         inputState.isTouched &&
         'form-control--invalid'} `}
     >
+      <label htmlFor={props.id}>{props.label}</label>
       <Datetime
         onChange={changeHandler}
         onBlur={touchHandler}
