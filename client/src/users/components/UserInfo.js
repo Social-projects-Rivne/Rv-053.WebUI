@@ -19,7 +19,6 @@ const UserInfo = props => {
       const res = await axios.get(api_server_url + '/api/user/current', {
         headers
       });
-      console.log(res);
       setUserData(res.data.data.user);
     } else {
       const res = await axios.get(api_server_url + '/api/user//by-id/' + userId, {
@@ -34,7 +33,6 @@ const UserInfo = props => {
       getUserData();
     }
   }, [accessToken]);
-  // console.log(userData);
   return (
     <div className="profile-top">
       {userData ? (
