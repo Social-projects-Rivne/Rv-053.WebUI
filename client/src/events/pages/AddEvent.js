@@ -14,32 +14,32 @@ const AddEvent = () => {
     {
       title: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       select: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       description: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       location: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       price: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       age: {
         value: '',
-        isValid: false,
+        isValid: false
       },
       amount: {
         value: '',
-        isValid: false,
-      },
+        isValid: false
+      }
     },
 
     false

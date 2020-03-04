@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 import './AdminUserItem.css';
+import Selector from '../../../shared/components/FormElements/Select';
 
 const AdminUserItem = props => {
   const [extraInfoFlag, setExtraInfoFlag] = useState(false);
   const [editRoleFlag, setEditRoleFlag] = useState(false);
   const [userRole, setUserRole] = useState(props.userInfo.role);
-  const [userStatus, setUserStatus] = useState(props.userInfo.user_status.status);
-  const birthDate = new Date(props.userInfo.birthday / 1000);
-  console.log(birthDate.toISOString);
+  const [userStatus, setUserStatus] = useState(
+    props.userInfo.user_status.status === 'Ban' ? 'Banned' : props.userInfo.user_status.status
+  );
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken
@@ -47,7 +49,7 @@ const AdminUserItem = props => {
       if (action === 'ban') {
         const res = await axios.post(api_url, {}, { headers });
         if (res.data.status === 'success') {
-          setUserStatus('Ban');
+          setUserStatus('Banned');
         }
       } else if (action === 'unban') {
         const res = await axios.delete(api_url, { headers }, {});
@@ -64,19 +66,18 @@ const AdminUserItem = props => {
     setEditRoleFlag(!editRoleFlag);
   };
 
-  const userRoleHandler = event => {
-    roleFlagHandler(false);
-    if (userRole === event.target.value) {
+  const userRoleHandler = roleItem => {
+    if (userRole === roleItem.title) {
       return;
     } else {
-      sendRoleToServer(props.userInfo.id, event.target.value);
+      sendRoleToServer(props.userInfo.id, roleItem.title);
     }
   };
 
   const banHandler = () => {
     if (userStatus === 'Active') {
       changeUserStatus(props.userInfo.id, 'ban');
-    } else if (userStatus === 'Ban') {
+    } else if (userStatus === 'Banned') {
       changeUserStatus(props.userInfo.id, 'unban');
     }
   };
@@ -107,22 +108,23 @@ const AdminUserItem = props => {
           <p className="adminpanel__float-left">{props.userInfo.phone}</p>
         </div>
         <div className="col-lg-2 adminpanel__col">
-          {editRoleFlag ? (
-            <select
-              className="adminpanel__float-left custom-select"
-              value={userRole}
-              onChange={userRoleHandler}
-              onBlur={userRoleHandler}
-            >
-              <option value="User">User</option>
-              <option value="Moderator">Moderator</option>
-              <option value="Admin">Admin</option>
-            </select>
-          ) : (
-            <p className="adminpanel__float-left" onClick={roleFlagHandler}>
-              {userRole}
-            </p>
-          )}
+          <button
+            className="adminpanel__float-left cursor-pointer adminpanel__button-flat"
+            onClick={roleFlagHandler}
+            // onBlur={roleFlagHandler}
+          >
+            {userRole}
+          </button>
+          <Selector
+            triger={editRoleFlag}
+            items={[
+              { icon: '', title: 'Admin', info: '' },
+              { icon: '', title: 'Moderator', info: '' },
+              { icon: '', title: 'User', info: '' }
+            ]}
+            onChange={userRoleHandler}
+            className=""
+          />
         </div>
         <div className="col-lg-1 adminpanel__col">
           <p
@@ -145,7 +147,13 @@ const AdminUserItem = props => {
           <div className="col-lg-3 adminpanel__col"></div>
           <div className="col-lg-4 adminpanel__col">
             <p className="adminpanel__float-left">
-              Birthday: {props.userInfo.birthday ? props.userInfo.birthday : 'Unknown'}
+              Birthday:{' '}
+              {props.userInfo.birthday
+                ? moment(+props.userInfo.birthday)
+                    .format('DD MM YYYY')
+                    .split(' ')
+                    .join('.')
+                : 'Unknown'}
             </p>
           </div>
           <div className="col-lg-2 adminpanel__col">
@@ -153,7 +161,7 @@ const AdminUserItem = props => {
           </div>
           <div className="col-lg-3 adminpanel__col">
             <button className="button-danger adminpanel__float-right" onClick={banHandler}>
-              {userStatus === 'Ban' ? 'unban' : 'ban'}
+              {userStatus === 'Banned' ? 'unban' : 'ban'}
             </button>
           </div>
         </div>
@@ -166,7 +174,7 @@ const AdminUserItem = props => {
           }
           onClick={extraInfoFlagHandler}
         >
-          &#8645;
+          {extraInfoFlag ? <>&#8657;</> : <>&#8659;</>}
         </span>
       </div>
     </li>

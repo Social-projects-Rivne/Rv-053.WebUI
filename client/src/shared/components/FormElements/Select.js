@@ -1,67 +1,72 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
+import Transition from 'react-transition-group/Transition';
 
-const inputReducer = (state, action) => {
-  switch (action.type) {
-    case 'CHANGE':
-      return {
-        ...state,
-        value: action.val,
-        isValid: true
-      };
-      case 'TOUCH':
-        return {
-          ...state,
-          isTouched: true
-        }
-    default:
-      return state;
-  }
-}
+import './Select.css';
 
 const Selector = props => {
-  
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    value: "",
-    isValid: false,
-    isTouched: false
-  });
+  const items = [...props.items];
+  const closeOnMouseLeave = props.closeOnMouseLeave;
+  const [firstTimeLoadFlag, setFirstTimeLoadFlag] = useState(true);
+  const [dropdownShow, setDropdownShow] = useState(false);
 
-  const { id, onInput } = props;
-	const { value, isValid } = inputState;
-	useEffect(() => {
-		onInput(id, value, isValid);
-	}, [id, value, onInput, isValid]);
+  const selecItems = (
+    <ul style={{ padding: '0' }}>
+      {items.map((item, id) => {
+        return (
+          <li
+            key={id}
+            className="dropdown-item cursor-pointer"
+            onClick={() => {
+              props.onChange(item);
+              setDropdownShow(false);
+            }}
+          >
+            <div className={`d-inline-block ${item.icon} mr-2`}></div>
+            <span className="d-inline-block mr-2">{item.title}</span>
+            <span className="text-muted">{item.info}</span>
+          </li>
+        );
+      })}
+    </ul>
+  );
 
-  const changeHandler = event => {
-      dispatch({type: 'CHANGE', val: event.target.value})
-  }
+  useEffect(() => {
+    if (!firstTimeLoadFlag) {
+      setDropdownShow(!dropdownShow);
+    } else {
+      setFirstTimeLoadFlag(false);
+    }
+  }, [props.triger]);
 
-  const touchHandler = () => {
-    dispatch({
-      type: 'TOUCH'
-    })
-  }
-  
-  return <div className={`form-group ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'} `}>
-    <label htmlFor={props.id}>{props.label}</label>
-<select 
-  id={props.id}
-  type={props.type}
-  placeholder={props.placeholder}
-  onBlur={touchHandler}
-  onChange={changeHandler}
-  value={inputState.value}
-  className="form-control"
->
-  <option disabled label="--Select category--"></option>
-  <option value ='music'>Music</option>
-  <option value ='sport'>Sport</option>
-  <option value ='fashion'>Fashion</option>
-  <option value ='education'>Education</option>
-  <option value ='entertaiment'>Entertaiment</option>
-</select>
-{!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
-      </div>
-}
+  return (
+    <>
+      <Transition in={dropdownShow} timeout={{ enter: 0, exit: 300 }} mountOnEnter unmountOnExit>
+        {transition => {
+          const cssClasses = [
+            props.className,
+            'dropdown-menu',
+            'show',
+            'custom-scrollbar',
+            transition === 'entering'
+              ? 'dropdown-menu-hide'
+              : transition === 'entered'
+              ? 'dropdown-menu-show'
+              : transition === 'exiting'
+              ? 'dropdown-menu-hide'
+              : null
+          ];
+          return (
+            <div
+              className={cssClasses.join(' ')}
+              onMouseLeave={() => (closeOnMouseLeave ? setDropdownShow(false) : null)}
+            >
+              {selecItems}
+            </div>
+          );
+        }}
+      </Transition>
+    </>
+  );
+};
 
 export default Selector;

@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-import DateRangesContext from '../Filter/DateRange/DateRangesContext';
-import CategoryContext from '../Filter/Category/CategoryContext';
 import { AuthContext } from '../../context/auth-context';
 import { api_server_url } from '../../utilities/globalVariables';
 import './Pagination.css';
@@ -47,12 +45,10 @@ const Pagination = props => {
         setRowsCount(res.data.count);
         props.onDataFetch(res.data);
 
-        console.log('OIRGUPORU', res.data);
         setLoadingFlag(false);
       } catch (e) {
         console.log(e);
       }
-      console.log(props.api);
     }
   };
 

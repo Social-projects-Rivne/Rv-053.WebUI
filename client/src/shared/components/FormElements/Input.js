@@ -1,9 +1,8 @@
 import React, { useReducer, useEffect, useCallback, useRef } from 'react';
-import Selector from '../FormElements/Select';
 
+import { validate } from '../../utilities/validation';
 import Password from './InputChildrens/Password';
 import Phone from './InputChildrens/Phone';
-import { validate } from '../../utilities/validation';
 import RollingAnimation from '../UI/Animations/RollingAnimation';
 import ShakingAnimation from '../UI/Animations/ShakingAnimation';
 import './Input.css';
@@ -185,16 +184,6 @@ const Input = props => {
         onChange={typingHandler}
         autoComplete="off"
         required
-      />
-    );
-  } else if (props.type === 'select') {
-    inputEl = (
-      <Selector
-        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
-        id={props.id}
-        value={state.value}
-        onBlur={blurHandler}
-        onChange={typingHandler}
       />
     );
   } else if (props.type === 'radio') {
