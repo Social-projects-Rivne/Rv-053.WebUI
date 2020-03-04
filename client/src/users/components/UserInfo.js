@@ -5,11 +5,11 @@ import axios from 'axios';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from '../../shared/context/auth-context';
 
-const UserInfo = props => {
+const UserInfo = () => {
   const accessToken = useContext(AuthContext).token;
 
-  const [userData, setUserData] = useState();
-  const userId = useParams().id;
+  const [userData, setUserData] = useState({ user: {}, isMyProfile: false });
+  const userId = useParams().userId;
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
@@ -19,28 +19,26 @@ const UserInfo = props => {
       const res = await axios.get(api_server_url + '/api/user/current', {
         headers
       });
-      console.log(res);
-      setUserData(res.data.data.user);
+      setUserData({ user: res.data.data.user, isMyProfile: true });
     } else {
-      const res = await axios.get(api_server_url + '/api/user//by-id/' + userId, {
+      const res = await axios.get(api_server_url + '/api/user/' + userId, {
         headers
       });
-
-      setUserData(res.data.data.user);
+      console.log(res);
+      setUserData({ user: res.data.data.user, isMyProfile: false });
     }
   };
   useEffect(() => {
     if (accessToken) {
       getUserData();
     }
-  }, [accessToken]);
-  // console.log(userData);
+  }, [accessToken, userId]);
   return (
-    <div className="profile-top">
+    <div className={userId == 'my' ? 'profile-top' : null}>
       {userData ? (
         <>
           <div className="profile-avatar__wrapper">
-            {!userData.avatar ? (
+            {!userData.user.avatar ? (
               <span className="profile-avatar">
                 <span className="profile-avatar__head"></span>
                 <span className="profile-avatar__body"></span>
@@ -48,24 +46,26 @@ const UserInfo = props => {
             ) : (
               <img
                 className="profile-avatar"
-                src={userData.avatar ? userData.avatar : '/'}
+                src={userData.user.avatar ? userData.user.avatar : '/'}
                 alt=""
               />
             )}
           </div>
           <div className="profile-info">
             <div className="profile-name">
-              {userData.first_name} {userData.last_name}
+              {userData.user.first_name} {userData.user.last_name}
             </div>
-            <div className="profile-email">{userData.email} </div>
-            <div className="profile_btn">
-              <NavLink to="/addevent" className="link-btn">
-                Add event
-              </NavLink>
-              <NavLink to="/editprofile" className="link-btn">
-                Edit profile
-              </NavLink>
-            </div>
+            <div className="profile-email">{userData.user.email} </div>
+            {userId == 'my' ? (
+              <div className="profile_btn">
+                <NavLink to="/addevent" className="link-btn">
+                  Add event
+                </NavLink>
+                <NavLink to="/editprofile" className="link-btn">
+                  Edit profile
+                </NavLink>
+              </div>
+            ) : null}
           </div>
         </>
       ) : null}

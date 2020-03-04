@@ -87,11 +87,11 @@ button:hover {
 }
 .link {
   text-decoration: none;
-  color: #fff;
+  color: #000;
 }
 .link:hover {
   text-decoration: none;
-  color: #fff;
+  color: #000;
 }
 .link-btn-dark {
   background-color: rgba(47, 49, 60, 0.9);
@@ -139,6 +139,27 @@ button:hover {
     -ms-flex-preferred-size: calc(50% - 50px);
     flex-basis: calc(50% - 50px);
   }
+  .list__events-item {
+    min-width: 300px;
+    width: 100%;
+    display: block;
+    -ms-flex-preferred-size: calc(25% - 50px);
+    flex-basis: calc(25% - 50px);
+    border: none;
+  }
+  .list__events-item .list__events-item-img {
+    min-height: 180px;
+    width: 100%;
+    max-width: none;
+  }
+  .list__events-item .list__events-item-description {
+    padding-left: 15px;
+    padding-bottom: 15px;
+  }
+  .list__events-item-category,
+  .list__events-item-title {
+    margin-bottom: 0;
+  }
 
   .slider__title {
     font-size: 40px;
@@ -173,28 +194,6 @@ button:hover {
   .slider__btn {
     font-size: 15px;
     padding: 7px 20px;
-  }
-  .list__events-item {
-    min-width: 300px;
-    width: 100%;
-    display: block;
-    -ms-flex-preferred-size: calc(25% - 50px);
-    flex-basis: calc(25% - 50px);
-    border: none;
-  }
-
-  .list__events-item .list__events-item-img {
-    min-height: 180px;
-    width: 100%;
-    max-width: none;
-  }
-  .list__events-item .list__events-item-description {
-    padding-left: 15px;
-    padding-bottom: 15px;
-  }
-  .list__events-item-category,
-  .list__events-item-title {
-    margin-bottom: 0;
   }
 }
 

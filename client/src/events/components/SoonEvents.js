@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 import { api_server_url } from './../../shared/utilities/globalVariables';
@@ -34,6 +35,9 @@ const SoonEvents = () => {
                 ))
               : null}
           </MySlider>
+          <div className="soon__events-link">
+            <NavLink to="/events">All events</NavLink>
+          </div>
         </div>
       </div>
     </section>

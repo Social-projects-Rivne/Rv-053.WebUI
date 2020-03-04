@@ -4,7 +4,7 @@ const CalendarList = () => {
   return (
     <div className="header__calendar-list">
       <ul>
-        <li>
+        {/* <li>
           <a>Today</a>
         </li>
         <li>
@@ -18,7 +18,7 @@ const CalendarList = () => {
         </li>
         <li>
           <a>This month</a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

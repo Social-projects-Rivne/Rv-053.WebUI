@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
+import './EventsResult.css';
+
 const EventResultItem = props => {
   const image = {
     backgroundImage: `url(${props.event.cover})`
@@ -24,10 +26,12 @@ const EventResultItem = props => {
           <div className="list__events-item-price">{props.event.price || 'Free'}</div>
         </div>
         <div className="list__events-item-bottom_info">
-          <div className="list__events-item-creator">
-            {props.event.user.first_name + ' '}
-            {props.event.user.last_name}
-          </div>
+          <NavLink to={'profile/' + props.event.owner_id} className="link ">
+            <div className="list__events-item-creator">
+              {props.event.user.first_name + ' '}
+              {props.event.user.last_name}
+            </div>
+          </NavLink>
           <div className="list__events-item-location">{props.event.location}</div>
           <div className="list__events-item-date">{datetime}</div>
         </div>

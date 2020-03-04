@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { api_server_url } from '../../../shared/utilities/globalVariables';
@@ -8,10 +9,10 @@ import EventItemCreated from './EventItemCreated';
 const CreatedEventList = () => {
   const accessToken = useContext(AuthContext).token;
   const [events, setEvents] = useState([]);
+  const userId = useParams().userId;
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
-
   const getEvents = async () => {
     const res = await axios.get(api_server_url + '/api/user/events', {
       headers
@@ -39,10 +40,10 @@ const CreatedEventList = () => {
       getEvents();
     }
   }, [accessToken]);
-
   return (
-    <div className='event_list-item'>
-      <h3 className='profile-title'>Created events</h3>
+    <div className="event_list-item">
+      {' '}
+      <h3 className="profile-title">Created events</h3>
       {events.length > 0 ? (
         events.map(event => (
           <EventItemCreated
@@ -54,7 +55,7 @@ const CreatedEventList = () => {
           />
         ))
       ) : (
-        <p>You haven`t created any events</p>
+        <p>{userId == 'my' ? "You haven't" : "User hasn't"} created any events</p>
       )}
     </div>
   );

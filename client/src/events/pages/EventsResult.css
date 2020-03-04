@@ -248,3 +248,6 @@
 .list__events-sort_btn-item.icon-th-large:focus {
   outline: none;
 }
+.list__events-item-creator:hover {
+  color: rgb(22, 160, 133);
+}
