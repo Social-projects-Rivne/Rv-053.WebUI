@@ -14,6 +14,8 @@ import { api_server_url } from '../../shared/utilities/globalVariables';
 import './AddEvent.css';
 import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation';
 
+import './AddEvent.css';
+
 const AddEvent = () => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
