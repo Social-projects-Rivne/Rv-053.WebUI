@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
-import { format } from 'date-fns';
+
 import { api_server_url } from './../../shared/utilities/globalVariables';
 import { useForm } from './../../shared/hooks/useForm';
 import { AuthContext } from './../../shared/context/auth-context';
@@ -38,12 +38,10 @@ const EditProfile = () => {
     const userData = await axios.get(api_server_url + '/api/user/current', {
       headers
     });
-    userData.data.data.user.birthday = moment(
-      +userData.data.data.user.birthday
-    ).format('DD MM YYYY');
-    userData.data.data.user.birthday = userData.data.data.user.birthday.split(
-      ' '
+    userData.data.data.user.birthday = moment(+userData.data.data.user.birthday).format(
+      'DD MM YYYY'
     );
+    userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
     setUserDataState(userData.data.data.user);
   };
 
@@ -99,13 +97,9 @@ const EditProfile = () => {
         sex: formState.inputs.sex.value
       };
       console.log(formState.inputs.sex.value);
-      const res = await axios.put(
-        'http://localhost:5001/api/user/current/',
-        updatedUser,
-        {
-          headers
-        }
-      );
+      const res = await axios.put(api_server_url + '/api/user/current/', updatedUser, {
+        headers
+      });
       if (res.data.status == 'success') {
         history.push('/profile/my', { show: true });
       }
