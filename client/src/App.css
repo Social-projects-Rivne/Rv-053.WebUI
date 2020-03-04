@@ -167,14 +167,16 @@ html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
-body {
-  height: 100%;
-}
 * {
   margin: 0;
   padding: 0;
 }
+
+body {
+  height: 100%;
+  font-family: 'Quicksand', sans-serif;
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -201,12 +203,6 @@ li {
   list-style: none;
 }
 
-/* button {
-  cursor: pointer;
-}
-button:hover {
-  background-color: #17a589;
-} */
 .user-profile__link {
   text-decoration: none;
   color: #000;
@@ -229,7 +225,6 @@ button:hover {
 .my__button:hover {
   background-color: rgba(22, 160, 133, 0.9);
   color: #fff;
-  /* box-shadow: 0px 0px 9px -2px rgba(22, 160, 132, 1); */
 }
 .my__button:focus {
   outline: none;
@@ -467,8 +462,4 @@ button:hover {
   .footer__col-follow li + li {
     margin-left: 15px;
   }
-}
-@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap');
-body {
-  font-family: 'Quicksand', sans-serif;
 }

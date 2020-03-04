@@ -63,10 +63,18 @@ const EventsResult = () => {
             </div>
 
             <Pagination
-              api="/api/events/"
+              api={
+                filterCategory || filterStartDate || filterEndDate
+                  ? '/api/events/filter'
+                  : '/api/events/'
+              }
               onDataFetch={getEvents}
               pageItemsLimit={4}
-              query={'q=' + (searchQuery ? searchQuery : '')}
+              query={
+                filterCategory || filterStartDate || filterEndDate
+                  ? apiFilterQuery
+                  : `q=${searchQuery ? searchQuery : ''}`
+              }
             >
               <div
                 className={
