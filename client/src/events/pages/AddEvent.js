@@ -67,31 +67,27 @@ const AddEvent = () => {
     },
     false
   );
-  const eventID = useParams().id;
 
-  const createEventData = async () => {
+  const submitFormHandler = async event => {
+    event.preventDefault();
+
     if (formState.formValidity) {
       try {
         const createEventData = {
           name: formState.inputs.title.value,
           description: formState.inputs.description.value,
-          location: `${formState.inputs.address.value}, ${formState.inputs.country.value}`,
+          location: `${formState.inputs.address.value},${formState.inputs.country.value}`,
           datetime: formState.inputs.date.value,
-          duration: formState.inputs.location.value,
           max_participants: formState.inputs.participants.value,
           min_age: formState.inputs.age.value,
           price: formState.inputs.price.value
         };
-        const res = await axios.post(api_server_url + '/api/events/' + eventID, createEventData, {
+        const res = await axios.post(api_server_url + '/api/events', createEventData, {
           headers
         });
 
         if (res.status === 200) {
-          console.log(res);
-          // setNotificationState({
-          //   message: res.data.status,
-          //   show: true
-          // });
+          console.log('Was create successfull');
           history.push({
             pathname: '/redirect',
             state: {
@@ -99,16 +95,13 @@ const AddEvent = () => {
               message: res.data.status
             }
           });
+        } else {
+          console.log('stupid errorr');
         }
       } catch (e) {
         console.log(e);
       }
     }
-  };
-
-  const submitFormHandler = event => {
-    event.preventDefault();
-    console.log(formState.inputs);
   };
   return (
     <div className="addEvent container">
@@ -184,7 +177,7 @@ const AddEvent = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 offset-md-3">
+          <div className="col-md-4">
             <Input
               id="price"
               type="number"
@@ -198,13 +191,11 @@ const AddEvent = () => {
               className="form-control"
             />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Input
               id="age"
               type="number"
-              label="The min age of participants"
+              label="Age limit"
               step="1"
               min="0"
               placeholder="18..."
@@ -214,11 +205,11 @@ const AddEvent = () => {
               className="form-control"
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Input
               id="participants"
               type="number"
-              label="The max amount of participants"
+              label="Places amount"
               step="1"
               min="0"
               placeholder="10"
