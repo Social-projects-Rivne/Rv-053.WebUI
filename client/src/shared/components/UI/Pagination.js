@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 
 import DateRangesContext from '../Filter/DateRange/DateRangesContext';
 import CategoryContext from '../Filter/Category/CategoryContext';
@@ -38,12 +37,6 @@ const Pagination = props => {
             headers
           }
         );
-        for (const id in res.data.rows) {
-          res.data.rows[id].datetime = moment(+res.data.rows[id].datetime)
-            .format('DD MM YYYY')
-            .split(' ')
-            .join('.');
-        }
         setRowsCount(res.data.count);
         props.onDataFetch(res.data);
 
