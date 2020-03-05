@@ -27,9 +27,7 @@ const EventDetails = () => {
     event.data.duration = moment(+event.data.duration)
       .format('hh mm')
       .replace(' ', ':');
-
     setEventData(event.data);
-    console.log(event.data);
   };
 
   const joinEvent = async id => {

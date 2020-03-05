@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './EventsResult.css';
 
+import { returnAddress } from '../../shared/components/UI/Geocoding';
 const EventResultItem = props => {
   const image = {
     backgroundImage: `url(${props.event.cover})`
@@ -13,6 +14,17 @@ const EventResultItem = props => {
     .split(' ')
     .join('.');
 
+  const coordinates = props.event.location.split(',');
+  const [address, setAddress] = useState();
+  useEffect(() => {
+    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+    geocodeObj.then(geocodeObj => {
+      const geoComponent = geocodeObj.address_components;
+      setAddress(
+        `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
+      );
+    });
+  }, []);
   return (
     <NavLink to={'event/' + props.event.id} className={props.className}>
       <div className="list__events-item-img" style={image}></div>
@@ -32,7 +44,7 @@ const EventResultItem = props => {
               {props.event.user.last_name}
             </div>
           </NavLink>
-          <div className="list__events-item-location">{props.event.location}</div>
+          <div className="list__events-item-location">{address}</div>
           <div className="list__events-item-date">{datetime}</div>
         </div>
       </div>

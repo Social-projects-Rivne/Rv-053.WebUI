@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { AuthContext } from './../../context/auth-context';
-import SignUpIn from './../../../users/pages/SignUp';
+import Auth from './../../../users/pages/Auth';
 import AdminPanelPage from '../../../admin/pages/AdminPanelPage';
 import EventDetails from './../../../events/pages/EventDetails';
 import AddEvent from './../../../events/pages/AddEvent';
@@ -65,7 +65,7 @@ const Routes = () => {
               <PageLayout innerComponent={<EventDetails />} />
             </Route>
             <Route path="/auth">
-              <PageLayout innerComponent={<SignUpIn />} />
+              <PageLayout innerComponent={<Auth />} />
             </Route>
             <Route path="/redirect">
               <PageLayout innerComponent={<Notificator />} />
