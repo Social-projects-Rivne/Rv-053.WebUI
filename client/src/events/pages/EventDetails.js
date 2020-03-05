@@ -18,7 +18,10 @@ const EventDetails = () => {
     Authorization: 'Bearer ' + accessToken
   };
   const getEvent = async () => {
-    const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
+    const event = await axios.get(
+      'http://localhost:5001/api/events/' + eventId,
+      { headers }
+    );
     event.data.datetime = moment(+event.data.datetime)
       .format('DD MM YYYY')
       .split(' ')
@@ -53,8 +56,8 @@ const EventDetails = () => {
   return (
     <div>
       <Notificator
-        className="success-note"
-        message="You are successfully subscribed!"
+        className='success-note'
+        message='You are successfully subscribed!'
         show={showNoteState}
         onExit={closeNoteHandler}
       />
@@ -64,6 +67,7 @@ const EventDetails = () => {
           event={eventData}
           owner={eventData.user}
           joinEvent={joinEvent}
+          accessToken={accessToken ? true : false}
         />
       ) : (
         <p>Oops, nothing is found...</p>
