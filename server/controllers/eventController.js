@@ -35,7 +35,7 @@ exports.getEventByID = async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ['first_name', 'last_name', 'avatar']
+        attributes: ['id', 'first_name', 'last_name', 'avatar']
       },
       {
         model: Categories

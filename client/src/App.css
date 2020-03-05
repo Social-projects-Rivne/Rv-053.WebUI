@@ -10,7 +10,6 @@ html {
   box-sizing: border-box;
   height: 100%;
 }
-
 *,
 *:before,
 *:after {
@@ -21,12 +20,10 @@ html {
   margin: 0;
   padding: 0;
 }
-
 body {
   height: 100%;
   font-family: 'Quicksand', sans-serif;
 }
-
 #root {
   display: flex;
   flex-direction: column;
@@ -43,25 +40,12 @@ body {
   margin: 0 auto;
   padding: 0px 20px;
 }
-
 .logo {
   width: 130px;
   height: 100px;
 }
-
 li {
   list-style: none;
-}
-
-.user-profile__link {
-  text-decoration: none;
-  color: #000;
-  transition: all 0.3s ease;
-}
-.user-profile__link:hover {
-  text-decoration: none;
-  color: #16a085;
-  cursor: pointer;
 }
 .my__button {
   color: #fff;
