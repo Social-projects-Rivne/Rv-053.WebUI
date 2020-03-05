@@ -18,7 +18,6 @@ const UserProfile = () => {
   useEffect(() => {
     history.replace(location.pathname, { show: false });
   }, []);
-  console.log(showNotificator);
   return (
     <>
       <Notificator
