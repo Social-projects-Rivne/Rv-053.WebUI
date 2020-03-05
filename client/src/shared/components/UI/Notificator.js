@@ -14,12 +14,12 @@ const Notificator = props => {
       history.push('/');
     }, 500);
   };
-
+  const showingFlag = props.show;
   useEffect(() => {
-    if (props.show === undefined) {
+    if (showingFlag === undefined) {
       setAnimationTriger(true);
     }
-  }, []);
+  }, [showingFlag]);
 
   return (
     <>

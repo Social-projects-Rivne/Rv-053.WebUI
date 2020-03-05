@@ -78,16 +78,6 @@ const SignUpIn = () => {
     }, 320);
   };
 
-  // const signGoogleHandler = async () => {
-  //   try {
-  //     const res = await axios.get('http://localhost:5001/api/auth/google');
-  //     // console.log(res.data);
-  //     auth.login(res.data.token);
-  //   } catch (e) {
-  //     console.log('incorrect password or email');
-  //   }
-  // };
-
   const submitFormHandler = async event => {
     event.preventDefault();
 
@@ -103,7 +93,6 @@ const SignUpIn = () => {
           });
           auth.login(res.data.token, res.data.expiresIn);
         } catch (e) {
-          console.log('incorrect password or email');
           setNotificationState({
             show: true,
             message: 'Incorrect password or email'

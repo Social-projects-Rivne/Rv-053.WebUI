@@ -26,7 +26,6 @@ export const useAuth = () => {
       });
       setTokenExpirationDate(new Date(res.data.expiresIn));
       setAccessToken(res.data.token);
-      console.log('refreshing');
     } catch (e) {
       console.log(e);
     }

@@ -17,15 +17,16 @@ const Pagination = props => {
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
+
+  const { onDataFetch, api } = props;
   const getItemsList = async () => {
-    if (props.api) {
+    if (api) {
       try {
         const offsetItem = limitItemsOnPage * (page - 1);
         setLoadingFlag(true);
-        // if()
         const res = await axios.get(
           api_server_url +
-            props.api +
+            api +
             '?' +
             query +
             '&limit=' +
@@ -43,7 +44,7 @@ const Pagination = props => {
             .join('.');
         }
         setRowsCount(res.data.count);
-        props.onDataFetch(res.data);
+        onDataFetch(res.data);
 
         setLoadingFlag(false);
       } catch (e) {
@@ -54,6 +55,7 @@ const Pagination = props => {
 
   useEffect(() => {
     getItemsList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, props.query]);
 
   const formPageNumbers = (start, end) => {

@@ -29,12 +29,17 @@ const Selector = props => {
     </ul>
   );
 
-  useEffect(() => {
+  const dropdownShowHandler = () => {
     if (!firstTimeLoadFlag) {
       setDropdownShow(!dropdownShow);
     } else {
       setFirstTimeLoadFlag(false);
     }
+  };
+
+  useEffect(() => {
+    dropdownShowHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.triger]);
 
   return (

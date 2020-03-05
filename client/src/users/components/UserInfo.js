@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,12 +14,11 @@ const UserInfo = props => {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (userId === 'my') {
       const res = await axios.get(api_server_url + '/api/user/current', {
         headers
       });
-      console.log(res);
       setUserData(res.data.data.user);
     } else {
       const res = await axios.get(api_server_url + '/api/user//by-id/' + userId, {
@@ -28,13 +27,12 @@ const UserInfo = props => {
 
       setUserData(res.data.data.user);
     }
-  };
+  }, [headers, userId]);
   useEffect(() => {
     if (accessToken) {
       getUserData();
     }
-  }, [accessToken]);
-  // console.log(userData);
+  }, [accessToken, getUserData]);
   return (
     <div className="profile-top">
       {userData ? (

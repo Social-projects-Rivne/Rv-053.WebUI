@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -12,12 +12,12 @@ const FollowedEventList = () => {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getEvents = async () => {
+  const getEvents = useCallback(async () => {
     const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
     setEvents(res.data.data.followedEvent);
-  };
+  }, [headers]);
 
   const unfollowFromEvent = async id => {
     await axios
@@ -38,11 +38,11 @@ const FollowedEventList = () => {
     if (accessToken) {
       getEvents();
     }
-  }, [accessToken]);
+  }, [accessToken, getEvents]);
 
   return (
-    <div className='event_list-item'>
-      <h3 className='profile-title'>Followed events</h3>
+    <div className="event_list-item">
+      <h3 className="profile-title">Followed events</h3>
       {events.length > 0 ? (
         events.map(event => (
           <EventItemFollowed

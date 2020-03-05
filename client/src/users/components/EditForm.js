@@ -72,7 +72,7 @@ const EditForm = props => {
             value="Female"
             onInput={props.inputHandler}
             validations={[]}
-            checked={props.user.sex == 'Female' ? true : null}
+            checked={props.user.sex === 'Female' ? true : null}
             label="Woman"
             initValid="true"
           />
@@ -83,7 +83,7 @@ const EditForm = props => {
             value="Male"
             onInput={props.inputHandler}
             validations={[]}
-            checked={props.user.sex == 'Male' ? true : null}
+            checked={props.user.sex === 'Male' ? true : null}
             label="Man"
             initValid="true"
           />

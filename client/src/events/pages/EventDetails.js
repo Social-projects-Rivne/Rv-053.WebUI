@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -15,11 +15,8 @@ const EventDetails = () => {
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
-  const getEvent = async () => {
-    const event = await axios.get(
-      'http://localhost:5001/api/events/' + eventId,
-      { headers }
-    );
+  const getEvent = useCallback(async () => {
+    const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
     event.data.datetime = moment(+event.data.datetime)
       .format('DD MM YYYY')
       .split(' ')
@@ -29,8 +26,7 @@ const EventDetails = () => {
       .replace(' ', ':');
 
     setEventData(event.data);
-    console.log(event.data);
-  };
+  }, [eventId]);
 
   const joinEvent = async id => {
     await axios
@@ -48,7 +44,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     getEvent();
-  }, []);
+  }, [getEvent]);
   return (
     <div>
       {eventData ? (

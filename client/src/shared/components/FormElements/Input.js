@@ -41,7 +41,6 @@ const Input = props => {
   };
 
   const typingHandler = event => {
-    // console.log(event.target.type);
     if (event.target.type === 'file') {
       dispatch({
         type: 'TYPING',

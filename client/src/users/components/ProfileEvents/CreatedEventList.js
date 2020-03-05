@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import axios from 'axios';
 
 import { api_server_url } from '../../../shared/utilities/globalVariables';
@@ -12,12 +12,12 @@ const CreatedEventList = () => {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getEvents = async () => {
+  const getEvents = useCallback(async () => {
     const res = await axios.get(api_server_url + '/api/user/events', {
       headers
     });
     setEvents(res.data.data.event);
-  };
+  }, [headers]);
 
   const deleteEvent = async id => {
     await axios
@@ -38,11 +38,11 @@ const CreatedEventList = () => {
     if (accessToken) {
       getEvents();
     }
-  }, [accessToken]);
+  }, [accessToken, getEvents]);
 
   return (
-    <div className='event_list-item'>
-      <h3 className='profile-title'>Created events</h3>
+    <div className="event_list-item">
+      <h3 className="profile-title">Created events</h3>
       {events.length > 0 ? (
         events.map(event => (
           <EventItemCreated

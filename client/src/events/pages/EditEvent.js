@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -58,7 +58,7 @@ const EditEvent = () => {
 
   const eventID = useParams().id;
 
-  const fetchEventData = async () => {
+  const fetchEventData = useCallback(async () => {
     try {
       setLoadingFlag(true);
       const res = await axios.get(api_server_url + '/api/events/' + eventID);
@@ -107,7 +107,7 @@ const EditEvent = () => {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [eventID, setFormData]);
 
   const updateEventData = async () => {
     if (formState.formValidity) {
@@ -128,11 +128,6 @@ const EditEvent = () => {
         });
 
         if (res.status === 200) {
-          console.log(res);
-          // setNotificationState({
-          //   message: res.data.status,
-          //   show: true
-          // });
           history.push({
             pathname: '/redirect',
             state: {
@@ -149,13 +144,10 @@ const EditEvent = () => {
 
   useEffect(() => {
     fetchEventData();
-  }, []);
+  }, [fetchEventData]);
 
   const submitFormHandler = event => {
     event.preventDefault();
-
-    console.log(formState);
-
     updateEventData();
   };
 
