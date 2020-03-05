@@ -24,7 +24,7 @@ const AdminUserItem = props => {
     setExtraInfoFlag(!extraInfoFlag);
   };
 
-  const sendRoleToServer = async (id, role) => {
+  const changeUserRole = async (id, role) => {
     try {
       const api_role =
         role === 'User'
@@ -70,7 +70,7 @@ const AdminUserItem = props => {
     if (userRole === roleItem.title) {
       return;
     } else {
-      sendRoleToServer(props.userInfo.id, roleItem.title);
+      changeUserRole(props.userInfo.id, roleItem.title);
     }
   };
 
@@ -111,7 +111,7 @@ const AdminUserItem = props => {
           <button
             className="adminpanel__float-left cursor-pointer adminpanel__button-flat"
             onClick={roleFlagHandler}
-            // onBlur={roleFlagHandler}
+            onBlur={roleFlagHandler}
           >
             {userRole}
           </button>

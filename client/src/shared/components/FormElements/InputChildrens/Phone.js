@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect, useState } from 'react';
 
 import rawCountries from './PhoneCountriesData';
+import Selector from '../Select';
 import './Phone.css';
-import Transition from 'react-transition-group/Transition';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -61,11 +61,22 @@ const Phone = props => {
     hasAreaCodes: country[6] ? true : false
   }));
 
-  const filteredCountries = countriesArr.filter(country => {
-    return country.regions.some(element => {
-      return element === 'europe';
+  const filterCountriesByRegion = (countriesArr, region) => {
+    return countriesArr.filter(country => {
+      return country.regions.some(element => {
+        return element === region;
+      });
     });
-  });
+  };
+
+  const filteredCountries = filterCountriesByRegion(countriesArr, 'europe');
+
+  const countryItemsDropdownArray = filteredCountries.map(country => ({
+    icon: 'flag ' + country.iso2,
+    title: country.name,
+    info: '+' + country.dialCode,
+    country: country
+  }));
 
   const dropdownHandler = event => {
     if (event.type === 'click') {
@@ -82,7 +93,7 @@ const Phone = props => {
     }
   };
 
-  const firstTimeLoadPrefix = () => {
+  const firstTimeLoadSetPrefix = () => {
     if (firstTimeLoadFlag) {
       setFirstTimeLoadFlag(false);
       dispatch({ type: 'PICK', pickedCountry: initialState.pickedCountry });
@@ -91,15 +102,15 @@ const Phone = props => {
 
   const countryPickHandler = country => {
     setFirstTimeLoadFlag(false);
-    dispatch({ type: 'PICK', pickedCountry: country });
+    dispatch({ type: 'PICK', pickedCountry: country.country });
   };
 
   const inputPhoneHandler = event => {
-    const targetValLength = event.target.value.replace(/\D/g, '').length;
-    const targetValFree = event.target.value.replace(state.prefix, '');
-    if (targetValLength > 15 || targetValLength < state.prefix.length - 1) return;
+    const targetValueLength = event.target.value.replace(/\D/g, '').length;
+    const targetValueWithoutPrefix = event.target.value.replace(state.prefix, '');
+    if (targetValueLength > 15 || targetValueLength < state.prefix.length - 1) return;
     const valueRegExp = /^[0-9\b\W]+$/;
-    if (targetValFree === '' || valueRegExp.test(targetValFree)) {
+    if (targetValueWithoutPrefix === '' || valueRegExp.test(targetValueWithoutPrefix)) {
       let phoneVal = null;
       if (state.pickedCountry.format) {
         const mask = state.pickedCountry.format.replace('+', '');
@@ -128,24 +139,6 @@ const Phone = props => {
     }
   }, [prefix, value, onChange, phoneValue]);
 
-  const selecItem = (
-    <ul style={{ padding: '0' }}>
-      {filteredCountries.map(country => {
-        return (
-          <li
-            key={country.iso2}
-            className="dropdown-item cursor-pointer"
-            onClick={() => countryPickHandler(country)}
-          >
-            <div className={`flag d-inline-block ${country.iso2} mr-2`}></div>
-            <span className="d-inline-block mr-2">{country.name}</span>
-            <span className="text-muted">+{country.dialCode}</span>
-          </li>
-        );
-      })}
-    </ul>
-  );
-
   return (
     <>
       <div
@@ -159,31 +152,11 @@ const Phone = props => {
           <div className={`flag d-inline-block ${state.pickedCountry.iso2} ml-2`}></div>
         </span>
       </div>
-      <Transition
-        in={state.dropdownShow}
-        timeout={{ enter: 0, exit: 300 }}
-        mountOnEnter
-        unmountOnExit
-      >
-        {transition => {
-          const cssClasses = [
-            'dropdown-menu',
-            'show',
-            transition === 'entering'
-              ? 'dropdown-menu-hide'
-              : transition === 'entered'
-              ? 'dropdown-menu-show'
-              : transition === 'exiting'
-              ? 'dropdown-menu-hide'
-              : null
-          ];
-          return (
-            <div className={cssClasses.join(' ')} onMouseLeave={dropdownHandler}>
-              {selecItem}
-            </div>
-          );
-        }}
-      </Transition>
+      <Selector
+        triger={state.dropdownShow}
+        items={countryItemsDropdownArray}
+        onChange={countryPickHandler}
+      />
       <input
         className={props.className}
         id={props.id}
@@ -191,7 +164,7 @@ const Phone = props => {
         onBlur={props.onBlur}
         onChange={inputPhoneHandler}
         onKeyPress={inputKeyDownHandler}
-        onClick={firstTimeLoadPrefix}
+        onClick={firstTimeLoadSetPrefix}
         autoComplete="off"
         required
       />

@@ -5,11 +5,10 @@ import './Select.css';
 
 const Selector = props => {
   const items = [...props.items];
-  const closeOnMouseLeave = props.closeOnMouseLeave;
   const [firstTimeLoadFlag, setFirstTimeLoadFlag] = useState(true);
   const [dropdownShow, setDropdownShow] = useState(false);
 
-  const selecItems = (
+  const selectDropdownItems = (
     <ul style={{ padding: '0' }}>
       {items.map((item, id) => {
         return (
@@ -55,14 +54,7 @@ const Selector = props => {
               ? 'dropdown-menu-hide'
               : null
           ];
-          return (
-            <div
-              className={cssClasses.join(' ')}
-              onMouseLeave={() => (closeOnMouseLeave ? setDropdownShow(false) : null)}
-            >
-              {selecItems}
-            </div>
-          );
+          return <div className={cssClasses.join(' ')}>{selectDropdownItems}</div>;
         }}
       </Transition>
     </>
