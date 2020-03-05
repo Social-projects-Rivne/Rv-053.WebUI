@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
+import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
 
 const EventItem = props => {
+  const [address, setAddress] = useState();
   const coordinates = props.event.location.split(',');
   const map = {
     lat: +coordinates[0],
     lng: +coordinates[1]
   };
+  useEffect(() => {
+    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+    geocodeObj.then(geocodeObj => {
+      setAddress(geocodeObj.formatted_address);
+    });
+  }, []);
+
   console.log(map);
   return (
     <div className='container event-item'>
@@ -23,7 +32,7 @@ const EventItem = props => {
           <h3>{props.event.name}</h3>
           <div>
             <span>Address: </span>
-            {props.event.location}
+            {address}
           </div>
           <div>
             <span>Date: </span>
