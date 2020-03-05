@@ -119,7 +119,7 @@ const Auth = () => {
             history.push({
               pathname: '/redirect',
               state: {
-                className: 'p-0 auth alert alert-success',
+                className: 'p-0 auth alert success-note',
                 message: 'Check your email to confirm it'
               }
             });

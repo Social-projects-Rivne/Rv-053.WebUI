@@ -41,7 +41,7 @@ const EmailConfirmation = props => {
       {notification.show ? (
         <Notificator
           className={
-            'auth p-0 alert ' + (notification.isSuccess === true ? 'alert-success' : 'alert-danger')
+            'auth p-0 alert ' + (notification.isSuccess === true ? 'success-note' : 'alert-danger')
           }
           message={notification.message}
         />
