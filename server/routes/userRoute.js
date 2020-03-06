@@ -13,6 +13,8 @@ route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);
 route.post('/follow-event/:id', auth, userController.followEvent);
 route.get('/categories', auth, userController.getCategories);
 route.get('/followed-categories', auth, userController.getFollowedCategories);
+route.post('/follow-category/:id', auth, userController.followCategory);
+route.delete('/unfollow-category/:id', auth, userController.unfollowCategory);
 route.put('/role-admin/:id', authAdmin, userController.setRoleToAdmin);
 route.put('/role-moderator/:id', authAdmin, userController.setRoleToModerator);
 route.put('/role-user/:id', authAdmin, userController.setRoleToUser);

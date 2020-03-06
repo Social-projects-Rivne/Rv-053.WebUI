@@ -11,9 +11,28 @@ const ROLE_ADMIN = 'Admin';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
 
-const findUser = async userId => User.findOne({ where: { id: userId } });
+const findUser = async userId =>
+  User.findOne({
+    where: { id: userId },
+    raw: true
+  });
 
-const updateUserStatus = async (user, status_id) => user.update({ status_id });
+const findCategory = async categoryId =>
+  Category.findOne({
+    where: { id: categoryId },
+    raw: true
+  });
+
+const findUserCategory = async (userId, categoryId) =>
+  UserCategory.findOne({
+    where: { user_id: userId, category_id: categoryId },
+    raw: true
+  });
+
+const updateUserStatus = async (user, status_id) =>
+  user.update({
+    status_id
+  });
 
 const changeUserStatus = async (req, res, statusId) => {
   try {
@@ -32,6 +51,12 @@ const isCurrentUserRole = (user, newRole) => {
     return false;
   }
   return true;
+};
+
+const isCategoryNotExist = (category, res) => {
+  if (!category) {
+    return res.status(400).json({ err: 'The category does not exist' });
+  }
 };
 
 const updateUserRole = async (user, role) => user.update({ role });
@@ -204,6 +229,56 @@ exports.getFollowedCategories = async (req, res) => {
   }
 };
 
+exports.followCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  const { userId } = req;
+
+  try {
+    const userCategory = await findUserCategory(userId, categoryId);
+    const category = await findCategory(categoryId);
+
+    await isCategoryNotExist(category);
+
+    if (!userCategory) {
+      await UserCategory.create({ user_id: userId, category_id: categoryId });
+    } else {
+      return res.status(400).json({ err: 'The category exist' });
+    }
+
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+exports.unfollowCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  const { userId } = req;
+
+  try {
+    const userCategory = await findUserCategory(userId, categoryId);
+    const category = await findCategory(categoryId);
+
+    isCategoryNotExist(category);
+
+    if (userCategory) {
+      await UserCategory.destroy({
+        where: { user_id: userId, category_id: categoryId }
+      });
+    } else {
+      return res.status(400).json({ err: 'The category not exist' });
+    }
+
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   const { first_name, last_name, phone, avatar, birthday, sex } = req.body;
   const newData = { first_name, last_name, phone, avatar, birthday, sex };
@@ -217,29 +292,27 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-exports.setRoleToModerator = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { id: req.params.id } });
-    if (user.role === ROLE_USER) {
-      await user.update({ role: ROLE_MODERATOR });
-      res.status(200).json({
-        status: 'success'
-      });
-    } else {
-      res.status(400).json({
-        message: "You can't set a Moderator if you are a Moderator!"
-      });
-    }
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-};
+// exports.setRoleToModerator = async (req, res) => {
+//   try {
+//     const user = await User.findOne({ where: { id: req.params.id } });
+//     if (user.role === ROLE_USER) {
+//       await user.update({ role: ROLE_MODERATOR });
+//       res.status(200).json({
+//         status: 'success'
+//       });
+//     } else {
+//       res.status(400).json({
+//         message: "You can't set a Moderator if you are a Moderator!"
+//       });
+//     }
+//   } catch (err) {
+//     res.status(500).json({ err: err.message });
+//   }
+// };
 
 exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
-exports.setRoleToModerator = async (req, res) =>
-  changeUserRole(req, res, ROLE_MODERATOR);
-exports.setRoleToAdmin = async (req, res) =>
-  changeUserRole(req, res, ROLE_ADMIN);
+exports.setRoleToModerator = async (req, res) => changeUserRole(req, res, ROLE_MODERATOR);
+exports.setRoleToAdmin = async (req, res) => changeUserRole(req, res, ROLE_ADMIN);
 
 exports.ban = async (req, res) => changeUserStatus(req, res, USER_BAN);
 exports.unban = async (req, res) => changeUserStatus(req, res, USER_UNBAN);
