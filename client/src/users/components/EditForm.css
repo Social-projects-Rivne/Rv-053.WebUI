@@ -16,3 +16,41 @@
 .radio-wrapper div + div {
   margin-left: 80px;
 }
+.div-row {
+  display: flex;
+  margin: 1.5rem 0;
+}
+.div-col-left {
+  flex: 40%;
+}
+.div-col-right {
+  flex: 60%;
+  padding: 1.5rem 0;
+}
+.button-avatar {
+  width: 12rem;
+  margin: 0.5rem 0;
+  padding: 4px 30px;
+  color: #fff;
+  border-radius: 15px;
+  display: block;
+  background-color: #16a085;
+}
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal .modal-dialog {
+  position: fixed;
+  top: 5%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  margin: 0;
+  max-width: 5000px;
+  min-width: 320px;
+}
+.modal-dialog .modal-content {
+  width: 100%;
+  min-height: 70%;
+  background-color: rgb(243, 253, 251);
+}

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Op } = require('sequelize');
 const User = require('../models').users;
 const Event = require('../models').event;
@@ -217,7 +218,30 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
-
+exports.updateAvatar = async (req, res) => {
+  try {
+    await User.update(
+      { avatar: process.env.BACK_HOST + '/' + req.file.path },
+      { where: { id: req.userId } }
+    );
+    console.log(req.file.path);
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+exports.deleteAvatar = async (req, res) => {
+  try {
+    await User.update({ avatar: '' }, { where: { id: req.userId } });
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
 exports.setRoleToModerator = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
