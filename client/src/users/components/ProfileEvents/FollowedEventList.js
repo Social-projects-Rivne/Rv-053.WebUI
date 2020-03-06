@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -7,6 +8,7 @@ import { AuthContext } from '../../../shared/context/auth-context';
 
 const FollowedEventList = () => {
   const accessToken = useContext(AuthContext).token;
+  const userId = useParams().userId;
   const [events, setEvents] = useState([]);
   const headers = {
     Authorization: 'Bearer ' + accessToken
@@ -17,7 +19,7 @@ const FollowedEventList = () => {
       headers
     });
     setEvents(res.data.data.followedEvent);
-  }, [headers]);
+  }, []);
 
   const unfollowFromEvent = async id => {
     await axios
@@ -41,22 +43,26 @@ const FollowedEventList = () => {
   }, [accessToken, getEvents]);
 
   return (
-    <div className="event_list-item">
-      <h3 className="profile-title">Followed events</h3>
-      {events.length > 0 ? (
-        events.map(event => (
-          <EventItemFollowed
-            key={event['event.id']}
-            id={event['event.id']}
-            title={event['event.name']}
-            date={event['event.datetime']}
-            unfollowFromEvent={unfollowFromEvent}
-          />
-        ))
-      ) : (
-        <p>You haven`t followed any events</p>
-      )}
-    </div>
+    <>
+      {userId === 'my' ? (
+        <div className="event_list-item">
+          <h3 className="profile-title">Followed events</h3>
+          {events.length > 0 ? (
+            events.map(event => (
+              <EventItemFollowed
+                key={event['event.id']}
+                id={event['event.id']}
+                title={event['event.name']}
+                date={event['event.datetime']}
+                unfollowFromEvent={unfollowFromEvent}
+              />
+            ))
+          ) : (
+            <p>You haven`t followed any events</p>
+          )}
+        </div>
+      ) : null}
+    </>
   );
 };
 

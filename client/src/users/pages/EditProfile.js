@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
+
 import { api_server_url } from './../../shared/utilities/globalVariables';
 import { useForm } from './../../shared/hooks/useForm';
 import { AuthContext } from './../../shared/context/auth-context';
@@ -35,7 +36,6 @@ const EditProfile = () => {
 
   const getUserData = useCallback(async () => {
     const userData = await axios.get(api_server_url + '/api/user/current', {
-      // headers: { Authorization: 'Bearer ' + accessToken }
       headers
     });
     userData.data.data.user.birthday = moment(+userData.data.data.user.birthday).format(

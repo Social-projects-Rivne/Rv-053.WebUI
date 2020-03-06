@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
+import { api_server_url } from '../utilities/globalVariables';
+
 export const useAuth = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
@@ -12,7 +14,7 @@ export const useAuth = () => {
   }, []);
 
   const logout = useCallback(() => {
-    axios.post('http://localhost:5001/api/auth/logout', null, {
+    axios.post(`${api_server_url}/api/auth/logout`, null, {
       withCredentials: true
     });
     setAccessToken(null);
@@ -21,7 +23,7 @@ export const useAuth = () => {
 
   const refreshTokens = async () => {
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/refresh', null, {
+      const res = await axios.post(`${api_server_url}/api/auth/refresh`, null, {
         withCredentials: true
       });
       setTokenExpirationDate(new Date(res.data.expiresIn));
