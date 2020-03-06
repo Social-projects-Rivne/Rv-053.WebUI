@@ -4,10 +4,10 @@ import { useLocation } from 'react-router-dom';
 import EventResultItem from './EventResultItem';
 import Pagination from '../../shared/components/UI/Pagination';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
-import './EventsResult.css';
 import Filter from '../../shared/components/Filter/Filter';
 import DateRangeContextProvider from '../../shared/components/Filter/DateRange/DateRangesContext';
 import CategoryContextProvider from '../../shared/components/Filter/Category/CategoryContext';
+import './EventsResult.css';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -86,19 +86,10 @@ const EventsResult = () => {
                     return (
                       <EventResultItem
                         key={event.id}
-                        cover={event.cover}
                         className={
                           toggleListState.list ? 'list__events-item' : 'list__events-item card'
                         }
-                        id={event.id}
-                        title={event.name}
-                        category={event.categories[0].category}
-                        description={event.description}
-                        price={event.price}
-                        owner={event.owner}
-                        location={event.location}
-                        date={event.datetime}
-                        user={event.user}
+                        event={event}
                       />
                     );
                   })

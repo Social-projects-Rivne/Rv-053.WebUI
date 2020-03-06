@@ -1,17 +1,18 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import { useForm } from '../../shared/hooks/useForm.js';
+import { useForm } from '../../shared/hooks/useForm';
 import Card from '../../shared/components/UI/Card';
 import { AuthContext } from '../../shared/context/auth-context';
-import './Login.css';
 import Notificator from '../../shared/components/UI/Notificator';
-import { useHistory } from 'react-router-dom';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 import Signin from '../components/Signin';
-import Signup from '../components/Signup.js';
-import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation.js';
+import Signup from '../components/Signup';
+import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation';
+import './Auth.css';
 
-const SignUpIn = () => {
+const Auth = () => {
   let history = useHistory();
   const auth = useContext(AuthContext);
   const [transition, setTransition] = useState(true);
@@ -78,16 +79,6 @@ const SignUpIn = () => {
     }, 320);
   };
 
-  // const signGoogleHandler = async () => {
-  //   try {
-  //     const res = await axios.get('http://localhost:5001/api/auth/google');
-  //     // console.log(res.data);
-  //     auth.login(res.data.token);
-  //   } catch (e) {
-  //     console.log('incorrect password or email');
-  //   }
-  // };
-
   const submitFormHandler = async event => {
     event.preventDefault();
 
@@ -98,7 +89,7 @@ const SignUpIn = () => {
       };
       if (!signInUpState) {
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/login', user, {
+          const res = await axios.post(api_server_url + '/api/auth/login', user, {
             withCredentials: true
           });
           auth.login(res.data.token, res.data.expiresIn);
@@ -117,7 +108,7 @@ const SignUpIn = () => {
           phone: formState.inputs.phone.value
         };
         try {
-          const res = await axios.post('http://localhost:5001/api/auth/register', regUser);
+          const res = await axios.post(api_server_url + '/api/auth/register', regUser);
           if (res.data.error) {
             setNotificationState({
               show: true,
@@ -128,7 +119,7 @@ const SignUpIn = () => {
             history.push({
               pathname: '/redirect',
               state: {
-                className: 'p-0 auth alert alert-success',
+                className: 'p-0 auth alert success-note',
                 message: 'Check your email to confirm it'
               }
             });
@@ -181,4 +172,4 @@ const SignUpIn = () => {
   );
 };
 
-export default SignUpIn;
+export default Auth;

@@ -81,10 +81,15 @@ exports.getById = async (req, res) => {
       where: { id: req.params.id },
       attributes: ['first_name', 'last_name', 'avatar']
     });
+    const events = await Event.findAll({
+      where: { owner_id: req.params.id },
+      attributes: ['id', 'name', 'datetime']
+    });
     res.status(200).json({
       status: 'success',
       data: {
-        user
+        user,
+        events
       }
     });
   } catch (err) {

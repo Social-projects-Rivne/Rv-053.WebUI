@@ -4,7 +4,7 @@ const CitiesList = () => {
   return (
     <div className="header__cities-list">
       <ul>
-        <li>
+        {/* <li>
           <a>Kyiv</a>
         </li>
         <li>
@@ -51,7 +51,7 @@ const CitiesList = () => {
         </li>
         <li>
           <a>Ivano-Frankivsk</a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
