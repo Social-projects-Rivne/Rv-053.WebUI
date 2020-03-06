@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -12,9 +12,13 @@ const EventDetails = () => {
   const eventId = useParams().eventId;
   const accessToken = useContext(AuthContext).token;
   const [eventData, setEventData] = useState();
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
+
   const getEvent = useCallback(async () => {
     const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
     event.data.datetime = moment(+event.data.datetime)
@@ -25,7 +29,7 @@ const EventDetails = () => {
       .format('hh mm')
       .replace(' ', ':');
     setEventData(event.data);
-  }, [eventId]);
+  }, [eventId, headers]);
 
   const joinEvent = async id => {
     await axios

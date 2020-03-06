@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,9 +10,12 @@ const CreatedEventList = () => {
   const accessToken = useContext(AuthContext).token;
   const [events, setEvents] = useState([]);
   const userId = useParams().userId;
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
   const getEvents = useCallback(async () => {
     if (userId === 'my') {
@@ -26,7 +29,7 @@ const CreatedEventList = () => {
       });
       setEvents(res.data.data.events);
     }
-  }, [userId]);
+  }, [userId, headers]);
 
   const deleteEvent = async id => {
     await axios

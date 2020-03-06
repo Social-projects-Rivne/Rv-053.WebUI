@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -13,9 +13,12 @@ const EditProfile = () => {
   const [userDataState, setUserDataState] = useState();
   const history = useHistory();
 
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
   const [formState, inputHandler, setFormData] = useForm(
     {
       firstname: {
@@ -43,7 +46,7 @@ const EditProfile = () => {
     );
     userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
     setUserDataState(userData.data.data.user);
-  }, [accessToken]);
+  }, [headers]);
 
   useEffect(() => {
     if (accessToken) getUserData();

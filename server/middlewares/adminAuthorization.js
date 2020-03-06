@@ -10,7 +10,8 @@ module.exports = async (req, res, next) => {
 
       const payload = await jwt.verify(token, JWT_SECRET);
       req.userId = payload.userId;
-      if (payload.role === 'Admin') {
+      req.userRole = payload.role;
+      if (payload.role === 'Admin' || payload.role === 'Moderator') {
         next();
       } else {
         return res.status(404).json({ error: 'Not Found' });
