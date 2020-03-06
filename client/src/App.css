@@ -73,6 +73,7 @@ li {
   text-decoration: none;
   color: #fff;
 }
+
 .link-btn-dark {
   background-color: rgba(47, 49, 60, 0.9);
 }
@@ -101,6 +102,13 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.success-note {
+  background-color: rgba(163, 191, 163, 0.3);
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
 }
 @media (max-width: 1590px) {
   .header__calendar-list {

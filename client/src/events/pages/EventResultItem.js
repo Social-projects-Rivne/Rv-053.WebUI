@@ -26,8 +26,12 @@ const EventResultItem = props => {
     });
   }, []);
   return (
-    <NavLink to={'event/' + props.event.id} className={props.className}>
-      <div className="list__events-item-img" style={image}></div>
+    <div className={props.className}>
+      <NavLink
+        to={'event/' + props.event.id}
+        className="list__events-item-img"
+        style={image}
+      ></NavLink>
       <div className="list__events-item-info">
         <div className="list__events-item-top_info">
           <div className="list__events-item-description">
@@ -35,7 +39,7 @@ const EventResultItem = props => {
             <div className="list__events-item-category">{props.event.categories[0].category}</div>
             <div className="list__events-item-descr">{props.event.description}</div>
           </div>
-          <div className="list__events-item-price">{props.event.price || 'Free'}</div>
+          <div className="list__events-item-price">{props.event.price || 'free'}</div>
         </div>
         <div className="list__events-item-bottom_info">
           <NavLink to={'profile/' + props.event.owner_id} className="link ">
@@ -48,7 +52,7 @@ const EventResultItem = props => {
           <div className="list__events-item-date">{datetime}</div>
         </div>
       </div>
-    </NavLink>
+    </div>
   );
 };
 
