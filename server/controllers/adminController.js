@@ -48,15 +48,15 @@ exports.getAllEventsOrSearch = async (req, res) => {
     let searchQuery = {};
     if (req.query.q) {
       const reqQ = req.query.q;
-      let roleQuery = null;
+      let statusQuery = null;
       if (await Event.rawAttributes.status.values.includes(reqQ)) {
-        roleQuery = { status: reqQ };
+        statusQuery = { status: reqQ };
       }
       searchQuery = {
         [Op.or]: [
           { name: { [Op.iLike]: `%${reqQ}%` } },
           { description: { [Op.iLike]: `%${reqQ}%` } },
-          roleQuery
+          statusQuery
         ]
       };
     }

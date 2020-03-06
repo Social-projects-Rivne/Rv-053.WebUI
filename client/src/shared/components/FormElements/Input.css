@@ -9,7 +9,6 @@
   width: 100%;
   position: relative;
   height: auto;
-  /* overflow: hidden; */
 }
 .input__form input {
   height: 100%;
@@ -17,6 +16,29 @@
   padding-top: 20px;
   border: none;
   outline: none;
+}
+.input__form textarea {
+  height: 100%;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: -5px;
+  resize: none;
+  overflow-y: scroll;
+  border: none;
+  outline: none;
+}
+.input__form textarea::-webkit-scrollbar-track {
+  background: #ffffff00;
+}
+.input__form textarea::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+.input__form textarea::-webkit-scrollbar-thumb:hover {
+  background: #999;
+  cursor: pointer;
+}
+.input__form textarea::-webkit-scrollbar {
+  width: 10px;
 }
 .input__form label {
   position: absolute;
@@ -42,6 +64,7 @@
   position: absolute;
   bottom: 0px;
   left: 0px;
+  pointer-events: none;
   transition: all 0.3s ease;
 }
 .input__form input:focus + .input__label-name .input__label-content,
@@ -52,6 +75,15 @@
 }
 .input__form input:focus + .input__label-name::after,
 .input__form input :valid + .input__label-name::after {
+  width: 100%;
+}
+.input__form textarea:focus + .input__label-name .input__label-content,
+.input__form textarea:valid + .input__label-name .input__label-content {
+  transform: translateY(-100%);
+  color: #16a085;
+  font-size: 90%;
+}
+.input__form textarea:focus + .input__label-name::after {
   width: 100%;
 }
 .input__invalid {

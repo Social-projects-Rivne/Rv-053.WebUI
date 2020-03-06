@@ -8,6 +8,8 @@ const UserCategory = require('../models').user_category;
 const ROLE_USER = 'User';
 const ROLE_MODERATOR = 'Moderator';
 const ROLE_ADMIN = 'Admin';
+const EVENT_ACTIVE = 'Active';
+const EVENT_DELETED = 'Deleted';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
 
@@ -103,10 +105,15 @@ exports.getById = async (req, res) => {
       where: { id: req.params.id },
       attributes: ['first_name', 'last_name', 'avatar']
     });
+    const events = await Event.findAll({
+      where: { owner_id: req.params.id },
+      attributes: ['id', 'name', 'datetime']
+    });
     res.status(200).json({
       status: 'success',
       data: {
-        user
+        user,
+        events
       }
     });
   } catch (err) {
@@ -117,7 +124,7 @@ exports.getById = async (req, res) => {
 exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
-      where: { owner_id: req.userId, status: { [Op.ne]: 'Deleted' } },
+      where: { owner_id: req.userId, status: { [Op.ne]: EVENT_DELETED } },
       raw: true
     });
     res.status(200).json({
@@ -134,7 +141,6 @@ exports.getEvents = async (req, res) => {
 exports.getCategories = async (req, res) => {
   try {
     const category = await Category.findAll({
-      where: { parent_id: req.userId },
       raw: true
     });
     res.status(200).json({
@@ -154,7 +160,7 @@ exports.getFollowedEvents = async (req, res) => {
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
-      include: [{ model: Event, where: { status: { [Op.ne]: 'Deleted' } } }]
+      include: [{ model: Event, where: { status: EVENT_ACTIVE } }]
     });
     res.status(200).json({
       status: 'success',
@@ -193,7 +199,7 @@ exports.followEvent = async (req, res) => {
     if (!event) {
       return res.status(400).json({ err: 'The event does not exist' });
     }
-    if (event.status !== 'Active') {
+    if (event.status !== EVENT_ACTIVE) {
       return res.status(400).json({ err: "The event isn't active" });
     }
     if (parseInt(event.datetime, 10) + parseInt(event.duration, 10) * 60 * 1000 < Date.now()) {
