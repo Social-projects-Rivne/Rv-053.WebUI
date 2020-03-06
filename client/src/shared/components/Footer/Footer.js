@@ -20,14 +20,18 @@ const Footer = () => {
                 <span className="footer__col-title">Your account</span>
                 <ul className="footer__list">
                   <li>
-                    <NavLink to="/auth" className="link">
+                    <NavLink to="/auth" className="link-light">
                       Sign in
                     </NavLink>
                   </li>
                   <li>
-                    {' '}
-                    <NavLink to="/auth" className="link">
+                    <NavLink to="/auth" className="link-light">
                       Sign up
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/auth" className="link-light">
+                      Signout
                     </NavLink>
                   </li>
                 </ul>
@@ -36,19 +40,18 @@ const Footer = () => {
                 <span className="footer__col-title">Discover</span>
                 <ul className="footer__list">
                   <li>
-                    {' '}
-                    <NavLink to="/events" className="link">
+                    <NavLink to="/events" className="link-light">
                       All events
                     </NavLink>
                   </li>
                   <li>View hubs</li>
                   <li>
-                    <NavLink to="/events" className="link">
+                    <NavLink to="/events" className="link-light">
                       Search events
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={isLoggedIn ? '/addevent' : '/auth'} className="link">
+                    <NavLink to={isLoggedIn ? '/addevent' : '/auth'} className="link-light">
                       Create Event
                     </NavLink>
                   </li>
@@ -58,7 +61,7 @@ const Footer = () => {
                 <span className="footer__col-title">Eeeevent</span>
                 <ul className="footer__list">
                   <li>
-                    <NavLink to="/" className="link">
+                    <NavLink to="/" className="link-light">
                       Home
                     </NavLink>
                   </li>
@@ -71,7 +74,12 @@ const Footer = () => {
                   <li className="social social-instagram"></li>
                   <li className="social social-facebook"></li>
                   <li className="social social-google"></li>
-                  <li className="social social-github"></li>
+                  <li className="social social-github">
+                    <a
+                      href="https://github.com/Social-projects-Rivne/Rv-053.WebUI"
+                      className="link-light"
+                    ></a>
+                  </li>
                 </ul>
               </div>
             </div>

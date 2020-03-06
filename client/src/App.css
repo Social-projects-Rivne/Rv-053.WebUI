@@ -63,13 +63,15 @@ li {
 .my__button:focus {
   outline: none;
 }
-.link {
-  text-decoration: none;
-  color: #000;
-}
+.link,
 .link:hover {
   text-decoration: none;
   color: #000;
+}
+.link-light,
+.link-light:hover {
+  text-decoration: none;
+  color: #fff;
 }
 .link-btn-dark {
   background-color: rgba(47, 49, 60, 0.9);
