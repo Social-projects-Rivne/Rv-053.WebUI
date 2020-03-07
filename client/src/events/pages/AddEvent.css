@@ -233,10 +233,11 @@ td.rdtYear:hover {
 .rdtTime td {
   cursor: default;
 }
-.create__event {
+.create__tittle {
   display: block;
   background: #16a085;
   padding: 10px 0px;
   color: #fff;
   text-transform: uppercase;
+  text-align: center;
 }

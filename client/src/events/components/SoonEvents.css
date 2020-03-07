@@ -1,0 +1,19 @@
+.soon__events {
+  padding: 50px 0px 20px;
+}
+.soon__events-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.soon__events-link {
+  margin-top: 35px;
+  text-align: center;
+  font-size: 18px;
+}
+.soon__events-link a,
+.soon__events-link a:hover {
+  color: rgba(22, 160, 133, 0.6);
+}

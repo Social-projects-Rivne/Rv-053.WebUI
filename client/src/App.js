@@ -9,7 +9,13 @@ import { EventContext } from './shared/context/events-context';
 import './App.css';
 
 const App = () => {
-  const { accessToken, login, logout, tokenExpirationDate, inRefreshProcess } = useAuth();
+  const {
+    accessToken,
+    login,
+    logout,
+    tokenExpirationDate,
+    inRefreshProcess
+  } = useAuth();
   const { events, setEvents } = useSearch();
 
   return (

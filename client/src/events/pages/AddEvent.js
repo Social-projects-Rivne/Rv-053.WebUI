@@ -67,7 +67,6 @@ const AddEvent = () => {
     },
     false
   );
-  const eventID = useParams().id;
 
   const createEventData = async () => {
     if (formState.formValidity) {
@@ -77,21 +76,19 @@ const AddEvent = () => {
           description: formState.inputs.description.value,
           location: `${formState.inputs.address.value}, ${formState.inputs.country.value}`,
           datetime: formState.inputs.date.value,
-          duration: formState.inputs.location.value,
           max_participants: formState.inputs.participants.value,
           min_age: formState.inputs.age.value,
           price: formState.inputs.price.value
         };
-        const res = await axios.post(api_server_url + '/api/events/' + eventID, createEventData, {
+        const res = await axios.post(api_server_url + '/api/events', createEventData, {
           headers
         });
-
+        console.log(createEventData);
         if (res.status === 200) {
-          console.log(res);
-          // setNotificationState({
-          //   message: res.data.status,
-          //   show: true
-          // });
+          setNotificationState({
+            message: res.data.status,
+            show: true
+          });
           history.push({
             pathname: '/redirect',
             state: {
@@ -111,9 +108,9 @@ const AddEvent = () => {
     console.log(formState.inputs);
   };
   return (
-    <div className="addEvent container">
-      <h2 className="create__event">Create event</h2>
-      <form onSubmit={submitFormHandler} className="addEvent">
+    <div className="container">
+      <h2 className="create__tittle">Create event</h2>
+      <form onSubmit={submitFormHandler} className="col-md-10 offset-md-1">
         <div className="form-group">
           <Input
             id="title"
@@ -173,7 +170,7 @@ const AddEvent = () => {
           </div>
           <div className="col-md-6">
             <Input
-              className="form-control col-md-6"
+              className="form-control"
               id="country"
               type="input"
               onInput={inputHandler}
@@ -184,7 +181,7 @@ const AddEvent = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 offset-md-3">
+          <div className="col-md-4">
             <Input
               id="price"
               type="number"
@@ -198,13 +195,11 @@ const AddEvent = () => {
               className="form-control"
             />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Input
               id="age"
               type="number"
-              label="The min age of participants"
+              label="Min age"
               step="1"
               min="0"
               placeholder="18..."
@@ -214,11 +209,11 @@ const AddEvent = () => {
               className="form-control"
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Input
               id="participants"
               type="number"
-              label="The max amount of participants"
+              label="Amount of participants"
               step="1"
               min="0"
               placeholder="10"
@@ -229,6 +224,7 @@ const AddEvent = () => {
             />
           </div>
         </div>
+
         <div className="row">
           <button className="btn btn-outline-primary create__btn" type="submit">
             Add Event

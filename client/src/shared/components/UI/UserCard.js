@@ -5,7 +5,7 @@ import './UserCard.css';
 
 const UserCard = props => {
   return (
-    <div className="user-profile">
+    <NavLink to={'/profile/' + props.owner.id} className="user-profile">
       <div className="user-header">
         <img id="avatar" src={props.owner.avatar} alt="Jon Snow" />
         <div className="user-names">
@@ -15,7 +15,7 @@ const UserCard = props => {
           </div>
         </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 

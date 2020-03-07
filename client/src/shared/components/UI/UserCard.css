@@ -6,6 +6,7 @@
   border-radius: 0.3rem;
   transition: all 0.2s;
   margin-bottom: 20px;
+  display: block;
 }
 
 .user-header {
@@ -52,6 +53,7 @@
 
 .user-profile:hover {
   box-shadow: 1px 1px 10px #16a085;
+  text-decoration: none;
 }
 .event-item__info {
   padding: 20px;

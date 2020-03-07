@@ -36,7 +36,7 @@ const Routes = () => {
             <Route path="/editevent/:id">
               <PageLayout innerComponent={<EditEvent />} />
             </Route>
-            <Route path="/profile/:id">
+            <Route path="/profile/:userId">
               <PageLayout innerComponent={<UserProfile />} />
             </Route>
             <Route path="/editprofile">

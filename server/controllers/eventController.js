@@ -35,7 +35,7 @@ exports.getEventByID = async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ['first_name', 'last_name', 'avatar']
+        attributes: ['id', 'first_name', 'last_name', 'avatar']
       },
       {
         model: Categories
@@ -71,27 +71,17 @@ exports.getEventByID = async (req, res) => {
 };
 
 exports.createEvent = async (req, res) => {
-  const {
+  const { name, description, location, datetime, max_participants, min_age, price } = req.body;
+  const cover = req.file || null;
+  await Event.create({
     name,
+    owner_id: 1,
     description,
     location,
     datetime,
-    duration,
     max_participants,
     min_age,
     cover,
-    price
-  } = req.body;
-  await Event.create({
-    name,
-    owner_id: req.userId,
-    description,
-    location,
-    datetime,
-    duration,
-    max_participants,
-    min_age,
-    cover: req.file.path,
     price
   })
     .then(() => {
@@ -126,7 +116,7 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin') {
-      cover = cover || req.file.path;
+      // cover = cover || req.file.path;
       event
         .update({
           name,

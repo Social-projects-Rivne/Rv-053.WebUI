@@ -11,9 +11,9 @@ const { uploadCover } = require('../middlewares/upload-images');
 router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.post(
   '/',
-  auth,
+  // auth,
   uploadCover.single('cover'),
-  createEventValidation,
+  createEventValidation(),
   validate,
   eventController.createEvent
 );
