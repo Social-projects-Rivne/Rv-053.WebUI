@@ -59,6 +59,9 @@ const EventDetails = () => {
     getQuantityParticipants(eventId);
   }, []);
 
+  useEffect(() => {
+    getQuantityParticipants(eventId);
+  }, [joinEvent()]);
   const closeNoteHandler = () => {
     setShowNoteState(false);
   };
