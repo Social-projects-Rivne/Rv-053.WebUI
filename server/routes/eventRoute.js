@@ -18,10 +18,17 @@ router.post(
   eventController.createEvent
 );
 router.get('/filter', CheckUrlInCache, eventController.filterEvent);
-router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
+router.put(
+  '/:id',
+  auth,
+  createEventValidation(),
+  validate,
+  eventController.updateEvent
+);
 router.delete('/:id', auth, eventController.deleteEvent);
 router.get('/:id', eventController.getEventByID);
 router.put('/:id/ban', adminAuth, eventController.banEvent);
 router.put('/:id/unban', adminAuth, eventController.unbanEvent);
+router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 
 module.exports = router;
