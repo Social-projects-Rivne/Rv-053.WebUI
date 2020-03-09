@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
@@ -351,4 +351,30 @@ exports.deleteEvent = async (req, res) => {
       message: err.message || 'Bad request'
     });
   }
+};
+
+exports.getQuantityFollowedOnEventUsers = async (req, res) => {
+  const id = req.params.id;
+  await UserEvent.findAll({
+    where: {
+      event_id: id
+    },
+
+    attributes: [
+      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
+    ]
+  })
+    .then(async resultRow => {
+      if (resultRow === null) {
+        res.status(404).send({
+          message: 'Event not found'
+        });
+      }
+      res.status(200).json(resultRow[0]);
+    })
+    .catch(err => {
+      res.status(404).send({
+        message: err.message || 'Not found'
+      });
+    });
 };

@@ -19,6 +19,8 @@ route.put('/role-moderator/:id', authAndModeratorAdmin, userController.setRoleTo
 route.put('/role-user/:id', authAndModeratorAdmin, userController.setRoleToUser);
 route.post('/ban/:id', authAndModeratorAdmin, userController.ban);
 route.delete('/unban/:id', authAndModeratorAdmin, userController.unban);
+route.post('/follow-category/:id', auth, userController.followCategory);
+route.delete('/unfollow-category/:id', auth, userController.unfollowCategory);
 route.get('/:id', auth, userController.getById);
 
 module.exports = route;

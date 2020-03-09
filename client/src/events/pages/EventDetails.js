@@ -5,13 +5,16 @@ import moment from 'moment';
 
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from './../../shared/context/auth-context';
+import Notificator from './../../shared/components/UI/Notificator';
 import EventItem from '../components/EventItem';
 import './EventDetails.css';
 
 const EventDetails = () => {
   const eventId = useParams().eventId;
   const accessToken = useContext(AuthContext).token;
+  const [showNoteState, setShowNoteState] = useState(false);
   const [eventData, setEventData] = useState();
+  const [quantityParticipants, setQuantityParticipants] = useState();
   const headers = useMemo(
     () => ({
       Authorization: 'Bearer ' + accessToken
@@ -42,20 +45,42 @@ const EventDetails = () => {
       )
       .then(() => {
         getEvent();
+        setShowNoteState(true);
       });
   };
-
+  const getQuantityParticipants = async id => {
+    await axios.get(api_server_url + `/api/events/${id}/count`).then(quantity => {
+      setQuantityParticipants(quantity.data.quantityUsers);
+    });
+  };
   useEffect(() => {
     getEvent();
-  }, [getEvent]);
+    getQuantityParticipants(eventId);
+  }, []);
+
+  useEffect(() => {
+    getQuantityParticipants(eventId);
+  }, [joinEvent()]);
+  const closeNoteHandler = () => {
+    setShowNoteState(false);
+  };
+
   return (
     <div>
+      {console.log(quantityParticipants)}
+      <Notificator
+        className="success-note"
+        message="You are successfully subscribed!"
+        show={showNoteState}
+        onExit={closeNoteHandler}
+      />
       {eventData ? (
         <EventItem
           id={eventData.id}
           event={eventData}
           owner={eventData.user}
           joinEvent={joinEvent}
+          quantity={quantityParticipants}
         />
       ) : (
         <p>Oops, nothing is found...</p>

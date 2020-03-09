@@ -24,5 +24,6 @@ router.get('/:id', eventController.getEventByID);
 router.put('/:id/reject', adminAndModeratorAuth, eventController.rejectEvent);
 router.put('/:id/activate', adminAndModeratorAuth, eventController.activateEvent);
 router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
+router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 
 module.exports = router;

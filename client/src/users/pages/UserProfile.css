@@ -123,6 +123,11 @@
   margin-bottom: 15px;
   color: #000;
 }
+.user_profile_event-item a {
+  color: #000;
+}
+
+.user_profile_event-item:hover a,
 .user_profile_event-item:hover {
   text-decoration: none;
   color: #16a085;
@@ -135,13 +140,7 @@
 .profile_categories-item.added {
   background-color: rgba(45, 169, 145, 0.6);
 }
-.card.success-note {
-  background-color: rgba(163, 191, 163, 0.3);
-  border: none;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-}
+
 @media (max-width: 600px) {
   .profile_inner {
     padding: 10px;
