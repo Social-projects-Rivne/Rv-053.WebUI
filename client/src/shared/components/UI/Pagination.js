@@ -47,7 +47,6 @@ const Pagination = props => {
         console.log(e);
       }
     }
-    console.log('1');
   }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
   useEffect(() => {

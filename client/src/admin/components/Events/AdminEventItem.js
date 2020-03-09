@@ -3,14 +3,17 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
+import Selector from '../../../shared/components/FormElements/Select';
 import { AuthContext } from '../../../shared/context/auth-context';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 
 const AdminEventItem = props => {
   const history = useHistory();
   const [extraInfoFlag, setExtraInfoFlag] = useState(false);
-  const [eventStatus, setEventStatus] = useState(props.eventInfo.status);
-  const [sendingToServerFlag, setSendingToServerFlag] = useState(false);
+  const [changeEventStatusFlag, setChangeEventStatusFlag] = useState(false);
+  const [eventStatus, setEventStatus] = useState(
+    props.eventInfo.status === 'Banned' ? 'Rejected' : props.eventInfo.status
+  );
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken
@@ -20,33 +23,32 @@ const AdminEventItem = props => {
     setExtraInfoFlag(!extraInfoFlag);
   };
 
-  const changeEventStatus = async () => {
+  const sendEventStatusToServer = async action => {
     try {
-      if (eventStatus === 'Active') {
-        setSendingToServerFlag(true);
-        const res = await axios.put(
-          api_server_url + '/api/events/' + props.eventInfo.id + '/ban',
-          {},
-          { headers }
-        );
-        setSendingToServerFlag(false);
-        if (res.data.status === 'success') {
-          setEventStatus('Banned');
-        }
-      } else {
-        setSendingToServerFlag(true);
-        const res = await axios.put(
-          api_server_url + '/api/events/' + props.eventInfo.id + '/unban',
-          {},
-          { headers }
-        );
-        if (res.data.status === 'success') {
-          setEventStatus('Active');
-        }
-        setSendingToServerFlag(false);
-      }
+      const res = await axios.put(
+        api_server_url + '/api/events/' + props.eventInfo.id + '/' + action,
+        {},
+        { headers }
+      );
+      setEventStatus(res.data.status);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const changeEventStatusFlagHandler = () => {
+    setChangeEventStatusFlag(!changeEventStatusFlag);
+  };
+
+  const changeEventStatusHandler = item => {
+    if (item.title === 'ACTIVATE') {
+      sendEventStatusToServer('activate');
+    }
+    if (item.title === 'REJECT') {
+      sendEventStatusToServer('reject');
+    }
+    if (item.title === 'DELETE') {
+      sendEventStatusToServer('delete');
     }
   };
 
@@ -81,19 +83,31 @@ const AdminEventItem = props => {
           </button>
         </div>
         <div className="col-lg-1 adminpanel__col">
-          <p
-            onClick={!sendingToServerFlag ? changeEventStatus : null}
+          <button
+            onFocus={changeEventStatusFlagHandler}
+            onBlur={changeEventStatusFlagHandler}
             className={
               'text-uppercase badge adminpanel__badge-button ' +
               (eventStatus === 'Active'
                 ? 'adminpanel__user-status-active'
-                : eventStatus === 'Inactive'
+                : eventStatus === 'Rejected'
                 ? 'badge-secondary'
                 : 'badge-danger')
             }
           >
             {eventStatus}
-          </p>
+            <>&dArr;</>
+          </button>
+          <Selector
+            triger={changeEventStatusFlag}
+            items={[
+              { icon: 'icon-checkmark', title: 'ACTIVATE', info: '' },
+              { icon: 'icon-cross', title: 'REJECT', info: '' },
+              { icon: 'icon-trash', title: 'DELETE', info: '' }
+            ]}
+            onChange={changeEventStatusHandler}
+            className=""
+          />
         </div>
       </div>
 
@@ -120,7 +134,7 @@ const AdminEventItem = props => {
       </RollingAnimation>
       <div className="row adminpanel__row">
         <span className="col-12 adminpanel__toggler-icon" onClick={extraInfoFlagHandler}>
-          &#8645;
+          {extraInfoFlag ? <>&#8657;</> : <>&#8659;</>}
         </span>
       </div>
     </li>

@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
-import './AdminUserItem.css';
 import Selector from '../../../shared/components/FormElements/Select';
+import './AdminUserItem.css';
 
 const AdminUserItem = props => {
   const [extraInfoFlag, setExtraInfoFlag] = useState(false);
@@ -15,9 +16,18 @@ const AdminUserItem = props => {
   const [userStatus, setUserStatus] = useState(
     props.userInfo.user_status.status === 'Ban' ? 'Banned' : props.userInfo.user_status.status
   );
+  const userAccessRole = props.accessRole;
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken
+  };
+
+  const checkUserAccess = () => {
+    if (userAccessRole === 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const extraInfoFlagHandler = () => {
@@ -95,8 +105,10 @@ const AdminUserItem = props => {
               />
             </div>
             <div className="float-left">
-              <p className="text-left">{props.userInfo.first_name}</p>
-              <p className="text-left">{props.userInfo.last_name}</p>
+              <Link to={'/profile/' + props.userInfo.id} className="adminpanel__link">
+                <p className="text-left">{props.userInfo.first_name}</p>
+                <p className="text-left">{props.userInfo.last_name}</p>
+              </Link>
             </div>
           </div>
         </div>
@@ -110,8 +122,9 @@ const AdminUserItem = props => {
         <div className="col-lg-2 adminpanel__col">
           <button
             className="adminpanel__float-left cursor-pointer adminpanel__button-flat"
-            onClick={roleFlagHandler}
+            onFocus={roleFlagHandler}
             onBlur={roleFlagHandler}
+            disabled={!checkUserAccess()}
           >
             {userRole}
           </button>
@@ -160,7 +173,11 @@ const AdminUserItem = props => {
             <p className="adminpanel__float-left">Sex: {props.userInfo.sex}</p>
           </div>
           <div className="col-lg-3 adminpanel__col">
-            <button className="button-danger adminpanel__float-right" onClick={banHandler}>
+            <button
+              className="button-danger adminpanel__float-right"
+              onClick={banHandler}
+              disabled={!checkUserAccess() && (userRole === 'Admin' || userRole === 'Moderator')}
+            >
               {userStatus === 'Banned' ? 'unban' : 'ban'}
             </button>
           </div>

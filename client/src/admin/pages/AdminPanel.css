@@ -9,3 +9,11 @@
 .adminpanel_card:hover {
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.2);
 }
+.adminpanel__link {
+  text-decoration: none;
+  color: #000;
+}
+.adminpanel__link:hover {
+  text-decoration: none;
+  color: #16a085;
+}

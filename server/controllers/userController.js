@@ -20,10 +20,21 @@ const updateUserStatus = async (user, status_id) => user.update({ status_id });
 const changeUserStatus = async (req, res, statusId) => {
   try {
     const user = await findUser(req.params.id);
-    await updateUserStatus(user, statusId);
-    res.status(200).json({
-      status: 'success'
-    });
+    if (req.userRole === 'Admin' && req.userId !== user.dataValues.id) {
+      await updateUserStatus(user, statusId);
+      res.status(200).json({
+        status: 'success'
+      });
+    } else if (req.userRole === 'Moderator' && user.dataValues.role === 'User') {
+      await updateUserStatus(user, statusId);
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(403).json({
+        status: 'No access'
+      });
+    }
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
