@@ -306,6 +306,11 @@ exports.filterEvent = async (req, res) => {
 exports.rejectEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);
+    if (event.status === STATUS_BANNED) {
+      return res.status(400).send({
+        message: 'Event is already rejected'
+      });
+    }
     await event.update({ status: STATUS_BANNED });
     res.status(201).json({ status: 'Rejected' });
   } catch (err) {
@@ -318,6 +323,11 @@ exports.rejectEvent = async (req, res) => {
 exports.activateEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);
+    if (event.status === STATUS_ACTIVE) {
+      return res.status(400).send({
+        message: 'Event is already active'
+      });
+    }
     await event.update({ status: STATUS_ACTIVE });
     res.status(201).json({ status: 'Active' });
   } catch (err) {
@@ -329,6 +339,11 @@ exports.activateEvent = async (req, res) => {
 exports.deleteEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);
+    if (event.status === STATUS_DELETED) {
+      return res.status(400).send({
+        message: 'Event is already deleted'
+      });
+    }
     await event.update({ status: STATUS_DELETED });
     res.status(201).json({ status: 'DELETED' });
   } catch (err) {
