@@ -17,7 +17,7 @@ const UserProfile = () => {
   };
   useEffect(() => {
     history.replace(location.pathname, { show: false });
-  }, []);
+  }, [history, location.pathname]);
   return (
     <>
       <Notificator

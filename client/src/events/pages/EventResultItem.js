@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
@@ -24,7 +24,8 @@ const EventResultItem = props => {
         `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
       );
     });
-  }, []);
+  }, [coordinates]);
+
   return (
     <div className={props.className}>
       <NavLink

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -15,12 +15,13 @@ const FollowedEventList = () => {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getEvents = async () => {
+  const getEvents = useCallback(async () => {
     const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
     setEvents(res.data.data.followedEvent);
-  };
+  }, []);
+
   const unfollowFromEvent = async id => {
     await axios
       .delete(api_server_url + `/api/user/unfollow-event/${id}`, {
@@ -40,10 +41,11 @@ const FollowedEventList = () => {
     if (accessToken) {
       getEvents();
     }
-  }, [accessToken]);
+  }, [accessToken, getEvents]);
+
   return (
     <>
-      {userId == 'my' ? (
+      {userId === 'my' ? (
         <div className="event_list-item">
           <h3 className="profile-title">Followed events</h3>
           {events.length > 0 ? (

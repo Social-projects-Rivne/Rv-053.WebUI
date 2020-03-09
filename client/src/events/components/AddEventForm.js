@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
 import Selector from '../../shared/components/FormElements/Select';
@@ -8,6 +8,7 @@ import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation'
 import './EditEventForm.css';
 
 const EditEventForm = props => {
+  const [editRoleFlag, setEditRoleFlag] = useState(true);
   return (
     <form
       onSubmit={props.onSubmitFormHandler}
@@ -27,7 +28,7 @@ const EditEventForm = props => {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <Selector
+          {/* <Selector
             type="select"
             id="category"
             label="Category"
@@ -35,6 +36,16 @@ const EditEventForm = props => {
             validations={[VAL_REQUIRED()]}
             errorMessage="The field is required"
             className="form-control"
+          /> */}
+          <Selector
+            triger={editRoleFlag}
+            items={[
+              { icon: '', title: 'Admin', info: '' },
+              { icon: '', title: 'Moderator', info: '' },
+              { icon: '', title: 'User', info: '' }
+            ]}
+            // onChange={userRoleHandler}
+            className=""
           />
         </div>
         <div className="col-md-6">
