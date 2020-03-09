@@ -10,10 +10,7 @@
 // const SoonEvents = () => {
 //   const [soonEventsState, setSoonEventsState] = useState();
 //   const getSoonEvnets = async () => {
-//     const soonEvents = await (await axios.get(api_server_url + '/api/events')).data.rows.slice(
-//       0,
-//       4
-//     );
+//     const soonEvents = (await axios.get(api_server_url + '/api/events')).data.rows.slice(0, 4);
 //     setSoonEventsState(soonEvents);
 //   };
 //   useEffect(() => {

@@ -20,12 +20,14 @@ const AddEvent = () => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
+    'Content-Type': 'multipart/form-data',
     Authorization: 'Bearer ' + accessToken
   };
   const [notificationState, setNotificationState] = useState({
     message: 'some message',
     show: false
   });
+
   const [formState, inputHandler] = useForm(
     {
       title: {
@@ -68,22 +70,29 @@ const AddEvent = () => {
     false
   );
 
-  const createEventData = async () => {
+  let imgObject;
+  const getImgURL = file => (imgObject = file);
+
+  const submitFormHandler = async event => {
+    event.preventDefault();
     if (formState.formValidity) {
       try {
-        const createEventData = {
-          name: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          location: `${formState.inputs.address.value}, ${formState.inputs.country.value}`,
-          datetime: formState.inputs.date.value,
-          max_participants: formState.inputs.participants.value,
-          min_age: formState.inputs.age.value,
-          price: formState.inputs.price.value
-        };
+        const createEventData = new FormData();
+        createEventData.append('name', formState.inputs.title.value);
+        createEventData.append('description', formState.inputs.description.value);
+        createEventData.append(
+          'location',
+          `${formState.inputs.address.value}, ${formState.inputs.country.value}`
+        );
+        createEventData.append('datetime', formState.inputs.date.value);
+        createEventData.append('max_participants', formState.inputs.participants.value);
+        createEventData.append('min_age', formState.inputs.age.value);
+        createEventData.append('price', formState.inputs.age.value);
+        createEventData.append('cover', imgObject);
+        console.log(createEventData);
         const res = await axios.post(api_server_url + '/api/events', createEventData, {
           headers
         });
-        console.log(createEventData);
         if (res.status === 200) {
           setNotificationState({
             message: res.data.status,
@@ -103,14 +112,14 @@ const AddEvent = () => {
     }
   };
 
-  const submitFormHandler = event => {
-    event.preventDefault();
-    console.log(formState.inputs);
-  };
   return (
     <div className="container">
       <h2 className="create__tittle">Create event</h2>
-      <form onSubmit={submitFormHandler} className="col-md-10 offset-md-1">
+      <form
+        onSubmit={submitFormHandler}
+        className="col-md-10 offset-md-1"
+        encType="multipart/form-data"
+      >
         <div className="form-group">
           <Input
             id="title"
@@ -155,7 +164,7 @@ const AddEvent = () => {
           errorMessage="Write at least 5 characters!"
           className="form-control"
         />
-        <ImageUpload />
+        <ImageUpload name="cover" onGetImg={getImgURL} />
         <div className="row">
           <div className="col-md-6">
             <Input

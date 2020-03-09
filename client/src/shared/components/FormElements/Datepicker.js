@@ -34,7 +34,7 @@ const Datepicker = props => {
 
   const changeHandler = event => {
     const date = event.unix() || new Date();
-    dispatch({ type: 'CHANGE', val: event.unix() });
+    dispatch({ type: 'CHANGE', val: event.valueOf() });
   };
 
   const touchHandler = () => {

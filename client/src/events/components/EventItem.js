@@ -4,7 +4,7 @@ import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
-import { NavLink } from 'react-router-dom';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EventItem = props => {
   const [address, setAddress] = useState();
@@ -26,7 +26,7 @@ const EventItem = props => {
       <div className="row">
         <div className="col-md-8 event-item__img">
           <figure>
-            <img src={props.event.cover} alt="sometext" />
+            <img src={`${api_server_url}/${props.event.cover}`} alt="sometext" />
           </figure>
         </div>
         <div className="col-md-4 event-item__info">

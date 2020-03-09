@@ -59,7 +59,6 @@ exports.getEventByID = async (req, res) => {
           event.isSubscribe = true;
         }
       }
-
       //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
@@ -81,7 +80,7 @@ exports.createEvent = async (req, res) => {
     datetime,
     max_participants,
     min_age,
-    cover,
+    cover: cover.path,
     price
   })
     .then(() => {
@@ -116,7 +115,7 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin') {
-      // cover = cover || req.file.path;
+      cover = cover || req.file.path;
       event
         .update({
           name,

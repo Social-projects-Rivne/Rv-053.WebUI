@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import './ImageUpload.css';
 
-const ImageUpload = () => {
+const ImageUpload = props => {
   const [file, setFile] = useState({ file: '', imagePreviewUrl: '' });
-
   const handleImageChange = e => {
     e.preventDefault();
 
@@ -19,6 +18,7 @@ const ImageUpload = () => {
     };
     reader.readAsDataURL(file);
   };
+  props.onGetImg(file.file);
 
   let { imagePreviewUrl } = file;
   let $imagePreview = null;
@@ -34,8 +34,9 @@ const ImageUpload = () => {
         <input
           type="file"
           id="imageUpload"
+          name={props.name}
           accept=".png, .jpg, .jpeg"
-          onChange={e => handleImageChange(e)}
+          onChange={handleImageChange}
         />
         <label htmlFor="imageUpload" />
       </div>
