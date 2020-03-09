@@ -60,7 +60,7 @@ const CreatedEventList = () => {
             title={event['name']}
             date={event['datetime']}
             deleteEvent={deleteEvent}
-          />
+          /> 
         ))
       ) : (
         <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>

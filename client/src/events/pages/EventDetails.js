@@ -5,12 +5,14 @@ import moment from 'moment';
 
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from './../../shared/context/auth-context';
+import Notificator from './../../shared/components/UI/Notificator';
 import EventItem from '../components/EventItem';
 import './EventDetails.css';
 
 const EventDetails = () => {
   const eventId = useParams().eventId;
   const accessToken = useContext(AuthContext).token;
+  const [showNoteState, setShowNoteState] = useState(false);
   const [eventData, setEventData] = useState();
   const headers = {
     Authorization: 'Bearer ' + accessToken
@@ -38,14 +40,25 @@ const EventDetails = () => {
       )
       .then(() => {
         getEvent();
+        setShowNoteState(true);
       });
   };
 
   useEffect(() => {
     getEvent();
   }, [getEvent]);
+
+  const closeNoteHandler = () => {
+    setShowNoteState(false);
+  };
   return (
     <div>
+      <Notificator
+        className="success-note"
+        message="You are successfully subscribed!"
+        show={showNoteState}
+        onExit={closeNoteHandler}
+      />
       {eventData ? (
         <EventItem
           id={eventData.id}

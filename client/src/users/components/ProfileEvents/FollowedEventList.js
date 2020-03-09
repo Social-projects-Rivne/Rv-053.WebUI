@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -7,6 +7,7 @@ import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 
 const FollowedEventList = () => {
+  const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const userId = useParams().userId;
   const [events, setEvents] = useState([]);

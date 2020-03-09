@@ -124,6 +124,7 @@
 }
 
 .list__events-item-img {
+  display: block;
   max-width: 380px;
   width: 100%;
   height: auto;
