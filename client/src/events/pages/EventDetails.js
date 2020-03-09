@@ -81,6 +81,7 @@ const EventDetails = () => {
           event={eventData}
           owner={eventData.user}
           joinEvent={joinEvent}
+          accessToken={accessToken ? true : false}
           quantity={quantityParticipants}
         />
       ) : (
