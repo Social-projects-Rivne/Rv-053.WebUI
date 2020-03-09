@@ -9,7 +9,7 @@ const MainPage = () => {
   return (
     <>
       <Carousel />
-      {/* <SoonEvents /> */}
+      <SoonEvents />
       <Categories />
     </>
   );

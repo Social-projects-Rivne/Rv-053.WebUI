@@ -27,7 +27,6 @@ const UserProfile = () => {
         show={showNotificator || false}
       />
       <div className="profile-container">
-        {' '}
         <section className="profile_inner">
           <UserInfo />
           <CategoriesList />

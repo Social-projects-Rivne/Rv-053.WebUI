@@ -3,8 +3,10 @@ const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
+const EventCategory = require('../models').event_category;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
+const Category = require('../models').category;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
@@ -38,7 +40,8 @@ exports.getEventByID = async (req, res) => {
         attributes: ['id', 'first_name', 'last_name', 'avatar']
       },
       {
-        model: Categories
+        model: Categories,
+        attributes: ['category', 'parent_id']
       }
     ]
   })
@@ -59,7 +62,7 @@ exports.getEventByID = async (req, res) => {
           event.isSubscribe = true;
         }
       }
-      //     Redis.addUrlInCache(req.originalUrl, event);
+      Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -70,11 +73,20 @@ exports.getEventByID = async (req, res) => {
 };
 
 exports.createEvent = async (req, res) => {
-  const { name, description, location, datetime, max_participants, min_age, price } = req.body;
+  const {
+    name,
+    description,
+    location,
+    datetime,
+    category,
+    max_participants,
+    min_age,
+    price
+  } = req.body;
   const cover = req.file || null;
   await Event.create({
     name,
-    owner_id: 1,
+    owner_id: req.userId,
     description,
     location,
     datetime,
@@ -83,14 +95,26 @@ exports.createEvent = async (req, res) => {
     cover: cover.path,
     price
   })
-    .then(() => {
-      res.status(200).send({
-        message: 'Event was create successful'
-      });
+    .then(event => {
+      const eventId = event.id;
+      EventCategory.create({
+        event_id: eventId,
+        category_id: category
+      })
+        .then(() => {
+          res.status(200).send({
+            message: 'Event was create successful'
+          });
+        })
+        .catch(err => {
+          res.status(404).send({
+            message: 'Some problems with create event(category)' || err.message
+          });
+        });
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || 'Something wrong'
+        message: 'Some problems with create event' || err.message
       });
     });
 };
@@ -205,7 +229,8 @@ exports.searchEvent = async (req, res) => {
         attributes: ['first_name', 'last_name']
       },
       {
-        model: Categories
+        model: Categories,
+        attributes: ['category', 'parent_id']
       }
     ],
     order: [

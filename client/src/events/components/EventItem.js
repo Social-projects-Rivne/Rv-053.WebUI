@@ -70,7 +70,6 @@ const EventItem = props => {
             <p>{props.event.description}</p>
           </div>
         </div>
-        {console.log(props.owner)}
         <div className="col-md-4 event-item__owner">
           <UserCard owner={props.owner} />
         </div>
