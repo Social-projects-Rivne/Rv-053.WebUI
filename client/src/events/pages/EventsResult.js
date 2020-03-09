@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import EventResultItem from './EventResultItem';
@@ -32,7 +32,6 @@ const EventsResult = () => {
   const getEvents = useCallback(data => {
     setAllEvents(data.rows);
   }, []);
-  console.log(allEvents);
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>

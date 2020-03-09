@@ -94,7 +94,6 @@ const Auth = () => {
           });
           auth.login(res.data.token, res.data.expiresIn);
         } catch (e) {
-          console.log('incorrect password or email');
           setNotificationState({
             show: true,
             message: 'Incorrect password or email'

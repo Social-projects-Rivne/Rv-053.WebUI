@@ -1,13 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { EventContext } from '../../shared/context/events-context';
 import './search.css';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchedArr, setSearchedArr] = useState([]);
-  const eventContext = useContext(EventContext);
   const history = useHistory();
 
   const handleSubmit = event => {
@@ -15,10 +12,6 @@ const Search = () => {
 
     history.push(`/events?query=${searchQuery}`);
   };
-
-  useEffect(() => {
-    eventContext.setEvents(searchedArr);
-  }, [searchedArr]);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,20 +13,20 @@ const CreatedEventList = () => {
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
-  const getEvents = async () => {
-    if(userId == "my"){
+
+  const getEvents = useCallback(async () => {
+    if (userId === 'my') {
       const res = await axios.get(api_server_url + '/api/user/events', {
         headers
       });
-      setEvents(res.data.data.event);  
-    }
-    else{
-      const res = await axios.get(`${api_server_url}/api/user/${userId}`,{
+      setEvents(res.data.data.event);
+    } else {
+      const res = await axios.get(`${api_server_url}/api/user/${userId}`, {
         headers
       });
       setEvents(res.data.data.events);
     }
-    };
+  }, [userId]);
 
   const deleteEvent = async id => {
     await axios
@@ -47,7 +47,8 @@ const CreatedEventList = () => {
     if (accessToken) {
       getEvents();
     }
-  }, [accessToken]);
+  }, [accessToken, getEvents]);
+
   return (
     <div className="event_list-item">
       <h3 className="profile-title">Created events</h3>
@@ -59,10 +60,10 @@ const CreatedEventList = () => {
             title={event['name']}
             date={event['datetime']}
             deleteEvent={deleteEvent}
-          />
+          /> 
         ))
       ) : (
-        <p>{userId == 'my' ? "You haven't" : "User hasn't"} created any events</p>
+        <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>
       )}
     </div>
   );

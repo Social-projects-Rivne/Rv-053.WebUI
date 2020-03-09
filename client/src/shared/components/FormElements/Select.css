@@ -1,0 +1,30 @@
+.dropdown-menu {
+  max-height: 200px !important;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+.dropdown-menu-show {
+  max-height: 200px !important;
+}
+.dropdown-menu-hide {
+  max-height: 0px !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.dropdown-item:hover {
+  background-color: #e4e9ee !important;
+}
+.dropdown-menu::-webkit-scrollbar-track {
+  background: #ffffff00;
+}
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: #999;
+  cursor: pointer;
+}
+.dropdown-menu::-webkit-scrollbar {
+  width: 10px;
+}

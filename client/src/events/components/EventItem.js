@@ -4,7 +4,6 @@ import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
-import { NavLink } from 'react-router-dom';
 
 const EventItem = props => {
   const [address, setAddress] = useState();
@@ -13,12 +12,13 @@ const EventItem = props => {
     lat: +coordinates[0],
     lng: +coordinates[1]
   };
+
   useEffect(() => {
     const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
     geocodeObj.then(geocodeObj => {
       setAddress(geocodeObj.formatted_address);
     });
-  }, []);
+  }, [coordinates]);
 
   return (
     <div className='container event-item'>
