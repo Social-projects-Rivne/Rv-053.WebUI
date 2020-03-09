@@ -15,8 +15,8 @@ const USER_UNBAN = 1;
 
 const findUser = async userId =>
   User.findOne({
-    where: { id: userId },
-    raw: true
+    where: { id: userId }
+    // raw: true
   });
 
 const findCategory = async categoryId =>

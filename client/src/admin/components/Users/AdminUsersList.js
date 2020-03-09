@@ -31,7 +31,6 @@ const AdminUsersList = () => {
     try {
       const res = await axios.get(api_server_url + '/api/adminpanel/getrole', { headers });
       const role = res.data.role;
-      console.log(role);
       if (role === 'Admin' || role === 'Moderator') {
         setUserRoleForAdminpanel(role);
       } else {

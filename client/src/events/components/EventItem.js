@@ -23,14 +23,14 @@ const EventItem = props => {
   }, [coordinates]);
 
   return (
-    <div className='container event-item'>
-      <div className='row'>
-        <div className='col-md-8 event-item__img'>
+    <div className="container event-item">
+      <div className="row">
+        <div className="col-md-8 event-item__img">
           <figure>
-            <img src={props.event.cover} alt='sometext' />
+            <img src={props.event.cover} alt="sometext" />
           </figure>
         </div>
-        <div className='col-md-4 event-item__info'>
+        <div className="col-md-4 event-item__info">
           <h3>{props.event.name}</h3>
           <div>
             <span>Address: </span>
@@ -56,39 +56,34 @@ const EventItem = props => {
               : ` ${props.event.max_participants} person`}
             {props.accessToken ? (
               <button
-                type='button'
-                className='my__button'
+                type="button"
+                className="my__button"
                 onClick={() => props.joinEvent(props.id)}
                 disabled={!props.event.isSubscribe ? false : true}
               >
                 {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
               </button>
             ) : (
-              <button
-                type='button'
-                className='my__button'
-                onClick={() => history.push('/auth')}
-              >
+              <button type="button" className="my__button" onClick={() => history.push('/auth')}>
                 Subcribe
               </button>
             )}
           </div>
         </div>
-        <div className='row'>
-          <div className='col-md-8 event-item__desctiption'>
-            <div className=''>
+        <div className="row">
+          <div className="col-md-8 event-item__desctiption">
+            <div className="">
               <h3>Details</h3>
               <p>{props.event.description}</p>
             </div>
           </div>
-          {console.log(props.owner)}
-          <div className='col-md-4 event-item__owner'>
+          <div className="col-md-4 event-item__owner">
             <UserCard owner={props.owner} />
           </div>
         </div>
 
-        <div className='row'>
-          <div className='col-md-12 map-container'>
+        <div className="row">
+          <div className="col-md-12 map-container">
             <Map center={map} zoom={16} />
           </div>
         </div>
