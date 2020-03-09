@@ -99,13 +99,14 @@ const AddEvent = () => {
               message: res.data.status
             }
           });
+        } else {
+          console.log('stupid errorr');
         }
       } catch (e) {
         console.log(e);
       }
     }
   };
-
   return (
     <>
       <ScrollToTop />
