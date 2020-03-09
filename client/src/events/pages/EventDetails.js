@@ -14,11 +14,15 @@ const EventDetails = () => {
   const accessToken = useContext(AuthContext).token;
   const [showNoteState, setShowNoteState] = useState(false);
   const [eventData, setEventData] = useState();
+  const [quantityParticipants, setQuantityParticipants] = useState();
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
   const getEvent = useCallback(async () => {
-    const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
+    const event = await axios.get(
+      'http://localhost:5001/api/events/' + eventId,
+      { headers }
+    );
     event.data.datetime = moment(+event.data.datetime)
       .format('DD MM YYYY')
       .split(' ')
@@ -43,19 +47,31 @@ const EventDetails = () => {
         setShowNoteState(true);
       });
   };
-
+  const getQuantityParticipants = async id => {
+    await axios
+      .get(api_server_url + `/api/events/${id}/count`)
+      .then(quantity => {
+        setQuantityParticipants(quantity.data.quantityUsers);
+      });
+  };
   useEffect(() => {
     getEvent();
-  }, [getEvent]);
+    getQuantityParticipants(eventId);
+  }, []);
 
+  useEffect(() => {
+    getQuantityParticipants(eventId);
+  }, [joinEvent()]);
   const closeNoteHandler = () => {
     setShowNoteState(false);
   };
+
   return (
     <div>
+      {console.log(quantityParticipants)}
       <Notificator
-        className="success-note"
-        message="You are successfully subscribed!"
+        className='success-note'
+        message='You are successfully subscribed!'
         show={showNoteState}
         onExit={closeNoteHandler}
       />
@@ -65,6 +81,7 @@ const EventDetails = () => {
           event={eventData}
           owner={eventData.user}
           joinEvent={joinEvent}
+          quantity={quantityParticipants}
         />
       ) : (
         <p>Oops, nothing is found...</p>
