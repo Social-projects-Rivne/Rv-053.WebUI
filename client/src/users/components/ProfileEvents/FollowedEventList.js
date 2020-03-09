@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -7,6 +7,7 @@ import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 
 const FollowedEventList = () => {
+  const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const userId = useParams().userId;
   const [events, setEvents] = useState([]);
@@ -14,12 +15,12 @@ const FollowedEventList = () => {
     Authorization: 'Bearer ' + accessToken
   };
 
-  const getEvents = async () => {
+  const getEvents = useCallback(async () => {
     const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
     setEvents(res.data.data.followedEvent);
-  };
+  }, []);
 
   const unfollowFromEvent = async id => {
     await axios
@@ -40,11 +41,11 @@ const FollowedEventList = () => {
     if (accessToken) {
       getEvents();
     }
-  }, [accessToken]);
-  // console.log(userId);
+  }, [accessToken, getEvents]);
+
   return (
     <>
-      {userId == 'my' ? (
+      {userId === 'my' ? (
         <div className="event_list-item">
           <h3 className="profile-title">Followed events</h3>
           {events.length > 0 ? (

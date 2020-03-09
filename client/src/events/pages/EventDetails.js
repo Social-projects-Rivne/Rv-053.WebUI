@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -14,10 +14,11 @@ const EventDetails = () => {
   const accessToken = useContext(AuthContext).token;
   const [showNoteState, setShowNoteState] = useState(false);
   const [eventData, setEventData] = useState();
+  const [quantityParticipants, setQuantityParticipants] = useState();
   const headers = {
     Authorization: 'Bearer ' + accessToken
   };
-  const getEvent = async () => {
+  const getEvent = useCallback(async () => {
     const event = await axios.get(
       'http://localhost:5001/api/events/' + eventId,
       { headers }
@@ -30,7 +31,7 @@ const EventDetails = () => {
       .format('hh mm')
       .replace(' ', ':');
     setEventData(event.data);
-  };
+  }, [eventId]);
 
   const joinEvent = async id => {
     await axios
@@ -46,15 +47,28 @@ const EventDetails = () => {
         setShowNoteState(true);
       });
   };
-
+  const getQuantityParticipants = async id => {
+    await axios
+      .get(api_server_url + `/api/events/${id}/count`)
+      .then(quantity => {
+        setQuantityParticipants(quantity.data.quantityUsers);
+      });
+  };
   useEffect(() => {
     getEvent();
+    getQuantityParticipants(eventId);
   }, []);
+
+  useEffect(() => {
+    getQuantityParticipants(eventId);
+  }, [joinEvent()]);
   const closeNoteHandler = () => {
     setShowNoteState(false);
   };
+
   return (
     <div>
+      {console.log(quantityParticipants)}
       <Notificator
         className='success-note'
         message='You are successfully subscribed!'
@@ -68,6 +82,7 @@ const EventDetails = () => {
           owner={eventData.user}
           joinEvent={joinEvent}
           accessToken={accessToken ? true : false}
+          quantity={quantityParticipants}
         />
       ) : (
         <p>Oops, nothing is found...</p>

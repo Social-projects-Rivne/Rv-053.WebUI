@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -34,7 +34,7 @@ const EditProfile = () => {
     false
   );
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     const userData = await axios.get(api_server_url + '/api/user/current', {
       headers
     });
@@ -43,11 +43,11 @@ const EditProfile = () => {
     );
     userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
     setUserDataState(userData.data.data.user);
-  };
+  }, [accessToken]);
 
   useEffect(() => {
     if (accessToken) getUserData();
-  }, [accessToken]);
+  }, [accessToken, getUserData]);
 
   useEffect(() => {
     if (userDataState) {
@@ -81,7 +81,7 @@ const EditProfile = () => {
         true
       );
     }
-  }, [userDataState]);
+  }, [userDataState, setFormData]);
 
   const submitFormHandler = async event => {
     event.preventDefault();
@@ -96,11 +96,10 @@ const EditProfile = () => {
           .valueOf(),
         sex: formState.inputs.sex.value
       };
-      console.log(formState.inputs.sex.value);
-      const res = await axios.put(api_server_url + '/api/user/current/', updatedUser, {
+      const res = await axios.put(api_server_url + '/api/user/current', updatedUser, {
         headers
       });
-      if (res.data.status == 'success') {
+      if (res.data.status === 'success') {
         history.push('/profile/my', { show: true });
       }
     }
