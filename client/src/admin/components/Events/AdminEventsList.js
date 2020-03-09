@@ -20,20 +20,17 @@ const EventsList = props => {
   const getEvents = useCallback(data => {
     setEvents(data);
   }, []);
-  console.log(searchQuery);
   return (
     <>
       <Pagination
-        api='/api/adminpanel/events'
+        api="/api/adminpanel/events"
         onDataFetch={getEvents}
         pageItemsLimit={10}
         query={'q=' + (searchQuery ? searchQuery : '')}
       >
-        <ul className='list-group mb-4'>
+        <ul className="list-group mb-4">
           {events.rows
-            ? events.rows.map(event => (
-                <AdminEventItem key={event.id} eventInfo={event} />
-              ))
+            ? events.rows.map(event => <AdminEventItem key={event.id} eventInfo={event} />)
             : null}
         </ul>
       </Pagination>

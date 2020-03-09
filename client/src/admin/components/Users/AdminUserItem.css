@@ -62,10 +62,25 @@
   background-color: transparent;
   border-radius: 15px;
   transition: all 0.3s;
+  outline: none !important;
 }
 .button-danger:hover {
   color: white;
   background-color: #dc3545;
+}
+.adminpanel__button-flat {
+  text-decoration: none;
+  border: 2px solid #fff;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.adminpanel__button-flat:hover {
+  color: #16a085;
+}
+.adminpanel__button-flat:focus {
+  color: #16a085;
 }
 
 @media (min-width: 992px) {

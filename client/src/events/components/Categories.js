@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import CategoryItem from './CategoryItem';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 import './Categories.css';
 
 const Categories = () => {
-  const img_url = 'http://localhost:5001/uploads/covers/';
+  const img_url = `${api_server_url}/uploads/covers/`;
   const categories = [
     {
       name: 'Music',
