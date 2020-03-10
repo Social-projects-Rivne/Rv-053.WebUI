@@ -3,9 +3,46 @@
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
   transition: all 0.5s;
-  display: flex;
-  max-width: 900px;
 }
 .adminpanel_card:hover {
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.2);
+}
+.adminpanel__search-btn {
+  border: none;
+  background-color: #16a085;
+  color: #fff;
+  border-radius: 15px;
+  position: absolute;
+  right: 0px;
+  bottom: 1px;
+  width: 40px;
+  height: 40px;
+}
+.adminpanel__search-btn::before {
+  content: '\f002';
+  font-family: 'icomoon';
+}
+.hide {
+  display: none;
+}
+.adminpanel__link {
+  text-decoration: none;
+  color: #000;
+}
+.adminpanel__link:hover {
+  text-decoration: none;
+  color: #16a085;
+}
+.adminpanel__expander {
+  position: absolute;
+  font-weight: 800;
+  font-size: 130%;
+  bottom: 0px;
+  right: 6px;
+  cursor: pointer;
+  color: #000;
+  transition: all 0.2s ease;
+}
+.adminpanel__expander:hover {
+  color: #16a085;
 }

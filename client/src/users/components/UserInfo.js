@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,11 +10,14 @@ const UserInfo = () => {
 
   const [userData, setUserData] = useState({ user: {}, isMyProfile: false });
   const userId = useParams().userId;
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (userId === 'my') {
       const res = await axios.get(api_server_url + '/api/user/current', {
         headers
@@ -24,17 +27,16 @@ const UserInfo = () => {
       const res = await axios.get(api_server_url + '/api/user/' + userId, {
         headers
       });
-      console.log(res);
       setUserData({ user: res.data.data.user, isMyProfile: false });
     }
-  };
+  }, [userId, headers]);
   useEffect(() => {
     if (accessToken) {
       getUserData();
     }
-  }, [accessToken, userId]);
+  }, [accessToken, userId, getUserData]);
   return (
-    <div className={userId == 'my' ? 'profile-top' : null}>
+    <div className={userId === 'my' ? 'profile-top' : null}>
       {userData ? (
         <>
           <div className="profile-avatar__wrapper">
@@ -56,7 +58,7 @@ const UserInfo = () => {
               {userData.user.first_name} {userData.user.last_name}
             </div>
             <div className="profile-email">{userData.user.email} </div>
-            {userId == 'my' ? (
+            {userId === 'my' ? (
               <div className="profile_btn">
                 <NavLink to="/addevent" className="link-btn">
                   Add event

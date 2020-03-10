@@ -1,12 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import '../../../events/components/search.css';
-
-import { EventContext } from '../../../shared/context/events-context';
+import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Input from '../../../shared/components/FormElements/Input';
+
 const AdminSearchEvents = () => {
-  const [searchedArr, setSearchedArr] = useState([]);
-  const eventContext = useContext(EventContext);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
 
@@ -15,23 +12,24 @@ const AdminSearchEvents = () => {
 
     history.push(`?q=${searchQuery}`);
   };
-
-  useEffect(() => {
-    eventContext.setEvents(searchedArr);
-  }, [searchedArr]);
+  const inputHandler = useCallback((id, value, isValid) => {
+    setSearchQuery(value);
+  }, []);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className='form__search_event'>
-        <input
-          type='text'
-          value={searchQuery}
-          onChange={event => setSearchQuery(event.target.value)}
-          className='header__search'
-          placeholder='Search event..'
-        />
+    <div className="mb-1">
+      <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
+        <div style={{ width: '90%', display: 'inline-block', marginTop: '-1rem' }}>
+          <Input
+            id="searchuser"
+            type="input"
+            label="Search event"
+            onInput={inputHandler}
+            validations={[]}
+          />
+        </div>
 
-        <button type='submit' value='' className='header__submit'></button>
+        <button type="submit" value="" className="adminpanel__search-btn"></button>
       </form>
     </div>
   );

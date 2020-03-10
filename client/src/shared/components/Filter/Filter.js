@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import DateFilter from './DateRange/DateFilter';
 import CategoryFilter from './Category/CategoryFilter';
 import { DateRangesContext } from './DateRange/DateRangesContext';
 import { CategoryContext } from './Category/CategoryContext';
-import OutputFilterMsg from './OutputDate';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 
 const Filter = () => {
-  const [filteredEvents, setFilteredEvents] = useState([]);
   const { endtDate, startDate } = useContext(DateRangesContext);
   const { selectedCategoryId } = useContext(CategoryContext);
   const filterHistory = useHistory();
@@ -18,7 +15,7 @@ const Filter = () => {
 
   useEffect(() => {
     filterHistory.push(`/events?${url}`);
-  }, [url]);
+  }, [url, filterHistory]);
 
   return (
     <form className="form-inline d-flex justify-content-between">

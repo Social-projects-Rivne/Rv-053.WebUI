@@ -62,10 +62,37 @@
   background-color: transparent;
   border-radius: 15px;
   transition: all 0.3s;
+  outline: none !important;
 }
 .button-danger:hover {
   color: white;
   background-color: #dc3545;
+}
+.button-danger:disabled {
+  color: #7c7c7c;
+  border: 2px solid #7c7c7c;
+}
+.button-danger:disabled:hover {
+  color: #7c7c7c;
+  background-color: transparent;
+  border: 2px solid #7c7c7c;
+}
+.adminpanel__button-flat {
+  text-decoration: none;
+  border: 2px solid #fff;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.adminpanel__button-flat:hover {
+  color: #16a085;
+}
+.adminpanel__button-flat:disabled:hover {
+  color: #7c7c7c;
+}
+.adminpanel__button-flat:focus {
+  color: #16a085;
 }
 
 @media (min-width: 992px) {

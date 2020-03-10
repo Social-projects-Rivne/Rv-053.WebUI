@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
@@ -303,16 +303,16 @@ exports.filterEvent = async (req, res) => {
     });
 };
 
-exports.banEvent = async (req, res) => {
+exports.rejectEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);
-    if (event.status != STATUS_ACTIVE) {
+    if (event.status === STATUS_BANNED) {
       return res.status(400).send({
-        message: 'Event is not Active'
+        message: 'Event is already rejected'
       });
     }
     await event.update({ status: STATUS_BANNED });
-    res.status(201).json({ status: 'success' });
+    res.status(201).json({ status: 'Rejected' });
   } catch (err) {
     res.status(400).send({
       message: err.message || 'Bad request'
@@ -320,19 +320,61 @@ exports.banEvent = async (req, res) => {
   }
 };
 
-exports.unbanEvent = async (req, res) => {
+exports.activateEvent = async (req, res) => {
   try {
     let event = await Event.findByPk(req.params.id);
-    if (event.status != STATUS_BANNED) {
+    if (event.status === STATUS_ACTIVE) {
       return res.status(400).send({
-        message: 'Event is not Banned'
+        message: 'Event is already active'
       });
     }
     await event.update({ status: STATUS_ACTIVE });
-    res.status(201).json({ status: 'success' });
+    res.status(201).json({ status: 'Active' });
   } catch (err) {
     res.status(400).send({
       message: err.message || 'Bad request'
     });
   }
+};
+exports.deleteEvent = async (req, res) => {
+  try {
+    let event = await Event.findByPk(req.params.id);
+    if (event.status === STATUS_DELETED) {
+      return res.status(400).send({
+        message: 'Event is already deleted'
+      });
+    }
+    await event.update({ status: STATUS_DELETED });
+    res.status(201).json({ status: 'DELETED' });
+  } catch (err) {
+    res.status(400).send({
+      message: err.message || 'Bad request'
+    });
+  }
+};
+
+exports.getQuantityFollowedOnEventUsers = async (req, res) => {
+  const id = req.params.id;
+  await UserEvent.findAll({
+    where: {
+      event_id: id
+    },
+
+    attributes: [
+      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
+    ]
+  })
+    .then(async resultRow => {
+      if (resultRow === null) {
+        res.status(404).send({
+          message: 'Event not found'
+        });
+      }
+      res.status(200).json(resultRow[0]);
+    })
+    .catch(err => {
+      res.status(404).send({
+        message: err.message || 'Not found'
+      });
+    });
 };

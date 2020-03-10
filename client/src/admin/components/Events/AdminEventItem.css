@@ -21,4 +21,9 @@
 }
 .adminpanel__badge-button {
   cursor: pointer;
+  border: none;
+  outline: none;
+}
+.adminpanel__badge-button:focus {
+  outline: none;
 }

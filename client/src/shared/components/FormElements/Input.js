@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect, useCallback, useRef } from 'react';
-import Selector from '../FormElements/Select';
+import React, { useReducer, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 
+import { validate } from '../../utilities/validation';
 import Password from './InputChildrens/Password';
 import Phone from './InputChildrens/Phone';
-import { validate } from '../../utilities/validation';
 import RollingAnimation from '../UI/Animations/RollingAnimation';
 import ShakingAnimation from '../UI/Animations/ShakingAnimation';
 import './Input.css';
@@ -29,6 +28,7 @@ const reducer = (state, action) => {
 };
 
 const Input = props => {
+  const textareaRef = useRef(null);
   const texareaLabelRef = useRef(null);
   const initialState = {
     value: props.initValue || '',
@@ -42,7 +42,6 @@ const Input = props => {
   };
 
   const typingHandler = event => {
-    // console.log(event.target.type);
     if (event.target.type === 'file') {
       dispatch({
         type: 'TYPING',
@@ -58,19 +57,25 @@ const Input = props => {
     }
   };
 
-  const keyDownHandler = event => {
-    event.target.style.height = 'inherit';
-    event.target.style.height = `${event.target.scrollHeight}px`;
-    event.target.style.height = `${Math.min(event.target.scrollHeight, 300)}px`;
+  const keyDownHandler = useCallback(() => {
+    if (!textareaRef.current) {
+      return;
+    }
+    textareaRef.current.style.height = 'inherit';
+    textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 300)}px`;
     if (state.value.length < 1 || props.initValue < 1) {
       texareaLabelRef.current.style.bottom = '0px';
       texareaLabelRef.current.style.transition = 'all 0.3s ease';
     } else {
       texareaLabelRef.current.style.transition = 'none';
-      texareaLabelRef.current.style.bottom = `${event.target.scrollHeight - 24}px`;
-      texareaLabelRef.current.style.bottom = `${Math.min(event.target.scrollHeight, 300) - 24}px`;
+      texareaLabelRef.current.style.bottom = `${textareaRef.current.scrollHeight - 24}px`;
+      texareaLabelRef.current.style.bottom = `${Math.min(textareaRef.current.scrollHeight, 300) -
+        24}px`;
     }
-  };
+  }, [props.initValue, state.value.length]);
+  useLayoutEffect(() => {
+    keyDownHandler();
+  }, [keyDownHandler]);
 
   const inputPhoneHandler = useCallback((value, isValid) => {
     dispatch({
@@ -134,6 +139,7 @@ const Input = props => {
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
         rows={1}
+        ref={textareaRef}
         value={state.value}
         onBlur={blurHandler}
         onChange={event => {
@@ -185,16 +191,6 @@ const Input = props => {
         onChange={typingHandler}
         autoComplete="off"
         required
-      />
-    );
-  } else if (props.type === 'select') {
-    inputEl = (
-      <Selector
-        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
-        id={props.id}
-        value={state.value}
-        onBlur={blurHandler}
-        onChange={typingHandler}
       />
     );
   } else if (props.type === 'radio') {

@@ -49,7 +49,7 @@ const UserCategories = () => {
   };
   return (
     <>
-      {userId == 'my' ? (
+      {userId === 'my' ? (
         <div className="profile_categories">
           <div className="categories-list">
             {categories.map(category => (

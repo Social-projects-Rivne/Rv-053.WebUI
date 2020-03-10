@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import Input from '../../../shared/components/FormElements/Input';
 
 const AdminSearchUsers = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,18 +13,24 @@ const AdminSearchUsers = () => {
     history.push(`?quer=${searchQuery}`);
   };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} className='form__search_event'>
-        <input
-          type='text'
-          value={searchQuery}
-          onChange={event => setSearchQuery(event.target.value)}
-          className='header__search'
-          placeholder='Search user..'
-        />
+  const inputHandler = useCallback((id, value, isValid) => {
+    setSearchQuery(value);
+  }, []);
 
-        <button type='submit' value='' className='header__submit'></button>
+  return (
+    <div className="mb-1">
+      <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
+        <div style={{ width: '90%', display: 'inline-block', marginTop: '-1rem' }}>
+          <Input
+            id="searchuser"
+            type="input"
+            label="Search user"
+            onInput={inputHandler}
+            validations={[]}
+          />
+        </div>
+
+        <button type="submit" value="" className="adminpanel__search-btn"></button>
       </form>
     </div>
   );

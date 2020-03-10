@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import { GET_ALL } from "./DateReducer";
-import { DateRangesContext } from "./DateRangesContext";
+import React, { useContext, useEffect } from 'react';
+import { GET_ALL } from './DateReducer';
+import { DateRangesContext } from './DateRangesContext';
 
 const DateFilter = props => {
   const { dateRanges, dispatch } = useContext(DateRangesContext);
@@ -16,19 +16,16 @@ const DateFilter = props => {
     dispatch({
       type: GET_ALL
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
-      <select
-        className='form-control form-control-lg col-md-4 mx-auto'
-        onChange={handleDate}
-      >
+      <select className="form-control form-control-lg col-md-4 mx-auto" onChange={handleDate}>
         {dateRanges.map(item => (
           <option
-            className='dropdown-item'
-            style={{ color: "#16a085" }}
-            type='button'
+            className="dropdown-item"
+            style={{ color: '#16a085' }}
+            type="button"
             key={item.id}
             value={item.type}
           >
