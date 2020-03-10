@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -7,20 +7,22 @@ import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 
 const FollowedEventList = () => {
-  const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const userId = useParams().userId;
   const [events, setEvents] = useState([]);
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
   const getEvents = useCallback(async () => {
     const res = await axios.get(api_server_url + '/api/user/followed-events', {
       headers
     });
     setEvents(res.data.data.followedEvent);
-  }, []);
+  }, [headers]);
 
   const unfollowFromEvent = async id => {
     await axios
