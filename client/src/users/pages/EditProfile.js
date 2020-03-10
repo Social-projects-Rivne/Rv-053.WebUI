@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -9,7 +9,6 @@ import { AuthContext } from './../../shared/context/auth-context';
 import EditForm from './../components/EditForm';
 
 const EditProfile = () => {
-  const refAvatar = useRef(null);
   const accessToken = useContext(AuthContext).token;
   const [userDataState, setUserDataState] = useState();
   const history = useHistory();
@@ -123,7 +122,6 @@ const EditProfile = () => {
           submitFormHandler={submitFormHandler}
           user={userDataState}
           removePhoto={removePhoto}
-          refAvatar={refAvatar}
         />
       ) : null}
     </>

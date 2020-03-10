@@ -226,17 +226,18 @@ exports.updateProfile = async (req, res) => {
 };
 exports.updateAvatar = async (req, res) => {
   try {
-    console.log('AAAAAAAAa');
     const user = await User.findOne({ where: { id: req.userId } });
     let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
     await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });
-    fs.unlink('.' + oldAvatar, err => {
-      if (err) {
-        console.log('failed to delete local image:' + err);
-      } else {
-        console.log('successfully deleted local image');
-      }
-    });
+    if (oldAvatar) {
+      fs.unlink('.' + oldAvatar, err => {
+        if (err) {
+          console.log('failed to delete local image:' + err);
+        } else {
+          console.log('successfully deleted local image');
+        }
+      });
+    }
     res.status(200).json({
       status: 'success'
     });
@@ -249,13 +250,15 @@ exports.deleteAvatar = async (req, res) => {
     const user = await User.findOne({ where: { id: req.userId } });
     let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
     await user.update({ avatar: '' });
-    fs.unlink('.' + oldAvatar, err => {
-      if (err) {
-        console.log('failed to delete local image:' + err);
-      } else {
-        console.log('successfully deleted local image');
-      }
-    });
+    if (oldAvatar) {
+      fs.unlink('.' + oldAvatar, err => {
+        if (err) {
+          console.log('failed to delete local image:' + err);
+        } else {
+          console.log('successfully deleted local image');
+        }
+      });
+    }
     res.status(200).json({
       status: 'success'
     });

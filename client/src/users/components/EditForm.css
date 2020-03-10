@@ -3,7 +3,6 @@
   font-family: 'Quicksand', sans-serif;
   margin-bottom: 20px;
 }
-
 .input_wrapper-number {
   display: flex;
   justify-content: space-between;
@@ -35,4 +34,8 @@
   border-radius: 15px;
   display: block;
   background-color: #16a085;
+}
+.card_wrapper {
+  margin: 60px auto;
+  max-width: 700px;
 }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { api_server_url } from './../../shared/utilities/globalVariables';
 import { AuthContext } from './../../shared/context/auth-context';
 import Button from './../../shared/components/UI/Button';
+import Card from './../../shared/components/UI/Card';
 import EditAvatarForm from '../components/EditAvatarForm';
 
 import './EditAvatar.css';
@@ -50,17 +51,19 @@ const EditAvatar = () => {
   };
 
   return (
-    <div>
+    <Card className="card_wrapper">
       {userDataState ? (
-        <div className="container div-uploadAvatar">
+        <div>
           <h2 className="update-title">Upload Avatar</h2>
           <EditAvatarForm key={userDataState.id} refAvatar={refAvatar} user={userDataState} />
-          <Button onClick={() => history.push('/editprofile')}>Close</Button>
-          &nbsp;
-          <Button onClick={() => uploadPhoto()}>Save changes</Button>
+          <div className="avatar-buttons">
+            <Button onClick={() => history.push('/editprofile')}>Close</Button>
+            &nbsp;
+            <Button onClick={() => uploadPhoto()}>Save changes</Button>
+          </div>
         </div>
       ) : null}
-    </div>
+    </Card>
   );
 };
 

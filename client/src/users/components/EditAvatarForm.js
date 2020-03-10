@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
-
 import './EditAvatarForm.css';
 
 const EditAvatar = ({ refAvatar, user: { avatar } }) => {
