@@ -36,21 +36,3 @@
   display: block;
   background-color: #16a085;
 }
-.modal {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-.modal .modal-dialog {
-  position: fixed;
-  top: 5%;
-  left: 10%;
-  right: 10%;
-  bottom: 10%;
-  margin: 0;
-  max-width: 5000px;
-  min-width: 320px;
-}
-.modal-dialog .modal-content {
-  width: 100%;
-  min-height: 70%;
-  background-color: rgb(243, 253, 251);
-}

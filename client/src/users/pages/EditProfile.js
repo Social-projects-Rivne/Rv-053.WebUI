@@ -114,25 +114,6 @@ const EditProfile = () => {
       headers
     });
   };
-  const uploadPhoto = async e => {
-    if (refAvatar !== null) {
-      refAvatar.current.getImageScaledToCanvas().toBlob(async function(blob) {
-        let formdata = new FormData();
-        formdata.append('avatar', blob, 'avatar.png');
-        const headers = {
-          Authorization: 'Bearer ' + accessToken,
-          'Content-Type': 'multipart/form-data'
-        };
-        const res = await axios.put(api_server_url + '/api/user/avatar/', formdata, {
-          headers
-        });
-      });
-      setUserDataState({
-        ...userDataState,
-        avatar: refAvatar.current.getImageScaledToCanvas().toDataURL()
-      });
-    }
-  };
 
   return (
     <>
@@ -141,7 +122,6 @@ const EditProfile = () => {
           inputHandler={inputHandler}
           submitFormHandler={submitFormHandler}
           user={userDataState}
-          uploadPhoto={uploadPhoto}
           removePhoto={removePhoto}
           refAvatar={refAvatar}
         />

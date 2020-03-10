@@ -226,6 +226,7 @@ exports.updateProfile = async (req, res) => {
 };
 exports.updateAvatar = async (req, res) => {
   try {
+    console.log('AAAAAAAAa');
     const user = await User.findOne({ where: { id: req.userId } });
     let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
     await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });

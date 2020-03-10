@@ -14,6 +14,7 @@ import MainPage from '../../../events/pages/MainPage';
 import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
 import EditEvent from '../../../events/pages/EditEvent';
+import EditAvatar from '../../../users/pages/EditAvatar';
 
 const Routes = () => {
   return (
@@ -41,6 +42,9 @@ const Routes = () => {
             </Route>
             <Route path="/editprofile">
               <PageLayout innerComponent={<EditProfile />} />
+            </Route>
+            <Route path="/editavatar">
+              <PageLayout innerComponent={<EditAvatar />} />
             </Route>
             <Route path="/redirect">
               <PageLayout innerComponent={<Notificator />} />
