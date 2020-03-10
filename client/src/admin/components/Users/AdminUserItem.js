@@ -95,7 +95,9 @@ const AdminUserItem = props => {
   return (
     <li className="adminpanel__user-list">
       <div className="row adminpanel__row align-items-center text-center mt-2">
-        <div className="col-lg-3 adminpanel__col">
+        <div
+          className={props.collapseState ? 'col-lg-5 adminpanel__col' : 'col-lg-3 adminpanel__col'}
+        >
           <div className="d-flex adminpanel__lg-justify-content-center">
             <div className="float-right mr-3 pl-3">
               <img
@@ -112,14 +114,27 @@ const AdminUserItem = props => {
             </div>
           </div>
         </div>
-        <div className="col-lg-4 adminpanel__col adminpanel__lg-justify-content-center">
+        <div
+          className={
+            props.collapseState
+              ? 'col-lg-5 adminpanel__col adminpanel__lg-justify-content-center'
+              : 'col-lg-4 adminpanel__col adminpanel__lg-justify-content-center'
+          }
+        >
           <p className="adminpanel__float-left">{props.userInfo.email}</p>
         </div>
-
-        <div className="col-lg-2 adminpanel__col">
+        <div
+          className={
+            props.collapseState ? 'col-lg-2 adminpanel__col hide' : 'col-lg-2 adminpanel__col '
+          }
+        >
           <p className="adminpanel__float-left">{props.userInfo.phone}</p>
         </div>
-        <div className="col-lg-2 adminpanel__col">
+        <div
+          className={
+            props.collapseState ? 'col-lg-3 adminpanel__col hide' : 'col-lg-2 adminpanel__col'
+          }
+        >
           <button
             className="adminpanel__float-left cursor-pointer adminpanel__button-flat"
             onFocus={roleFlagHandler}
@@ -139,7 +154,9 @@ const AdminUserItem = props => {
             className=""
           />
         </div>
-        <div className="col-lg-1 adminpanel__col">
+        <div
+          className={props.collapseState ? 'col-lg-2 adminpanel__col' : 'col-lg-1 adminpanel__col'}
+        >
           <p
             className={
               'text-uppercase badge ' +
@@ -154,46 +171,51 @@ const AdminUserItem = props => {
           </p>
         </div>
       </div>
-
-      <RollingAnimation triger={extraInfoFlag} mountOnEnter unmountOnExit>
-        <div className="row adminpanel__row text-center mb-3 pt-2 align-items-center">
-          <div className="col-lg-3 adminpanel__col"></div>
-          <div className="col-lg-4 adminpanel__col">
-            <p className="adminpanel__float-left">
-              Birthday:{' '}
-              {props.userInfo.birthday
-                ? moment(+props.userInfo.birthday)
-                    .format('DD MM YYYY')
-                    .split(' ')
-                    .join('.')
-                : 'Unknown'}
-            </p>
-          </div>
-          <div className="col-lg-2 adminpanel__col">
-            <p className="adminpanel__float-left">Sex: {props.userInfo.sex}</p>
-          </div>
-          <div className="col-lg-3 adminpanel__col">
-            <button
-              className="button-danger adminpanel__float-right"
-              onClick={banHandler}
-              disabled={!checkUserAccess() && (userRole === 'Admin' || userRole === 'Moderator')}
+      {!props.collapseState ? (
+        <>
+          <RollingAnimation triger={extraInfoFlag} mountOnEnter unmountOnExit>
+            <div className="row adminpanel__row text-center mb-3 pt-2 align-items-center">
+              <div className="col-lg-3 adminpanel__col"></div>
+              <div className="col-lg-4 adminpanel__col">
+                <p className="adminpanel__float-left">
+                  Birthday:{' '}
+                  {props.userInfo.birthday
+                    ? moment(+props.userInfo.birthday)
+                        .format('DD MM YYYY')
+                        .split(' ')
+                        .join('.')
+                    : 'Unknown'}
+                </p>
+              </div>
+              <div className="col-lg-2 adminpanel__col">
+                <p className="adminpanel__float-left">Sex: {props.userInfo.sex}</p>
+              </div>
+              <div className="col-lg-3 adminpanel__col">
+                <button
+                  className="button-danger adminpanel__float-right"
+                  onClick={banHandler}
+                  disabled={
+                    !checkUserAccess() && (userRole === 'Admin' || userRole === 'Moderator')
+                  }
+                >
+                  {userStatus === 'Banned' ? 'unban' : 'ban'}
+                </button>
+              </div>
+            </div>
+          </RollingAnimation>
+          <div className="row adminpanel__row">
+            <span
+              className={
+                'col-12 adminpanel__toggler-icon ' +
+                (extraInfoFlag ? 'adminpanel__toggler-icon_expanded' : '')
+              }
+              onClick={extraInfoFlagHandler}
             >
-              {userStatus === 'Banned' ? 'unban' : 'ban'}
-            </button>
+              {extraInfoFlag ? <>&#8657;</> : <>&#8659;</>}
+            </span>
           </div>
-        </div>
-      </RollingAnimation>
-      <div className="row adminpanel__row">
-        <span
-          className={
-            'col-12 adminpanel__toggler-icon ' +
-            (extraInfoFlag ? 'adminpanel__toggler-icon_expanded' : '')
-          }
-          onClick={extraInfoFlagHandler}
-        >
-          {extraInfoFlag ? <>&#8657;</> : <>&#8659;</>}
-        </span>
-      </div>
+        </>
+      ) : null}
     </li>
   );
 };
