@@ -2,11 +2,8 @@ import React, { useState, useCallback } from 'react';
 
 import AdminUserItem from './AdminUserItem';
 import Pagination from '../../../shared/components/UI/Pagination';
-import { useLocation } from 'react-router-dom';
+import useQuery from '../../../shared/utilities/useQuery';
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 const AdminUsersList = () => {
   const urlParams = useQuery();
   const searchQuery = urlParams.get('quer');

@@ -204,58 +204,23 @@ exports.deleteEvent = async (req, res) => {
 };
 
 exports.searchEvent = async (req, res) => {
-  const limit = req.query.limit || 100;
-  const offset = req.query.offset || 0;
-  let searchQuery = null;
-  if (req.query.q) {
-    searchQuery = {
-      status: STATUS_ACTIVE,
-      [Op.or]: [
-        { name: { [Op.iLike]: `%${req.query.q}%` } },
-        { description: { [Op.iLike]: `%${req.query.q}%` } }
-      ]
-    };
-  } else {
-    searchQuery = { status: STATUS_ACTIVE };
-  }
-
-  await Event.findAndCountAll({
-    where: searchQuery,
-    offset,
-    limit,
-    include: [
-      {
-        model: User,
-        attributes: ['first_name', 'last_name']
-      },
-      {
-        model: Categories,
-        attributes: ['category', 'parent_id']
-      }
-    ],
-    order: [
-      ['datetime', 'DESC'],
-      ['id', 'DESC']
-    ]
-  })
-    .then(events => {
-      Redis.addUrlInCache(req.originalUrl, events);
-      res.status(200).json(events);
-    })
-    .catch(err => {
-      res.status(400).send({
-        message: err.message || 'Bad Request'
-      });
-    });
-};
-
-exports.filterEvent = async (req, res) => {
   const limit = req.query.limit || null;
   const offset = req.query.offset || 0;
   const startDate = req.query.startDate || null;
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
-  let searchQuery = { status: STATUS_ACTIVE };
+
+  let searchQuery = {
+    status: STATUS_ACTIVE
+  };
+
+  if (req.query.q) {
+    searchQuery[Op.or] = [
+      { name: { [Op.iLike]: `%${req.query.q}%` } },
+      { description: { [Op.iLike]: `%${req.query.q}%` } }
+    ];
+  }
+
   let includeQuery = [
     {
       model: User,

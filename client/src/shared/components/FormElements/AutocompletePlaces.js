@@ -5,20 +5,21 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 
-const AutocompletePlaces = () => {
+const AutocompletePlaces = props => {
   const [address, setAddress] = useState('');
   const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null
   });
 
-  const handleChange = address => {
-    setAddress(address);
-  };
+  // const handleChange = address => {
+  //   setAddress(address);
+  // };
 
   const handleSelect = async value => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
+    console.log(value);
     setAddress(value);
     setCoordinates(latLng);
   };
@@ -26,7 +27,7 @@ const AutocompletePlaces = () => {
   return (
     <PlacesAutocomplete
       value={address}
-      onChange={handleChange}
+      onChange={setAddress}
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
@@ -40,6 +41,19 @@ const AutocompletePlaces = () => {
               className: 'location-search-input'
             })}
           />
+          {/* <Input
+            style={{ width: '100%' }}
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input'
+            })}
+            id='address'
+            type='input'
+            label='Address'
+            validations='true'
+            onInput={props.onInputHandler}
+            errorMessage='The field is required'
+          /> */}
           <div className='autocomplete-dropdown-container'>
             {loading && <div>Loading...</div>}
             {suggestions.map(suggestion => {
