@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useCallback, useMemo } from 're
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import EventResultItem from './../../../events/pages/EventResultItem';
 import EventItemFollowed from './EventItemFollowed';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
@@ -52,13 +53,19 @@ const FollowedEventList = () => {
           <h3 className="profile-title">Followed events</h3>
           {events.length > 0 ? (
             events.map(event => (
-              <EventItemFollowed
+              <EventResultItem
                 key={event['event.id']}
+                className="list__events-item card event_slider-item"
                 id={event['event.id']}
-                title={event['event.name']}
-                date={event['event.datetime']}
-                unfollowFromEvent={unfollowFromEvent}
-              />
+                name={event['event.name']}
+                // category={event.categories[0].category}
+                description={event['event.description']}
+                location={event['event.location']}
+                datetime={event['event.datetime']}
+                cover={event['event.cover']}
+                price={event['event.price']}
+                unfollowFromEvent={()=>unfollowFromEvent(event['event.id'])}
+            />
             ))
           ) : (
             <p>You haven`t followed any events</p>

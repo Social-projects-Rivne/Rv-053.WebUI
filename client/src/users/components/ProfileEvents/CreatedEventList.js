@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
+import EventResultItem from './../../../events/pages/EventResultItem'; 
 import EventItemCreated from './EventItemCreated';
 
 const CreatedEventList = () => {
@@ -55,15 +56,22 @@ const CreatedEventList = () => {
   return (
     <div className="event_list-item">
       <h3 className="profile-title">Created events</h3>
+      {console.log(events)}
       {events.length > 0 ? (
         events.map(event => (
-          <EventItemCreated
-            key={event['id']}
-            id={event['id']}
-            title={event['name']}
-            date={event['datetime']}
+          <EventResultItem
+            key={event.id}
+            className="list__events-item card event_slider-item"
+            id={event.id}
+            name={event.name}
+            // category={event.categories[0].category}
+            description={event.description}
+            location={event.location}
+            datetime={event.datetime}
+            cover={event.cover}
+            price={event.price}
             deleteEvent={deleteEvent}
-          /> 
+         /> 
         ))
       ) : (
         <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>

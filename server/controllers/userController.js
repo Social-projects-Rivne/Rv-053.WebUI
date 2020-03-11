@@ -171,12 +171,16 @@ exports.getFollowedEvents = async (req, res) => {
       where: { user_id: req.userId },
       raw: true,
       attributes: [],
-      include: [{ model: Event, where: { status: EVENT_ACTIVE } }]
+      include: [
+        { 
+          model: Event, where: { status: EVENT_ACTIVE }},
+          // {model: Category}
+      ]
     });
     res.status(200).json({
       status: 'success',
       data: {
-        followedEvent
+        followedEvent 
       }
     });
   } catch (err) {

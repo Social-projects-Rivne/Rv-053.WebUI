@@ -5,11 +5,6 @@
 .slick-slide div .list__events-item.card {
   margin: 20px auto;
 }
-.soon__events-item {
-  max-width: 300px !important;
-  margin: 0px auto;
-}
-
 .slick-arrow,
 .slick-arrow:hover,
 .slick-arrow:focus {
