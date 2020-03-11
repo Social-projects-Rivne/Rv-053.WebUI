@@ -136,7 +136,11 @@ exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
       where: { owner_id: req.userId, status: { [Op.ne]: EVENT_DELETED } },
-      raw: true
+      include: [
+        {
+          model: Category
+        }
+      ]
     });
     res.status(200).json({
       status: 'success',
@@ -169,12 +173,13 @@ exports.getFollowedEvents = async (req, res) => {
   try {
     const followedEvent = await UserEvent.findAll({
       where: { user_id: req.userId },
-      raw: true,
       attributes: [],
       include: [
         { 
-          model: Event, where: { status: EVENT_ACTIVE }},
-          // {model: Category}
+          model: Event, where: { status: EVENT_ACTIVE },
+          include: [{model: Category}]
+        },
+          
       ]
     });
     res.status(200).json({

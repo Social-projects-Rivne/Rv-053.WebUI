@@ -160,6 +160,9 @@
     padding: 7px 15px;
   }
 }
+.slick-slide div .list__events-item.card.event_slider-item.profile{
+  margin: 20px;
+}
 @media (max-width: 470px) {
   .event_date {
     display: none;
