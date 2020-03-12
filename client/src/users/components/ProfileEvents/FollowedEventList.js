@@ -51,7 +51,7 @@ const FollowedEventList = () => {
         <div className="event_list-item">
           <div className="profile-title">
             <span>Followed events</span>
-            <NavLink to="/pastevents" className="icon-shopping-bag link"></NavLink>
+            <NavLink to="/pastevents" className="icon-inbox link"></NavLink>
           </div>
           {events.length > 0 ? (
             events.map(event => (

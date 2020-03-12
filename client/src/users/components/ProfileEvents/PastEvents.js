@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import {api_server_url} from '../../../shared/utilities/globalVariables';
 import {AuthContext} from '../../../shared/context/auth-context';
+import ScrollToTop from '../../../shared/components/UI/ScrollToTop'
 import EventResultItem from '../../../events/pages/EventResultItem';
 
 const PastEvents = () => {
@@ -28,32 +29,35 @@ const PastEvents = () => {
       }, [accessToken, getPastEvents]);
 
     return(
-        <div className="my__container">
-            <div className="past-evnts__top">
-                Tell us how was it going?
+        <>
+            <ScrollToTop />
+            <div className="my__container">
+                <div className="past-evnts__top">
+                    Tell us how was it going?
+                </div>
+                <div className="list__events-items">
+                    {pastEvents  ?
+                        pastEvents.map(event => 
+                            <EventResultItem 
+                                className="list__events-item past-event"
+                                key={event.event.id}
+                                id={event.event.id}
+                                name={event.event.name}
+                                description={event.event.description}
+                                category={event.event.categories[0].category}
+                                datetime={event.event.datetime}
+                                location={event.event.location}
+                                cover={event.event.cover}
+                                price={event.event.price}
+                                owner_id={event.user.id}
+                                first_name={event.user.first_name}
+                            />
+                        )
+                    :<p>You haven't got past events or the lasted more then month ago</p>
+                    }
+                </div>
             </div>
-            <div className="list__events-items">
-                {pastEvents  ?
-                    pastEvents.map(event => 
-                        <EventResultItem 
-                            className="list__events-item past-event"
-                            key={event.event.id}
-                            id={event.event.id}
-                            name={event.event.name}
-                            description={event.event.description}
-                            category={event.event.categories[0].category}
-                            datetime={event.event.datetime}
-                            location={event.event.location}
-                            cover={event.event.cover}
-                            price={event.event.price}
-                            owner_id={event.user.id}
-                            first_name={event.user.first_name}
-                        />
-                    )
-                :<p>You haven't got past events or the lasted more then month ago</p>
-                }
-            </div>
-        </div>
+        </>
     )
 }
 
