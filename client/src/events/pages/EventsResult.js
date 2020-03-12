@@ -88,8 +88,17 @@ const EventsResult = () => {
                         className={
                           toggleListState.list ? 'list__events-item' : 'list__events-item card'
                         }
-                        event={event}
-                      />
+                        id={event.id}
+                        name={event.name}
+                        description={event.description}
+                        category={event.categories[0].category}
+                        datetime={event.datetime}
+                        location={event.location}
+                        cover={event.cover}
+                        price={event.price}
+                        owner_id={event.user.id}
+                        first_name={event.user.first_name}
+                  />
                     );
                   })
                 ) : (

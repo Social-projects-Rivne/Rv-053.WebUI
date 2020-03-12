@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 import EventItemFollowed from './EventItemFollowed';
@@ -49,7 +49,10 @@ const FollowedEventList = () => {
     <>
       {userId === 'my' ? (
         <div className="event_list-item">
-          <h3 className="profile-title">Followed events</h3>
+          <div className="profile-title">
+            <span>Followed events</span>
+            <NavLink to="/pastevents" className="icon-shopping-bag link"></NavLink>
+          </div>
           {events.length > 0 ? (
             events.map(event => (
               <EventItemFollowed
