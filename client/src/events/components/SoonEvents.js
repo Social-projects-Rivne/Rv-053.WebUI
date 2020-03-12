@@ -24,7 +24,7 @@ const SoonEvents = () => {
       <div className="my__container">
         <div className="soon__events-inner">
           <div className="soon__events-title">Coming soon...</div>
-          <MySlider>
+          <MySlider slidesToShow="4" slidesToScroll="4" dots={true} >
             {soonEventsState
               ? soonEventsState.map(event => (
                   <EventResultItem

@@ -1,6 +1,9 @@
 .slick-track {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+}
+.slick-slide {
+  width: 200px;
 }
 .slick-slide div .list__events-item.card {
   margin: 20px auto;
@@ -29,6 +32,4 @@
 .slick-next:focus {
   right: 10px;
 }
-.slick-slide {
-  width: 200px;
-}
+
