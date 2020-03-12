@@ -200,7 +200,6 @@ const Input = props => {
         id={props.id}
         value={props.value}
         name={props.name}
-        onBlur={blurHandler}
         checked={props.checked}
         onChange={typingHandler}
       />
