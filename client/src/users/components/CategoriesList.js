@@ -1,5 +1,16 @@
-import React, { useReducer } from 'react';
+import React, {
+  useReducer,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+  useCallback
+} from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+import { api_server_url } from '../../shared/utilities/globalVariables';
+import { AuthContext } from '../../shared/context/auth-context';
 
 import CategoryItem from './CategoryItem';
 
@@ -23,16 +34,35 @@ const categoryReducer = (state, action) => {
 };
 
 const UserCategories = () => {
-  const categories = [
-    { id: 1, title: 'Music' },
-    { id: 2, title: 'Sport' },
-    { id: 3, title: 'Films' },
-    { id: 4, title: 'Family' },
-    { id: 5, title: 'Nature' },
-    { id: 6, title: 'Contserts' }
-  ];
+  const [Categories, setCategories] = useState([]);
+  const accessToken = useContext(AuthContext).token;
+
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
+
+  const getCategories = useCallback(async () => {
+    const res = await axios.get(api_server_url + '/api/user/categories', {
+      headers
+    });
+    setCategories(res.data.data.category);
+  }, [headers]);
+
+  useEffect(() => {
+    if (accessToken) {
+      getCategories();
+    }
+  }, [accessToken, getCategories]);
+
+  console.log(Categories);
+
   const userId = useParams().userId;
-  const [addCategoryState, dispatch] = useReducer(categoryReducer, { addedCategories: [] });
+  const [addCategoryState, dispatch] = useReducer(categoryReducer, {
+    addedCategories: []
+  });
 
   const addCategoryHandler = id => {
     if (!addCategoryState.addedCategories.includes(id)) {
@@ -50,12 +80,13 @@ const UserCategories = () => {
   return (
     <>
       {userId === 'my' ? (
-        <div className="profile_categories">
-          <div className="categories-list">
-            {categories.map(category => (
+        <div className='profile_categories'>
+          <h3 className='profile-title'>Categories</h3>
+          <div className='categories-list'>
+            {Categories.map(category => (
               <CategoryItem
                 key={category.id}
-                title={category.title}
+                title={category.category}
                 click={() => addCategoryHandler(category.id)}
                 isAdded={addCategoryState.addedCategories.includes(category.id)}
               />
