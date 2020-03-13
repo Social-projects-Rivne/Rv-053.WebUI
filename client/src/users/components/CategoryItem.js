@@ -5,12 +5,12 @@ const CategoryItem = props => {
     <button
       className={
         props.isAdded
-          ? 'profile_categories-item added'
-          : 'profile_categories-item'
+          ? `profile_categories-item added + ${props.icon}`
+          : `profile_categories-item + ${props.icon}`
       }
       onClick={props.click}
     >
-      {props.title}
+      {' ' + props.title}
     </button>
   );
 };

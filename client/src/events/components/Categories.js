@@ -69,12 +69,12 @@ const Categories = () => {
     }
   ];
   return (
-    <section className="categories">
-      <div className="my__container">
-        <div className="categories-title">
+    <section className='categories'>
+      <div className='my__container'>
+        <div className='categories-title'>
           Discover <span>us</span> - Discover <span>Yourself</span>
         </div>
-        <div className="categories-items">
+        <div className='categories-items'>
           {categories.map(category => (
             <CategoryItem
               key={category.name}
