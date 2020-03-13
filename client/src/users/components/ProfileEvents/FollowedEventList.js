@@ -50,7 +50,6 @@ const FollowedEventList = () => {
     <>
       {userId === 'my' ? (
         <div className="event_list-item">
-          {console.log(events)}
           <h3 className="profile-title">Followed events</h3>
           <MySlider slidesToShow={events.length === 1 ? 1 : 3 & events.length === 2 ? 2 : 3} dots={true}>
           {events.length > 0 ? (

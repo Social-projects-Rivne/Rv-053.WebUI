@@ -163,9 +163,6 @@
 .slick-slide div .list__events-item.card.event_slider-item.profile{
   margin: 20px auto;
 }
-.profile-title+.slick-slider .slick-slide{
-  width: 400px !important;
-}
 @media (max-width: 470px) {
   .event_date {
     display: none;
