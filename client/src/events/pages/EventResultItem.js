@@ -19,8 +19,7 @@ const EventResultItem = props => {
     .split(' ')
     .join('.');
 
-  const [lat, lon] = props.event.location.split(',');
-  const [address, setAddress] = useState();
+  const [lat, lon] = props.location.split(',');
 
   useEffect(() => {
     const geocodeObj = returnAddress(lat, lon);
