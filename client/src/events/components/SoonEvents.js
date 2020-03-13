@@ -24,13 +24,23 @@ const SoonEvents = () => {
       <div className="my__container">
         <div className="soon__events-inner">
           <div className="soon__events-title">Coming soon...</div>
-          <MySlider>
+          <MySlider slidesToShow="4" slidesToScroll="4" dots={true} >
             {soonEventsState
               ? soonEventsState.map(event => (
                   <EventResultItem
                     key={event.id}
-                    className={'list__events-item card soon__events-item'}
-                    event={event}
+                    className="list__events-item card event_slider-item"
+                        id={event.id}
+                        name={event.name}
+                        category={event.categories[0].category}
+                        description={event.description}
+                        location={event.location}
+                        datetime={event.datetime}
+                        cover={event.cover}
+                        price={event.price}
+                        owner_id={event.owner_id}
+                        owner_first_name={event.user.first_name}
+                        owner_last_name={event.user.last_name}
                   />
                 ))
               : null}
