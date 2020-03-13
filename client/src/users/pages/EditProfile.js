@@ -139,10 +139,6 @@ const EditProfile = () => {
     }
   };
   const removePhoto = async e => {
-    // setUserDataState({
-    //   ...userDataState,
-    //   avatar: ''
-    // });
     setAvatarState('');
     await axios.delete(api_server_url + '/api/user/avatar/', {
       headers

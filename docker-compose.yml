@@ -1,15 +1,15 @@
-version: '3.1'
+version: "3.1"
 services:
   postgres_db:
     image: postgres:12.1
     container_name: db
     restart: always
     ports:
-      - '5444:5432'
+      - "5444:5432"
     environment:
-      POSTGRES_USER: 'event'
-      POSTGRES_PASSWORD: 'defaultpassword'
-      POSTGRES_DB: 'eeeeeventdb'
+      POSTGRES_USER: "event"
+      POSTGRES_PASSWORD: "defaultpassword"
+      POSTGRES_DB: "eeeeeventdb"
     volumes:
       - ./data:/var/lib/postgresql/data
 
@@ -17,7 +17,7 @@ services:
     container_name: redis
     image: redis
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - ./redis:/data
     restart: always
@@ -28,7 +28,7 @@ services:
     build:
       context: ./server
     ports:
-      - '5001:5000'
+      - "5001:5000"
     environment:
       REDIS_HOST: redis
     volumes:
@@ -45,7 +45,7 @@ services:
       context: ./client/
     container_name: clientside
     ports:
-      - '3001:3000'
+      - "3001:3000"
     volumes:
       - ./client:/app
       - /app/node_modules
