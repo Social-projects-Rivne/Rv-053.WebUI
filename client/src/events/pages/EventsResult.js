@@ -77,6 +77,7 @@ const EventsResult = () => {
                     : 'list__events-items card-wrapper'
                 }
               >
+                {console.log(allEvents)}
                 {allEvents[0] ? (
                   allEvents.map(event => {
                     return (
@@ -87,7 +88,17 @@ const EventsResult = () => {
                             ? 'list__events-item'
                             : 'list__events-item card'
                         }
-                        event={event}
+                        id={event.id}
+                        name={event.name}
+                        category={event.categories[0].category}
+                        description={event.description}
+                        location={event.location}
+                        datetime={event.datetime}
+                        cover={event.cover}
+                        price={event.price}
+                        owner_id={event.owner_id}
+                        owner_first_name={event.user.first_name}
+                        owner_last_name={event.user.last_name}
                       />
                     );
                   })

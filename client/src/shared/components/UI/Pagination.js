@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo
+} from 'react';
 import axios from 'axios';
 
 import { AuthContext } from '../../context/auth-context';
@@ -13,12 +19,15 @@ const Pagination = props => {
   const limitItemsOnPage = props.pageItemsLimit ? props.pageItemsLimit : 20;
   const pagesCount = Math.ceil(rowsCount / limitItemsOnPage);
   const accessToken = useContext(AuthContext).token;
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
   const { onDataFetch, api } = props;
-  const getItemsList = async () => {
+  const getItemsList = useCallback(async () => {
     if (api) {
       try {
         const offsetItem = limitItemsOnPage * (page - 1);
@@ -41,7 +50,7 @@ const Pagination = props => {
         console.log(e);
       }
     }
-  };
+  }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
   useEffect(() => {
     getItemsList();

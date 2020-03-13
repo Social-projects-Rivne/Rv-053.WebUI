@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
@@ -7,6 +8,7 @@ import './EventItem.css';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EventItem = props => {
+  const history = useHistory();
   const [address, setAddress] = useState();
   const coordinates = props.event.location.split(',');
   const map = {
@@ -47,37 +49,44 @@ const EventItem = props => {
             <span>Age: </span>
             {props.event.min_age} years
           </div>
-          <h6>
-            Max participants:
+          <div>
+            <span>Participants: </span>
+            {props.quantity} /
             {props.max_participants > 1
               ? ` ${props.event.max_participants} people`
               : ` ${props.event.max_participants} person`}
-          </h6>
-          <button
-            type="button"
-            className="my__button"
-            onClick={() => props.joinEvent(props.id)}
-            disabled={!props.event.isSubscribe ? false : true}
-          >
-            {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
-          </button>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-8 event-item__desctiption">
-          <div className="">
-            <h3>Details</h3>
-            <p>{props.event.description}</p>
+            {props.accessToken ? (
+              <button
+                type="button"
+                className="my__button"
+                onClick={() => props.joinEvent(props.id)}
+                disabled={!props.event.isSubscribe ? false : true}
+              >
+                {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
+              </button>
+            ) : (
+              <button type="button" className="my__button" onClick={() => history.push('/auth')}>
+                Subcribe
+              </button>
+            )}
           </div>
         </div>
-        <div className="col-md-4 event-item__owner">
-          <UserCard owner={props.owner} />
+        <div className="row">
+          <div className="col-md-8 event-item__desctiption">
+            <div className="">
+              <h3>Details</h3>
+              <p>{props.event.description}</p>
+            </div>
+          </div>
+          <div className="col-md-4 event-item__owner">
+            <UserCard owner={props.owner} />
+          </div>
         </div>
-      </div>
 
-      <div className="row">
-        <div className="col-md-12 map-container">
-          <Map center={map} zoom={16} />
+        <div className="row">
+          <div className="col-md-12 map-container">
+            <Map center={map} zoom={16} />
+          </div>
         </div>
       </div>
     </div>

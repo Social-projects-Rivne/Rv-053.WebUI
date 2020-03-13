@@ -15,8 +15,8 @@ const USER_UNBAN = 1;
 
 const findUser = async userId =>
   User.findOne({
-    where: { id: userId },
-    raw: true
+    where: { id: userId }
+    // raw: true
   });
 
 const findCategory = async categoryId =>
@@ -39,10 +39,21 @@ const updateUserStatus = async (user, status_id) =>
 const changeUserStatus = async (req, res, statusId) => {
   try {
     const user = await findUser(req.params.id);
-    await updateUserStatus(user, statusId);
-    res.status(200).json({
-      status: 'success'
-    });
+    if (req.userRole === 'Admin' && req.userId !== user.dataValues.id) {
+      await updateUserStatus(user, statusId);
+      res.status(200).json({
+        status: 'success'
+      });
+    } else if (req.userRole === 'Moderator' && user.dataValues.role === 'User') {
+      await updateUserStatus(user, statusId);
+      res.status(200).json({
+        status: 'success'
+      });
+    } else {
+      res.status(403).json({
+        status: 'No access'
+      });
+    }
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
@@ -125,7 +136,11 @@ exports.getEvents = async (req, res) => {
   try {
     const event = await Event.findAll({
       where: { owner_id: req.userId, status: { [Op.ne]: EVENT_DELETED } },
-      raw: true
+      include: [
+        {
+          model: Category
+        }
+      ]
     });
     res.status(200).json({
       status: 'success',
@@ -158,14 +173,19 @@ exports.getFollowedEvents = async (req, res) => {
   try {
     const followedEvent = await UserEvent.findAll({
       where: { user_id: req.userId },
-      raw: true,
       attributes: [],
-      include: [{ model: Event, where: { status: EVENT_ACTIVE } }]
+      include: [
+        { 
+          model: Event, where: { status: EVENT_ACTIVE },
+          include: [{model: Category}]
+        },
+          
+      ]
     });
     res.status(200).json({
       status: 'success',
       data: {
-        followedEvent
+        followedEvent 
       }
     });
   } catch (err) {

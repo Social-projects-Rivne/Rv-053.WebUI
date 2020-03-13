@@ -4,7 +4,7 @@ const eventController = require('../controllers/eventController');
 const { createEventValidation, validate } = require('../middlewares/validator');
 const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
 const auth = require('../middlewares/authorization');
-const adminAuth = require('../middlewares/adminAuthorization');
+const adminAndModeratorAuth = require('../middlewares/adminAndModeratorAuthorization');
 
 const { uploadCover } = require('../middlewares/upload-images');
 
@@ -26,7 +26,9 @@ router.put(
 );
 router.delete('/:id', auth, eventController.deleteEvent);
 router.get('/:id', eventController.getEventByID);
-router.put('/:id/ban', adminAuth, eventController.banEvent);
-router.put('/:id/unban', adminAuth, eventController.unbanEvent);
+router.put('/:id/reject', adminAndModeratorAuth, eventController.rejectEvent);
+router.put('/:id/activate', adminAndModeratorAuth, eventController.activateEvent);
+router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
+router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 
 module.exports = router;
