@@ -32,15 +32,6 @@ const EditEventForm = props => {
       </div>
       <div className='row'>
         <div className='col-md-6'>
-          {/* <Selector
-            type="select"
-            id="category"
-            label="Category"
-            onInput={props.onInputHandler}
-            validations={[VAL_REQUIRED()]}
-            errorMessage="The field is required"
-            className="form-control"
-          /> */}
           <Selector
             triger={editRoleFlag}
             items={[
@@ -48,7 +39,6 @@ const EditEventForm = props => {
               { icon: '', title: 'Moderator', info: '' },
               { icon: '', title: 'User', info: '' }
             ]}
-            // onChange={userRoleHandler}
             className=''
           />
         </div>
@@ -75,28 +65,6 @@ const EditEventForm = props => {
       />
       <ImageUpload name='cover' onGetImg={props.imageUpload} />
       <div className='row'>
-        {/* <div className="col-md-6">
-          <Input
-            className="form-control"
-            id="address"
-            type="input"
-            onInput={props.onInputHandler}
-            label="Address"
-            validations={[VAL_REQUIRED()]}
-            errorMessage="The field is required"
-          />
-        </div>
-        <div className="col-md-6">
-          <Input
-            className="form-control"
-            id="country"
-            type="input"
-            onInput={props.onInputHandler}
-            label="Country"
-            validations={[VAL_REQUIRED()]}
-            errorMessage="The field is required"
-          />
-        </div> */}
         <AutocompletePlaces className='col-md-6' />
       </div>
       <div className='row'>

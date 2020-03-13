@@ -45,6 +45,7 @@ const Pagination = props => {
 
   useEffect(() => {
     getItemsList();
+    console.log(props.query);
   }, [page, JSON.stringify(props.query)]);
 
   const formPageNumbers = (start, end) => {

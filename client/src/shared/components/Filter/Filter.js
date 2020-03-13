@@ -16,7 +16,7 @@ const Filter = () => {
 
   const queryMap = useQuery();
   const queryObject = mapToObject(queryMap);
-  console.log(queryObject);
+
   const filterParams = {
     startDate,
     endDate,
@@ -24,9 +24,8 @@ const Filter = () => {
   };
 
   const searchParams = mergeObjects(queryObject, filterParams);
-  console.log(searchParams);
-  const url = toSearchString(searchParams.obj);
-  console.log(url);
+  const url = toSearchString(searchParams);
+
   useEffect(() => {
     filterHistory.push(`/events?${url}`);
   }, [url, filterHistory]);
