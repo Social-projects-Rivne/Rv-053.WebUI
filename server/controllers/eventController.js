@@ -125,7 +125,7 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin') {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       cover = cover || req.file.path;
       event
         .update({
@@ -360,9 +360,7 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {

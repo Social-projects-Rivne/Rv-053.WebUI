@@ -73,7 +73,7 @@ const EditEvent = () => {
             isValid: true
           },
           price: {
-            value: res.data.price,
+            value: res.data.price.match(/\d+/),
             isValid: true
           },
           age: {
@@ -121,7 +121,7 @@ const EditEvent = () => {
           max_participants: formState.inputs.amount.value,
           min_age: formState.inputs.age.value,
           cover: formState.inputs.cover.value,
-          price: formState.inputs.price.value
+          price: formState.inputs.price.value ? formState.inputs.price.value + ' UAH' : ''
         };
         const res = await axios.put(api_server_url + '/api/events/' + eventID, updatedEventData, {
           headers

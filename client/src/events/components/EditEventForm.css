@@ -18,3 +18,16 @@
   color: #16a085;
   background-color: rgba(0, 0, 0, 0.322);
 }
+.switch__block {
+  margin-top: 1.5rem;
+}
+.input__block {
+  padding-right: 0;
+}
+.switch__label {
+  float: left;
+  margin-top: 27px;
+  margin-left: -15px;
+  color: #16a085;
+  font-weight: 500;
+}
