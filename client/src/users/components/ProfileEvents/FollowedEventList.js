@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState, useCallback, useMemo } from 're
 import { useParams, NavLink } from 'react-router-dom';
 import axios from 'axios';
 
-import EventItemFollowed from './EventItemFollowed';
+import MySlider from '../../../shared/components/UI/MySlider';
+import EventResultItem from './../../../events/pages/EventResultItem';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 
@@ -51,21 +52,30 @@ const FollowedEventList = () => {
         <div className="event_list-item">
           <div className="profile-title">
             <span>Followed events</span>
-            <NavLink to="/pastevents" className="icon-inbox link"></NavLink>
+            <NavLink to="/pastevents" className="icon-inbox button-link"></NavLink>
           </div>
+          {console.log(events)}
+          <MySlider slidesToShow={events.length === 1 ? 1 : 3 & events.length === 2 ? 2 : 3} dots={true}>
           {events.length > 0 ? (
             events.map(event => (
-              <EventItemFollowed
-                key={event['event.id']}
-                id={event['event.id']}
-                title={event['event.name']}
-                date={event['event.datetime']}
-                unfollowFromEvent={unfollowFromEvent}
-              />
+              <EventResultItem
+                key={event.event.id}
+                className="list__events-item card event_slider-item profile"
+                id={event.event.id}
+                name={event.event.name}
+                category={event.event.categories[0].category}
+                description={event.event.description}
+                location={event.event.location}
+                datetime={event.event.datetime}
+                cover={event.event.cover}
+                price={event.event.price}
+                unfollowFromEvent={()=>unfollowFromEvent(event.event.id)}
+            />
             ))
           ) : (
             <p>You haven`t followed any events</p>
           )}
+          </MySlider>
         </div>
       ) : null}
     </>

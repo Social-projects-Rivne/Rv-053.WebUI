@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
+import ConfirmationWindow from '../../shared/components/UI/ConfirmationWindow';
+import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventsResult.css';
 
-import { returnAddress } from '../../shared/components/UI/Geocoding';
-const EventResultItem = props => {
+
+const EventResultItem = props => {  
+  
+  const [address, setAddress] = useState();
+  const [confirmUnfollowFlag, setConfirmUnfollowFlag] = useState(false);
+  const [confirmDeleteFlag, setConfirmDeleteFlag] = useState(false);
   const image = {
     backgroundImage: `url(${props.cover})`
   };
@@ -15,7 +21,6 @@ const EventResultItem = props => {
     .join('.');
 
   const coordinates = props.location.split(',');
-  const [address, setAddress] = useState();
   useEffect(() => {
     const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
     geocodeObj.then(geocodeObj => {
@@ -26,10 +31,34 @@ const EventResultItem = props => {
     });
   }, [coordinates]);
 
-  return (
+  const confirmUnfollow = () => {
+    setConfirmUnfollowFlag(true);
+  }
+  const confirmDelete = () => {
+    setConfirmDeleteFlag(true);
+  }
+  return (<>
+    {
+      confirmUnfollowFlag ? 
+        <ConfirmationWindow
+          message={`Do you want to leave ${props.name} ?`}
+          onYes={()=>props.unfollowFromEvent(props.id)}
+          onNo={()=>setConfirmUnfollowFlag(false)}
+        /> 
+        : null
+    }
+    {
+      confirmDeleteFlag ? 
+        <ConfirmationWindow
+          message={`Do you want to delete ${props.name} ?`}
+          onYes={props.deleteEvent}
+          onNo={()=>setConfirmDeleteFlag(false)}
+        /> 
+        : null
+    }
     <div className={props.className}>
       <NavLink
-        to={'event/' + props.id}
+        to={'/event/' + props.id}
         className="list__events-item-img"
         style={image}
       ></NavLink>
@@ -45,15 +74,30 @@ const EventResultItem = props => {
         <div className="list__events-item-bottom_info">
           <NavLink to={'profile/' + props.owner_id} className="link ">
             <div className="list__events-item-creator">
-              {props.first_name + ' '}
-              {props.last_name}
+              {props.owner_first_name + ' ' || null}
+              {props.owner_last_name || null}
             </div>
           </NavLink>
           <div className="list__events-item-location">{address}</div>
           <div className="list__events-item-date">{datetime}</div>
         </div>
+        {props.unfollowFromEvent? (
+              <div className="list__events-item-panel">
+                <button className="button-link icon-ban" onClick={confirmUnfollow}></button>
+              </div>
+            ) : null
+          }
+          {props.deleteEvent ? (
+            <>
+              <div className="list__events-item-panel">
+                <NavLink className="button-link icon-pencil link" to={`/editevent/${props.id}`}></NavLink>
+                <button className="button-link icon-trash" onClick={confirmDelete}></button>
+              </div>
+          </>
+          ):null
+          }
       </div>
-    </div>
+    </div></>
   );
 };
 
