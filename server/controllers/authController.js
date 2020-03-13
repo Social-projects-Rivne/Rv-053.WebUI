@@ -106,6 +106,64 @@ exports.signIn = async (req, res) => {
   });
 };
 
+exports.confirmPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const userEmail = await User.findOne({
+      where: {
+        email
+      }
+    });
+
+    let payload;
+
+    if (userEmail === null) {
+      res.status(400).json({
+        message: 'Email does not exist!'
+      });
+    } else {
+      payload = { user_id: userEmail.id };
+    }
+
+    const user = {
+      firstName: userEmail.first_name,
+      lastName: userEmail.last_name
+    };
+
+    const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
+      expiresIn: MAIL_TOKEN_EXPIRE_IN
+    });
+    const mailURL = `${process.env.FRONT_HOST}/confirmemail`;
+    const emailOptions = {
+      email,
+      subject: 'Confirm your email to reset password',
+      message: `
+      <div style="max-width:600px; margin:0 auto">
+      <h1>Confirm your email to reset password</h1>
+        <p>
+        Almost done, <strong style="color:#24292e!important">${user.firstName} ${user.lastName}</strong>!
+        To complete reset password,
+      we just need to verify your email address: ${email}
+      </p>
+      <div style="padding:10px; margin:10px;">
+      <a style="min-width:196px;border-top:13px solid;border-bottom:13px solid;
+      border-right:24px solid;border-left:24px solid;border-color:#2ea664;
+      border-radius:4px;background-color:#2ea664;color:#ffffff;font-size:18px;
+      line-height:18px;"
+       href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
+       </div>
+       <p>The confirmation link will expire in 24 hours</p>
+       </div>
+       </div>
+    `
+    };
+    await sendEmail(emailOptions);
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 exports.refreshTokens = async (req, res) => {
   const { refreshToken } = req.cookies;
   let payload;

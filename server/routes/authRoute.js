@@ -2,8 +2,8 @@ const express = require('express');
 const passport = require('passport');
 const passportConf = require('../config/passport');
 const AuthController = require('../controllers/authController');
-const passportSingIn = function (req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
+const passportSingIn = function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err);
     }
@@ -24,11 +24,7 @@ const passportGoogle = passport.authenticate('google', {
 const router = express.Router();
 const auth = require('../middlewares/authorization');
 
-const {
-  loginValidation,
-  registerValidation,
-  validate
-} = require('../middlewares/validator');
+const { loginValidation, registerValidation, validate } = require('../middlewares/validator');
 
 router.post('/register', registerValidation(), validate, AuthController.signUp);
 
@@ -40,6 +36,7 @@ router.post('/logout', AuthController.signOut);
 router.post('/refresh', AuthController.refreshTokens);
 
 router.post('/confirmemail', AuthController.confirmEmail);
+router.post('/password-reset', AuthController.confirmPasswordReset);
 
 router.get('/google', passportGoogle);
 router.get('/google/redirect', passportGoogle, AuthController.signIn);
