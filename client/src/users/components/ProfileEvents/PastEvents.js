@@ -29,7 +29,7 @@ const PastEvents = () => {
       }, [accessToken, getPastEvents]);
 
     return(
-        <>
+        <>{console.log(pastEvents)}
             <ScrollToTop />
             <div className="my__container">
                 <div className="past-evnts__top">
@@ -50,7 +50,7 @@ const PastEvents = () => {
                                 cover={event.event.cover}
                                 price={event.event.price}
                                 owner_id={event.user.id}
-                                first_name={event.user.first_name}
+                                owner_first_name={event.user.first_name}
                             />
                         )
                     :<p>You haven't got past events or the lasted more then month ago</p>
