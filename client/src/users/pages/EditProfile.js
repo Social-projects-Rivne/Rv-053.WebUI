@@ -10,7 +10,7 @@ import EditForm from './../components/EditForm';
 
 const EditProfile = () => {
   const accessToken = useContext(AuthContext).token;
-  const [userDataState, setUserDataState] = useState();
+  const [loadingFlag, setLoadingFlag] = useState(true);
   const history = useHistory();
 
   const headers = useMemo(
@@ -21,77 +21,94 @@ const EditProfile = () => {
   );
   const [formState, inputHandler, setFormData] = useForm(
     {
-      firstname: {
+      first_name: {
         value: '',
         isValid: false
       },
-      lastname: {
+      last_name: {
         value: '',
         isValid: false
       },
       sex: {
         value: '',
-        isValid: true
+        isValid: false
+      },
+      birth_day: {
+        value: '',
+        isValid: false
+      },
+      birth_month: {
+        value: '',
+        isValid: false
+      },
+      birth_year: {
+        value: '',
+        isValid: false
+      },
+      sex: {
+        value: '',
+        isValid: false
       }
     },
     false
   );
 
   const getUserData = useCallback(async () => {
-    const userData = await axios.get(api_server_url + '/api/user/current', {
-      headers
-    });
-    userData.data.data.user.birthday = moment(+userData.data.data.user.birthday).format(
-      'DD MM YYYY'
-    );
-    userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
-    setUserDataState(userData.data.data.user);
-  }, [headers]);
+    try {
+      setLoadingFlag(true);
+      const userData = await axios.get(api_server_url + '/api/user/current', {
+        headers
+      });
+      userData.data.data.user.birthday = moment(+userData.data.data.user.birthday).format(
+        'DD MM YYYY'
+      );
+      userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
 
-  useEffect(() => {
-    if (accessToken) getUserData();
-  }, [accessToken, getUserData]);
-
-  useEffect(() => {
-    if (userDataState) {
       setFormData(
         {
-          firstname: {
-            value: userDataState.first_name,
+          first_name: {
+            value: userData.data.data.user.first_name,
             isValid: true
           },
-          lastname: {
-            value: userDataState.last_name,
+          last_name: {
+            value: userData.data.data.user.last_name,
             isValid: true
           },
           birth_day: {
-            value: userDataState.birthday[0],
+            value: userData.data.data.user.birthday[0],
             isValid: true
           },
           birth_month: {
-            value: userDataState.birthday[1],
+            value: userData.data.data.user.birthday[1],
             isValid: true
           },
           birth_year: {
-            value: userDataState.birthday[2],
+            value: userData.data.data.user.birthday[2],
             isValid: true
           },
           sex: {
-            value: userDataState.sex,
+            value: userData.data.data.user.sex,
             isValid: true
           }
         },
         true
       );
+      setLoadingFlag(false);
+    } catch (err) {
+      console.log(err);
     }
-  }, [userDataState, setFormData]);
+  }, [setFormData, headers]);
+
+  useEffect(() => {
+    if (accessToken) getUserData();
+  }, [accessToken, getUserData]);
 
   const submitFormHandler = async event => {
     event.preventDefault();
     if (formState.formValidity) {
       const updatedUser = {
-        first_name: formState.inputs.firstname.value,
-        last_name: formState.inputs.lastname.value,
+        first_name: formState.inputs.first_name.value,
+        last_name: formState.inputs.last_name.value,
         birthday: moment()
           .date(formState.inputs.birth_day.value)
           .month(formState.inputs.birth_month.value - 1)
@@ -109,11 +126,11 @@ const EditProfile = () => {
   };
   return (
     <>
-      {userDataState ? (
+      {!loadingFlag ? (
         <EditForm
           inputHandler={inputHandler}
           submitFormHandler={submitFormHandler}
-          user={userDataState}
+          user={formState.inputs}
         />
       ) : null}
     </>
