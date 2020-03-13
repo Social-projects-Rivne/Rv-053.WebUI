@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -16,23 +23,25 @@ const EditAvatar = () => {
   const accessToken = useContext(AuthContext).token;
   const [userDataState, setUserDataState] = useState();
 
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
-
-  const getUserData = async () => {
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
+  const getUserData = useCallback(async () => {
     const userData = await axios.get(api_server_url + '/api/user/current', {
       headers
     });
     setUserDataState(userData.data.data.user);
-  };
+  }, [headers]);
 
   useEffect(() => {
     if (accessToken) getUserData();
-  }, [accessToken]);
+  }, [accessToken, getUserData]);
 
   const uploadPhoto = () => {
-    if (refAvatar !== null) {
+    if (refAvatar.current !== null) {
       refAvatar.current.getImageScaledToCanvas().toBlob(async function(blob) {
         let formdata = new FormData();
         formdata.append('avatar', blob, 'avatar.png');
@@ -40,10 +49,14 @@ const EditAvatar = () => {
           Authorization: 'Bearer ' + accessToken,
           'Content-Type': 'multipart/form-data'
         };
-        const res = await axios.put(api_server_url + '/api/user/avatar/', formdata, {
-          headers
-        });
-        if (res.data.status == 'success') {
+        const res = await axios.put(
+          api_server_url + '/api/user/avatar/',
+          formdata,
+          {
+            headers
+          }
+        );
+        if (res.data.status === 'success') {
           history.push('/editprofile');
         }
       });
@@ -51,12 +64,16 @@ const EditAvatar = () => {
   };
 
   return (
-    <Card className="card_wrapper">
+    <Card className='card_wrapper'>
       {userDataState ? (
         <div>
-          <h2 className="update-title">Upload Avatar</h2>
-          <EditAvatarForm key={userDataState.id} refAvatar={refAvatar} user={userDataState} />
-          <div className="avatar-buttons">
+          <h2 className='update-title'>Upload Avatar</h2>
+          <EditAvatarForm
+            key={userDataState.id}
+            refAvatar={refAvatar}
+            user={userDataState}
+          />
+          <div className='avatar-buttons'>
             <Button onClick={() => history.push('/editprofile')}>Close</Button>
             &nbsp;
             <Button onClick={() => uploadPhoto()}>Save changes</Button>
