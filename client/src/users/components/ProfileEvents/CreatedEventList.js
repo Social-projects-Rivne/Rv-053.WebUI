@@ -56,7 +56,6 @@ const CreatedEventList = () => {
   return (
     <div className="event_list-item">
       <h3 className="profile-title">Created events</h3>
-      {console.log(events)}
       <MySlider slidesToShow={events.length === 1 ? 1 : 3 & events.length === 2 ? 2 : 3} dots={true}>
       {events.length > 0 ? (
         events.map(event => (

@@ -8,6 +8,7 @@ import { AuthContext } from './../../shared/context/auth-context';
 import Notificator from './../../shared/components/UI/Notificator';
 import EventItem from '../components/EventItem';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
+import EventFeedbacks from '../components/EventFeedbacks';
 import './EventDetails.css';
 
 const EventDetails = () => {
@@ -74,6 +75,7 @@ const EventDetails = () => {
 
   return (
     <div>
+      {console.log(eventData)}
       <ScrollToTop />
       <Notificator
         className="success-note"
@@ -82,14 +84,19 @@ const EventDetails = () => {
         onExit={closeNoteHandler}
       />
       {eventData ? (
-        <EventItem
-          id={eventData.id}
-          event={eventData}
-          owner={eventData.user}
-          joinEvent={joinEvent}
-          accessToken={accessToken ? true : false}
-          quantity={quantityParticipants}
-        />
+        <>
+          <EventItem
+            id={eventData.id}
+            event={eventData}
+            owner={eventData.user}
+            joinEvent={joinEvent}
+            accessToken={accessToken ? true : false}
+            quantity={quantityParticipants}
+          />
+          <EventFeedbacks 
+            event={eventData}
+          />
+        </>
       ) : (
         <p>Oops, nothing is found...</p>
       )}

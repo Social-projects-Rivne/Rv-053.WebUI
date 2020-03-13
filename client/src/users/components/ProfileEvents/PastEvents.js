@@ -29,7 +29,7 @@ const PastEvents = () => {
       }, [accessToken, getPastEvents]);
 
     return(
-        <>{console.log(pastEvents)}
+        <>
             <ScrollToTop />
             <div className="my__container">
                 <div className="past-evnts__top">

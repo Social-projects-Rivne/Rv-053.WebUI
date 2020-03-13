@@ -6,10 +6,13 @@ const User = require('../models').users;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
 const Redis = require('../services/redisService');
+const eventFeedback = require('../models').eventFeedback;
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
 const STATUS_DELETED = 'Deleted';
+const CURRENT_DATE = new Date().getTime();
+
 
 function checkToken(req) {
   let token;
@@ -24,7 +27,7 @@ function checkToken(req) {
     }
   }
   return result;
-}
+} 
 
 exports.getEventByID = async (req, res) => {
   const id = req.params.id;
@@ -50,6 +53,7 @@ exports.getEventByID = async (req, res) => {
       }
       event = event.toJSON();
       event.isSubscribe = false;
+      event.past = false;
       const authUser = checkToken(req);
       if (authUser.isAuthorization) {
         subscribe = await UserEvent.findOne({
@@ -57,9 +61,19 @@ exports.getEventByID = async (req, res) => {
         });
         if (subscribe !== null) {
           event.isSubscribe = true;
+          event.currentUser_id = authUser.userId;
         }
       }
+      past = await Event.findOne({
+        where: {id: id, datetime: {[Op.lt]: CURRENT_DATE}},
+      })
+      if(past != null){
+        event.past = true;
+      }
 
+
+    
+ 
       //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
@@ -378,3 +392,23 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       });
     });
 };
+exports.leaveFeedback = async (req, res) => {
+  let = {feedbackMessage} = req.body;
+  const feedback = user_event.findOne({
+    where: {user_id: req.userId, event_id: req.eventId}
+  })
+  await eventFeedback.create({
+    user_event_id: feedback.id,
+    feedbackMessage,
+    date: CURRENT_DATE
+  })
+  .then(() => {
+    res.status(200).json({ status: 'Feedback was added successfuly' });
+  })
+  .catch(err => {
+    res.status(404).send({
+      message: err.message || 'Something wrong'
+    });
+  });
+}
+

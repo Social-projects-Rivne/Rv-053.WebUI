@@ -111,7 +111,7 @@ const EditProfile = () => {
           .year(formState.inputs.birth_year.value)
           .valueOf(),
         sex: formState.inputs.sex.value
-      };
+      }; 
       const res = await axios.put(api_server_url + '/api/user/current', updatedUser, {
         headers
       });
