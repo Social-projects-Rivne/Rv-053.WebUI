@@ -116,11 +116,12 @@ exports.getById = async (req, res) => {
   try {
     const user = await User.findOne({
       where: { id: req.params.id },
-      attributes: ['first_name', 'last_name', 'avatar']
+      attributes: ['id', 'first_name', 'last_name', 'avatar']
     });
     const events = await Event.findAll({
       where: { owner_id: req.params.id },
-      attributes: ['id', 'name', 'datetime']
+      attributes: ['id', 'name', 'location', 'datetime', 'price', 'cover'],
+      include: [{model:Category}]
     });
     res.status(200).json({
       status: 'success',

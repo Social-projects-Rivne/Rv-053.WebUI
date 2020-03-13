@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import ConfirmationWindow from '../../shared/components/UI/ConfirmationWindow';
@@ -8,7 +8,7 @@ import './EventsResult.css';
 
 
 const EventResultItem = props => {  
-  
+  const userId = useParams().userId;
   const [address, setAddress] = useState();
   const [confirmUnfollowFlag, setConfirmUnfollowFlag] = useState(false);
   const [confirmDeleteFlag, setConfirmDeleteFlag] = useState(false);
@@ -81,13 +81,13 @@ const EventResultItem = props => {
           <div className="list__events-item-location">{address}</div>
           <div className="list__events-item-date">{datetime}</div>
         </div>
-        {props.unfollowFromEvent? (
+        {props.unfollowFromEvent ? (
               <div className="list__events-item-panel">
                 <button className="button-link icon-ban" onClick={confirmUnfollow}></button>
               </div>
             ) : null
           }
-          {props.deleteEvent ? (
+        {userId === 'my' && props.deleteEvent ? (
             <>
               <div className="list__events-item-panel">
                 <NavLink className="button-link icon-pencil link" to={`/editevent/${props.id}`}></NavLink>
