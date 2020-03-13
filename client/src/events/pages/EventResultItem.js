@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import ConfirmationWindow from '../../shared/components/UI/ConfirmationWindow';
@@ -12,7 +12,6 @@ const EventResultItem = props => {
   const [address, setAddress] = useState();
   const [confirmUnfollowFlag, setConfirmUnfollowFlag] = useState(false);
   const [confirmDeleteFlag, setConfirmDeleteFlag] = useState(false);
-  const userId = useParams().userId;
   const image = {
     backgroundImage: `url(${props.cover})`
   };

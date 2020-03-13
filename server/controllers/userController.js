@@ -12,6 +12,8 @@ const EVENT_ACTIVE = 'Active';
 const EVENT_DELETED = 'Deleted';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
+const CURRENT_DATE = new Date().getTime();
+const MONTH_AGO = new Date().setMonth(new Date().getMonth()-1)
 
 const findUser = async userId =>
   User.findOne({
@@ -176,10 +178,18 @@ exports.getFollowedEvents = async (req, res) => {
       attributes: [],
       include: [
         { 
-          model: Event, where: { status: EVENT_ACTIVE },
-          include: [{model: Category}]
-        },
-          
+          model: Event, 
+          where: 
+            { 
+              status: EVENT_ACTIVE, 
+              datetime: {[Op.gt]: CURRENT_DATE}
+            },
+          include: [
+            {
+              model: Category
+            }
+          ]
+        }
       ]
     });
     res.status(200).json({
@@ -192,6 +202,37 @@ exports.getFollowedEvents = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
+
+exports.getPastEvents = async (req, res) => {
+  try{
+    const pastEvents = await UserEvent.findAll({
+      where: { user_id: req.userId },
+      attributes: [],
+      include: [
+        { 
+          model: Event, 
+          where: { 
+            datetime: {[Op.between]: [ MONTH_AGO , CURRENT_DATE ]}
+          },
+          include: [{model: Category}]
+        },
+        {
+          model: User,
+          attributes: ['id', 'first_name'],
+        },
+
+      ]
+    });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        pastEvents
+      }
+    })
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+}
 
 exports.unfollowFromEvent = async (req, res) => {
   try {
