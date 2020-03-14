@@ -16,7 +16,14 @@ const AddEvent = () => {
     'Content-Type': 'multipart/form-data',
     Authorization: 'Bearer ' + accessToken
   };
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null
+  });
 
+  if (coordinates) {
+    console.log(coordinates);
+  }
   const [notificationState, setNotificationState] = useState({
     message: 'some message',
     show: false
@@ -74,19 +81,29 @@ const AddEvent = () => {
         const createEventData = new FormData();
         createEventData.append('name', formState.inputs.title.value);
         createEventData.append('category', formState.inputs.category.value);
-        createEventData.append('description', formState.inputs.description.value);
+        createEventData.append(
+          'description',
+          formState.inputs.description.value
+        );
         createEventData.append(
           'location',
           `${formState.inputs.address.value}, ${formState.inputs.country.value}`
         );
         createEventData.append('datetime', formState.inputs.date.value);
-        createEventData.append('max_participants', formState.inputs.participants.value);
+        createEventData.append(
+          'max_participants',
+          formState.inputs.participants.value
+        );
         createEventData.append('min_age', formState.inputs.age.value);
         createEventData.append('price', formState.inputs.age.value);
         createEventData.append('cover', imgObject);
-        const res = await axios.post(api_server_url + '/api/events', createEventData, {
-          headers
-        });
+        const res = await axios.post(
+          api_server_url + '/api/events',
+          createEventData,
+          {
+            headers
+          }
+        );
         if (res.status === 200) {
           setNotificationState({
             message: res.data.status,
@@ -110,12 +127,14 @@ const AddEvent = () => {
   return (
     <>
       <ScrollToTop />
-      <div className="container">
-        <h2 className="create__tittle">Create event</h2>
+      <div className='container'>
+        <h2 className='create__tittle'>Create event</h2>
         <AddEventForm
           onInputHandler={inputHandler}
           onSubmitFormHandler={submitFormHandler}
           imageUpload={getImgURL}
+          setCoordinates={setCoordinates}
+          coordinates={coordinates}
         />
       </div>
     </>

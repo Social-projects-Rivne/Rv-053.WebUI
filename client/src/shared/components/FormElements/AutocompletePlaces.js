@@ -5,17 +5,12 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 
-const AutocompletePlaces = props => {
+const AutocompletePlaces = ({ setCoordinates }) => {
   const [address, setAddress] = useState('');
-  const [coordinates, setCoordinates] = useState({
-    lat: null,
-    lng: null
-  });
 
   const handleSelect = async value => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
-    console.log(value);
     setAddress(value);
     setCoordinates(latLng);
   };

@@ -8,11 +8,27 @@ import {
   VAL_MIN_LENGTH,
   VAL_REQUIRED
 } from '../../shared/utilities/validation';
-import './EditEventForm.css';
 import AutocompletePlaces from '../../shared/components/FormElements/AutocompletePlaces';
+import Map from '../../shared/components/UI/Map';
+import './EditEventForm.css';
 
 const EditEventForm = props => {
   const [editRoleFlag, setEditRoleFlag] = useState(true);
+
+  function renderMap() {
+    let coord = props.coordinates;
+    if (coord.lat == null && coord.lng == null) {
+      return <div></div>;
+    } else {
+      return (
+        <div className='row'>
+          <div className='col-md-12 map-container'>
+            <Map center={coord} zoom={16} />
+          </div>
+        </div>
+      );
+    }
+  }
   return (
     <form
       onSubmit={props.onSubmitFormHandler}
@@ -65,8 +81,12 @@ const EditEventForm = props => {
       />
       <ImageUpload name='cover' onGetImg={props.imageUpload} />
       <div className='row'>
-        <AutocompletePlaces className='col-md-6' />
+        <AutocompletePlaces
+          className='col-md-6'
+          setCoordinates={props.setCoordinates}
+        />
       </div>
+      {renderMap()}
       <div className='row'>
         <div className='col-md-4'>
           <Input
