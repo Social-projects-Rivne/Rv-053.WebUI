@@ -5,6 +5,7 @@ const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
+const EventGallery = require('../models').event_gallery;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
@@ -377,4 +378,18 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
         message: err.message || 'Not found'
       });
     });
+};
+
+exports.getGalleryOfEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const gallery = await EventGallery.findAndCountAll({
+      where: { event_id: id }
+    });
+    res.status(200).json(gallery);
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
 };

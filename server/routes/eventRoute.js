@@ -18,12 +18,23 @@ router.post(
   eventController.createEvent
 );
 router.get('/filter', CheckUrlInCache, eventController.filterEvent);
-router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
+router.put(
+  '/:id',
+  auth,
+  createEventValidation(),
+  validate,
+  eventController.updateEvent
+);
 router.delete('/:id', auth, eventController.deleteEvent);
 router.get('/:id', eventController.getEventByID);
 router.put('/:id/reject', adminAndModeratorAuth, eventController.rejectEvent);
-router.put('/:id/activate', adminAndModeratorAuth, eventController.activateEvent);
+router.put(
+  '/:id/activate',
+  adminAndModeratorAuth,
+  eventController.activateEvent
+);
 router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
 router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
+router.get('/:id/gallery', eventController.getGalleryOfEvent);
 
 module.exports = router;

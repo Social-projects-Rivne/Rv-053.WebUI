@@ -51,10 +51,6 @@ const EditProfile = () => {
       birth_year: {
         value: '',
         isValid: false
-      },
-      sex: {
-        value: '',
-        isValid: false
       }
     },
     false
