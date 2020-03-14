@@ -39,8 +39,8 @@ const EditAvatar = ({ refAvatar, user: { avatar } }) => {
   };
 
   return (
-    <div className='div-avatar-container'>
-      <div className='div-change-avatar'>
+    <div className="div-avatar-container">
+      <div className="div-change-avatar">
         {state.image ? (
           <AvatarEditor
             width={state.width}
@@ -51,7 +51,7 @@ const EditAvatar = ({ refAvatar, user: { avatar } }) => {
             border={5}
             rotate={parseFloat(state.rotate)}
             ref={refAvatar}
-            crossOrigin='anonymous'
+            crossOrigin="anonymous"
           />
         ) : (
           <div
@@ -63,7 +63,7 @@ const EditAvatar = ({ refAvatar, user: { avatar } }) => {
           ></div>
         )}
         <span
-          className='change-avatar-btn'
+          className="change-avatar-btn"
           onClick={() =>
             fileInputRef.current !== null ? fileInputRef.current.click() : null
           }
@@ -71,31 +71,30 @@ const EditAvatar = ({ refAvatar, user: { avatar } }) => {
           Change avatar
         </span>
       </div>
-      <div className='div-avatar-inputs'>
+      <div className="div-avatar-inputs">
         <div>
           <input
-            id='file'
-            name='newImage'
-            type='file'
+            id="file"
+            name="newImage"
+            type="file"
             onChange={e => handleNewImage(e)}
             ref={fileInputRef}
-            className='inputfile'
-            accept='image/*'
+            className="inputfile"
+            accept="image/*"
           />
-          <label htmlFor='file'>Chose New Image</label>
+          <label htmlFor="file">Chose New Image</label>
         </div>
         <div>
-          <label htmlFor='zoom'>Zoom:</label>
-
+          <label htmlFor="zoom">Zoom:</label>
           <input
-            id='zoom'
-            name='scale'
-            type='range'
+            id="zoom"
+            name="scale"
+            type="range"
             onChange={e => handleScale(e)}
-            min='1'
-            max='3'
-            step='0.01'
-            defaultValue='1'
+            min="1"
+            max="3"
+            step="0.01"
+            defaultValue="1"
             disabled={state.image ? false : true}
           />
         </div>

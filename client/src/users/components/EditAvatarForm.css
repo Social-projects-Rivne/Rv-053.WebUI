@@ -64,7 +64,6 @@
   border-radius: 15px;
   transition: all 0.2s;
 }
-
 .inputfile:focus + label,
 .inputfile + label:hover {
   background-color: rgba(22, 160, 133, 0.8);
