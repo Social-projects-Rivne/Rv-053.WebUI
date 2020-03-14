@@ -383,8 +383,8 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
 exports.getGalleryOfEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const gallery = await EventGallery.findAndCountAll({
-      where: { event_id: id }
+    const gallery = await EventGallery.findAll({
+      where: { event_id: id, is_deleted: false }
     });
     res.status(200).json(gallery);
   } catch (err) {

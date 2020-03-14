@@ -35,7 +35,12 @@ const generateRefreshToken = user => {
 };
 
 //Replace refreshToken in DB token
-const replaceDbRefreshToken = async (tokenId, userId, expiredAt, oldRefreshTokenId) => {
+const replaceDbRefreshToken = async (
+  tokenId,
+  userId,
+  expiredAt,
+  oldRefreshTokenId
+) => {
   //console.log('token ' + tokenId + 'oldRefreshTokenId ' + oldRefreshTokenId);
   if (!oldRefreshTokenId) {
     await tokenModel.create({
@@ -45,29 +50,34 @@ const replaceDbRefreshToken = async (tokenId, userId, expiredAt, oldRefreshToken
     });
   } else {
     console.log('oldRefreshTokenId ' + oldRefreshTokenId);
-    await tokenModel.findOne({
-      where: {
-        id: oldRefreshTokenId
-      }
-    }).then(token => {
-      if (token === null) {
-        tokenModel.create({
-          id: tokenId,
-          user_id: userId,
-          expiredAt
-        });
-      } else {
-        tokenModel.update({
-          id: tokenId,
-          user_id: userId,
-          expiredAt: expiredAt
-        }, {
-          where: {
-            id: oldRefreshTokenId
-          }
-        });
-      }
-    });
+    await tokenModel
+      .findOne({
+        where: {
+          id: oldRefreshTokenId
+        }
+      })
+      .then(token => {
+        if (token === null) {
+          tokenModel.create({
+            id: tokenId,
+            user_id: userId,
+            expiredAt
+          });
+        } else {
+          tokenModel.update(
+            {
+              id: tokenId,
+              user_id: userId,
+              expiredAt: expiredAt
+            },
+            {
+              where: {
+                id: oldRefreshTokenId
+              }
+            }
+          );
+        }
+      });
   }
 };
 

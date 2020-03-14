@@ -5,7 +5,10 @@ const storageCover = multer.diskStorage({
     cb(null, './uploads/covers');
   },
   filename(req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname
+    );
   }
 });
 const storageAvatars = multer.diskStorage({
@@ -13,7 +16,10 @@ const storageAvatars = multer.diskStorage({
     cb(null, './uploads/avatars');
   },
   filename(req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname
+    );
   }
 });
 

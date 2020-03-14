@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
+import EventGallery from './EventGallery';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
 
@@ -16,10 +17,10 @@ const EventItem = props => {
   };
 
   useEffect(() => {
-    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
-    geocodeObj.then(geocodeObj => {
-      setAddress(geocodeObj.formatted_address);
-    });
+    // const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+    // geocodeObj.then(geocodeObj => {
+    //   setAddress(geocodeObj.formatted_address);
+    // });
   }, [coordinates]);
 
   return (
@@ -64,7 +65,11 @@ const EventItem = props => {
                 {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
               </button>
             ) : (
-              <button type="button" className="my__button" onClick={() => history.push('/auth')}>
+              <button
+                type="button"
+                className="my__button"
+                onClick={() => history.push('/auth')}
+              >
                 Subcribe
               </button>
             )}
@@ -85,6 +90,11 @@ const EventItem = props => {
         <div className="row">
           <div className="col-md-12 map-container">
             <Map center={map} zoom={16} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12 gallery-container">
+            <EventGallery />
           </div>
         </div>
       </div>
