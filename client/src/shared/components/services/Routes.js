@@ -14,6 +14,7 @@ import MainPage from '../../../events/pages/MainPage';
 import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
 import EditEvent from '../../../events/pages/EditEvent';
+import PasswordReset from '../../../users/pages/PasswordReset';
 
 const Routes = () => {
   return (
@@ -72,6 +73,9 @@ const Routes = () => {
             </Route>
             <Route path="/confirmemail/:token">
               <PageLayout innerComponent={<EmailConfirmation />} />
+            </Route>
+            <Route path="/password_reset">
+              <PageLayout innerComponent={<PasswordReset />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>
