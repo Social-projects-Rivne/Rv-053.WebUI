@@ -133,7 +133,7 @@ exports.confirmPasswordReset = async (req, res) => {
     const mailToken = jwt.sign(payload, MAIL_TOKEN_SECRET, {
       expiresIn: MAIL_TOKEN_EXPIRE_IN
     });
-    const mailURL = `${process.env.FRONT_HOST}/confirmemail`;
+    const mailURL = `${process.env.FRONT_HOST}/confirm_password_reset`;
     const emailOptions = {
       email,
       subject: 'Confirm your email to reset password',
