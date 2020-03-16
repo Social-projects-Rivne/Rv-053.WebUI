@@ -57,3 +57,7 @@
 .event-item__owner {
   padding: 20px 0px;
 }
+.event-item__gallery {
+  padding: 20px 0px;
+  margin: 10px 0 20px 0;
+}

@@ -21,8 +21,8 @@ const MySlider = props => {
     );
   }
   const slider = {
-    slidesToShow: +props.slidesToShow,
-    slidesToScroll: +props.slidesToScroll,
+    slidesToShow: +props.slidesToShow || 4,
+    slidesToScroll: +props.slidesToScroll || 4,
     arrows: props.arrows || false,
     dots: props.dots || false,
     prevArrow: <PrevArrow />,

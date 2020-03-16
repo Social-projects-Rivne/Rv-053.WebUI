@@ -92,11 +92,9 @@ const EventItem = props => {
             <Map center={map} zoom={16} />
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12 gallery-container">
-            <EventGallery />
-          </div>
-        </div>
+      </div>
+      <div className="event-item__gallery">
+        <EventGallery />{' '}
       </div>
     </div>
   );

@@ -58,32 +58,34 @@ const FollowedEventList = () => {
         <div className="event_list-item">
           {console.log(events)}
           <h3 className="profile-title">Followed events</h3>
-          <MySlider
-            slidesToShow={
-              events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3
-            }
-            dots={true}
-          >
-            {events.length > 0 ? (
-              events.map(event => (
-                <EventResultItem
-                  key={event.event.id}
-                  className="list__events-item card event_slider-item profile"
-                  id={event.event.id}
-                  name={event.event.name}
-                  category={event.event.categories[0].category}
-                  description={event.event.description}
-                  location={event.event.location}
-                  datetime={event.event.datetime}
-                  cover={event.event.cover}
-                  price={event.event.price}
-                  unfollowFromEvent={() => unfollowFromEvent(event.event.id)}
-                />
-              ))
-            ) : (
-              <p>You haven`t followed any events</p>
-            )}
-          </MySlider>
+          {events.length > 0 ? (
+            <MySlider
+              slidesToShow={
+                events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3
+              }
+              dots={true}
+            >
+              {events.length > 0 ? (
+                events.map(event => (
+                  <EventResultItem
+                    key={event.event.id}
+                    className="list__events-item card event_slider-item profile"
+                    id={event.event.id}
+                    name={event.event.name}
+                    category={event.event.categories[0].category}
+                    description={event.event.description}
+                    location={event.event.location}
+                    datetime={event.event.datetime}
+                    cover={event.event.cover}
+                    price={event.event.price}
+                    unfollowFromEvent={() => unfollowFromEvent(event.event.id)}
+                  />
+                ))
+              ) : (
+                <p>You haven`t followed any events</p>
+              )}
+            </MySlider>
+          ) : null}
         </div>
       ) : null}
     </>

@@ -8,10 +8,12 @@ import React, {
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-//import MySlider from '../../../shared/components/UI/MySlider';
-//import EventResultItem from './../../../events/pages/EventResultItem';
+import MySlider from '../../shared/components/UI/MySlider';
+import EventGalleryItem from './EventCalleryItem';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from '../../shared/context/auth-context';
+
+import './EventGallery.css';
 
 const EventGallery = () => {
   const accessToken = useContext(AuthContext).token;
@@ -31,7 +33,9 @@ const EventGallery = () => {
         headers
       }
     );
-    setImages(res.data);
+    if (res.status === 200) {
+      setImages(res.data);
+    }
   }, [headers]);
 
   useEffect(() => {
@@ -45,9 +49,17 @@ const EventGallery = () => {
       {images.length > 0 ? (
         <div>
           <h2>Gallery</h2>
-          {images.map(image => (
-            <img src={image.img_url} alt="" width="100px" />
-          ))}
+
+          <MySlider slidesToShow="4" dots={true}>
+            {images.map(image => (
+              <EventGalleryItem
+                key={image.id}
+                image={image.img_url}
+                description={image.description}
+                className="list__images-item card image_slider-item"
+              />
+            ))}
+          </MySlider>
         </div>
       ) : null}{' '}
     </>
