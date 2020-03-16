@@ -53,11 +53,6 @@ const Categories = () => {
       icon: 'icon-shopping-bag'
     },
     {
-      name: 'Nature',
-      background: img_url + 'nature.jpg',
-      icon: 'icon-envira'
-    },
-    {
       name: 'Art',
       background: img_url + 'art.jpg',
       icon: 'icon-paint-brush'
@@ -66,7 +61,13 @@ const Categories = () => {
       name: 'Hobbies & Crafts',
       background: img_url + 'crafts.jpg',
       icon: 'icon-cut'
-    }
+    },
+    {
+      name: 'Others',
+      background: img_url + 'others.jpg',
+      icon: 'icon-puzzle-piece'
+    },
+
   ];
   return (
     <section className="categories">
