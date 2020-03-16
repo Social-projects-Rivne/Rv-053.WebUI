@@ -10,6 +10,7 @@ route.get('/current', auth, userController.getCurrent);
 route.put('/current', auth, validate, userController.updateProfile);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
+route.get('/past-events', auth, userController.getPastEvents);
 route.delete('/unfollow-event/:id', auth, userController.unfollowFromEvent);
 route.post('/follow-event/:id', auth, userController.followEvent);
 route.get('/categories', auth, userController.getCategories);

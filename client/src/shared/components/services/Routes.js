@@ -14,6 +14,7 @@ import MainPage from '../../../events/pages/MainPage';
 import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
 import EditEvent from '../../../events/pages/EditEvent';
+import PastEvents from '../../../users/components/ProfileEvents/PastEvents';
 
 const Routes = () => {
   return (
@@ -26,6 +27,9 @@ const Routes = () => {
             </Route>
             <Route path="/events" exact>
               <PageLayout innerComponent={<EventsResult />} />
+            </Route>
+            <Route path="/pastevents">
+              <PageLayout innerComponent={<PastEvents />}/>
             </Route>
             <Route path="/event/:eventId">
               <PageLayout innerComponent={<EventDetails />} />
