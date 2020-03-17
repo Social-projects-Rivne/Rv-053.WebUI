@@ -1,13 +1,15 @@
 const express = require('express');
-
 const route = express.Router();
 const { profileValidation, validate } = require('../middlewares/validator');
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/authorization');
 const authAndModeratorAdmin = require('../middlewares/adminAndModeratorAuthorization');
+const { uploadAvatar } = require('../middlewares/upload-images');
 
 route.get('/current', auth, userController.getCurrent);
 route.put('/current', auth, validate, userController.updateProfile);
+route.put('/avatar', auth, uploadAvatar.single('avatar'), userController.updateAvatar);
+route.delete('/avatar', auth, userController.deleteAvatar);
 route.get('/events', auth, userController.getEvents);
 route.get('/followed-events', auth, userController.getFollowedEvents);
 route.get('/past-events', auth, userController.getPastEvents);

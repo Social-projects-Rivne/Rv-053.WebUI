@@ -1,0 +1,71 @@
+.div-avatar-container {
+  min-height: 250px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.div-avatar-container canvas {
+  display: block;
+}
+.div-avatar-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 0 0.5rem 1rem 1rem;
+  padding: 0.5rem 0;
+}
+.div-avatar-inputs label {
+  margin-right: 1rem;
+  color: #16a085;
+  font-size: 90%;
+}
+.div-avatar-inputs input {
+  cursor: pointer;
+}
+.div-avatar-inputs > div {
+  text-align: left;
+}
+.div-change-avatar {
+  position: relative;
+}
+.change-avatar-btn {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+.change-avatar-btn:hover {
+  cursor: pointer;
+  color: #16a085;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.inputfile + label {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 400;
+  color: white;
+  background-color: rgba(22, 160, 133, 0.9);
+  display: inline-block;
+  padding: 4px 30px;
+  border-radius: 15px;
+  transition: all 0.2s;
+}
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: rgba(22, 160, 133, 0.8);
+  cursor: pointer;
+}
