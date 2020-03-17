@@ -7,19 +7,16 @@ import Card from '../../shared/components/UI/Card';
 import { useForm } from '../../shared/hooks/useForm';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from '../../shared/context/auth-context';
-import Notificator from '../../shared/components/UI/Notificator';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
+import objToFormData from '../../shared/utilities/objToFormData';
 
-const EditEvent = () => {
+const EditEvent = props => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
+    'Content-Type': 'multipart/form-data',
     Authorization: 'Bearer ' + accessToken
   };
-  const [notificationState, setNotificationState] = useState({
-    message: 'some message',
-    show: false
-  });
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
@@ -53,6 +50,8 @@ const EditEvent = () => {
     },
     false
   );
+
+  const [eventCategory, setEventCategory] = useState({ id: null, category: '' });
 
   const [loadingFlag, setLoadingFlag] = useState(true);
 
@@ -103,12 +102,12 @@ const EditEvent = () => {
         },
         true
       );
+      setEventCategory(res.data.categories[0]);
       setLoadingFlag(false);
     } catch (e) {
       console.log(e);
     }
   }, [eventID, setFormData]);
-
   const updateEventData = async () => {
     if (formState.formValidity) {
       try {
@@ -121,11 +120,17 @@ const EditEvent = () => {
           max_participants: formState.inputs.amount.value,
           min_age: formState.inputs.age.value,
           cover: formState.inputs.cover.value,
-          price: formState.inputs.price.value ? formState.inputs.price.value + ' UAH' : ''
+          price: formState.inputs.price.value ? formState.inputs.price.value + ' UAH' : '',
+          category: eventCategory.id
         };
-        const res = await axios.put(api_server_url + '/api/events/' + eventID, updatedEventData, {
-          headers
-        });
+        const updatedEventFormData = objToFormData(updatedEventData);
+        const res = await axios.put(
+          api_server_url + '/api/events/' + eventID,
+          updatedEventFormData,
+          {
+            headers
+          }
+        );
 
         if (res.status === 200) {
           history.push({
@@ -154,17 +159,6 @@ const EditEvent = () => {
   return (
     <>
       <ScrollToTop />
-      <Notificator
-        className="success-note"
-        message={notificationState.message}
-        show={notificationState.show}
-        onExit={() => {
-          setNotificationState({
-            show: false,
-            message: notificationState.message
-          });
-        }}
-      />
       <Card className="addEvent">
         <h2>Edit event</h2>
         {!loadingFlag ? (
@@ -172,8 +166,16 @@ const EditEvent = () => {
             onInputHandler={inputHandler}
             onSubmitFormHandler={submitFormHandler}
             eventData={formState.inputs}
+            category={eventCategory}
+            onChooseCategory={e => setEventCategory({ id: e.id, category: e.title })}
           />
         ) : null}
+        <button
+          className="my__button my__button-red mr-4 mb-4 mt-4 d-inline-block float-right"
+          onClick={history.goBack}
+        >
+          Cancel
+        </button>
       </Card>
     </>
   );

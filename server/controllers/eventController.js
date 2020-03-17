@@ -1,8 +1,10 @@
+require('dotenv').config();
 const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
+const EventCategory = require('../models').event_category;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
 const Redis = require('../services/redisService');
@@ -114,6 +116,7 @@ exports.updateEvent = async (req, res) => {
     location,
     datetime,
     duration,
+    category,
     max_participants,
     min_age,
     cover,
@@ -126,7 +129,7 @@ exports.updateEvent = async (req, res) => {
     }
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
-      cover = cover || req.file.path;
+      cover = cover || process.env.BACK_HOST + '/' + req.file.path;
       event
         .update({
           name,
@@ -136,8 +139,21 @@ exports.updateEvent = async (req, res) => {
           duration,
           max_participants,
           min_age,
-          cover,
+          cover: cover,
           price
+        })
+        .then(event => {
+          const eventID = event.id;
+          EventCategory.findOne({
+            where: {
+              id: eventID
+            }
+          }).then(event_category => {
+            event_category.update({
+              event_id: eventID,
+              category_id: category
+            });
+          });
         })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });

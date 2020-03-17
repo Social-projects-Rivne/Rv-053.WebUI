@@ -1,4 +1,5 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import axios from 'axios';
 
 import Input from '../../shared/components/FormElements/Input';
 import Switch from '../../shared/components/UI/Switch';
@@ -6,14 +7,36 @@ import DisappearingAnimation from '../../shared/components/UI/Animations/Disappe
 import { VAL_MIN_LENGTH, VAL_REQUIRED, VAL_NUMBERS } from '../../shared/utilities/validation';
 import './EditEventForm.css';
 import Selector from '../../shared/components/FormElements/Select';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EditEventForm = props => {
   const fileInputRef = useRef(null);
+  const [categoriesItems, setCategoriesItems] = useState([]);
+  const [showDropdownCatecoryFlag, setShowDropdownCategoryFlag] = useState(false);
   const [priceFlag, setPriceFlag] = useState(props.eventData.price.value ? true : false);
   const [ageLimitFlag, setAgeLimitFlag] = useState(props.eventData.age.value ? true : false);
   const [placesLimitFlag, setPlacesLimitFlag] = useState(
     props.eventData.amount.value ? true : false
   );
+
+  const fetchCatecoriesList = useCallback(async () => {
+    try {
+      const res = await axios.get(api_server_url + '/api/tags');
+      const categoriesList = res.data.categories.map(category => ({
+        icon: '',
+        title: category.category,
+        extraInfo: '',
+        id: category.id
+      }));
+      setCategoriesItems(categoriesList);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCatecoriesList();
+  }, [fetchCatecoriesList]);
 
   const priceSwitchHandler = state => {
     setPriceFlag(state);
@@ -33,9 +56,18 @@ const EditEventForm = props => {
       InputHandler('amount', 0, true);
     }
   };
-  const InputHandler = useCallback((id, value, isValid) => {
-    props.onInputHandler(id, value, isValid);
-  }, []);
+
+  const showDropdownCatecoryFlagHandler = () => {
+    setShowDropdownCategoryFlag(!showDropdownCatecoryFlag);
+  };
+
+  const { onInputHandler } = props;
+  const InputHandler = useCallback(
+    (id, value, isValid) => {
+      onInputHandler(id, value, isValid);
+    },
+    [onInputHandler]
+  );
 
   return (
     <form onSubmit={props.onSubmitFormHandler} className="text-center">
@@ -61,7 +93,7 @@ const EditEventForm = props => {
         type="file"
         refer={fileInputRef}
         validations={[]}
-        onInput={props.onInputHandler}
+        onInput={InputHandler}
         initValue={props.eventData.cover.value}
         initValid={true}
         errorMessage="Enter the name of event"
@@ -183,12 +215,29 @@ const EditEventForm = props => {
           </div>
         </div>
         <div className="col-lg-7 d-flex">
-          <div className="col-6"></div>
-          <div className="col-6"></div>
+          <div className="col-5">
+            <p className="switch__label">Choose category:</p>
+          </div>
+          <div className="col-7">
+            <button
+              className="btn-flat"
+              type="button"
+              onFocus={showDropdownCatecoryFlagHandler}
+              onBlur={showDropdownCatecoryFlagHandler}
+            >
+              {props.category.category}
+            </button>
+            <Selector
+              className="edit-event__dropdown-category"
+              triger={showDropdownCatecoryFlag}
+              items={categoriesItems}
+              onChange={props.onChooseCategory}
+            />
+          </div>
         </div>
       </div>
 
-      <button className="my__button mt-4" type="submit">
+      <button className="my__button ml-4 mb-4 mt-4 d-inline-block float-left" type="submit">
         Update
       </button>
     </form>

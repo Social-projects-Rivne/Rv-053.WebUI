@@ -53,7 +53,6 @@ li {
   background-color: #16a085;
   padding: 4px 30px;
   border-radius: 15px;
-
   transition: all 0.2s;
 }
 .my__button:hover {
@@ -61,6 +60,16 @@ li {
   color: #fff;
 }
 .my__button:focus {
+  outline: none;
+}
+.my__button-red {
+  border: 1px solid #dc3545;
+  background-color: #dc3545;
+}
+.my__button-red:hover {
+  background-color: #dc3546e0;
+}
+.my__button-red:focus {
   outline: none;
 }
 .link,

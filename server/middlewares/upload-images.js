@@ -2,7 +2,7 @@ const multer = require('multer');
 
 const storageCover = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, './uploads/avatars');
+    cb(null, './uploads/covers');
   },
   filename(req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
@@ -10,7 +10,7 @@ const storageCover = multer.diskStorage({
 });
 const storageAvatars = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, './uploads/covers');
+    cb(null, './uploads/avatars');
   },
   filename(req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);

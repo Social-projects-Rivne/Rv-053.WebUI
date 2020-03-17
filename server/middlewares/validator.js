@@ -99,11 +99,6 @@ const createEventValidation = () => {
     body('min_age', 'Min age field should not be empty')
       .exists()
       .matches(regExpForNumbers, 'g'),
-    body('cover', 'Cover field should not be empty')
-      .notEmpty({
-        ignore_whitespace: false
-      })
-      .isString(),
     body('price', 'price field should not be empty')
       .trim()
       .matches(regExpForCurrency, 'g')
