@@ -13,9 +13,7 @@ const Countdown = ({ timeTillDate }) => {
     const hours = Math.floor((countdown / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((countdown / 1000 / 60) % 60);
     const seconds = Math.floor((countdown / 1000) % 60);
-    console.log(
-      `Days ${days}, Hours: ${hours}, Minutes: ${minutes}, seconds: ${seconds}`
-    );
+
     setTimeLeft({
       days,
       hours,
@@ -35,7 +33,7 @@ const Countdown = ({ timeTillDate }) => {
     <svg className='countdown-svg'>
       <path
         fill='none'
-        stroke='green'
+        stroke='#16a085'
         strokeWidth='4'
         d={describeArc(50, 50, 48, 0, radius)}
       />
@@ -84,7 +82,7 @@ const Countdown = ({ timeTillDate }) => {
   const { days, hours, minutes, seconds } = timeLeft;
 
   // Mapping the date values to radius values
-  const daysRadius = mapNumber(36, 365, 0, 0, 360);
+  const daysRadius = mapNumber(days, 365, 0, 0, 360);
   const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
   const minutesRadius = mapNumber(minutes, 60, 0, 0, 360);
   const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
@@ -100,21 +98,21 @@ const Countdown = ({ timeTillDate }) => {
             <span>days</span>
           </div>
         )}
-        {hours && (
+        {hours > 0 && (
           <div className='countdown-item'>
             <SVGCircle radius={hoursRadius} />
             {hours}
             <span>hours</span>
           </div>
         )}
-        {minutes && (
+        {minutes > 0 && (
           <div className='countdown-item'>
             <SVGCircle radius={minutesRadius} />
             {minutes}
             <span>minutes</span>
           </div>
         )}
-        {seconds && (
+        {seconds > 0 && (
           <div className='countdown-item'>
             <SVGCircle radius={secondsRadius} />
             {seconds}
