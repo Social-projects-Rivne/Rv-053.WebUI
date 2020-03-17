@@ -1,7 +1,11 @@
 import React, { useRef } from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
-import { VAL_MIN_LENGTH, VAL_REQUIRED } from '../../shared/utilities/validation';
+import EditGalleryForm from './EditGalleryForm';
+import {
+  VAL_MIN_LENGTH,
+  VAL_REQUIRED
+} from '../../shared/utilities/validation';
 import './EditEventForm.css';
 
 const EditEventForm = props => {
@@ -20,7 +24,9 @@ const EditEventForm = props => {
         ></img>
         <span
           className="edit-event__change-cover-btn"
-          onClick={() => (fileInputRef.current !== null ? fileInputRef.current.click() : null)}
+          onClick={() =>
+            fileInputRef.current !== null ? fileInputRef.current.click() : null
+          }
         >
           change cover
         </span>
@@ -98,7 +104,13 @@ const EditEventForm = props => {
           />
         </div>
       </div>
-
+      {!props.loadingGalleryFlag ? (
+        <EditGalleryForm
+          galleryData={props.galleryData}
+          editImageHandler={props.editImageHandler}
+          deleteImageHandler={props.deleteImageHandler}
+        />
+      ) : null}
       <button className="my__button mt-4" type="submit">
         Update
       </button>

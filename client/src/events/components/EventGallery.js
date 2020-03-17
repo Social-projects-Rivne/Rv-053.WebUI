@@ -36,27 +36,29 @@ const EventGallery = () => {
     if (res.status === 200) {
       setImages(res.data);
     }
-  }, [headers]);
+  }, []);
 
   useEffect(() => {
-    if (accessToken) {
-      getGallery();
-    }
-  }, [accessToken, getGallery]);
-
+    getGallery();
+  }, [getGallery]);
+  const onClickHandler = e => {
+    e.preventDefault();
+    //TODO: add modal with gallery
+  };
   return (
     <>
       {images.length > 0 ? (
         <div>
           <h2>Gallery</h2>
 
-          <MySlider slidesToShow="4" dots={true}>
+          <MySlider slidesToShow="3" slidesToScroll="3" dots={true}>
             {images.map(image => (
               <EventGalleryItem
                 key={image.id}
                 image={image.img_url}
                 description={image.description}
                 className="list__images-item card image_slider-item"
+                onClick={onClickHandler}
               />
             ))}
           </MySlider>

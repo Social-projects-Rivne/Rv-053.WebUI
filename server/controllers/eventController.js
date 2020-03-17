@@ -1,3 +1,5 @@
+require('dotenv').config();
+const fs = require('fs');
 const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -120,36 +122,43 @@ exports.updateEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-
-  await Event.findOne({
-    where: {
-      id
-    }
-  }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin') {
-      cover = cover || req.file.path;
-      event
-        .update({
-          name,
-          description,
-          location,
-          datetime,
-          duration,
-          max_participants,
-          min_age,
-          cover,
-          price
-        })
-        .then(() => {
-          res.status(200).json({ status: 'Event was update successful' });
-        })
-        .catch(err => {
-          res.status(404).json({
-            message: err.message || 'Event not found'
-          });
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (req.userId == event.owner_id || req.role === 'Admin') {
+      let oldCover = event.cover;
+      cover = cover || process.env.BACK_HOST + '/' + req.files['cover'][0].path;
+      await event.update({
+        name,
+        description,
+        location,
+        datetime,
+        duration,
+        max_participants,
+        min_age,
+        cover,
+        price
+      });
+      if (oldCover !== cover) {
+        fs.unlink('.' + oldCover.slice(process.env.BACK_HOST.length), err => {
+          if (err) {
+            console.log('failed to delete local image:' + err);
+          } else {
+            console.log('successfully deleted local image');
+          }
         });
+      }
+
+      res.status(200).json({ status: 'Event was update successful' });
+    } else {
+      res.status(403).json({
+        message: 'Forbidden'
+      });
     }
-  });
+  } catch (err) {
+    res.status(404).json({
+      message: err.message || 'Event not found'
+    });
+  }
 };
 
 exports.deleteEvent = async (req, res) => {

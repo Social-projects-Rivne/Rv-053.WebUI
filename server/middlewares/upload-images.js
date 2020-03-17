@@ -53,4 +53,13 @@ const uploadAvatar = multer({
   fileFilter
 });
 
-module.exports = { uploadCover, uploadAvatar };
+const editEvent = multer({
+  storage: storageCover,
+  limits: {
+    // file size max 2mb
+    fileSize: 1024 * 1024 * 2
+  },
+  fileFilter
+});
+
+module.exports = { uploadCover, uploadAvatar, editEvent };

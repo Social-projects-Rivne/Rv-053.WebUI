@@ -14,12 +14,14 @@ const EditEvent = () => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
-    Authorization: 'Bearer ' + accessToken
+    Authorization: 'Bearer ' + accessToken,
+    'Content-Type': 'multipart/form-data'
   };
   const [notificationState, setNotificationState] = useState({
     message: 'some message',
     show: false
   });
+  const [galleryState, setGalleryState] = useState([]);
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
@@ -103,6 +105,11 @@ const EditEvent = () => {
         },
         true
       );
+
+      const resGallery = await axios.get(
+        api_server_url + '/api/events/' + eventID + '/gallery'
+      );
+      setGalleryState(resGallery.data);
       setLoadingFlag(false);
     } catch (e) {
       console.log(e);
@@ -112,20 +119,30 @@ const EditEvent = () => {
   const updateEventData = async () => {
     if (formState.formValidity) {
       try {
-        const updatedEventData = {
-          name: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          location: formState.inputs.location.value,
-          datetime: formState.inputs.datetime.value,
-          duration: formState.inputs.duration.value,
-          max_participants: formState.inputs.amount.value,
-          min_age: formState.inputs.age.value,
-          cover: formState.inputs.cover.value,
-          price: formState.inputs.price.value
-        };
-        const res = await axios.put(api_server_url + '/api/events/' + eventID, updatedEventData, {
-          headers
-        });
+        let updatedEventData = new FormData();
+        updatedEventData.append('name', formState.inputs.title.value);
+        updatedEventData.append(
+          'description',
+          formState.inputs.description.value
+        );
+        updatedEventData.append('location', formState.inputs.location.value);
+        updatedEventData.append('datetime', formState.inputs.datetime.value);
+        updatedEventData.append('duration', formState.inputs.duration.value);
+        updatedEventData.append(
+          'max_participants',
+          formState.inputs.amount.value
+        );
+        updatedEventData.append('min_age', formState.inputs.age.value);
+        updatedEventData.append('cover', formState.inputs.cover.value);
+        updatedEventData.append('price', formState.inputs.price.value);
+        console.log(...updatedEventData);
+        const res = await axios.put(
+          api_server_url + '/api/events/' + eventID,
+          updatedEventData,
+          {
+            headers
+          }
+        );
 
         if (res.status === 200) {
           history.push({
@@ -150,7 +167,13 @@ const EditEvent = () => {
     event.preventDefault();
     updateEventData();
   };
-
+  const editImageHandler = image => {
+    alert('edit');
+  };
+  const deleteImageHandler = image => {
+    image.isDeleted = true;
+    setGalleryState([...galleryState, image]);
+  };
   return (
     <>
       <ScrollToTop />
@@ -172,6 +195,9 @@ const EditEvent = () => {
             onInputHandler={inputHandler}
             onSubmitFormHandler={submitFormHandler}
             eventData={formState.inputs}
+            galleryData={galleryState}
+            editImageHandler={editImageHandler}
+            deleteImageHandler={deleteImageHandler}
           />
         ) : null}
       </Card>

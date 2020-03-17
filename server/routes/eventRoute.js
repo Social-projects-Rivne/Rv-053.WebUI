@@ -6,7 +6,7 @@ const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
 const auth = require('../middlewares/authorization');
 const adminAndModeratorAuth = require('../middlewares/adminAndModeratorAuthorization');
 
-const { uploadCover } = require('../middlewares/upload-images');
+const { uploadCover, editEvent } = require('../middlewares/upload-images');
 
 router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.post(
@@ -21,8 +21,12 @@ router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.put(
   '/:id',
   auth,
-  createEventValidation(),
-  validate,
+  editEvent.fields([
+    { name: 'cover', maxCount: 1 },
+    { name: 'gallery', maxCount: 8 }
+  ]),
+  //  createEventValidation(),
+  //  validate,
   eventController.updateEvent
 );
 router.delete('/:id', auth, eventController.deleteEvent);

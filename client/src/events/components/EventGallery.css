@@ -1,5 +1,6 @@
 .list__images {
   font-family: 'Quicksand', sans-serif;
+  margin-top: 3rem;
 }
 .list__images-sort {
   max-width: 750px;
@@ -272,4 +273,23 @@
 }
 .list__images-item-creator:hover {
   color: rgb(22, 160, 133);
+}
+.list__images-item-description {
+  margin: 0 auto;
+  min-height: 30px;
+  padding: 10px;
+  padding-left: 75px;
+  text-align: center;
+}
+.list__images-item-wrapper {
+  position: relative;
+}
+.list__images-item-wrapper .list__events-item-panel {
+  position: absolute;
+  left: 10px;
+  bottom: 7px;
+  background-color: rgba(67, 69, 79, 0);
+}
+.list__events-item-panel .button-link {
+  margin: 0 5px;
 }
