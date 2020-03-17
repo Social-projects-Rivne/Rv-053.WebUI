@@ -133,9 +133,23 @@
   color: #16a085;
 }
 .profile-title {
+  font-family: 'Quicksand', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.profile-title .icon-inbox{
+  font-size: 25px;
+  text-decoration: none;
+  color: rgb(67, 69, 79);
+  transition: all .2s;
+}
+.profile-title .icon-inbox:hover{
+  text-decoration: none;
+  color: #000;
 }
 .profile_categories-item.added {
   background-color: rgba(45, 169, 145, 0.6);
@@ -159,6 +173,12 @@
     margin-left: 10px;
     padding: 7px 15px;
   }
+}
+.slick-slide div .list__events-item.card.event_slider-item.profile{
+  margin: 20px auto;
+}
+.profile-title+.slick-slider .slick-slide{
+  width: 400px !important;
 }
 @media (max-width: 470px) {
   .event_date {
