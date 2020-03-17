@@ -4,16 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-context';
 import Logo from '../UI/Logo';
 import './Footer.css';
-import Countdown from '../UI/CountDownTimer';
 
 const Footer = () => {
   const isLoggedIn = useContext(AuthContext);
   return (
     <React.Fragment>
-      <Countdown
-        timeTillDate='03 28 2019, 6:00 am'
-        timeFormat='MM DD YYYY, h:mm a'
-      />
       <footer className='footer'>
         <div className='container'>
           <div className='footer_inner'>
