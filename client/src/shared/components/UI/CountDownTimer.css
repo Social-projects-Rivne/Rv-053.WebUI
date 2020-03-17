@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Lato', sans-serif;
-}
-
 h1 {
   letter-spacing: 2px;
   text-align: center;
@@ -15,10 +7,59 @@ h1 {
 }
 
 .countdown-wrapper {
+  position: absolute;
+  top: 85%;
+  left: 15%;
+  width: 70%;
+  z-index: 999;
+  background-color: rgba(94, 165, 155, 0.527);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 1200px) {
+  .countdown-wrapper {
+    top: 75%;
+    left: 15%;
+    width: 70%;
+  }
+
+  .countdown-item:last-child {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .countdown-wrapper {
+    top: 40%;
+    left: 25%;
+    width: 50%;
+  }
+
+  .countdown-item:nth-last-child(2) {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .countdown-wrapper {
+    position: static;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: -5%;
+  }
+
+  .countdown-item:nth-last-child(2) {
+    display: flex;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .countdown-wrapper {
+    display: none;
+  }
 }
 
 .countdown-item {

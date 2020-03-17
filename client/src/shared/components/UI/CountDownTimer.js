@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import moment, { min } from 'moment';
+import moment from 'moment';
 
 import './CountDownTimer.css';
 
-const Countdown = ({ timeTillDate, timeFormat }) => {
+const Countdown = ({ timeTillDate }) => {
   const [timeLeft, setTimeLeft] = useState({});
-
-  const calculateTimeLeft = () => {
-    // const { timeTillDate, timeFormat } = this.props;
-    const then = moment(timeTillDate, timeFormat);
+  const calculateTimeLeft = props => {
+    const then = timeTillDate;
     const now = moment();
-    const countdown = moment(then - now);
-    const days = countdown.format('DD');
-    const hours = countdown.format('HH');
-    const minutes = countdown.format('mm');
-    const seconds = countdown.format('ss');
-    console.log(days, hours, minutes, seconds);
+    const countdown = then - now;
+    const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((countdown / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((countdown / 1000 / 60) % 60);
+    const seconds = Math.floor((countdown / 1000) % 60);
+    console.log(
+      `Days ${days}, Hours: ${hours}, Minutes: ${minutes}, seconds: ${seconds}`
+    );
     setTimeLeft({
       days,
       hours,
@@ -35,7 +35,7 @@ const Countdown = ({ timeTillDate, timeFormat }) => {
     <svg className='countdown-svg'>
       <path
         fill='none'
-        stroke='#333'
+        stroke='green'
         strokeWidth='4'
         d={describeArc(50, 50, 48, 0, radius)}
       />
@@ -82,15 +82,16 @@ const Countdown = ({ timeTillDate, timeFormat }) => {
   }
 
   const { days, hours, minutes, seconds } = timeLeft;
+
   // Mapping the date values to radius values
-  const daysRadius = mapNumber(days, 30, 0, 0, 360);
+  const daysRadius = mapNumber(36, 365, 0, 0, 360);
   const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
   const minutesRadius = mapNumber(minutes, 60, 0, 0, 360);
   const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
 
   return (
     <div>
-      <h1>Countdown</h1>
+      {/* <h1>Countdown</h1> */}
       <div className='countdown-wrapper'>
         {days && (
           <div className='countdown-item'>
