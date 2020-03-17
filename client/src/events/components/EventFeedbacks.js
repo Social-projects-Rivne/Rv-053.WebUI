@@ -19,6 +19,7 @@ const EventFeedbacks = (props) => {
                     <ReadFeedbacks 
                         eventId={props.event.id}
                         past={props.event.past}
+                        userId={props.event.currentUser_id}
                     />
                     ):null
                 }

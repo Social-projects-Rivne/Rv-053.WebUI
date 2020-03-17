@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       date: {
         type: DataTypes.BIGINT,
         allowNull: false
+      },
+      status: {
+        type: DataTypes.ENUM('Active', 'Deleted'),
+        allowNull: false,
+        defaultValue: 'Active'
       }
     },
     {

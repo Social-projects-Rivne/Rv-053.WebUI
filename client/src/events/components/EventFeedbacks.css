@@ -46,10 +46,12 @@
     border-left: 16px solid rgb(47, 49, 60);
     margin: 30px auto;
 }
-.feedback-item_info{
+.feedback-item_panel{
     padding: 5px 0px;
     color: rgba(47, 49, 60, 0.8); 
     font-size: 14px;   
+    display: flex;
+    justify-content: space-between;
 }
 .feedback-date,
 .feedback-author{
@@ -73,6 +75,17 @@
 .feedback-author_link:hover{
     text-decoration: none;
     color: rgba(47, 49, 60, 0.8); 
+}
+.feedback-edit,
+.feedback-delete{
+    color: rgba(47, 49, 60, 0.9); 
+    font-size: 15px;
+    padding: 0px 5px;
+    margin-left: 10px;
+}
+.feedback-edit:hover,
+.feedback-delete:hover{
+    color: #000; 
 }
 .feedback-item_tail{
     position: absolute;

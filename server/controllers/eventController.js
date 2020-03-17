@@ -407,7 +407,8 @@ exports.leaveFeedback = async (req, res) => {
       await Feedbacks.create({
         user_event_id: userEvent.id,
         feedback,
-        date: CURRENT_DATE
+        date: CURRENT_DATE,
+        status: STATUS_ACTIVE
       })
     } 
     res.status(200).json({
@@ -431,6 +432,9 @@ exports.getFeedbacks = async(req, res) => {
         order:[
           ['id', 'DESC']
         ],
+        where: {
+          status: STATUS_ACTIVE
+        },
         include:[
           {
             model: UserEvent,
@@ -456,5 +460,36 @@ exports.getFeedbacks = async(req, res) => {
     }}
   catch (err) {
     res.status(500).json({err: err.message})
+  }
+}
+exports.deleteFeedback = async(req, res) => {
+  try {
+    await Feedbacks.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: UserEvent,
+          attributes: ['user_id']
+        }
+      ]
+    })
+    .then( feedback =>{
+      if(feedback === null){
+        res.status(404).json('Feedback is not found')
+      }
+      if(req.userId === feedback.user_event.user_id){
+        feedback.update(
+          {
+            status: STATUS_DELETED
+          }
+        )
+        res.status(200).json('Feedback is deleted')
+      }
+    })
+    
+  } catch (err) {
+     res.status(500).json({err: err.message}) 
   }
 }

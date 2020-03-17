@@ -23,6 +23,7 @@ const ReadFeedbacks = (props) => {
                     <FeedbackItem 
                         key={feedback.id}
                         feedback={feedback}
+                        currentUser={props.userId}
                     />
                 ):
                 <p>No feedbacks yet</p>

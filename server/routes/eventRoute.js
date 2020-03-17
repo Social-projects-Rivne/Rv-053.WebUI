@@ -27,5 +27,6 @@ router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
 router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 router.get('/feedback/:id', eventController.getFeedbacks);
 router.post('/feedback/:userId/:eventId', auth, eventController.leaveFeedback);
+router.delete('/feedback/:id', auth, eventController.deleteFeedback);
 
 module.exports = router;
