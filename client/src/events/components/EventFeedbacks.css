@@ -1,0 +1,89 @@
+.feedback-items{
+    padding: 40px 15px;
+}
+.leave_feedback-form{
+    max-width: 700px;
+    position: relative;
+    margin: 0 auto 40px;
+}
+.feedback-item.input{
+    opacity: 0.8;
+    padding: 5px;    
+    border-left: 16px solid #16a085;
+}
+.feedback-item.input input {
+    background-color: transparent;
+}
+.feedback-item.input button{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    right: 0;
+    top: 4px;
+    transform: rotate(30deg);
+    color: rgba(47, 49, 60, 0.8);    
+    transition: all .1s;
+}
+.feedback-item.input button:hover{
+    top: 2px;
+    color: #000;
+}
+.feedback-item.input button:focus{
+    outline: none;
+}
+.feedback-item.input .feedback-item_tail{
+    border-color: transparent #16a085 transparent transparent;
+}
+.feedback-item{
+    max-width: 800px;
+    width: 100%;
+    background-color: rgba(47, 49, 60, 0.03);
+    padding: 15px 10px 0px;
+    position: relative;
+    border-radius: 2px;
+    border-left: 16px solid rgb(47, 49, 60);
+    margin: 30px auto;
+}
+.feedback-item_info{
+    padding: 5px 0px;
+    color: rgba(47, 49, 60, 0.8); 
+    font-size: 14px;   
+}
+.feedback-date,
+.feedback-author{
+    position: relative;
+    padding-left: 15px;
+    margin-right: 15px;
+}
+.feedback-date:before,
+.feedback-author:before{
+    position: absolute;
+    font-family: 'icomoon';
+    left: 0;
+}
+.feedback-date:before{
+    content: "\f017";
+}
+.feedback-author:before{
+    content: "\f007";
+}
+.feedback-author_link,
+.feedback-author_link:hover{
+    text-decoration: none;
+    color: rgba(47, 49, 60, 0.8); 
+}
+.feedback-item_tail{
+    position: absolute;
+    display: inline-block;
+    width: 0;
+    left: -18px;
+    bottom: -9px;
+    height: 0;
+    border-style: solid;
+    border-width: 0 15px 15px 0;
+    border-color: transparent rgb(47, 49, 60) transparent transparent;
+    line-height: 0;
+    transform: rotate(-72deg);
+}

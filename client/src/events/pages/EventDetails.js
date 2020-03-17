@@ -27,6 +27,7 @@ const EventDetails = () => {
 
   const getEvent = useCallback(async () => {
     const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
+    console.log(event);
     event.data.datetime = moment(+event.data.datetime)
       .format('DD MM YYYY')
       .split(' ')
@@ -94,6 +95,8 @@ const EventDetails = () => {
             quantity={quantityParticipants}
           />
           <EventFeedbacks 
+            eventId={eventData.id}
+            userId={eventData.currentUser_id}
             event={eventData}
           />
         </>

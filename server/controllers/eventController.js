@@ -5,8 +5,8 @@ const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
+const Feedbacks = require('../models').event_feedback;
 const Redis = require('../services/redisService');
-const eventFeedback = require('../models').eventFeedback;
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
@@ -392,23 +392,69 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       });
     });
 };
+
+
 exports.leaveFeedback = async (req, res) => {
-  let = {feedbackMessage} = req.body;
-  const feedback = user_event.findOne({
-    where: {user_id: req.userId, event_id: req.eventId}
-  })
-  await eventFeedback.create({
-    user_event_id: feedback.id,
-    feedbackMessage,
-    date: CURRENT_DATE
-  })
-  .then(() => {
-    res.status(200).json({ status: 'Feedback was added successfuly' });
-  })
-  .catch(err => {
-    res.status(404).send({
-      message: err.message || 'Something wrong'
-    });
-  });
+  try{
+    let {feedback} = req.body;
+    const userEvent =  await UserEvent.findOne({
+      where: {
+        user_id: req.params.userId, 
+        event_id: req.params.eventId
+      }
+    })
+    if(userEvent){
+      await Feedbacks.create({
+        user_event_id: userEvent.id,
+        feedback,
+        date: CURRENT_DATE
+      })
+    } 
+    res.status(200).json({
+      status: 'success',
+    })
+  } catch(err) {
+    res.status(500).json({err: err.message})
+  }
 }
 
+exports.getFeedbacks = async(req, res) => {
+  try{
+    eventId = req.params.id;
+    const feedback_id = await UserEvent.findAll({
+      where: {
+        event_id: eventId
+      }
+    })
+    if(feedback_id){
+      const feedbacks = await Feedbacks.findAll({
+        order:[
+          ['id', 'DESC']
+        ],
+        include:[
+          {
+            model: UserEvent,
+            where:{
+              event_id: eventId,
+            },
+            attributes: ['user_id'],
+            include:[
+              {
+                model: User,
+                attributes: ['first_name']
+              }
+            ]
+          }
+        ],
+      })
+      res.status(200).json({
+        status: 'success',
+        data: {
+          feedbacks
+        }
+      }); 
+    }}
+  catch (err) {
+    res.status(500).json({err: err.message})
+  }
+}

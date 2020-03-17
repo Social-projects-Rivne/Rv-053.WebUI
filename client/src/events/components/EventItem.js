@@ -15,12 +15,12 @@ const EventItem = props => {
     lng: +coordinates[1]
   };
 
-  useEffect(() => {
-    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
-    geocodeObj.then(geocodeObj => {
-      setAddress(geocodeObj.formatted_address);
-    });
-  }, [coordinates]);
+  // useEffect(() => {
+  //   const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+  //   geocodeObj.then(geocodeObj => {
+  //     setAddress(geocodeObj.formatted_address);
+  //   });
+  // }, [coordinates]);
 
   return (
     <div className="container event-item">

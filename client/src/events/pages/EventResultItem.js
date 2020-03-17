@@ -20,16 +20,16 @@ const EventResultItem = props => {
     .split(' ')
     .join('.');
 
-  const coordinates = props.location.split(',');
-  useEffect(() => {
-    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
-    geocodeObj.then(geocodeObj => {
-      const geoComponent = geocodeObj.address_components;
-      setAddress(
-        `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
-      );
-    });
-  }, [coordinates]);
+  // const coordinates = props.location.split(',');
+  // useEffect(() => {
+  //   const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+  //   geocodeObj.then(geocodeObj => {
+  //     const geoComponent = geocodeObj.address_components;
+  //     setAddress(
+  //       `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
+  //     );
+  //   });
+  // }, [coordinates]);
 
   const confirmUnfollow = () => {
     setConfirmUnfollowFlag(true);
