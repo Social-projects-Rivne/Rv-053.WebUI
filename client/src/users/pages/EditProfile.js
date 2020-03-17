@@ -29,10 +29,6 @@ const EditProfile = () => {
         value: '',
         isValid: false
       },
-      sex: {
-        value: '',
-        isValid: false
-      },
       birth_day: {
         value: '',
         isValid: false

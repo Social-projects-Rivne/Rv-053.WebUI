@@ -14,8 +14,12 @@ import MainPage from '../../../events/pages/MainPage';
 import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
 import EditEvent from '../../../events/pages/EditEvent';
+<<<<<<< HEAD
 import PasswordReset from '../../../users/pages/PasswordReset';
 import ChangePassword from '../../../users/pages/ChangePassword';
+=======
+import PastEvents from '../../../users/components/ProfileEvents/PastEvents';
+>>>>>>> b67d7cd7cafc5cb619d2702e60c99409cd725e92
 
 const Routes = () => {
   return (
@@ -28,6 +32,9 @@ const Routes = () => {
             </Route>
             <Route path="/events" exact>
               <PageLayout innerComponent={<EventsResult />} />
+            </Route>
+            <Route path="/pastevents">
+              <PageLayout innerComponent={<PastEvents />}/>
             </Route>
             <Route path="/event/:eventId">
               <PageLayout innerComponent={<EventDetails />} />
