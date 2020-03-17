@@ -81,7 +81,7 @@ const EventItem = props => {
               )}
             </div>
           </div>
-          <div className='row'>
+          <div className='row row__description'>
             <div className='col-md-8 event-item__desctiption'>
               <div className=''>
                 <h3>Details</h3>
@@ -93,7 +93,7 @@ const EventItem = props => {
             </div>
           </div>
 
-          <div className='row'>
+          <div className='row' style={{ width: '100%' }}>
             <div className='col-md-12 map-container'>
               <Map center={map} zoom={16} />
             </div>
