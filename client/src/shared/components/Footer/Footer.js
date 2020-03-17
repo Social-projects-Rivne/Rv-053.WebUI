@@ -71,6 +71,7 @@ const Footer = () => {
                   <li>About</li>
                 </ul>
               </div>
+<<<<<<< HEAD
               <div className='footer__col-follow'>
                 <span className='footer__col-title'>Follow us</span>
                 <ul className='footer__list'>
@@ -83,6 +84,15 @@ const Footer = () => {
                       className='link-light'
                     ></a>
                   </li>
+=======
+              <div className="footer__col-follow">
+                <span className="footer__col-title">Follow us</span>
+                <ul className="footer__list">
+                  <li className="social social-instagram"></li>
+                  <li className="social social-facebook"></li>
+                  <li className="social social-google"></li>
+                  <li className="social social-github"></li>
+>>>>>>> b67d7cd7cafc5cb619d2702e60c99409cd725e92
                 </ul>
               </div>
             </div>
