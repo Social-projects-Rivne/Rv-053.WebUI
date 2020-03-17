@@ -150,7 +150,7 @@ exports.confirmPasswordReset = async (req, res) => {
       border-right:24px solid;border-left:24px solid;border-color:#2ea664;
       border-radius:4px;background-color:#2ea664;color:#ffffff;font-size:18px;
       line-height:18px;"
-       href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
+       href="${mailURL}/${mailToken}" target="_blank" >Change password</a>
        </div>
        <p>The confirmation link will expire in 24 hours</p>
        </div>
