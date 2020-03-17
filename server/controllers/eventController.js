@@ -493,3 +493,35 @@ exports.deleteFeedback = async(req, res) => {
      res.status(500).json({err: err.message}) 
   }
 }
+
+exports.updateFeedback = async(req, res) => {
+  try {
+    let {feedback} = req.body;
+    await Feedbacks.findOne({
+      where:{
+        id: req.params.id
+      },
+      include:[
+        {
+          model: UserEvent,
+          attributes: ['user_id']
+        }
+      ]
+    })
+    .then(feedbackItem => {
+      if(feedbackItem === null){
+        res.status(404).json('Feedback is not found')
+      }
+      else if(req.userId === feedbackItem.user_event.user_id){
+        feedbackItem.update({
+          feedback,
+          date: CURRENT_DATE
+        })
+        res.status(200).json('Feedback was updated!')
+      }
+    })
+    
+  } catch (err) {
+    res.status(500).json({err: err.message})
+  }
+}
