@@ -7,11 +7,8 @@ import ScrollToTop from '../../shared/components/UI/ScrollToTop';
 import Filter from '../../shared/components/Filter/Filter';
 import DateRangeContextProvider from '../../shared/components/Filter/DateRange/DateRangesContext';
 import CategoryContextProvider from '../../shared/components/Filter/Category/CategoryContext';
+import useQuery from '../../shared/utilities/useQuery';
 import './EventsResult.css';
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const EventsResult = () => {
   const urlParams = useQuery();
@@ -20,10 +17,10 @@ const EventsResult = () => {
   const filterCategory = urlParams.get('category');
   const filterStartDate = urlParams.get('startDate');
   const filterEndDate = urlParams.get('endDate');
-  const apiFilterQuery = `startDate=${filterStartDate}&endDate=${filterEndDate}&category=${filterCategory}`;
 
   const [allEvents, setAllEvents] = useState([]);
   const [toggleListState, setToggleListState] = useState({ list: true });
+
   const toggleListHandler = () => {
     let isList = toggleListState.list;
     setToggleListState({ list: !isList });
@@ -32,15 +29,16 @@ const EventsResult = () => {
   const getEvents = useCallback(data => {
     setAllEvents(data.rows);
   }, []);
+
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>
-        <section className="list__events">
-          <div className="my__container">
-            <div className="list__events__inner">
-              <div className="list__events-sort">
-                <Filter className="" />
-                <div className="list__events-sort_btn">
+        <section className='list__events'>
+          <div className='my__container'>
+            <div className='list__events__inner'>
+              <div className='list__events-sort'>
+                <Filter className='' />
+                <div className='list__events-sort_btn'>
                   <button
                     className={
                       toggleListState.list
@@ -62,22 +60,21 @@ const EventsResult = () => {
             </div>
 
             <Pagination
-              api={
-                filterCategory || filterStartDate || filterEndDate
-                  ? '/api/events/filter'
-                  : '/api/events/'
-              }
+              api='/api/events'
               onDataFetch={getEvents}
               pageItemsLimit={4}
-              query={
-                filterCategory || filterStartDate || filterEndDate
-                  ? apiFilterQuery
-                  : `q=${searchQuery ? searchQuery : ''}`
-              }
+              query={{
+                startDate: filterStartDate,
+                endDate: filterEndDate,
+                category: filterCategory,
+                q: searchQuery
+              }}
             >
               <div
                 className={
-                  toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
+                  toggleListState.list
+                    ? 'list__events-items'
+                    : 'list__events-items card-wrapper'
                 }
               >
                 {console.log(allEvents)}
@@ -87,7 +84,9 @@ const EventsResult = () => {
                       <EventResultItem
                         key={event.id}
                         className={
-                          toggleListState.list ? 'list__events-item' : 'list__events-item card'
+                          toggleListState.list
+                            ? 'list__events-item'
+                            : 'list__events-item card'
                         }
                         id={event.id}
                         name={event.name}
@@ -104,7 +103,7 @@ const EventsResult = () => {
                     );
                   })
                 ) : (
-                  <p className="text-center">Doesn't find anything</p>
+                  <p className='text-center'>Doesn't find anything</p>
                 )}
               </div>
             </Pagination>

@@ -3,8 +3,10 @@ const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
+const EventCategory = require('../models').event_category;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
+const Category = require('../models').category;
 const Redis = require('../services/redisService');
 
 const STATUS_ACTIVE = 'Active';
@@ -38,7 +40,8 @@ exports.getEventByID = async (req, res) => {
         attributes: ['id', 'first_name', 'last_name', 'avatar']
       },
       {
-        model: Categories
+        model: Categories,
+        attributes: ['category', 'parent_id']
       }
     ]
   })
@@ -59,8 +62,7 @@ exports.getEventByID = async (req, res) => {
           event.isSubscribe = true;
         }
       }
-
-      //     Redis.addUrlInCache(req.originalUrl, event);
+      Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -76,32 +78,43 @@ exports.createEvent = async (req, res) => {
     description,
     location,
     datetime,
-    duration,
+    category,
     max_participants,
     min_age,
-    cover,
     price
   } = req.body;
+  const cover = req.file || null;
   await Event.create({
     name,
     owner_id: req.userId,
     description,
     location,
     datetime,
-    duration,
     max_participants,
     min_age,
-    cover: req.file.path,
+    cover: cover.path,
     price
   })
-    .then(() => {
-      res.status(200).send({
-        message: 'Event was create successful'
-      });
+    .then(event => {
+      const eventId = event.id;
+      EventCategory.create({
+        event_id: eventId,
+        category_id: category
+      })
+        .then(() => {
+          res.status(200).send({
+            message: 'Event was create successful'
+          });
+        })
+        .catch(err => {
+          res.status(404).send({
+            message: 'Some problems with create event(category)' || err.message
+          });
+        });
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || 'Something wrong'
+        message: 'Some problems with create event' || err.message
       });
     });
 };
@@ -191,57 +204,23 @@ exports.deleteEvent = async (req, res) => {
 };
 
 exports.searchEvent = async (req, res) => {
-  const limit = req.query.limit || 100;
-  const offset = req.query.offset || 0;
-  let searchQuery = null;
-  if (req.query.q) {
-    searchQuery = {
-      status: STATUS_ACTIVE,
-      [Op.or]: [
-        { name: { [Op.iLike]: `%${req.query.q}%` } },
-        { description: { [Op.iLike]: `%${req.query.q}%` } }
-      ]
-    };
-  } else {
-    searchQuery = { status: STATUS_ACTIVE };
-  }
-
-  await Event.findAndCountAll({
-    where: searchQuery,
-    offset,
-    limit,
-    include: [
-      {
-        model: User,
-        attributes: ['first_name', 'last_name']
-      },
-      {
-        model: Categories
-      }
-    ],
-    order: [
-      ['datetime', 'DESC'],
-      ['id', 'DESC']
-    ]
-  })
-    .then(events => {
-      Redis.addUrlInCache(req.originalUrl, events);
-      res.status(200).json(events);
-    })
-    .catch(err => {
-      res.status(400).send({
-        message: err.message || 'Bad Request'
-      });
-    });
-};
-
-exports.filterEvent = async (req, res) => {
   const limit = req.query.limit || null;
   const offset = req.query.offset || 0;
   const startDate = req.query.startDate || null;
   const endDate = req.query.endDate || null;
   const category = req.query.category || null;
-  let searchQuery = { status: STATUS_ACTIVE };
+
+  let searchQuery = {
+    status: STATUS_ACTIVE
+  };
+
+  if (req.query.q) {
+    searchQuery[Op.or] = [
+      { name: { [Op.iLike]: `%${req.query.q}%` } },
+      { description: { [Op.iLike]: `%${req.query.q}%` } }
+    ];
+  }
+
   let includeQuery = [
     {
       model: User,

@@ -88,20 +88,20 @@ const createEventValidation = () => {
     body('datetime', 'Datetime field is invalid').notEmpty({
       ignore_whitespace: false
     }),
-    body('duration', 'Duration field should not be empty').notEmpty({
-      ignore_whitespace: false
-    }),
+    // body('duration', 'Duration field should not be empty').notEmpty({
+    //   ignore_whitespace: false
+    // }),
     body('max_participants', 'Max part field should not be empty').notEmpty({
       ignore_whitespace: false
     }),
     body('min_age', 'Min age field should not be empty').notEmpty({
       ignore_whitespace: false
     }),
-    body('cover', 'Cover field should not be empty')
-      .notEmpty({
-        ignore_whitespace: false
-      })
-      .isString(),
+    // body('cover', 'Cover field should not be empty')
+    //   .notEmpty({
+    //     ignore_whitespace: false
+    //   })
+    //   .isString(),
     body('price', 'price field should not be empty')
       .notEmpty({
         ignore_whitespace: false

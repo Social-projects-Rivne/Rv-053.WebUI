@@ -9,6 +9,7 @@
   width: 100%;
   position: relative;
   height: auto;
+  margin-bottom: 20px;
 }
 .input__form input {
   height: 100%;

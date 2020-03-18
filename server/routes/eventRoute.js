@@ -13,12 +13,17 @@ router.post(
   '/',
   auth,
   uploadCover.single('cover'),
-  createEventValidation,
+  createEventValidation(),
   validate,
   eventController.createEvent
 );
-router.get('/filter', CheckUrlInCache, eventController.filterEvent);
-router.put('/:id', auth, createEventValidation(), validate, eventController.updateEvent);
+router.put(
+  '/:id',
+  auth,
+  createEventValidation(),
+  validate,
+  eventController.updateEvent
+);
 router.delete('/:id', auth, eventController.deleteEvent);
 router.get('/:id', eventController.getEventByID);
 router.put('/:id/reject', adminAndModeratorAuth, eventController.rejectEvent);
