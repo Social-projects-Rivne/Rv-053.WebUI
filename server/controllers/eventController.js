@@ -1,4 +1,5 @@
 require('dotenv').config();
+const fs = require('fs');
 const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -130,6 +131,7 @@ exports.updateEvent = async (req, res) => {
   }).then(event => {
     if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       cover = cover || process.env.BACK_HOST + '/' + req.file.path;
+      let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
       event
         .update({
           name,
@@ -154,6 +156,17 @@ exports.updateEvent = async (req, res) => {
               category_id: category
             });
           });
+        })
+        .then(() => {
+          if (oldCoverPath) {
+            fs.unlink('.' + oldCoverPath, err => {
+              if (err) {
+                console.log('failed to delete local image:' + err);
+              } else {
+                console.log('successfully deleted local image');
+              }
+            });
+          }
         })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
