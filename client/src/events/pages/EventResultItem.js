@@ -37,7 +37,8 @@ const EventResultItem = props => {
   const confirmDelete = () => {
     setConfirmDeleteFlag(true);
   }
-  return (<>
+  return (
+  <>
     {
       confirmUnfollowFlag ? 
         <ConfirmationWindow
@@ -80,6 +81,9 @@ const EventResultItem = props => {
           </NavLink>
           <div className="list__events-item-location">{address}</div>
           <div className="list__events-item-date">{datetime}</div>
+          {props.pastEvent ? (
+            <div className="list__events-item-comment">share with us</div>
+          ):null}
         </div>
         {props.unfollowFromEvent ? (
               <div className="list__events-item-panel">
@@ -97,7 +101,8 @@ const EventResultItem = props => {
           ):null
           }
       </div>
-    </div></>
+    </div>
+  </>
   );
 };
 

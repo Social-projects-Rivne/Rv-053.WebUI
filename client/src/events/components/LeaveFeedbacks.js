@@ -62,7 +62,7 @@ const LeaveFeedbacks = (props) => {
                         validations={[VAL_MIN_LENGTH(5)]}
                         initValid={false}
                         errorMessage="Write at least 5 charachters"
-                        value={formState.inputs.feedback.value}
+                        placeholder="Leave a feedback.."
                     />
                     <div className="feedback-item_tail"></div>
                     <button type="submit" className="icon-thumb-tack "></button>

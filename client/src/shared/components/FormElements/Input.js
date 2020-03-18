@@ -102,6 +102,7 @@ const Input = props => {
         onBlur={blurHandler}
         onChange={typingHandler}
         onClick={typingHandler}
+        placeholder={props.placeholder}
         required
       />
     );

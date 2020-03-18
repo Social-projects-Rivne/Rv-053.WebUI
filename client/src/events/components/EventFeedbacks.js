@@ -17,6 +17,7 @@ const EventFeedbacks = (props) => {
     return(
         <>
             <div className="my__container">
+                <div className="feedback-title">How was it going?</div>
                 {props.event.isSubscribe && props.event.past ? (
                     <LeaveFeedbacks 
                         eventId={props.event.id} 

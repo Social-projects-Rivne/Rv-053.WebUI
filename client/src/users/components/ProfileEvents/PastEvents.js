@@ -20,6 +20,7 @@ const PastEvents = () => {
             headers
         });
         setPastEvents(pastEvents.data.data.pastEvents);
+        console.log(pastEvents.data.data.pastEvents )
     },[headers]);  
     
     useEffect(() => {
@@ -33,7 +34,7 @@ const PastEvents = () => {
             <ScrollToTop />
             <div className="my__container">
                 <div className="past-evnts__top">
-                    Tell us how was it going?
+                    Tell us how was it going...
                 </div>
                 <div className="list__events-items">
                     {pastEvents  ?
@@ -51,6 +52,7 @@ const PastEvents = () => {
                                 price={event.event.price}
                                 owner_id={event.user.id}
                                 owner_first_name={event.user.first_name}
+                                pastEvent={true}
                             />
                         )
                     :<p>You haven't got past events or the lasted more then month ago</p>
