@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-import Notificator from '../../shared/components/UI/Notificator';
 import LeaveFeedbacks from './LeaveFeedbacks';
 import ReadFeedbacks from './ReadFeedbacks';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const EventFeedbacks = (props) => {
+    const location = useLocation();
+
+    const [changeFlag, setChangeFlag] = useState(false);
+
+    useEffect(()=>{
+        setChangeFlag(location.state?.rerender)
+    },[location])
+
+    console.log(changeFlag)
     return(
         <>
             <div className="my__container">
@@ -12,6 +21,7 @@ const EventFeedbacks = (props) => {
                     <LeaveFeedbacks 
                         eventId={props.event.id} 
                         userId={props.event.currentUser_id}
+                        flag={changeFlag}
                     />
                     ):null
                 }
@@ -20,6 +30,7 @@ const EventFeedbacks = (props) => {
                         eventId={props.event.id}
                         past={props.event.past}
                         userId={props.event.currentUser_id}
+                        flag={changeFlag}
                     />
                     ):null
                 }

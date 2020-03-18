@@ -1,5 +1,5 @@
-import React, {useMemo, useContext} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, {useMemo, useContext, useEffect, useState} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
 import axios from 'axios';
 
 import {api_server_url} from '../../shared/utilities/globalVariables';
@@ -11,6 +11,8 @@ import './EventFeedbacks.css'
 
 const LeaveFeedbacks = (props) => {      
     const history = useHistory();  
+    const location = useLocation();
+    const [rerender, setRerender] = useState(false);
     const accessToken = useContext(AuthContext).token;
     const headers = useMemo(
         () => ({
@@ -42,7 +44,7 @@ const LeaveFeedbacks = (props) => {
                     feedbackData,
                     {headers}
                 )  
-                history.push(`/event/${props.eventId}`, { show: true });
+                history.replace(location.pathname, {rerender:true} );
             }   
             catch (err) {
                 console.log(err);
@@ -60,6 +62,7 @@ const LeaveFeedbacks = (props) => {
                         validations={[VAL_MIN_LENGTH(5)]}
                         initValid={false}
                         errorMessage="Write at least 5 charachters"
+                        value={formState.inputs.feedback.value}
                     />
                     <div className="feedback-item_tail"></div>
                     <button type="submit" className="icon-thumb-tack "></button>

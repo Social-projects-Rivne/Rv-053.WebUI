@@ -6,10 +6,13 @@ import {VAL_MIN_LENGTH} from '../../shared/utilities/validation';
 import {api_server_url} from '../../shared/utilities/globalVariables';
 import {AuthContext} from '../../shared/context/auth-context';
 import Input from '../../shared/components/FormElements/Input';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 const EditFeedbackItem = (props) => {
 
+    const history = useHistory();
+    const location = useLocation();
     const feedbackId = props.feedback.id;
 
     const accessToken = useContext(AuthContext).token;
@@ -34,7 +37,8 @@ const EditFeedbackItem = (props) => {
                     value: props.feedback.feedback,
                     isValid: true
                 }
-            }
+            },
+            false
         )
     },[])
     const submitUpdateFeedback = (event) => {
@@ -53,7 +57,7 @@ const EditFeedbackItem = (props) => {
                     updatedFeedback,
                     {headers}
                 )
-                console.log(res);
+                history.replace(location.pathname, {edited: true})
             }
         } catch (err) {
             console.log(err);
