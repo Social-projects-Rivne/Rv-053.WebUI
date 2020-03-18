@@ -37,7 +37,7 @@ module.exports = {
           description:
             'Graduation performance of Group 32 of ProEnglish Drama School, directed by Valerie Zubchenko. What would you be willing to do to get what you want? A mysterious man always sits at the same table, ready to fulfill the greatest wishes of nine visitors, in exchange for tasks to be performed. This thought-provoking story about the limits of human morality raises questions about how far people will go to get what they want.',
           location: '50.6205378,26.250742',
-          datetime: 1587545059000,
+          datetime: 1580384902394,
           duration: 1200,
           max_participants: 30,
           min_age: 18,

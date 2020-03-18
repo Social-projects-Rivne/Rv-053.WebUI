@@ -7,10 +7,10 @@ import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventsResult.css';
 
 const EventResultItem = props => {
+  const userId = useParams().userId;
   const [address, setAddress] = useState();
   const [confirmUnfollowFlag, setConfirmUnfollowFlag] = useState(false);
   const [confirmDeleteFlag, setConfirmDeleteFlag] = useState(false);
-  const userId = useParams().userId;
   const image = {
     backgroundImage: `url(${props.cover})`
   };
@@ -66,17 +66,6 @@ const EventResultItem = props => {
               <div className='list__events-item-category'>{props.category}</div>
               <div className='list__events-item-descr'>{props.description}</div>
             </div>
-            <div className='list__events-item-price'>
-              {props.price || 'free'}
-            </div>
-          </div>
-          <div className='list__events-item-bottom_info'>
-            <NavLink to={'profile/' + props.owner_id} className='link '>
-              <div className='list__events-item-creator'>
-                {props.owner_first_name + ' ' || null}
-                {props.owner_last_name || null}
-              </div>
-            </NavLink>
             <div className='list__events-item-location'>{address}</div>
             <div className='list__events-item-date'>{datetime}</div>
           </div>
@@ -88,7 +77,7 @@ const EventResultItem = props => {
               ></button>
             </div>
           ) : null}
-          {props.deleteEvent ? (
+          {userId === 'my' && props.deleteEvent ? (
             <>
               <div className='list__events-item-panel'>
                 <NavLink
