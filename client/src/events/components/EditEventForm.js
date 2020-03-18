@@ -96,7 +96,8 @@ const EditEventForm = props => {
         onInput={InputHandler}
         initValue={props.eventData.cover.value}
         initValid={true}
-        errorMessage="Enter the name of event"
+        errorMessage="Choose an image"
+        acceptFileType="image/*"
       />
       <Input
         id="title"

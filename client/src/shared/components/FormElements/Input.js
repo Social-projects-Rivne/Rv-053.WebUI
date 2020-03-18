@@ -178,6 +178,7 @@ const Input = props => {
         name={props.name}
         onBlur={blurHandler}
         onChange={typingHandler}
+        accept={props.acceptFileType}
       />
     )
   };
