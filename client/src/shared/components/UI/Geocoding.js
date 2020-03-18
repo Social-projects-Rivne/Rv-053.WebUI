@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 async function getAddressFromLatLng(lat, lng) {
-  const KEY = '';
   let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_KEY}`;
   const response = await axios
     .get(url)
