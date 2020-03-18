@@ -22,13 +22,10 @@ const AddEvent = () => {
     show: false
   });
 
+  const [eventCategory, setEventCategory] = useState({ id: null, category: '' });
   const [formState, inputHandler] = useForm(
     {
       title: {
-        value: '',
-        isValid: false
-      },
-      category: {
         value: '',
         isValid: false
       },
@@ -73,7 +70,7 @@ const AddEvent = () => {
       try {
         const createEventData = new FormData();
         createEventData.append('name', formState.inputs.title.value);
-        createEventData.append('category', formState.inputs.category.value);
+        createEventData.append('category', eventCategory.id);
         createEventData.append('description', formState.inputs.description.value);
         createEventData.append(
           'location',
@@ -116,6 +113,7 @@ const AddEvent = () => {
           onInputHandler={inputHandler}
           onSubmitFormHandler={submitFormHandler}
           imageUpload={getImgURL}
+          onChooseCategory={e => setEventCategory({ id: e.id, category: e.title })}
         />
       </div>
     </>
