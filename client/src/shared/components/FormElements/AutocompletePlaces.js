@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Input from './Input';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -22,7 +21,7 @@ const AutocompletePlaces = ({ setCoordinates }) => {
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div style={{ width: '70%', marginTop: '20px' }}>
+        <div>
           <input
             style={{ width: '100%' }}
             {...getInputProps({

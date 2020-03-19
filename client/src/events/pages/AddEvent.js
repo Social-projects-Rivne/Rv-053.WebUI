@@ -1,67 +1,69 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-import { useForm } from '../../shared/hooks/useForm';
-import { AuthContext } from '../../shared/context/auth-context';
-import ScrollToTop from '../..//shared/components/UI/ScrollToTop';
-import AddEventForm from '../components/AddEventForm';
-import { api_server_url } from '../../shared/utilities/globalVariables';
-import './AddEvent.css';
+import { useForm } from "../../shared/hooks/useForm";
+import { AuthContext } from "../../shared/context/auth-context";
+import ScrollToTop from "../..//shared/components/UI/ScrollToTop";
+import AddEventForm from "../components/AddEventForm";
+import { api_server_url } from "../../shared/utilities/globalVariables";
+import "./AddEvent.css";
 
 const AddEvent = () => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
-    'Content-Type': 'multipart/form-data',
-    Authorization: 'Bearer ' + accessToken
+    "Content-Type": "multipart/form-data",
+    Authorization: "Bearer " + accessToken
   };
   const [coordinates, setCoordinates] = useState({
-    lat: null,
-    lng: null
+    lat: "",
+    lng: ""
   });
 
   if (coordinates) {
-    console.log(coordinates);
   }
   const [notificationState, setNotificationState] = useState({
-    message: 'some message',
+    message: "some message",
     show: false
   });
 
-  const [eventCategory, setEventCategory] = useState({ id: null, category: '' });
+  const [eventCategory, setEventCategory] = useState({
+    id: null,
+    category: "Choose category"
+  });
   const [formState, inputHandler] = useForm(
     {
       title: {
-        value: '',
+        value: "",
         isValid: false
       },
       description: {
-        value: '',
+        value: "",
         isValid: false
       },
-      address: {
-        value: '',
+      category: {
+        value: "",
         isValid: false
       },
-      country: {
-        value: '',
+      location: {
+        value: "",
         isValid: false
       },
       price: {
-        value: '',
+        value: "",
         isValid: false
       },
       age: {
-        value: '',
+        value: "",
         isValid: false
       },
       participants: {
-        value: '',
+        value: "",
         isValid: false
       },
       date: {
-        value: '',
+        value: "",
         isValid: false
       }
     },
@@ -76,31 +78,26 @@ const AddEvent = () => {
     if (formState.formValidity) {
       try {
         const createEventData = new FormData();
-        createEventData.append('name', formState.inputs.title.value);
-<<<<<<< HEAD
-        createEventData.append('category', eventCategory.id);
-        createEventData.append('description', formState.inputs.description.value);
-=======
-        createEventData.append('category', formState.inputs.category.value);
+        createEventData.append("name", formState.inputs.title.value);
+        createEventData.append("category", eventCategory.id);
         createEventData.append(
-          'description',
+          "description",
           formState.inputs.description.value
         );
->>>>>>> 09a4b1eeb881028e4b3e427369c21551de886775
         createEventData.append(
-          'location',
+          "location",
           `${formState.inputs.address.value}, ${formState.inputs.country.value}`
         );
-        createEventData.append('datetime', formState.inputs.date.value);
+        createEventData.append("datetime", formState.inputs.date.value);
         createEventData.append(
-          'max_participants',
+          "max_participants",
           formState.inputs.participants.value
         );
-        createEventData.append('min_age', formState.inputs.age.value);
-        createEventData.append('price', formState.inputs.age.value);
-        createEventData.append('cover', imgObject);
+        createEventData.append("min_age", formState.inputs.age.value);
+        createEventData.append("price", formState.inputs.age.value);
+        createEventData.append("cover", imgObject);
         const res = await axios.post(
-          api_server_url + '/api/events',
+          api_server_url + "/api/events",
           createEventData,
           {
             headers
@@ -112,14 +109,14 @@ const AddEvent = () => {
             show: true
           });
           history.push({
-            pathname: '/redirect',
+            pathname: "/redirect",
             state: {
-              className: 'p-0 auth alert alert-success',
+              className: "p-0 auth alert alert-success",
               message: res.data.status
             }
           });
         } else {
-          console.log('stupid errorr');
+          console.log("stupid errorr");
         }
       } catch (e) {
         console.log(e);
@@ -129,18 +126,18 @@ const AddEvent = () => {
   return (
     <>
       <ScrollToTop />
-      <div className='container'>
-        <h2 className='create__tittle'>Create event</h2>
+      <div className="container create__wrapper">
+        <h2 className="create__tittle">Create event</h2>
         <AddEventForm
           onInputHandler={inputHandler}
           onSubmitFormHandler={submitFormHandler}
           imageUpload={getImgURL}
-<<<<<<< HEAD
-          onChooseCategory={e => setEventCategory({ id: e.id, category: e.title })}
-=======
           setCoordinates={setCoordinates}
           coordinates={coordinates}
->>>>>>> 09a4b1eeb881028e4b3e427369c21551de886775
+          category={eventCategory}
+          onChooseCategory={e =>
+            setEventCategory({ id: e.id, category: e.title })
+          }
         />
       </div>
     </>

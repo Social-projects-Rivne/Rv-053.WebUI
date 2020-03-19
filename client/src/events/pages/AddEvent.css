@@ -73,7 +73,7 @@ label {
   position: relative;
 }
 .rdtPicker td.rdtToday:before {
-  content: '';
+  content: "";
   display: inline-block;
   border-left: 7px solid transparent;
   border-bottom: 7px solid #428bca;
@@ -240,4 +240,46 @@ td.rdtYear:hover {
   color: #fff;
   text-transform: uppercase;
   text-align: center;
+}
+
+.category__btn {
+  width: 100%;
+  padding: 6px 0;
+  background: #16a085;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+}
+.map_input input {
+  width: 100%;
+  padding: 6px;
+  border: none;
+  border-bottom: 1px solid #000;
+  margin-top: 15px;
+}
+.input__form {
+  margin-bottom: 0px;
+}
+.input__form textarea {
+  margin: 0;
+}
+.create__wrapper {
+  background: #fff;
+  padding: 0;
+}
+.map-container {
+  height: 75vh;
+}
+
+#date {
+  width: 68%;
+  padding: 6px 0;
+  background: #16a085;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  text-align: center;
+}
+#date::-webkit-input-placeholder {
+  color: #fff;
 }
