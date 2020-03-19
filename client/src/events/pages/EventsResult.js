@@ -74,7 +74,6 @@ const EventsResult = () => {
                   toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
                 }
               >
-                {console.log(allEvents)}
                 {allEvents[0] ? (
                   allEvents.map(event => {
                     return (
