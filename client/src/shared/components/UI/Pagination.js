@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useMemo
-} from 'react';
+import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 import { AuthContext } from '../../context/auth-context';
@@ -52,10 +46,10 @@ const Pagination = props => {
     }
   }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
+  const dependencyQuery = JSON.stringify(props.query);
   useEffect(() => {
     getItemsList();
-    console.log(props.query);
-  }, [page, JSON.stringify(props.query)]);
+  }, [page, dependencyQuery, getItemsList]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];
@@ -92,26 +86,26 @@ const Pagination = props => {
   );
 
   const pagingLine = (
-    <nav aria-label='Page navigation'>
-      <ul className='pagination justify-content-center'>
+    <nav aria-label="Page navigation">
+      <ul className="pagination justify-content-center">
         <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
           <button
-            className='pagination__page-link'
-            aria-label='Previous'
+            className="pagination__page-link"
+            aria-label="Previous"
             onClick={() => PageHandler(1)}
             disabled={loadingFlag}
           >
-            <span aria-hidden='true'>First</span>
+            <span aria-hidden="true">First</span>
           </button>
         </li>
         <li className={'pagination__page-item ' + (page < 2 ? 'disabled' : '')}>
           <button
-            className='pagination__page-link'
-            aria-label='Previous'
+            className="pagination__page-link"
+            aria-label="Previous"
             onClick={() => PageHandler('prev')}
             disabled={loadingFlag}
           >
-            <span aria-hidden='true'>&laquo;</span>
+            <span aria-hidden="true">&laquo;</span>
           </button>
         </li>
         {pageNumbers.map(pageNamber => (
@@ -124,8 +118,8 @@ const Pagination = props => {
             key={'pagenumber' + pageNamber}
           >
             <button
-              className='pagination__page-link'
-              aria-label='Previous'
+              className="pagination__page-link"
+              aria-label="Previous"
               onClick={() => PageHandler(pageNamber)}
               disabled={loadingFlag}
             >
@@ -133,32 +127,24 @@ const Pagination = props => {
             </button>
           </li>
         ))}
-        <li
-          className={
-            'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')
-          }
-        >
+        <li className={'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')}>
           <button
-            className='pagination__page-link'
-            aria-label='Next'
+            className="pagination__page-link"
+            aria-label="Next"
             onClick={() => PageHandler('next')}
             disabled={loadingFlag}
           >
-            <span aria-hidden='true'>&raquo;</span>
+            <span aria-hidden="true">&raquo;</span>
           </button>
         </li>
-        <li
-          className={
-            'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')
-          }
-        >
+        <li className={'pagination__page-item ' + (page === pagesCount ? 'disabled' : '')}>
           <button
-            className='pagination__page-link'
-            aria-label='Next'
+            className="pagination__page-link"
+            aria-label="Next"
             onClick={() => PageHandler(pagesCount)}
             disabled={loadingFlag}
           >
-            <span aria-hidden='true'>Last</span>
+            <span aria-hidden="true">Last</span>
           </button>
         </li>
       </ul>

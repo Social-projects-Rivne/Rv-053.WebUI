@@ -148,7 +148,7 @@ const Auth = () => {
         }}
       />
 
-      <DisappearingAnimation triger={transition} timeout="320">
+      <DisappearingAnimation triger={transition} timeout={320}>
         {!signInUpState ? (
           <Card className="auth shadow px-2">
             <Signin
