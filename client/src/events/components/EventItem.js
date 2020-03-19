@@ -30,7 +30,7 @@ const EventItem = props => {
         <div className='col-md-8 event-item__img'>
           <figure>
             <img
-              src={`http://localhost:5001/${props.event.cover}`}
+              src={`${api_server_url}/${props.event.cover}`}
               alt='sometext'
             />
           </figure>
