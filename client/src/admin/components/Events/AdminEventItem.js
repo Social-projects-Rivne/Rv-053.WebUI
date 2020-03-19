@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import RollingAnimation from '../../../shared/components/UI/Animations/RollingAnimation';
@@ -67,7 +67,9 @@ const AdminEventItem = props => {
         <div
           className={props.collapseState ? 'col-lg-4 adminpanel__col' : 'col-lg-3 adminpanel__col'}
         >
-          <p className="adminpanel__text-left">{props.eventInfo.name}</p>
+          <Link to={`event/${props.eventInfo.id}`} className="adminpanel__link">
+            <p className="adminpanel__text-left">{props.eventInfo.name}</p>
+          </Link>
         </div>
         <div
           className={props.collapseState ? 'col-lg-3 adminpanel__col' : 'col-lg-2 adminpanel__col'}

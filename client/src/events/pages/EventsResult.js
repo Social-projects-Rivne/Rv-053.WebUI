@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import EventResultItem from './EventResultItem';
 import Pagination from '../../shared/components/UI/Pagination';
@@ -33,12 +32,12 @@ const EventsResult = () => {
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>
-        <section className='list__events'>
-          <div className='my__container'>
-            <div className='list__events__inner'>
-              <div className='list__events-sort'>
-                <Filter className='' />
-                <div className='list__events-sort_btn'>
+        <section className="list__events">
+          <div className="my__container">
+            <div className="list__events__inner">
+              <div className="list__events-sort">
+                <Filter className="" />
+                <div className="list__events-sort_btn">
                   <button
                     className={
                       toggleListState.list
@@ -60,7 +59,7 @@ const EventsResult = () => {
             </div>
 
             <Pagination
-              api='/api/events'
+              api="/api/events"
               onDataFetch={getEvents}
               pageItemsLimit={4}
               query={{
@@ -72,9 +71,7 @@ const EventsResult = () => {
             >
               <div
                 className={
-                  toggleListState.list
-                    ? 'list__events-items'
-                    : 'list__events-items card-wrapper'
+                  toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
                 }
               >
                 {allEvents[0] ? (
@@ -83,9 +80,7 @@ const EventsResult = () => {
                       <EventResultItem
                         key={event.id}
                         className={
-                          toggleListState.list
-                            ? 'list__events-item'
-                            : 'list__events-item card'
+                          toggleListState.list ? 'list__events-item' : 'list__events-item card'
                         }
                         id={event.id}
                         name={event.name}
@@ -102,7 +97,7 @@ const EventsResult = () => {
                     );
                   })
                 ) : (
-                  <p className='text-center'>Doesn't find anything</p>
+                  <p className="text-center">Doesn't find anything</p>
                 )}
               </div>
             </Pagination>

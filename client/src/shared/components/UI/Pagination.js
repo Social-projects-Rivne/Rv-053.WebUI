@@ -52,9 +52,10 @@ const Pagination = props => {
     }
   }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
+  const dependencyQuery = JSON.stringify(props.query);
   useEffect(() => {
     getItemsList();
-  }, [page, JSON.stringify(props.query)]);
+  }, [page, dependencyQuery, getItemsList]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];
