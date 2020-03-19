@@ -1,3 +1,5 @@
+require('dotenv').config();
+const fs = require('fs');
 const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -127,6 +129,7 @@ exports.updateEvent = async (req, res) => {
     location,
     datetime,
     duration,
+    category,
     max_participants,
     min_age,
     cover,
@@ -138,8 +141,9 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin') {
-      cover = cover || req.file.path;
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+      cover = cover || process.env.BACK_HOST + '/' + req.file.path;
+      let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
       event
         .update({
           name,
@@ -149,8 +153,32 @@ exports.updateEvent = async (req, res) => {
           duration,
           max_participants,
           min_age,
-          cover,
+          cover: cover,
           price
+        })
+        .then(event => {
+          const eventID = event.id;
+          EventCategory.findOne({
+            where: {
+              id: eventID
+            }
+          }).then(event_category => {
+            event_category.update({
+              event_id: eventID,
+              category_id: category
+            });
+          });
+        })
+        .then(() => {
+          if (oldCoverPath) {
+            fs.unlink('.' + oldCoverPath, err => {
+              if (err) {
+                console.log('failed to delete local image:' + err);
+              } else {
+                console.log('successfully deleted local image');
+              }
+            });
+          }
         })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
@@ -339,9 +367,7 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {

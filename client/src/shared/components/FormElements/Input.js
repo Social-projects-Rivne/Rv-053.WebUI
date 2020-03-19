@@ -7,6 +7,14 @@ import RollingAnimation from '../UI/Animations/RollingAnimation';
 import ShakingAnimation from '../UI/Animations/ShakingAnimation';
 import './Input.css';
 
+const TYPE_INPUT = 'input';
+const TYPE_TEXTAREA = 'textarea';
+const TYPE_NUMBER = 'number';
+const TYPE_PASSWORD = 'password';
+const TYPE_PHONE = 'phone';
+const TYPE_RADIO = 'radio';
+const TYPE_FILE = 'file';
+
 const reducer = (state, action) => {
   switch (action.type) {
     default:
@@ -22,7 +30,7 @@ const reducer = (state, action) => {
         value: action.value,
         isValid: action.validations
           ? validate(action.value, action.validations)
-          : action.isValid || false //add validation phore phone here
+          : action.isValid || false // TODO: add validation phore phone here
       };
   }
 };
@@ -42,47 +50,41 @@ const Input = props => {
   };
 
   const typingHandler = event => {
-    if (event.target.type === 'file') {
-      dispatch({
-        type: 'TYPING',
-        value: event.target.files[0],
-        validations: props.validations
-      });
-    } else {
-      dispatch({
-        type: 'TYPING',
-        value: event.target.value,
-        validations: props.validations
-      });
-    }
+    dispatch({
+      type: 'TYPING',
+      value: event.target.type === 'file' ? event.target.files[0] : event.target.value,
+      validations: props.validations
+    });
   };
 
-  const keyDownHandler = useCallback(() => {
+  const textareaKeyDownHandler = useCallback(() => {
     if (!textareaRef.current) {
       return;
     }
-    textareaRef.current.style.height = 'inherit';
-    textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 300)}px`;
+    const textareaStyle = textareaRef.current.style;
+    const textareaLabelStyle = texareaLabelRef.current.style;
+    textareaStyle.height = 'inherit';
+    textareaStyle.height = `${Math.min(textareaRef.current.scrollHeight, 300)}px`;
     if (state.value.length < 1 || props.initValue < 1) {
-      texareaLabelRef.current.style.bottom = '0px';
-      texareaLabelRef.current.style.transition = 'all 0.3s ease';
+      textareaLabelStyle.bottom = '0px';
+      textareaLabelStyle.transition = 'all 0.3s ease';
     } else {
-      texareaLabelRef.current.style.transition = 'none';
-      texareaLabelRef.current.style.bottom = `${textareaRef.current.scrollHeight - 24}px`;
-      texareaLabelRef.current.style.bottom = `${Math.min(textareaRef.current.scrollHeight, 300) -
-        24}px`;
+      textareaLabelStyle.transition = 'none';
+      textareaLabelStyle.bottom = `${textareaRef.current.scrollHeight - 24}px`;
+      textareaLabelStyle.bottom = `${Math.min(textareaRef.current.scrollHeight, 300) - 24}px`;
     }
   }, [props.initValue, state.value.length]);
+
   useLayoutEffect(() => {
-    keyDownHandler();
-  }, [keyDownHandler]);
+    textareaKeyDownHandler();
+  }, [textareaKeyDownHandler]);
 
   const inputPhoneHandler = useCallback((value, isValid) => {
     dispatch({
       type: 'TYPING',
       value: value,
       isValid: isValid
-      // validations: props.validations,
+      // TODO: validations: props.validations,
     });
   }, []);
 
@@ -92,9 +94,8 @@ const Input = props => {
     onInput(id, value, isValid);
   }, [id, value, onInput, isValid]);
 
-  let inputEl = null;
-  if (props.type === 'input') {
-    inputEl = (
+  const inputElementsDictionary = {
+    [TYPE_INPUT]: (
       <input
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
@@ -104,9 +105,8 @@ const Input = props => {
         onClick={typingHandler}
         required
       />
-    );
-  } else if (props.type === 'number') {
-    inputEl = (
+    ),
+    [TYPE_NUMBER]: (
       <input
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
@@ -114,40 +114,14 @@ const Input = props => {
         onBlur={blurHandler}
         onChange={typingHandler}
         onClick={typingHandler}
-        type={props.type}
+        type="number"
         autoComplete="off"
         required
         min={props.min}
         max={props.max}
       />
-    );
-  } else if (props.type === 'date') {
-    inputEl = (
-      <input
-        id={props.id}
-        value={state.value}
-        onBlur={blurHandler}
-        onChange={typingHandler}
-        onClick={typingHandler}
-        autoComplete="off"
-        required
-      />
-    );
-  } else if (props.type === 'file') {
-    inputEl = (
-      <input
-        id={props.id}
-        rows={props.rows || 3}
-        value={state.value}
-        onBlur={blurHandler}
-        onChange={typingHandler}
-        onClick={typingHandler}
-        autoComplete="off"
-        required
-      />
-    );
-  } else if (props.type === 'textarea') {
-    inputEl = (
+    ),
+    [TYPE_TEXTAREA]: (
       <textarea
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
@@ -155,21 +129,13 @@ const Input = props => {
         ref={textareaRef}
         value={state.value}
         onBlur={blurHandler}
-        onChange={event => {
-          typingHandler(event);
-          keyDownHandler(event);
-        }}
-        onClick={event => {
-          typingHandler(event);
-          keyDownHandler(event);
-        }}
-        onKeyDown={keyDownHandler}
+        onChange={typingHandler}
+        onKeyDown={textareaKeyDownHandler}
         autoComplete="off"
         required
       />
-    );
-  } else if (props.type === 'password') {
-    inputEl = (
+    ),
+    [TYPE_PASSWORD]: (
       <Password
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
@@ -180,9 +146,8 @@ const Input = props => {
         isValid={state.isValid}
         isClicked={state.isClicked}
       />
-    );
-  } else if (props.type === 'phone') {
-    inputEl = (
+    ),
+    [TYPE_PHONE]: (
       <Phone
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
@@ -193,21 +158,8 @@ const Input = props => {
         isValid={state.isValid}
         isClicked={state.isClicked}
       />
-    );
-  } else if (props.type === 'location') {
-    inputEl = (
-      <input
-        className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
-        id={props.id}
-        value={state.value}
-        onBlur={blurHandler}
-        onChange={typingHandler}
-        autoComplete="off"
-        required
-      />
-    );
-  } else if (props.type === 'radio') {
-    inputEl = (
+    ),
+    [TYPE_RADIO]: (
       <input
         type={props.type}
         id={props.id}
@@ -216,9 +168,8 @@ const Input = props => {
         checked={props.checked}
         onChange={typingHandler}
       />
-    );
-  } else if (props.type === 'file') {
-    inputEl = (
+    ),
+    [TYPE_FILE]: (
       <input
         ref={props.refer}
         type={props.type}
@@ -227,16 +178,20 @@ const Input = props => {
         name={props.name}
         onBlur={blurHandler}
         onChange={typingHandler}
+        accept={props.acceptFileType}
       />
-    );
-  }
+    )
+  };
+
+  const inputElement = type => {
+    return inputElementsDictionary[type];
+  };
 
   return (
     <>
       <ShakingAnimation triger={!state.isValid && state.isClicked} timout={100}>
         <div className="input__form" style={{ display: props.type !== 'file' ? 'block' : 'none' }}>
-          {inputEl}
-
+          {inputElement(props.type)}
           <label htmlFor={props.id} className="input__label-name">
             <span
               className={

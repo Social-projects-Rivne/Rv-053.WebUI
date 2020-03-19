@@ -5,7 +5,7 @@ import axios from 'axios';
 import { api_server_url } from '../../../shared/utilities/globalVariables';
 import { AuthContext } from '../../../shared/context/auth-context';
 import MySlider from '../../../shared/components/UI/MySlider';
-import EventResultItem from './../../../events/pages/EventResultItem'; 
+import EventResultItem from './../../../events/pages/EventResultItem';
 
 const CreatedEventList = () => {
   const accessToken = useContext(AuthContext).token;
@@ -56,27 +56,29 @@ const CreatedEventList = () => {
   return (
     <div className="event_list-item">
       <h3 className="profile-title">Created events</h3>
-      {console.log(events)}
-      <MySlider slidesToShow={events.length === 1 ? 1 : 3 & events.length === 2 ? 2 : 3} dots={true}>
-      {events.length > 0 ? (
-        events.map(event => (
-          <EventResultItem
-            key={event.id}
-            className="list__events-item card event_slider-item profile"
-            id={event.id}
-            name={event.name}
-            category={event.categories[0].category}
-            description={event.description}
-            location={event.location}
-            datetime={event.datetime}
-            cover={event.cover}
-            price={event.price}
-            deleteEvent={deleteEvent}
-         /> 
-        ))
-      ) : (
-        <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>
-      )}
+      <MySlider
+        slidesToShow={events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3}
+        dots={true}
+      >
+        {events.length > 0 ? (
+          events.map(event => (
+            <EventResultItem
+              key={event.id}
+              className="list__events-item card event_slider-item profile"
+              id={event.id}
+              name={event.name}
+              category={event.categories[0].category}
+              description={event.description}
+              location={event.location}
+              datetime={event.datetime}
+              cover={event.cover}
+              price={event.price}
+              deleteEvent={deleteEvent}
+            />
+          ))
+        ) : (
+          <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>
+        )}
       </MySlider>
     </div>
   );

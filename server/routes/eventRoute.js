@@ -20,6 +20,7 @@ router.post(
 router.put(
   '/:id',
   auth,
+  uploadCover.single('cover'),
   createEventValidation(),
   validate,
   eventController.updateEvent
