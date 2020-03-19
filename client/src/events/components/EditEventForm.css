@@ -9,7 +9,7 @@
   left: 0px;
   width: 100%;
   text-transform: uppercase;
-  color: #ccc;
+  color: #fff;
   background-color: rgba(0, 0, 0, 0.274);
   transition: all 0.2s ease-in-out;
 }
@@ -17,4 +17,34 @@
   cursor: pointer;
   color: #16a085;
   background-color: rgba(0, 0, 0, 0.322);
+}
+.switch__block {
+  margin-top: 1.5rem;
+}
+.input__block {
+  padding-right: 0;
+}
+.switch__label {
+  float: left;
+  margin-top: 27px;
+  margin-left: -15px;
+  color: #16a085;
+  font-weight: 500;
+}
+.edit-event__dropdown-category {
+  min-width: 280px;
+}
+.btn-flat {
+  float: left;
+  margin-top: 27px;
+  margin-left: -15px;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.btn-flat:hover {
+  color: #16a085;
 }

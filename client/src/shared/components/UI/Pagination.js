@@ -26,19 +26,16 @@ const Pagination = props => {
       try {
         const offsetItem = limitItemsOnPage * (page - 1);
         setLoadingFlag(true);
-        const res = await axios.get(
-          api_server_url +
-            api +
-            '?' +
-            query +
-            '&limit=' +
-            limitItemsOnPage +
-            '&offset=' +
-            offsetItem,
-          {
-            headers
-          }
-        );
+        const res = await axios({
+          method: 'get',
+          url: api_server_url + api,
+          params: {
+            ...query,
+            limit: limitItemsOnPage,
+            offset: offsetItem
+          },
+          headers
+        });
         setRowsCount(res.data.count);
         onDataFetch(res.data);
 
@@ -49,12 +46,10 @@ const Pagination = props => {
     }
   }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
+  const dependencyQuery = JSON.stringify(props.query);
   useEffect(() => {
     getItemsList();
-  }, [page, props.query, getItemsList]);
-  useEffect(() => {
-    setPage(1);
-  }, [props.query]);
+  }, [page, dependencyQuery, getItemsList]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];

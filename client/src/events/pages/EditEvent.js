@@ -7,20 +7,16 @@ import Card from '../../shared/components/UI/Card';
 import { useForm } from '../../shared/hooks/useForm';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 import { AuthContext } from '../../shared/context/auth-context';
-import Notificator from '../../shared/components/UI/Notificator';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
+import objToFormData from '../../shared/utilities/objToFormData';
 
-const EditEvent = () => {
+const EditEvent = props => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
     Authorization: 'Bearer ' + accessToken,
     'Content-Type': 'multipart/form-data'
   };
-  const [notificationState, setNotificationState] = useState({
-    message: 'some message',
-    show: false
-  });
   const [galleryState, setGalleryState] = useState([]);
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -56,6 +52,11 @@ const EditEvent = () => {
     false
   );
 
+  const [eventCategory, setEventCategory] = useState({
+    id: null,
+    category: ''
+  });
+
   const [loadingFlag, setLoadingFlag] = useState(true);
 
   const eventID = useParams().id;
@@ -75,7 +76,7 @@ const EditEvent = () => {
             isValid: true
           },
           price: {
-            value: res.data.price,
+            value: res.data.price.match(/\d+/),
             isValid: true
           },
           age: {
@@ -105,40 +106,37 @@ const EditEvent = () => {
         },
         true
       );
-
       const resGallery = await axios.get(
         api_server_url + '/api/events/' + eventID + '/gallery'
       );
       setGalleryState(resGallery.data);
+      setEventCategory(res.data.categories[0]);
       setLoadingFlag(false);
     } catch (e) {
       console.log(e);
     }
   }, [eventID, setFormData]);
-
   const updateEventData = async () => {
     if (formState.formValidity) {
       try {
-        let updatedEventData = new FormData();
-        updatedEventData.append('name', formState.inputs.title.value);
-        updatedEventData.append(
-          'description',
-          formState.inputs.description.value
-        );
-        updatedEventData.append('location', formState.inputs.location.value);
-        updatedEventData.append('datetime', formState.inputs.datetime.value);
-        updatedEventData.append('duration', formState.inputs.duration.value);
-        updatedEventData.append(
-          'max_participants',
-          formState.inputs.amount.value
-        );
-        updatedEventData.append('min_age', formState.inputs.age.value);
-        updatedEventData.append('cover', formState.inputs.cover.value);
-        updatedEventData.append('price', formState.inputs.price.value);
-        console.log(...updatedEventData);
+        const updatedEventData = {
+          name: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          location: formState.inputs.location.value,
+          datetime: formState.inputs.datetime.value,
+          duration: formState.inputs.duration.value,
+          max_participants: formState.inputs.amount.value,
+          min_age: formState.inputs.age.value,
+          cover: formState.inputs.cover.value,
+          price: formState.inputs.price.value
+            ? formState.inputs.price.value + ' UAH'
+            : '',
+          category: eventCategory.id
+        };
+        const updatedEventFormData = objToFormData(updatedEventData);
         const res = await axios.put(
           api_server_url + '/api/events/' + eventID,
-          updatedEventData,
+          updatedEventFormData,
           {
             headers
           }
@@ -177,17 +175,6 @@ const EditEvent = () => {
   return (
     <>
       <ScrollToTop />
-      <Notificator
-        className="success-note"
-        message={notificationState.message}
-        show={notificationState.show}
-        onExit={() => {
-          setNotificationState({
-            show: false,
-            message: notificationState.message
-          });
-        }}
-      />
       <Card className="addEvent">
         <h2>Edit event</h2>
         {!loadingFlag ? (
@@ -198,8 +185,18 @@ const EditEvent = () => {
             galleryData={galleryState}
             editImageHandler={editImageHandler}
             deleteImageHandler={deleteImageHandler}
+            category={eventCategory}
+            onChooseCategory={e =>
+              setEventCategory({ id: e.id, category: e.title })
+            }
           />
         ) : null}
+        <button
+          className="my__button my__button-red mr-4 mb-4 mt-4 d-inline-block float-right"
+          onClick={history.goBack}
+        >
+          Cancel
+        </button>
       </Card>
     </>
   );

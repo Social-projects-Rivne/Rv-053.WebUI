@@ -13,20 +13,16 @@ router.post(
   '/',
   auth,
   uploadCover.single('cover'),
-  createEventValidation,
+  createEventValidation(),
   validate,
   eventController.createEvent
 );
-router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.put(
   '/:id',
   auth,
-  editEvent.fields([
-    { name: 'cover', maxCount: 1 },
-    { name: 'gallery', maxCount: 8 }
-  ]),
-  //  createEventValidation(),
-  //  validate,
+  uploadCover.single('cover'),
+  createEventValidation(),
+  validate,
   eventController.updateEvent
 );
 router.delete('/:id', auth, eventController.deleteEvent);

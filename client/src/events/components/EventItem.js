@@ -6,6 +6,7 @@ import UserCard from '../../shared/components/UI/UserCard';
 import EventGallery from './EventGallery';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
+import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EventItem = props => {
   const history = useHistory();
@@ -28,7 +29,7 @@ const EventItem = props => {
       <div className="row">
         <div className="col-md-8 event-item__img">
           <figure>
-            <img src={props.event.cover} alt="sometext" />
+            <img src={`${props.event.cover}`} alt="sometext" />
           </figure>
         </div>
         <div className="col-md-4 event-item__info">
