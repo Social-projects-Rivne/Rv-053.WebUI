@@ -1,3 +1,5 @@
+require('dotenv').config();
+const fs = require('fs');
 const { Op } = require('sequelize');
 const User = require('../models').users;
 const Event = require('../models').event;
@@ -313,6 +315,48 @@ exports.followCategory = async (req, res) => {
       return res.status(400).json({ err: 'The category exist' });
     }
 
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+exports.updateAvatar = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.userId } });
+    let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
+    await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });
+    if (oldAvatar) {
+      fs.unlink('.' + oldAvatar, err => {
+        if (err) {
+          console.log('failed to delete local image:' + err);
+        } else {
+          console.log('successfully deleted local image');
+        }
+      });
+    }
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+exports.deleteAvatar = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.userId } });
+    let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
+    await user.update({ avatar: '' });
+    if (oldAvatar) {
+      fs.unlink('.' + oldAvatar, err => {
+        if (err) {
+          console.log('failed to delete local image:' + err);
+        } else {
+          console.log('successfully deleted local image');
+        }
+      });
+    }
     res.status(200).json({
       status: 'success'
     });

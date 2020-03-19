@@ -65,5 +65,4 @@ const Selector = props => {
     </>
   );
 };
-
 export default Selector;
