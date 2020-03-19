@@ -40,7 +40,6 @@ const Countdown = ({ timeTillDate }) => {
     </svg>
   );
 
-  // From StackOverflow: https://stackoverflow.com/questions/5736398/how-to-calculate-the-svg-path-for-an-arc-of-a-circle
   function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     var angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
 
@@ -72,7 +71,6 @@ const Countdown = ({ timeTillDate }) => {
     return d;
   }
 
-  // From StackOverflow: https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
   function mapNumber(number, in_min, in_max, out_min, out_max) {
     return (
       ((number - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
@@ -81,7 +79,6 @@ const Countdown = ({ timeTillDate }) => {
 
   const { days, hours, minutes, seconds } = timeLeft;
 
-  // Mapping the date values to radius values
   const daysRadius = mapNumber(days, 365, 0, 0, 360);
   const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
   const minutesRadius = mapNumber(minutes, 60, 0, 0, 360);
@@ -89,7 +86,6 @@ const Countdown = ({ timeTillDate }) => {
 
   return (
     <div>
-      {/* <h1>Countdown</h1> */}
       <div className='countdown-wrapper'>
         {days && (
           <div className='countdown-item'>
