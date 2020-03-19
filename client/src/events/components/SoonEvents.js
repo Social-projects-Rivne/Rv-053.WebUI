@@ -9,15 +9,12 @@ import './SoonEvents.css';
 
 const SoonEvents = () => {
   const [soonEventsState, setSoonEventsState] = useState();
-  const getSoonEvnets = async () => {
-    const soonEvents = await (await axios.get(api_server_url + '/api/events')).data.rows.slice(
-      0,
-      4
-    );
+  const getSoonEvents = async () => {
+    const soonEvents = (await axios.get(api_server_url + '/api/events')).data.rows.slice(0, 4);
     setSoonEventsState(soonEvents);
   };
   useEffect(() => {
-    getSoonEvnets();
+    getSoonEvents();
   }, []);
   return (
     <section className="soon__events">

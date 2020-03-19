@@ -13,11 +13,10 @@ router.post(
   '/',
   auth,
   uploadCover.single('cover'),
-  createEventValidation,
+  createEventValidation(),
   validate,
   eventController.createEvent
 );
-router.get('/filter', CheckUrlInCache, eventController.filterEvent);
 router.put(
   '/:id',
   auth,
