@@ -30,8 +30,8 @@ const EventItemCreated = props => {
           {props.title}{' '}
         </NavLink>
 
-        <div className={userId == 'my' ? 'col-lg-3' : null}>{date}</div>
-        {userId == 'my' ? (
+        <div className={userId === 'my' ? 'col-lg-3' : null}>{date}</div>
+        {userId === 'my' ? (
           <>
             <div className="col-lg-2">
               <Button

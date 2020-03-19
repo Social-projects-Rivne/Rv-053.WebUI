@@ -60,7 +60,12 @@ li {
   background-color: rgba(22, 160, 133, 0.9);
   color: #fff;
 }
-.my__button:focus {
+.button-link{
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+.my__button:focus, .button-link:focus {
   outline: none;
 }
 .link,
@@ -73,7 +78,6 @@ li {
   text-decoration: none;
   color: #fff;
 }
-
 .link-btn-dark {
   background-color: rgba(47, 49, 60, 0.9);
 }

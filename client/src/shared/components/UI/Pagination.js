@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo
+} from 'react';
 import axios from 'axios';
 
 import { AuthContext } from '../../context/auth-context';
@@ -13,29 +19,29 @@ const Pagination = props => {
   const limitItemsOnPage = props.pageItemsLimit ? props.pageItemsLimit : 20;
   const pagesCount = Math.ceil(rowsCount / limitItemsOnPage);
   const accessToken = useContext(AuthContext).token;
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
   const { onDataFetch, api } = props;
-  const getItemsList = async () => {
+  const getItemsList = useCallback(async () => {
     if (api) {
       try {
         const offsetItem = limitItemsOnPage * (page - 1);
         setLoadingFlag(true);
-        const res = await axios.get(
-          api_server_url +
-            api +
-            '?' +
-            query +
-            '&limit=' +
-            limitItemsOnPage +
-            '&offset=' +
-            offsetItem,
-          {
-            headers
-          }
-        );
+        const res = await axios({
+          method: 'get',
+          url: api_server_url + api,
+          params: {
+            ...query,
+            limit: limitItemsOnPage,
+            offset: offsetItem
+          },
+          headers
+        });
         setRowsCount(res.data.count);
         onDataFetch(res.data);
 
@@ -44,12 +50,12 @@ const Pagination = props => {
         console.log(e);
       }
     }
-  };
+  }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
 
   useEffect(() => {
     getItemsList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, props.query]);
+    console.log(props.query);
+  }, [page, JSON.stringify(props.query)]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];

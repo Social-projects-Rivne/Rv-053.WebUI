@@ -11,27 +11,32 @@ const MySlider = props => {
     return <button className="slick-arrow slick-next" onClick={props.onClick}></button>;
   }
   const slider = {
-    slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToShow: +props.slidesToShow,
+    slidesToScroll: +props.slidesToScroll,
+    arrows: props.arrows || false,
+    dots: props.dots ||false,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1350,
         settings: {
-          slidesToShow: 3
+          slidesToShow: +props.slidesToShow === 1 ? 1 : 3 & +props.slidesToShow === 2 ? 2 : 3,
+          slidesToScroll: 3
         }
       },
       {
         breakpoint: 1100,
         settings: {
-          slidesToShow: 2
+          slidesToShow: +props.slidesToShow === 1 ? 1 : 2,
+          slidesToScroll: 2
         }
       },
       {
         breakpoint: 800,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
           arrows: false,
           dots: true
         }

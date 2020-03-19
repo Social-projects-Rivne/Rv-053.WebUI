@@ -34,8 +34,8 @@ exports.getAllUsersOrSearch = async (req, res) => {
       limit,
       order: [['id', 'DESC']]
     });
-
-    res.status(200).json(users);
+    const usersData = { role: req.userRole, ...users };
+    res.status(200).json(usersData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -71,6 +71,15 @@ exports.getAllEventsOrSearch = async (req, res) => {
     });
 
     res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getUserRoleFromReq = async (req, res) => {
+  try {
+    const userRole = { role: req.userRole };
+    res.status(200).json(userRole);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

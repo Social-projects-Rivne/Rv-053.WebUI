@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4');
 
 const storageAvatars = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, './uploads/avatars');
+    cb(null, './uploads/covers');
   },
   filename(req, file, cb) {
     fileName = file.originalname
@@ -15,7 +15,7 @@ const storageAvatars = multer.diskStorage({
 });
 const storageCover = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, './uploads/covers');
+    cb(null, './uploads/avatars');
   },
   filename(req, file, cb) {
     fileName = file.originalname
@@ -51,7 +51,7 @@ const uploadCover = multer({
 const uploadAvatar = multer({
   storage: storageAvatars,
   limits: {
-    //  file size max 2mb
+    // file size max 2mb
     fileSize: 1024 * 1024 * 2
   },
   fileFilter

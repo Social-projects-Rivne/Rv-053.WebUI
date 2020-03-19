@@ -68,6 +68,15 @@
   color: white;
   background-color: #dc3545;
 }
+.button-danger:disabled {
+  color: #7c7c7c;
+  border: 2px solid #7c7c7c;
+}
+.button-danger:disabled:hover {
+  color: #7c7c7c;
+  background-color: transparent;
+  border: 2px solid #7c7c7c;
+}
 .adminpanel__button-flat {
   text-decoration: none;
   border: 2px solid #fff;
@@ -78,6 +87,9 @@
 }
 .adminpanel__button-flat:hover {
   color: #16a085;
+}
+.adminpanel__button-flat:disabled:hover {
+  color: #7c7c7c;
 }
 .adminpanel__button-flat:focus {
   color: #16a085;

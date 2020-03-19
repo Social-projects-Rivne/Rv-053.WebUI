@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,9 +10,12 @@ const UserInfo = () => {
 
   const [userData, setUserData] = useState({ user: {}, isMyProfile: false });
   const userId = useParams().userId;
-  const headers = {
-    Authorization: 'Bearer ' + accessToken
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: 'Bearer ' + accessToken
+    }),
+    [accessToken]
+  );
 
   const getUserData = useCallback(async () => {
     if (userId === 'my') {
@@ -26,7 +29,7 @@ const UserInfo = () => {
       });
       setUserData({ user: res.data.data.user, isMyProfile: false });
     }
-  }, [userId]);
+  }, [userId, headers]);
   useEffect(() => {
     if (accessToken) {
       getUserData();

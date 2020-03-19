@@ -74,12 +74,7 @@ const Footer = () => {
                   <li className="social social-instagram"></li>
                   <li className="social social-facebook"></li>
                   <li className="social social-google"></li>
-                  <li className="social social-github">
-                    <a
-                      href="https://github.com/Social-projects-Rivne/Rv-053.WebUI"
-                      className="link-light"
-                    ></a>
-                  </li>
+                  <li className="social social-github"></li>
                 </ul>
               </div>
             </div>
