@@ -341,9 +341,7 @@ exports.updateAvatar = async (req, res) => {
         });
       }
     }
-
     await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });
-
     res.status(200).json({
       status: 'success'
     });
