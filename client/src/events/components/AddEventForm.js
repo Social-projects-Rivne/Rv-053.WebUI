@@ -141,9 +141,15 @@ const AddEventForm = props => {
         validations={[VAL_MIN_LENGTH(5)]}
         errorMessage="Write at least 5 characters!"
       />
-      <ImageUpload name="cover" onGetImg={props.imageUpload} />
       <div className="row">
-        <div className="col-md-10 offset-md-1 map_input">
+        <div className="col-md-12">
+          <label className="mt_10">Cover</label>
+          <ImageUpload name="cover" onGetImg={props.imageUpload} />
+        </div>
+      </div>
+      <div className="row">
+        <label className="col-md-2 address_label">Address</label>
+        <div className="col-md-10 map_input">
           <AutocompletePlaces
             className=""
             setCoordinates={props.setCoordinates}

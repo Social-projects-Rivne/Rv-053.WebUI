@@ -6,6 +6,7 @@ import { useForm } from "../../shared/hooks/useForm";
 import { AuthContext } from "../../shared/context/auth-context";
 import ScrollToTop from "../..//shared/components/UI/ScrollToTop";
 import AddEventForm from "../components/AddEventForm";
+import objToFormData from "../../shared/utilities/objToFormData";
 import { api_server_url } from "../../shared/utilities/globalVariables";
 import "./AddEvent.css";
 
@@ -17,8 +18,8 @@ const AddEvent = () => {
     Authorization: "Bearer " + accessToken
   };
   const [coordinates, setCoordinates] = useState({
-    lat: "",
-    lng: ""
+    lat: "50.6199",
+    lng: "26.251617"
   });
 
   if (coordinates) {
@@ -42,23 +43,11 @@ const AddEvent = () => {
         value: "",
         isValid: false
       },
-      category: {
-        value: "",
-        isValid: false
-      },
-      location: {
-        value: "",
-        isValid: false
-      },
       price: {
         value: "",
         isValid: false
       },
       age: {
-        value: "",
-        isValid: false
-      },
-      participants: {
         value: "",
         isValid: false
       },
@@ -77,28 +66,24 @@ const AddEvent = () => {
     event.preventDefault();
     if (formState.formValidity) {
       try {
-        const createEventData = new FormData();
-        createEventData.append("name", formState.inputs.title.value);
-        createEventData.append("category", eventCategory.id);
-        createEventData.append(
-          "description",
-          formState.inputs.description.value
-        );
-        createEventData.append(
-          "location",
-          `${formState.inputs.address.value}, ${formState.inputs.country.value}`
-        );
-        createEventData.append("datetime", formState.inputs.date.value);
-        createEventData.append(
-          "max_participants",
-          formState.inputs.participants.value
-        );
-        createEventData.append("min_age", formState.inputs.age.value);
-        createEventData.append("price", formState.inputs.age.value);
-        createEventData.append("cover", imgObject);
+        const updatedEventData = {
+          name: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          location: `${coordinates.lat},${coordinates.lng}`,
+          datetime: formState.inputs.date.value,
+          // duration: formState.inputs.duration.value,
+          max_participants: formState.inputs.amount.value,
+          min_age: formState.inputs.age.value,
+          cover: imgObject,
+          price: formState.inputs.price.value
+            ? formState.inputs.price.value + " UAH"
+            : "",
+          category: eventCategory.id
+        };
+        const updatedEventFormData = objToFormData(updatedEventData);
         const res = await axios.post(
           api_server_url + "/api/events",
-          createEventData,
+          updatedEventFormData,
           {
             headers
           }
@@ -116,7 +101,7 @@ const AddEvent = () => {
             }
           });
         } else {
-          console.log("stupid errorr");
+          console.log("stupied error");
         }
       } catch (e) {
         console.log(e);

@@ -6,7 +6,7 @@
   height: 200px;
 }
 .imgPreview img {
-  height: inherit;
+  height: 100%;
 }
 .previewComponent {
   margin-top: 10px;
@@ -15,7 +15,7 @@
 
 body {
   background: whitesmoke;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 .container {
   max-width: 960px;
@@ -37,7 +37,8 @@ h1 small {
 .cover-edit {
   position: absolute;
   z-index: 1;
-  left: 18%;
+  left: 10px;
+  top: 5px;
 }
 .cover-edit input {
   display: none;
@@ -58,8 +59,8 @@ h1 small {
   border-color: #d6d6d6;
 }
 .cover-edit input + label:after {
-  content: '\f040';
-  font-family: 'FontAwesome';
+  content: "\f040";
+  font-family: "FontAwesome";
   color: #16a085;
   position: absolute;
   left: 0;
@@ -80,7 +81,7 @@ h1 small {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 }
 .avatar-preview > div {
-  background-image: url('');
+  background-image: url("");
   width: 100%;
   height: 100%;
   border-radius: 100%;

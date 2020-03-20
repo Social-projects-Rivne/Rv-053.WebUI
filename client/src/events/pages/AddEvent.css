@@ -283,3 +283,13 @@ td.rdtYear:hover {
 #date::-webkit-input-placeholder {
   color: #fff;
 }
+
+.mt_10 {
+  margin-top: 10px;
+}
+
+.address_label {
+  margin-top: 25px;
+  margin-bottom: 0;
+  text-align: center;
+}

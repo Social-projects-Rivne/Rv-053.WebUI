@@ -1,25 +1,25 @@
-require('dotenv').config();
-const fs = require('fs');
-const { Sequelize, Op } = require('sequelize');
-const JWT = require('jsonwebtoken');
+require("dotenv").config();
+const fs = require("fs");
+const { Sequelize, Op } = require("sequelize");
+const JWT = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
-const Event = require('../models').event;
-const User = require('../models').users;
-const EventCategory = require('../models').event_category;
-const Categories = require('../models').category;
-const UserEvent = require('../models').user_event;
-const Category = require('../models').category;
-const Redis = require('../services/redisService');
+const Event = require("../models").event;
+const User = require("../models").users;
+const EventCategory = require("../models").event_category;
+const Categories = require("../models").category;
+const UserEvent = require("../models").user_event;
+const Category = require("../models").category;
+const Redis = require("../services/redisService");
 
-const STATUS_ACTIVE = 'Active';
-const STATUS_BANNED = 'Banned';
-const STATUS_DELETED = 'Deleted';
+const STATUS_ACTIVE = "Active";
+const STATUS_BANNED = "Banned";
+const STATUS_DELETED = "Deleted";
 
 function checkToken(req) {
   let token;
   let result = { isAuthorization: false };
-  if (req.header('Authorization')) {
-    token = req.header('Authorization').split(' ')[1];
+  if (req.header("Authorization")) {
+    token = req.header("Authorization").split(" ")[1];
     try {
       const payload = JWT.verify(token, JWT_SECRET);
       result = { isAuthorization: true, userId: payload.userId };
@@ -39,18 +39,18 @@ exports.getEventByID = async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ['id', 'first_name', 'last_name', 'avatar']
+        attributes: ["id", "first_name", "last_name", "avatar"]
       },
       {
         model: Categories,
-        attributes: ['category', 'parent_id']
+        attributes: ["category", "parent_id"]
       }
     ]
   })
     .then(async event => {
       if (event === null) {
         res.status(404).send({
-          message: 'Event not found'
+          message: "Event not found"
         });
       }
       event = event.toJSON();
@@ -69,7 +69,7 @@ exports.getEventByID = async (req, res) => {
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || 'Not found'
+        message: err.message || "Not found"
       });
     });
 };
@@ -80,12 +80,17 @@ exports.createEvent = async (req, res) => {
     description,
     location,
     datetime,
-    category,
     max_participants,
     min_age,
-    price
+    price,
+    category
   } = req.body;
-  const cover = req.file || null;
+  let cover;
+  if (req.file) {
+    cover = req.file.path;
+  } else {
+    cover = "uploads/covers/logo.png";
+  }
   await Event.create({
     name,
     owner_id: req.userId,
@@ -94,7 +99,7 @@ exports.createEvent = async (req, res) => {
     datetime,
     max_participants,
     min_age,
-    cover: cover.path,
+    cover,
     price
   })
     .then(event => {
@@ -105,18 +110,18 @@ exports.createEvent = async (req, res) => {
       })
         .then(() => {
           res.status(200).send({
-            message: 'Event was create successful'
+            message: "Event was create successful"
           });
         })
         .catch(err => {
           res.status(404).send({
-            message: 'Some problems with create event(category)' || err.message
+            message: "Some problems with create event(category)" || err.message
           });
         });
     })
     .catch(err => {
       res.status(404).send({
-        message: 'Some problems with create event' || err.message
+        message: "Some problems with create event" || err.message
       });
     });
 };
@@ -141,9 +146,14 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
-      cover = cover || process.env.BACK_HOST + '/' + req.file.path;
+    if (
+      req.userId === event.owner_id ||
+      req.role === "Admin" ||
+      req.role === "Moderator"
+    ) {
+      cover = cover || process.env.BACK_HOST + "/" + req.file.path;
       let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
+
       event
         .update({
           name,
@@ -171,21 +181,21 @@ exports.updateEvent = async (req, res) => {
         })
         .then(() => {
           if (oldCoverPath) {
-            fs.unlink('.' + oldCoverPath, err => {
+            fs.unlink("." + oldCoverPath, err => {
               if (err) {
-                console.log('failed to delete local image:' + err);
+                console.log("failed to delete local image:" + err);
               } else {
-                console.log('successfully deleted local image');
+                console.log("successfully deleted local image");
               }
             });
           }
         })
         .then(() => {
-          res.status(200).json({ status: 'Event was update successful' });
+          res.status(200).json({ status: "Event was update successful" });
         })
         .catch(err => {
           res.status(404).json({
-            message: err.message || 'Event not found'
+            message: err.message || "Event not found"
           });
         });
     }
@@ -202,31 +212,31 @@ exports.deleteEvent = async (req, res) => {
     .then(event => {
       if (event === null) {
         return res.status(404).json({
-          message: 'Event not found'
+          message: "Event not found"
         });
       }
-      if (req.userId === event.owner_id || req.role === 'Admin') {
+      if (req.userId === event.owner_id || req.role === "Admin") {
         event
           .update({ status: STATUS_DELETED })
           .then(() => {
             res.status(200).json({
-              status: 'Event was deleted'
+              status: "Event was deleted"
             });
           })
           .catch(err => {
             res.status(404).json({
-              message: err.message || 'Event not found'
+              message: err.message || "Event not found"
             });
           });
       } else {
         res.status(403).json({
-          message: 'Access forbidden'
+          message: "Access forbidden"
         });
       }
     })
     .catch(err => {
       res.status(404).json({
-        message: err.message || 'Event not found'
+        message: err.message || "Event not found"
       });
     });
 };
@@ -252,7 +262,7 @@ exports.searchEvent = async (req, res) => {
   let includeQuery = [
     {
       model: User,
-      attributes: ['first_name', 'last_name']
+      attributes: ["first_name", "last_name"]
     }
   ];
 
@@ -264,8 +274,8 @@ exports.searchEvent = async (req, res) => {
   if (
     startDate !== null &&
     endDate !== null &&
-    startDate !== 'undefined' &&
-    endDate !== 'undefined'
+    startDate !== "undefined" &&
+    endDate !== "undefined"
   ) {
     searchQuery.datetime = {
       [Op.between]: [
@@ -297,7 +307,7 @@ exports.searchEvent = async (req, res) => {
     offset,
     limit,
     include: includeQuery,
-    order: [['datetime', 'DESC']]
+    order: [["datetime", "DESC"]]
   })
     .then(events => {
       Redis.addUrlInCache(req.originalUrl, events);
@@ -305,7 +315,7 @@ exports.searchEvent = async (req, res) => {
     })
     .catch(err => {
       res.status(400).send({
-        message: err.message || 'Bad Request'
+        message: err.message || "Bad Request"
       });
     });
 };
@@ -315,14 +325,14 @@ exports.rejectEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_BANNED) {
       return res.status(400).send({
-        message: 'Event is already rejected'
+        message: "Event is already rejected"
       });
     }
     await event.update({ status: STATUS_BANNED });
-    res.status(201).json({ status: 'Rejected' });
+    res.status(201).json({ status: "Rejected" });
   } catch (err) {
     res.status(400).send({
-      message: err.message || 'Bad request'
+      message: err.message || "Bad request"
     });
   }
 };
@@ -332,14 +342,14 @@ exports.activateEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_ACTIVE) {
       return res.status(400).send({
-        message: 'Event is already active'
+        message: "Event is already active"
       });
     }
     await event.update({ status: STATUS_ACTIVE });
-    res.status(201).json({ status: 'Active' });
+    res.status(201).json({ status: "Active" });
   } catch (err) {
     res.status(400).send({
-      message: err.message || 'Bad request'
+      message: err.message || "Bad request"
     });
   }
 };
@@ -348,14 +358,14 @@ exports.deleteEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_DELETED) {
       return res.status(400).send({
-        message: 'Event is already deleted'
+        message: "Event is already deleted"
       });
     }
     await event.update({ status: STATUS_DELETED });
-    res.status(201).json({ status: 'DELETED' });
+    res.status(201).json({ status: "DELETED" });
   } catch (err) {
     res.status(400).send({
-      message: err.message || 'Bad request'
+      message: err.message || "Bad request"
     });
   }
 };
@@ -367,19 +377,21 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
+    attributes: [
+      [Sequelize.fn("COUNT", Sequelize.col("user_id")), "quantityUsers"]
+    ]
   })
     .then(async resultRow => {
       if (resultRow === null) {
         res.status(404).send({
-          message: 'Event not found'
+          message: "Event not found"
         });
       }
       res.status(200).json(resultRow[0]);
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || 'Not found'
+        message: err.message || "Not found"
       });
     });
 };
