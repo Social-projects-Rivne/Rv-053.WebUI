@@ -12,7 +12,6 @@ import './EventFeedbacks.css'
 const LeaveFeedbacks = (props) => {      
     const history = useHistory();  
     const location = useLocation();
-    const [rerender, setRerender] = useState(false);
     const accessToken = useContext(AuthContext).token;
     const headers = useMemo(
         () => ({
@@ -33,6 +32,7 @@ const LeaveFeedbacks = (props) => {
         addFeedback();
     }
 
+
     const addFeedback = async() => {
         if(formState.formValidity){
             try{
@@ -43,14 +43,16 @@ const LeaveFeedbacks = (props) => {
                     `${api_server_url}/api/events/feedback/${props.userId}/${props.eventId}`,
                     feedbackData,
                     {headers}
-                )  
-                history.replace(location.pathname, {rerender:true} );
+                ) 
+                history.replace(location.pathname, {rerender:true});
             }   
             catch (err) {
                 console.log(err);
             }
         }
     }
+
+
     return(
         <>
             <form onSubmit={submitFeedbackHandler} className="leave_feedback-form">
@@ -61,8 +63,10 @@ const LeaveFeedbacks = (props) => {
                         onInput={inputHandler}
                         validations={[VAL_MIN_LENGTH(5)]}
                         initValid={false}
+                        initValue={formState.inputs.feedback.value}
                         errorMessage="Write at least 5 charachters"
                         placeholder="Leave a feedback.."
+                        clearFlag={props.flag}
                     />
                     <div className="feedback-item_tail"></div>
                     <button type="submit" className="icon-thumb-tack "></button>

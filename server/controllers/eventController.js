@@ -67,12 +67,9 @@ exports.getEventByID = async (req, res) => {
       past = await Event.findOne({
         where: {id: id, datetime: {[Op.lt]: CURRENT_DATE}},
       })
-      if(past != null){
+      if(past !== null){
         event.past = true;
       }
-
-
-    
  
       //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);

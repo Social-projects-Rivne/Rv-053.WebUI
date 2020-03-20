@@ -24,6 +24,13 @@ const reducer = (state, action) => {
           ? validate(action.value, action.validations)
           : action.isValid || false //add validation phore phone here
       };
+    case 'CLEAR':
+      return{
+        ...state,
+        value: '',
+        isValid: false,
+        isClicked: false
+      }
   }
 };
 
@@ -91,6 +98,16 @@ const Input = props => {
   useEffect(() => {
     onInput(id, value, isValid);
   }, [id, value, onInput, isValid]);
+
+  const{clearFlag} = props;
+  useEffect(()=>{
+    if(clearFlag){
+      dispatch({
+        type: 'CLEAR'
+      })
+    }
+  },[clearFlag, dispatch])
+
 
   let inputEl = null;
   if (props.type === 'input') {
