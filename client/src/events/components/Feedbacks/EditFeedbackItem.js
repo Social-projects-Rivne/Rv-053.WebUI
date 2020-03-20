@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo, useContext} from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-import {useForm} from '../../shared/hooks/useForm';
-import {VAL_MIN_LENGTH} from '../../shared/utilities/validation'; 
-import {api_server_url} from '../../shared/utilities/globalVariables';
-import {AuthContext} from '../../shared/context/auth-context';
-import Input from '../../shared/components/FormElements/Input';
-import { useHistory, useLocation } from 'react-router-dom';
+import {useForm} from '../../../shared/hooks/useForm';
+import {VAL_MIN_LENGTH} from '../../../shared/utilities/validation'; 
+import {api_server_url} from '../../../shared/utilities/globalVariables';
+import {AuthContext} from '../../../shared/context/auth-context';
+import Input from '../../../shared/components/FormElements/Input';
 
 
 const EditFeedbackItem = (props) => {
@@ -52,7 +52,7 @@ const EditFeedbackItem = (props) => {
                 const updatedFeedback = {
                     feedback: formState.inputs.feedback.value
                 }
-                const res = await axios.put(
+                await axios.put(
                     `${api_server_url}/api/events/feedback/${feedbackId}`,
                     updatedFeedback,
                     {headers}
@@ -69,7 +69,7 @@ const EditFeedbackItem = (props) => {
         <form onSubmit={submitUpdateFeedback} className="leave_feedback-form">
             <div className="feedback-item input">
                 <Input 
-                    type="input"
+                    type="textarea"
                     id="feedback"
                     onInput={inputHandler}
                     validations={[VAL_MIN_LENGTH(5)]}

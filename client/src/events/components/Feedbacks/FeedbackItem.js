@@ -1,15 +1,11 @@
-import React, {useState, useEffect, useMemo, useContext} from 'react';
-import {NavLink, useLocation, useHistory} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {NavLink, useLocation} from 'react-router-dom';
 import moment from 'moment';
-import axios from 'axios';
 
-import {AuthContext} from '../../shared/context/auth-context';
-import {api_server_url} from '../../shared/utilities/globalVariables';
-import ConfirmationWindow from '../../shared/components/UI/ConfirmationWindow';
+import ConfirmationWindow from '../../../shared/components/UI/ConfirmationWindow';
 import EditFeedbackItem from './EditFeedbackItem';
 
 const FeedbackItem = (props) => {
-    const history = useHistory();
     const location = useLocation();
 
     const [showConfirmWindow, setShowConfirmWindow] = useState(false);

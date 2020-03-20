@@ -1,12 +1,12 @@
-import React, {useMemo, useContext, useEffect, useState} from 'react';
+import React, {useMemo, useContext} from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
 import axios from 'axios';
 
-import {api_server_url} from '../../shared/utilities/globalVariables';
-import {AuthContext} from '../../shared/context/auth-context';
-import {useForm} from '../../shared/hooks/useForm';
-import {VAL_MIN_LENGTH} from '../../shared/utilities/validation';
-import Input from '../../shared/components/FormElements/Input';
+import {api_server_url} from '../../../shared/utilities/globalVariables';
+import {AuthContext} from '../../../shared/context/auth-context';
+import {useForm} from '../../../shared/hooks/useForm';
+import {VAL_MIN_LENGTH} from '../../../shared/utilities/validation';
+import Input from '../../../shared/components/FormElements/Input';
 import './EventFeedbacks.css'
 
 const LeaveFeedbacks = (props) => {      
@@ -59,7 +59,7 @@ const LeaveFeedbacks = (props) => {
             <form onSubmit={submitFeedbackHandler} className="leave_feedback-form">
                 <div className="feedback-item input">
                     <Input 
-                        type="input"
+                        type="textarea"
                         id="feedback"
                         onInput={inputHandler}
                         validations={[VAL_MIN_LENGTH(5)]}

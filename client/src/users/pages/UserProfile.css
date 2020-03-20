@@ -1,15 +1,3 @@
-.profile-container {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 500;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-}
-.profile_inner {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 30px;
-}
 .profile-top {
   display: flex;
   justify-content: space-between;
@@ -64,20 +52,7 @@
 .profile-info {
   text-align: center;
 }
-.profile_btn-item {
-  background-color: #58be66;
-  padding: 7px 25px;
-  border-radius: 25px;
-  color: #fff;
-  text-decoration: none;
-}
-.profile_btn-item:hover {
-  text-decoration: none;
-  color: #fff;
-}
-.profile_btn-item + .profile_btn-item {
-  margin-left: 20px;
-}
+
 .profile_categories {
   margin-bottom: 20px;
 }
@@ -158,7 +133,14 @@
 .profile_categories-item.added {
   background-color: rgba(45, 169, 145, 0.6);
 }
-
+.profile_btn .link-btn{
+  display: block;
+  max-width: 200px;
+  margin: 10px auto;
+}
+.profile_btn .link-btn+.link-btn{
+  margin-left: auto;
+}
 @media (max-width: 600px) {
   .profile_inner {
     padding: 10px;
@@ -172,10 +154,6 @@
   }
   .profile-top {
     padding: 20px 0px;
-  }
-  .profile_btn-item + .profile_btn-item {
-    margin-left: 10px;
-    padding: 7px 15px;
   }
 }
 .slick-slide div .list__events-item.card.event_slider-item.profile{

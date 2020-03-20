@@ -32,7 +32,6 @@ const CreatedEventList = () => {
     }
   }, [userId, headers]);
 
-  console.log(events)
   const deleteEvent = async id => {
     await axios
       .delete(api_server_url + `/api/events/${id}`, {

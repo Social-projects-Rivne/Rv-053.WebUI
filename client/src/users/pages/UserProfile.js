@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
+import ScrollToTop from '../../shared/components/UI/ScrollToTop';
 import UserInfo from './../components/UserInfo';
 import CategoriesList from './../components/CategoriesList';
 import FollowedEventList from './../components/ProfileEvents/FollowedEventList';
@@ -20,14 +21,14 @@ const UserProfile = () => {
   }, [history, location.pathname]);
   return (
     <>
+      <ScrollToTop />
       <Notificator
         className="success-note"
         onExit={closeNote}
         message="Profile updated!"
         show={showNotificator || false}
       />
-      <div className="profile-container">
-        <section className="profile_inner">
+      <div className="my__container">
           <UserInfo />
           <CategoriesList />
           <div className="profile-followed_events">
@@ -36,7 +37,6 @@ const UserProfile = () => {
           <div className="profile-created_events">
             <CreatedEventList />
           </div>
-        </section>
       </div>
     </>
   );

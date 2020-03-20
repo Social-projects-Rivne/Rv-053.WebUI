@@ -12,7 +12,6 @@ import axios from 'axios';
 import { api_server_url } from './../../shared/utilities/globalVariables';
 import { AuthContext } from './../../shared/context/auth-context';
 import Button from './../../shared/components/UI/Button';
-import Card from './../../shared/components/UI/Card';
 import EditAvatarForm from '../components/EditAvatarForm';
 
 import './EditAvatar.css';
@@ -64,7 +63,7 @@ const EditAvatar = () => {
   };
 
   return (
-    <Card className='card_wrapper'>
+    <div className='my__container'>
       {userDataState ? (
         <div>
           <h2 className='update-title'>Upload Avatar</h2>
@@ -80,7 +79,7 @@ const EditAvatar = () => {
           </div>
         </div>
       ) : null}
-    </Card>
+    </div>
   );
 };
 

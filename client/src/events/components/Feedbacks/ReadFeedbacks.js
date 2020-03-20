@@ -2,8 +2,8 @@ import React, {useState, useEffect, useContext, useMemo} from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
 import axios from 'axios';
 
-import {AuthContext} from '../../shared/context/auth-context';
-import {api_server_url} from '../../shared/utilities/globalVariables';
+import {AuthContext} from '../../../shared/context/auth-context';
+import {api_server_url} from '../../../shared/utilities/globalVariables';
 import FeedbackItem from './FeedbackItem';
 
 const ReadFeedbacks = (props) => {

@@ -16,6 +16,7 @@ const SoonEvents = () => {
   useEffect(() => {
     getSoonEvents();
   }, []);
+
   return (
     <section className="soon__events">
       <div className="my__container">

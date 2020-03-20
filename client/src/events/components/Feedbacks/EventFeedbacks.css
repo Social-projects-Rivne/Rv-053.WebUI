@@ -1,5 +1,5 @@
 .feedback-title{
-    font-size: 40px;
+    font-size: 35px;
     text-align: center;
 }
 .feedback-items{
@@ -15,7 +15,7 @@
     padding: 5px;    
     border-left: 16px solid #16a085;
 }
-.feedback-item.input input {
+.feedback-item.input textarea {
     background-color: transparent;
 }
 .feedback-item.input button{

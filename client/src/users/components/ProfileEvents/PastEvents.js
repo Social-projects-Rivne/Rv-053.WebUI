@@ -20,7 +20,6 @@ const PastEvents = () => {
             headers
         });
         setPastEvents(pastEvents.data.data.pastEvents);
-        console.log(pastEvents.data.data.pastEvents )
     },[headers]);  
     
     useEffect(() => {
@@ -37,7 +36,7 @@ const PastEvents = () => {
                     Tell us how was it going...
                 </div>
                 <div className="list__events-items">
-                    {pastEvents  ?
+                    {pastEvents && pastEvents.length > 0  ?
                         pastEvents.map(event => 
                             <EventResultItem 
                                 className="list__events-item past-event"
@@ -55,7 +54,7 @@ const PastEvents = () => {
                                 pastEvent={true}
                             />
                         )
-                    :<p>You haven't got past events or the lasted more then month ago</p>
+                    :<p className="not-found">You haven't got past events or they lasted more then month ago</p>
                     }
                 </div>
             </div>

@@ -1,7 +1,23 @@
+
+.update-profile__inner{
+  padding: 40px 0px;
+}
 .update-title {
   text-align: center;
   font-family: 'Quicksand', sans-serif;
-  margin-bottom: 20px;
+  margin: 20px 5px;
+}
+.update-profile__top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px 0px;
+}
+.profile-avatar__wrapper,
+.update-profile_btn{
+  padding: 0px 10px;
+  margin: 10px auto;
 }
 .input_wrapper-number {
   display: flex;

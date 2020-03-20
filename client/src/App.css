@@ -48,6 +48,10 @@ body {
 li {
   list-style: none;
 }
+button{
+  border: none;
+  background-color: transparent;
+}
 .my__button {
   color: #fff;
   border: 1px solid #16a085;
@@ -123,6 +127,10 @@ li {
   font-family: 'Quicksand', sans-serif;
   font-weight: 500;
   font-size: 18px;
+}
+.not-found{
+  margin: 20px auto;
+  text-align: center;
 }
 @media (max-width: 1590px) {
   .header__calendar-list {
@@ -281,7 +289,7 @@ li {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 490px) {
   .header .header__inner {
     display: block;
   }
@@ -336,5 +344,8 @@ li {
   }
   .footer__col-follow li + li {
     margin-left: 15px;
+  }
+  .event_slider-item.profile{
+    box-shadow: none;
   }
 }

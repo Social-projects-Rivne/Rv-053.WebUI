@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 
 import LeaveFeedbacks from './LeaveFeedbacks';
 import ReadFeedbacks from './ReadFeedbacks';
-import { useLocation, useHistory } from 'react-router-dom';
 
 const EventFeedbacks = (props) => {
     const location = useLocation();
@@ -13,7 +13,6 @@ const EventFeedbacks = (props) => {
         setChangeFlag(location.state?.rerender)
     },[location])
 
-    console.log(changeFlag)
     return(
         <>
             <div className="my__container">
