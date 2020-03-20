@@ -42,17 +42,18 @@ module.exports = {
           parent_id: 0
         },
         {
-          category: 'Nature',
-          parent_id: 0
-        },
-        {
           category: 'Arts',
           parent_id: 0
         },
         {
           category: 'Hobbies & Crafts',
           parent_id: 0
-        }
+        },
+        {
+          category: 'Others',
+          parent_id: 0
+        },
+
       ],
       {}
     );

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-  useMemo
-} from 'react';
+import React, {useState, useEffect, useContext, useCallback, useMemo} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -41,12 +35,10 @@ const EventDetails = () => {
     setEventDate(
       moment(+event.data.datetime)
         .format('DD MM YYYY')
-        .split(' ')
-        .join('.')
     );
+
     event.data.duration = moment(+event.data.duration)
-      .format('hh mm')
-      .replace(' ', ':');
+      .format('hh:mm')
     setEventData(event.data);
   }, [eventId, headers]);
 

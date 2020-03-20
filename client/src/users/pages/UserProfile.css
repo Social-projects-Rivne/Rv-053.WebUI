@@ -85,11 +85,15 @@
   border: none;
   display: inline-block;
   background-color: #ddd;
-  padding: 5px 20px;
+  padding: 7px 20px;
   border-radius: 25px;
   position: relative;
   font-size: 15px;
   margin: 10px 10px 10px 0;
+  font-family: 'Quicksand', serif !important;
+}
+.profile_categories-item:before{
+  font-family: 'icomoon';
 }
 .profile_categories-item:focus {
   outline: none;

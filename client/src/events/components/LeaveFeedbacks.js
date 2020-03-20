@@ -55,6 +55,7 @@ const LeaveFeedbacks = (props) => {
 
     return(
         <>
+            <div className="feedback-title">How was it going?</div>
             <form onSubmit={submitFeedbackHandler} className="leave_feedback-form">
                 <div className="feedback-item input">
                     <Input 
