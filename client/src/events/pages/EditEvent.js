@@ -165,12 +165,64 @@ const EditEvent = props => {
     event.preventDefault();
     updateEventData();
   };
-  const editImageHandler = image => {
-    alert('edit');
+  const changeImageHandler = async image => {
+    console.log(image);
+    try {
+      // let imageFormData = new FormData();
+      // imageFormData.append('id', image.id);
+      // imageFormData.append(
+      //   'img_url',
+      //   typeof image.img_url === 'object'
+      //     ? URL.createObjectURL(image.img_url)
+      //     : image.img_url
+      // );
+      // imageFormData.append('description', image.description);
+      const imageData = {
+        id: image.id,
+        description: image.description,
+        img_url: image.img_url
+      };
+      const imageFormData = objToFormData(imageData);
+      console.log(...imageFormData);
+      const res = await axios.put(
+        `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+        imageFormData,
+        {
+          headers
+        }
+      );
+
+      if (res.status === 201) {
+        image.img_url =
+          typeof image.img_url === 'object'
+            ? URL.createObjectURL(image.img_url)
+            : image.img_url;
+        setGalleryState(
+          galleryState.map(item => (item.id !== image.id ? item : image))
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const deleteImageHandler = image => {
-    image.isDeleted = true;
-    setGalleryState([...galleryState, image]);
+  const createImageHandler = image => {
+    console.log(image);
+  };
+  const deleteImageHandler = async image => {
+    try {
+      const res = await axios.delete(
+        `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+        {
+          headers
+        }
+      );
+      if (res.status === 201) {
+        image.is_deleted = true;
+        setGalleryState([...galleryState, image]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -183,8 +235,9 @@ const EditEvent = props => {
             onSubmitFormHandler={submitFormHandler}
             eventData={formState.inputs}
             galleryData={galleryState}
-            editImageHandler={editImageHandler}
+            changeImageHandler={changeImageHandler}
             deleteImageHandler={deleteImageHandler}
+            createImageHandler={createImageHandler}
             category={eventCategory}
             onChooseCategory={e =>
               setEventCategory({ id: e.id, category: e.title })

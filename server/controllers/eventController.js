@@ -403,3 +403,103 @@ exports.getGalleryOfEvent = async (req, res) => {
     });
   }
 };
+
+exports.deleteImageFromGallery = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    let includeQuery;
+    if (req.role === 'Admin' || req.role === 'Moderator') {
+      includeQuery = { model: Event };
+    } else {
+      includeQuery = { model: Event, where: { owner_id: req.userId } };
+    }
+    console.log(id, imageId, req.userId);
+    const img = await EventGallery.findOne({
+      where: { event_id: id, id: imageId },
+      include: includeQuery
+    });
+    if (img) {
+      await img.update({ is_deleted: true });
+      res.status(201).json({ status: 'DELETED' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.createImageOfGallery = async (req, res) => {
+  const { id } = req.params;
+  let { description } = req.body;
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
+      let img_url = process.env.BACK_HOST + '/' + req.file.path;
+      await EventGallery.create({
+        img_url,
+        description,
+        event_id: id,
+        is_deleted: false
+      });
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.changeImageOfGallery = async (req, res) => {
+  const { id, imageId } = req.params;
+  let { description, img_url } = req.body;
+  console.log(id, imageId, description, req.userId, req.role, img_url);
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
+      img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
+      const img = await EventGallery.findOne({
+        where: { event_id: id, id: imageId }
+      });
+      if (img) {
+        let oldImg = img.img_url.slice(process.env.BACK_HOST.length);
+        await img.update({ img_url, description });
+        if (oldImg) {
+          fs.unlink('.' + oldImg, err => {
+            if (err) {
+              console.log('failed to delete local image:' + err);
+            } else {
+              console.log('successfully deleted local image');
+            }
+          });
+        }
+      }
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import EventGalleryItem from './EventCalleryItem';
 import Modal from '../../shared/components/UI/Modal';
 import EditImage from './EditImage';
-import { useForm } from '../../shared/hooks/useForm';
 
 import './EventGallery.css';
 
@@ -18,7 +17,7 @@ const EditGalleryForm = props => {
   const countOfImages = arr => {
     let count = 0;
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].is_deleted === false) {
+      if (!arr[i].is_deleted) {
         count++;
       }
     }
@@ -27,6 +26,7 @@ const EditGalleryForm = props => {
   const onClickImageHandler = data => {
     setModalData({
       ...modalData,
+      id: data.id,
       title: 'Change Image',
       description: data.description,
       img_url: data.img_url
@@ -36,6 +36,7 @@ const EditGalleryForm = props => {
   const onClickNewImageHandler = () => {
     setModalData({
       ...modalData,
+      id: 0,
       title: 'Upload New Image',
       description: '',
       placeholder: 'Enter the description of image',
@@ -46,16 +47,14 @@ const EditGalleryForm = props => {
   const onCloseModal = e => {
     setShowModal(false);
   };
-  const [formState, inputHandler, setFormData] = useForm(
-    {
-      description: {
-        value: '',
-        isValid: true
-      }
-    },
-    false
-  );
-
+  const onSave = state => {
+    setShowModal(false);
+    if (state.id === 0) {
+      props.createImageHandler(state);
+    } else {
+      props.changeImageHandler(state);
+    }
+  };
   return (
     <div>
       <Modal
@@ -64,10 +63,12 @@ const EditGalleryForm = props => {
         title={modalData.title}
       >
         <EditImage
+          id={modalData.id}
           description={modalData.description}
           img_url={modalData.img_url}
           placeholder={modalData.placeholder || ''}
-          onInputHandler={inputHandler}
+          onClose={e => onCloseModal(e)}
+          onSave={e => onSave(e)}
         />
       </Modal>
       <div className="list__images">
@@ -92,10 +93,11 @@ const EditGalleryForm = props => {
             </div>
           ) : null}
           {props.galleryData.map(image =>
-            !image.isDeleted ? (
+            !image.is_deleted ? (
               <div className="list__images-item-wrapper">
                 <EventGalleryItem
                   key={image.id}
+                  id={image.id}
                   img_url={image.img_url}
                   description={image.description}
                   className="list__images-item card image_slider-item"
@@ -104,13 +106,14 @@ const EditGalleryForm = props => {
                     <div className="list__images-item-panel">
                       <span
                         className="button-link icon-pencil link"
-                        onClick={() => {
-                          props.editImageHandler(image);
-                        }}
+                        // onClick={() => {
+                        //   props.editImageHandler(image);
+                        // }}
                       ></span>
                       <span
                         className="button-link icon-trash"
-                        onClick={() => {
+                        onClick={e => {
+                          e.stopPropagation();
                           props.deleteImageHandler(image);
                         }}
                       ></span>

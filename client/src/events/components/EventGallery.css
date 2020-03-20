@@ -290,3 +290,35 @@
 .list__images-arrow-down:hover {
   text-shadow: 1px 1px 2px rgba(22, 160, 133, 0.8);
 }
+.edit-image-gallery_inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.edit-image-gallery_description-text-input {
+  margin: 20px 0 0 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #16a085;
+}
+.edit-image-gallery_description-text-input label {
+  margin-right: 20px;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: bold;
+  color: #16a085;
+}
+
+.edit-image-gallery_description-text-input input {
+  /* width: 60%;
+  border: none;
+  border-bottom: 1px solid black; */
+}
+.edit-image-gallery_description-text-input input:active {
+  border: none;
+  border-bottom: 3px solid #16a085;
+  transition: all 0.3s ease;
+}

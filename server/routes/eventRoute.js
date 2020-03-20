@@ -6,7 +6,10 @@ const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
 const auth = require('../middlewares/authorization');
 const adminAndModeratorAuth = require('../middlewares/adminAndModeratorAuthorization');
 
-const { uploadCover, editEvent } = require('../middlewares/upload-images');
+const {
+  uploadCover,
+  uploadImageOfGallery
+} = require('../middlewares/upload-images');
 
 router.get('/', CheckUrlInCache, eventController.searchEvent);
 router.post(
@@ -36,5 +39,22 @@ router.put(
 router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
 router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 router.get('/:id/gallery', eventController.getGalleryOfEvent);
+router.post(
+  '/:id/gallery',
+  auth,
+  uploadImageOfGallery.single('img_url'),
+  eventController.createImageOfGallery
+);
+router.put(
+  '/:id/gallery/:imageId',
+  auth,
+  uploadImageOfGallery.single('img_url'),
+  eventController.changeImageOfGallery
+);
+router.delete(
+  '/:id/gallery/:imageId',
+  auth,
+  eventController.deleteImageFromGallery
+);
 
 module.exports = router;

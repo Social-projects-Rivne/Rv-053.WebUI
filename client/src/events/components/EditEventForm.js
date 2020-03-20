@@ -263,8 +263,9 @@ const EditEventForm = props => {
       {!props.loadingGalleryFlag ? (
         <EditGalleryForm
           galleryData={props.galleryData}
-          editImageHandler={props.editImageHandler}
+          changeImageHandler={props.changeImageHandler}
           deleteImageHandler={props.deleteImageHandler}
+          createImageHandler={props.createImageHandler}
         />
       ) : null}
       <button
