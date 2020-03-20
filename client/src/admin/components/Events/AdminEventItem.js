@@ -82,13 +82,11 @@ const AdminEventItem = props => {
         </div>
         <div className={props.collapseState ? 'hide' : 'col-lg-2 adminpanel__col'}>
           <button
-            className="my__button"
+            className="my__button icon-pencil"
             onClick={() => {
               history.push('/editevent/' + props.eventInfo.id);
             }}
-          >
-            Edit
-          </button>
+          ></button>
         </div>
         <div
           className={props.collapseState ? 'col-lg-3 adminpanel__col' : 'col-lg-1 adminpanel__col'}

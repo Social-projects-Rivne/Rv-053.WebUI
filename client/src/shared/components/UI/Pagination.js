@@ -9,7 +9,8 @@ const Pagination = props => {
   const [rowsCount, setRowsCount] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(false);
   const [page, setPage] = useState(1);
-  const query = props.query ? props.query : '';
+  const memorizedQuaryObj = props.query ? JSON.stringify(props.query) : '';
+
   const limitItemsOnPage = props.pageItemsLimit ? props.pageItemsLimit : 20;
   const pagesCount = Math.ceil(rowsCount / limitItemsOnPage);
   const accessToken = useContext(AuthContext).token;
@@ -21,6 +22,7 @@ const Pagination = props => {
   );
 
   const { onDataFetch, api } = props;
+
   const getItemsList = useCallback(async () => {
     if (api) {
       try {
@@ -30,7 +32,7 @@ const Pagination = props => {
           method: 'get',
           url: api_server_url + api,
           params: {
-            ...query,
+            ...memorizedQuaryObj,
             limit: limitItemsOnPage,
             offset: offsetItem
           },
@@ -44,12 +46,11 @@ const Pagination = props => {
         console.log(e);
       }
     }
-  }, [headers, api, page, query, limitItemsOnPage, onDataFetch]);
+  }, [headers, api, page, memorizedQuaryObj, limitItemsOnPage, onDataFetch]);
 
-  const dependencyQuery = JSON.stringify(props.query);
   useEffect(() => {
     getItemsList();
-  }, [page, dependencyQuery, getItemsList]);
+  }, [page, memorizedQuaryObj, getItemsList]);
 
   const formPageNumbers = (start, end) => {
     const arr = [];

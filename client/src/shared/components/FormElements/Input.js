@@ -99,7 +99,7 @@ const Input = props => {
       <input
         className={props.className + ` ${!state.isValid && state.isClicked && 'is-invalid'}`}
         id={props.id}
-        value={state.value || props.initValue}
+        value={state.value}
         onBlur={blurHandler}
         onChange={typingHandler}
         onClick={typingHandler}
