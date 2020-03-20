@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo
+} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -18,6 +24,7 @@ const EventDetails = () => {
   const [eventData, setEventData] = useState();
   const [joinEventFlag, setJoinEventFlag] = useState(false);
   const [quantityParticipants, setQuantityParticipants] = useState();
+  const [EventDate, setEventDate] = useState();
   const headers = useMemo(
     () => ({
       Authorization: 'Bearer ' + accessToken
@@ -26,12 +33,17 @@ const EventDetails = () => {
   );
 
   const getEvent = useCallback(async () => {
-    const event = await axios.get('http://localhost:5001/api/events/' + eventId, { headers });
-    console.log(event);
-    event.data.datetime = moment(+event.data.datetime)
-      .format('DD MM YYYY')
-      .split(' ')
-      .join('.');
+    const event = await axios.get(
+      'http://localhost:5001/api/events/' + eventId,
+      { headers }
+    );
+
+    setEventDate(
+      moment(+event.data.datetime)
+        .format('DD MM YYYY')
+        .split(' ')
+        .join('.')
+    );
     event.data.duration = moment(+event.data.duration)
       .format('hh mm')
       .replace(' ', ':');
@@ -57,9 +69,11 @@ const EventDetails = () => {
     [headers, getEvent]
   );
   const getQuantityParticipants = async id => {
-    await axios.get(api_server_url + `/api/events/${id}/count`).then(quantity => {
-      setQuantityParticipants(quantity.data.quantityUsers);
-    });
+    await axios
+      .get(api_server_url + `/api/events/${id}/count`)
+      .then(quantity => {
+        setQuantityParticipants(quantity.data.quantityUsers);
+      });
   };
   useEffect(() => {
     getEvent();
@@ -79,14 +93,15 @@ const EventDetails = () => {
       {console.log(eventData)}
       <ScrollToTop />
       <Notificator
-        className="success-note"
-        message="You are successfully subscribed!"
+        className='success-note'
+        message='You are successfully subscribed!'
         show={showNoteState}
         onExit={closeNoteHandler}
       />
       {eventData ? (
         <>
           <EventItem
+            EventDate={EventDate}
             id={eventData.id}
             event={eventData}
             owner={eventData.user}

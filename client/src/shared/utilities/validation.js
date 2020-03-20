@@ -9,10 +9,10 @@ const REQ_PASSWORD = 'PASSWORD';
 export const VAL_REQUIRED = () => ({ valType: REQ_REQUIRED });
 export const VAL_EMAIL = () => ({ valType: REQ_EMAIL });
 export const VAL_LETTERS = () => ({ valType: REQ_LETTERS });
-export const VAL_NUMBERS = () => ({ valType: REQ_NUMBERS });
-export const VAL_PASSWORD = (length, keys) => ({ valType: REQ_PASSWORD, length, keys });
-export const VAL_MIN_LENGTH = value => ({ valType: REQ_MIN_LENGTH, length: value });
-export const VAL_MAX_LENGTH = value => ({ valType: REQ_MAX_LENGTH, length: value });
+export const VAL_NUMBERS = (min, max) => ({ valType: REQ_NUMBERS, min, max });
+export const VAL_PASSWORD = () => ({ valType: REQ_PASSWORD });
+export const VAL_MIN_LENGTH = length => ({ valType: REQ_MIN_LENGTH, length });
+export const VAL_MAX_LENGTH = length => ({ valType: REQ_MAX_LENGTH, length });
 
 const validatorsDictionary = {
   [REQ_REQUIRED]: value => value.trim().length > 0,
@@ -26,9 +26,11 @@ const validatorsDictionary = {
     const expression = /[^A-Za-zа-яА-ЯіІёЁ]+/;
     return !expression.test(value);
   },
-  [REQ_NUMBERS]: value => {
+  [REQ_NUMBERS]: (value, validator) => {
     const expression = /^\d*[1-9]\d*$/;
-    return expression.test(value);
+    const minValidation = validator.min ? value >= validator.min : true;
+    const maxValidation = validator.max ? value <= validator.max : true;
+    return expression.test(value) && minValidation && maxValidation;
   },
   [REQ_EMAIL]: value => {
     // eslint-disable-next-line

@@ -1,9 +1,9 @@
 const { body, validationResult } = require('express-validator');
 
-//Password should be contain at least one uppercase, one lowercase and one digit
 const regExpForPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
-//Cyrillic and Latin characters, space and -
 const regExpForNames = /[^A-Za-zа-яА-Я\s\-\']+/;
+const regExpForNumbers = /^(\s*|\d+)$/;
+const regExpForCurrency = /^(\s*|\d+\s+[A-Z]+)$/;
 
 const loginValidation = () => {
   return [
@@ -91,21 +91,15 @@ const createEventValidation = () => {
     body('duration', 'Duration field should not be empty').notEmpty({
       ignore_whitespace: false
     }),
-    body('max_participants', 'Max part field should not be empty').notEmpty({
-      ignore_whitespace: false
-    }),
-    body('min_age', 'Min age field should not be empty').notEmpty({
-      ignore_whitespace: false
-    }),
-    body('cover', 'Cover field should not be empty')
-      .notEmpty({
-        ignore_whitespace: false
-      })
-      .isString(),
+    body('max_participants', 'Max part field should not be empty')
+      .exists()
+      .matches(regExpForNumbers, 'g'),
+    body('min_age', 'Min age field should not be empty')
+      .exists()
+      .matches(regExpForNumbers, 'g'),
     body('price', 'price field should not be empty')
-      .notEmpty({
-        ignore_whitespace: false
-      })
+      .trim()
+      .matches(regExpForCurrency, 'g')
       .isString()
   ];
 };

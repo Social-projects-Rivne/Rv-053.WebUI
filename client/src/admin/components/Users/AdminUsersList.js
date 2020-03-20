@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useEffect, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo
+} from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -31,7 +37,9 @@ const AdminUsersList = props => {
 
   const getUserRoleForAcces = useCallback(async () => {
     try {
-      const res = await axios.get(api_server_url + '/api/adminpanel/getrole', { headers });
+      const res = await axios.get(api_server_url + '/api/adminpanel/getrole', {
+        headers
+      });
       const role = res.data.role;
       if (role === 'Admin' || role === 'Moderator') {
         setUserRoleForAdminpanel(role);
@@ -56,12 +64,12 @@ const AdminUsersList = props => {
     <>
       <AdminSearchUsers />
       <Pagination
-        api="/api/adminpanel/users"
+        api='/api/adminpanel/users'
         onDataFetch={getUsers}
         pageItemsLimit={showItems < 5 ? showItems : 5}
         query={'q=' + (searchQuery ? searchQuery : '')}
       >
-        <ul className="list-group mb-4">
+        <ul className='list-group mb-4'>
           {users.rows
             ? users.rows
                 .slice(0, showItems)

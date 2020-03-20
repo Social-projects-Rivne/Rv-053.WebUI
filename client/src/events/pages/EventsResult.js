@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import EventResultItem from './EventResultItem';
 import Pagination from '../../shared/components/UI/Pagination';
@@ -7,11 +6,8 @@ import ScrollToTop from '../../shared/components/UI/ScrollToTop';
 import Filter from '../../shared/components/Filter/Filter';
 import DateRangeContextProvider from '../../shared/components/Filter/DateRange/DateRangesContext';
 import CategoryContextProvider from '../../shared/components/Filter/Category/CategoryContext';
+import useQuery from '../../shared/utilities/useQuery';
 import './EventsResult.css';
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const EventsResult = () => {
   const urlParams = useQuery();
@@ -20,10 +16,10 @@ const EventsResult = () => {
   const filterCategory = urlParams.get('category');
   const filterStartDate = urlParams.get('startDate');
   const filterEndDate = urlParams.get('endDate');
-  const apiFilterQuery = `startDate=${filterStartDate}&endDate=${filterEndDate}&category=${filterCategory}`;
 
   const [allEvents, setAllEvents] = useState([]);
   const [toggleListState, setToggleListState] = useState({ list: true });
+
   const toggleListHandler = () => {
     let isList = toggleListState.list;
     setToggleListState({ list: !isList });
@@ -32,6 +28,7 @@ const EventsResult = () => {
   const getEvents = useCallback(data => {
     setAllEvents(data.rows);
   }, []);
+
   return (
     <CategoryContextProvider>
       <DateRangeContextProvider>
@@ -62,25 +59,21 @@ const EventsResult = () => {
             </div>
 
             <Pagination
-              api={
-                filterCategory || filterStartDate || filterEndDate
-                  ? '/api/events/filter'
-                  : '/api/events/'
-              }
+              api="/api/events"
               onDataFetch={getEvents}
               pageItemsLimit={4}
-              query={
-                filterCategory || filterStartDate || filterEndDate
-                  ? apiFilterQuery
-                  : `q=${searchQuery ? searchQuery : ''}`
-              }
+              query={{
+                startDate: filterStartDate,
+                endDate: filterEndDate,
+                category: filterCategory,
+                q: searchQuery
+              }}
             >
               <div
                 className={
                   toggleListState.list ? 'list__events-items' : 'list__events-items card-wrapper'
                 }
               >
-                {console.log(allEvents)}
                 {allEvents[0] ? (
                   allEvents.map(event => {
                     return (

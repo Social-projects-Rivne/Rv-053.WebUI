@@ -67,6 +67,16 @@ li {
 .my__button:focus, .button-link:focus {
   outline: none;
 }
+.my__button-red {
+  border: 1px solid #dc3545;
+  background-color: #dc3545;
+}
+.my__button-red:hover {
+  background-color: #dc3546e0;
+}
+.my__button-red:focus {
+  outline: none;
+}
 .link,
 .link:hover {
   text-decoration: none;
