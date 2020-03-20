@@ -55,7 +55,7 @@ const EventGallery = () => {
             {images.map(image => (
               <EventGalleryItem
                 key={image.id}
-                image={image.img_url}
+                img_url={image.img_url}
                 description={image.description}
                 className="list__images-item card image_slider-item"
                 onClick={onClickHandler}

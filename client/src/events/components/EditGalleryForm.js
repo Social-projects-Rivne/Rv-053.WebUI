@@ -1,44 +1,127 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import EventGalleryItem from './EventCalleryItem';
+import Modal from '../../shared/components/UI/Modal';
+import EditImage from './EditImage';
+import { useForm } from '../../shared/hooks/useForm';
 
 import './EventGallery.css';
 
 const EditGalleryForm = props => {
+  const MAX_IMAGES_OF_GALLERY = 8;
+  const [showGallery, setShowGallery] = useState('hide');
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+  const showGalleryToggle = () => {
+    showGallery === 'hide' ? setShowGallery('show') : setShowGallery('hide');
+  };
+  const countOfImages = arr => {
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].is_deleted === false) {
+        count++;
+      }
+    }
+    return count;
+  };
+  const onClickImageHandler = data => {
+    setModalData({
+      ...modalData,
+      title: 'Change Image',
+      description: data.description,
+      img_url: data.img_url
+    });
+    setShowModal(true);
+  };
+  const onClickNewImageHandler = () => {
+    setModalData({
+      ...modalData,
+      title: 'Upload New Image',
+      description: '',
+      placeholder: 'Enter the description of image',
+      img_url: ''
+    });
+    setShowModal(true);
+  };
+  const onCloseModal = e => {
+    setShowModal(false);
+  };
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      description: {
+        value: '',
+        isValid: true
+      }
+    },
+    false
+  );
+
   return (
     <div>
-      {props.galleryData.length > 0 ? (
-        <div className="list__images">
-          <h2>Gallery</h2>
+      <Modal
+        showModal={showModal}
+        onClose={e => onCloseModal(e)}
+        title={modalData.title}
+      >
+        <EditImage
+          description={modalData.description}
+          img_url={modalData.img_url}
+          placeholder={modalData.placeholder || ''}
+          onInputHandler={inputHandler}
+        />
+      </Modal>
+      <div className="list__images">
+        <h3
+          className="list__images-arrow-down"
+          onClick={() => showGalleryToggle()}
+        >
+          Edit Gallery <span>⇩</span>{' '}
+        </h3>
+
+        <div className={'list__images-container ' + showGallery}>
+          {countOfImages(props.galleryData) < MAX_IMAGES_OF_GALLERY ? (
+            <div className="list__images-item-wrapper">
+              <EventGalleryItem
+                key="0"
+                img_url=""
+                description="Upload New Image"
+                className="list__images-item card image_slider-item"
+                onClick={onClickNewImageHandler}
+                additional={<span className="icon-plus"></span>}
+              />
+            </div>
+          ) : null}
           {props.galleryData.map(image =>
             !image.isDeleted ? (
               <div className="list__images-item-wrapper">
                 <EventGalleryItem
                   key={image.id}
-                  image={image.img_url}
+                  img_url={image.img_url}
                   description={image.description}
                   className="list__images-item card image_slider-item"
-                  // onClick={onClickHandler}
+                  onClick={onClickImageHandler}
+                  additional={
+                    <div className="list__images-item-panel">
+                      <span
+                        className="button-link icon-pencil link"
+                        onClick={() => {
+                          props.editImageHandler(image);
+                        }}
+                      ></span>
+                      <span
+                        className="button-link icon-trash"
+                        onClick={() => {
+                          props.deleteImageHandler(image);
+                        }}
+                      ></span>
+                    </div>
+                  }
                 />
-                <div className="list__events-item-panel">
-                  <span
-                    className="button-link icon-pencil link"
-                    onClick={() => {
-                      props.editImageHandler(image);
-                    }}
-                  ></span>
-                  <span
-                    className="button-link icon-trash"
-                    onClick={() => {
-                      props.deleteImageHandler(image);
-                    }}
-                  ></span>
-                </div>
               </div>
             ) : null
           )}
         </div>
-      ) : null}{' '}
+      </div>
     </div>
   );
 };
