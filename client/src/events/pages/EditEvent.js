@@ -166,24 +166,13 @@ const EditEvent = props => {
     updateEventData();
   };
   const changeImageHandler = async image => {
-    console.log(image);
     try {
-      // let imageFormData = new FormData();
-      // imageFormData.append('id', image.id);
-      // imageFormData.append(
-      //   'img_url',
-      //   typeof image.img_url === 'object'
-      //     ? URL.createObjectURL(image.img_url)
-      //     : image.img_url
-      // );
-      // imageFormData.append('description', image.description);
       const imageData = {
         id: image.id,
         description: image.description,
         img_url: image.img_url
       };
       const imageFormData = objToFormData(imageData);
-      console.log(...imageFormData);
       const res = await axios.put(
         `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
         imageFormData,
@@ -191,7 +180,6 @@ const EditEvent = props => {
           headers
         }
       );
-
       if (res.status === 201) {
         image.img_url =
           typeof image.img_url === 'object'
@@ -205,8 +193,34 @@ const EditEvent = props => {
       console.log(err);
     }
   };
-  const createImageHandler = image => {
+  const createImageHandler = async image => {
     console.log(image);
+    try {
+      if (typeof image.img_url === 'object') {
+        const imageData = {
+          description: image.description,
+          img_url: image.img_url
+        };
+        const imageFormData = objToFormData(imageData);
+        const res = await axios.post(
+          `${api_server_url}/api/events/${eventID}/gallery`,
+          imageFormData,
+          {
+            headers
+          }
+        );
+        if (res.status === 201) {
+          // image.img_url = URL.createObjectURL(image.img_url);
+          // setGalleryState([...galleryState, image]);
+          const resGallery = await axios.get(
+            api_server_url + '/api/events/' + eventID + '/gallery'
+          );
+          setGalleryState(resGallery.data);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   const deleteImageHandler = async image => {
     try {

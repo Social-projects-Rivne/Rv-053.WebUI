@@ -298,27 +298,81 @@
   position: absolute;
   z-index: -1;
 }
-.edit-image-gallery_description-text-input {
-  margin: 20px 0 0 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #16a085;
+.edit-image-gallery_description-group {
+  margin-top: 1rem;
+  width: 100%;
+  position: relative;
+  height: auto;
+  margin-bottom: 20px;
 }
-.edit-image-gallery_description-text-input label {
-  margin-right: 20px;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: bold;
-  color: #16a085;
+.edit-image-gallery_description-label {
+  position: absolute;
+  margin: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-bottom: 1px solid rgb(67, 69, 79);
 }
-
-.edit-image-gallery_description-text-input input {
-  /* width: 60%;
-  border: none;
-  border-bottom: 1px solid black; */
-}
-.edit-image-gallery_description-text-input input:active {
-  border: none;
+.edit-image-gallery_description-label::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  bottom: -2px;
+  left: 0px;
   border-bottom: 3px solid #16a085;
   transition: all 0.3s ease;
+}
+.edit-image-gallery_description-label span {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.edit-image-gallery_description-input {
+  height: 100%;
+  width: 100%;
+  padding-top: 20px;
+  border: none;
+  outline: none;
+}
+.edit-image-gallery_description-group
+  input:focus
+  + .edit-image-gallery_description-label
+  span,
+.input-full {
+  transform: translateY(-100%);
+  color: #16a085;
+  font-size: 90%;
+}
+.edit-image-gallery_description-group
+  input:focus
+  + .edit-image-gallery_description-label::after {
+  width: 100%;
+}
+.edit-image__change-cover-container {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  min-height: 200px;
+}
+.edit-image__change-cover-btn {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.274);
+  transition: all 0.2s ease-in-out;
+}
+.edit-image__change-cover-btn:hover {
+  cursor: pointer;
+  color: #16a085;
+  background-color: rgba(0, 0, 0, 0.322);
 }

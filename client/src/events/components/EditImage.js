@@ -1,6 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import Input from '../../shared/components/FormElements/Input';
-import { useForm } from '../../shared/hooks/useForm';
+import React, { useState, useRef } from 'react';
 const EditImage = props => {
   const imageInputRef = useRef(null);
   const [state, setStateImg] = useState({
@@ -14,10 +12,10 @@ const EditImage = props => {
   const handleNewDescription = e => {
     setStateImg({ ...state, description: e.target.value });
   };
-
+  const ClassInputFull = state.description ? 'input-full' : null;
   return (
     <div>
-      <div className="list__events-item-img edit-event__change-cover-container">
+      <div className="list__images-item-img edit-image__change-cover-container">
         <img
           src={
             typeof state.img_url === 'object'
@@ -25,10 +23,10 @@ const EditImage = props => {
               : state.img_url
           }
           alt={props.img_url}
-          className="list__events-item-img"
+          className="list__images-item-img"
         ></img>
         <span
-          className="edit-event__change-cover-btn"
+          className="edit-image__change-cover-btn"
           onClick={() =>
             imageInputRef.current !== null
               ? imageInputRef.current.click()
@@ -47,15 +45,20 @@ const EditImage = props => {
         accept="image/*"
         className="edit-image-gallery_inputfile"
       />
-      <div className="edit-image-gallery_description-text-input">
-        <label for="description">Description: </label>
+      <div className="edit-image-gallery_description-group">
         <input
           name="description"
           type="text"
-          placeholder={props.placeholder}
           defaultValue={props.description}
+          className="edit-image-gallery_description-input"
           onChange={e => handleNewDescription(e)}
         />
+        <label
+          for="description"
+          className="edit-image-gallery_description-label"
+        >
+          <span className={ClassInputFull}>Description: </span>
+        </label>
       </div>
       <button
         className="my__button mr-4 mb-4 mt-4 d-inline-block float-left"

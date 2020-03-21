@@ -146,8 +146,11 @@ exports.updateEvent = async (req, res) => {
       req.role === 'Admin' ||
       req.role === 'Moderator'
     ) {
+      let oldCoverPath = null;
+      if (!cover) {
+        oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
+      }
       cover = cover || process.env.BACK_HOST + '/' + req.file.path;
-      let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
       event
         .update({
           name,
@@ -474,12 +477,15 @@ exports.changeImageOfGallery = async (req, res) => {
       req.role === 'Admin' ||
       req.role === 'Moderator'
     ) {
-      img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       const img = await EventGallery.findOne({
         where: { event_id: id, id: imageId }
       });
       if (img) {
-        let oldImg = img.img_url.slice(process.env.BACK_HOST.length);
+        let oldImg = null;
+        if (!img_url) {
+          oldImg = img.img_url.slice(process.env.BACK_HOST.length);
+          img_url = process.env.BACK_HOST + '/' + req.file.path;
+        }
         await img.update({ img_url, description });
         if (oldImg) {
           fs.unlink('.' + oldImg, err => {

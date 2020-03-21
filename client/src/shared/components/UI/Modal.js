@@ -11,9 +11,9 @@ const Modal = props => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{props.title}</h5>
-                <button type="button" onClick={e => props.onClose(e)}>
-                  <span>&times;</span>
-                </button>
+                <span className="modal-button" onClick={e => props.onClose(e)}>
+                  &times;{' '}
+                </span>
               </div>
               <div className="modal-body">{props.children}</div>
             </div>
