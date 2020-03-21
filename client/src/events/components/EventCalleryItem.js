@@ -14,9 +14,14 @@ const EventCalleryItem = props => {
         {props.additional ? (
           props.additional
         ) : (
-          <span style={{ minWidth: '20px' }}></span>
+          <span style={{ minWidth: '5px' }}></span>
         )}
-        <div style={{ flexGrow: '1' }}>{props.description} &nbsp;</div>
+        <div
+          className="list__images-item-description-text"
+          style={{ flexGrow: '1' }}
+        >
+          {props.description} &nbsp;
+        </div>
       </div>
     </div>
   );

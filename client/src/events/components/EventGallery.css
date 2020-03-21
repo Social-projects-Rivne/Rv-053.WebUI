@@ -19,28 +19,23 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .list__images-sort_btn-item {
   margin-right: 7px;
   border: none;
   background-color: transparent;
   outline: none;
 }
-
 .list__images-sort_btn-item.active::before {
   color: #2f313c;
 }
-
 .list__images-sort_btn-item:hover {
   cursor: pointer;
 }
-
 .list__images-sort_btn-item:before {
   font-family: 'icomoon';
   font-size: 20px;
   color: rgba(47, 49, 60, 0.6);
 }
-
 .list__images .list__images-items.card-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -52,8 +47,7 @@
   flex-wrap: wrap;
 }
 .list__images-item.card.image_slider-item {
-  max-width: 320px;
-  /* margin: 0px auto; */
+  max-width: 280px;
   margin: 5px;
   position: relative;
 }
@@ -254,6 +248,11 @@
   min-height: 30px;
   padding: 10px 2px;
   overflow: hidden;
+}
+.list__images-item-description-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .list__images-item-wrapper {
   position: relative;

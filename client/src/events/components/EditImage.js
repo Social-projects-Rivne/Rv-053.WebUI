@@ -52,6 +52,7 @@ const EditImage = props => {
           defaultValue={props.description}
           className="edit-image-gallery_description-input"
           onChange={e => handleNewDescription(e)}
+          maxLength="120"
         />
         <label
           for="description"

@@ -51,7 +51,11 @@ const EventGallery = () => {
         <div>
           <h2>Gallery</h2>
 
-          <MySlider slidesToShow="3" slidesToScroll="3" dots={true}>
+          <MySlider
+            slidesToShow={images.length < 3 ? images.length : 3}
+            slidesToScroll={images.length < 3 ? images.length : 3}
+            dots={true}
+          >
             {images.map(image => (
               <EventGalleryItem
                 key={image.id}
