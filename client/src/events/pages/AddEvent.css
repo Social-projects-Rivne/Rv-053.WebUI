@@ -268,7 +268,7 @@ td.rdtYear:hover {
   padding: 0;
 }
 .map-container {
-  height: 75vh;
+  height: 50vh;
 }
 
 #date {
@@ -292,4 +292,8 @@ td.rdtYear:hover {
   margin-top: 25px;
   margin-bottom: 0;
   text-align: center;
+}
+
+.create__btn {
+  margin-bottom: 10px;
 }
