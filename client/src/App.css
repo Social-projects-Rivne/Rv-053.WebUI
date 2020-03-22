@@ -52,6 +52,9 @@ button{
   border: none;
   background-color: transparent;
 }
+button:focus{
+  outline: none;
+}
 .my__button {
   color: #fff;
   border: 1px solid #16a085;

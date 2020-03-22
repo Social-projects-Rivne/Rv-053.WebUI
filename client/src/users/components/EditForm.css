@@ -1,5 +1,7 @@
 
 .update-profile__inner{
+  max-width: 800px;
+  margin: 0 auto;
   padding: 40px 0px;
 }
 .update-title {
@@ -16,8 +18,7 @@
 }
 .profile-avatar__wrapper,
 .update-profile_btn{
-  padding: 0px 10px;
-  margin: 10px auto;
+  padding: 0px 5px;
 }
 .input_wrapper-number {
   display: flex;

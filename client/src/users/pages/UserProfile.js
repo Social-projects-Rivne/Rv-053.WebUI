@@ -29,6 +29,7 @@ const UserProfile = () => {
         show={showNotificator || false}
       />
       <div className="my__container">
+        <div className="profile-inner">
           <UserInfo />
           <CategoriesList />
           <div className="profile-followed_events">
@@ -37,6 +38,7 @@ const UserProfile = () => {
           <div className="profile-created_events">
             <CreatedEventList />
           </div>
+        </div>
       </div>
     </>
   );

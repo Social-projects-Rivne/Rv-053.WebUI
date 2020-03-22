@@ -49,8 +49,9 @@ const PastEvents = () => {
                                 location={event.event.location}
                                 cover={event.event.cover}
                                 price={event.event.price}
-                                owner_id={event.user.id}
-                                owner_first_name={event.user.first_name}
+                                owner_id={event.owner_id}
+                                owner_first_name={event.event.user.first_name}
+                                owner_last_name={event.event.user.last_name}
                                 pastEvent={true}
                             />
                         )

@@ -15,7 +15,7 @@ const EVENT_DELETED = 'Deleted';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
 const CURRENT_DATE = new Date().getTime();
-const MONTH_AGO = new Date().setMonth(new Date().getMonth()-1)
+const THREE_MONTH_AGO = new Date().setMonth(new Date().getMonth()-3)
 
 const findUser = async userId =>
   User.findOne({
@@ -144,6 +144,9 @@ exports.getEvents = async (req, res) => {
         owner_id: req.userId, 
         status: { [Op.ne]: EVENT_DELETED },
       },
+      order: [
+        ['datetime', 'DESC']
+      ],
       include: [
         {
           model: Category
@@ -154,7 +157,7 @@ exports.getEvents = async (req, res) => {
         res.status(200).json({
         status: 'success',
         data:{
-          event
+          event,
         }
       })
     })
@@ -220,15 +223,18 @@ exports.getPastEvents = async (req, res) => {
         { 
           model: Event, 
           where: { 
-            datetime: {[Op.between]: [ MONTH_AGO , CURRENT_DATE ]}
+            datetime: {[Op.between]: [ THREE_MONTH_AGO , CURRENT_DATE ]}
           },
-          include: [{model: Category}]
+          include: [
+            {
+              model: Category
+            },
+            {
+              model: User,
+              attributes: ['id', 'first_name', 'last_name'],
+            }    
+          ]
         },
-        {
-          model: User,
-          attributes: ['id', 'first_name'],
-        },
-
       ]
     });
     res.status(200).json({
