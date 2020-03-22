@@ -6,10 +6,10 @@ const Modal = props => {
   return (
     <>
       {props.showModal ? (
-        <div className="modal fade show" onClick={e => props.onClose(e)}>
+        <div className="modal fade show" onMouseDown={e => props.onClose(e)}>
           <div
             className="modal-dialog modal-lg"
-            onClick={e => e.stopPropagation()}
+            onMouseDown={e => e.stopPropagation()}
           >
             <div className="modal-content">
               <div className="modal-header">

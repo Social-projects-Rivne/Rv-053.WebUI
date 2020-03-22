@@ -2,7 +2,11 @@ import React from 'react';
 
 const EventCalleryItem = props => {
   const img = {
-    backgroundImage: `url(${props.img_url})`
+    backgroundImage: `url(${
+      typeof props.img_url === 'object'
+        ? URL.createObjectURL(props.img_url)
+        : props.img_url
+    })`
   };
   return (
     <div className={props.className} onClick={() => props.onClick(props)}>

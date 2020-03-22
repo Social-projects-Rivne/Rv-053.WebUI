@@ -27,16 +27,18 @@ const EditGalleryForm = props => {
     setModalData({
       ...modalData,
       id: data.id,
+      is_new: data.is_new,
       title: 'Change Image',
       description: data.description,
       img_url: data.img_url
     });
     setShowModal(true);
   };
-  const onClickNewImageHandler = () => {
+  const onClickNewImageHandler = data => {
     setModalData({
       ...modalData,
-      id: 0,
+      id: data.id,
+      is_new: true,
       title: 'Upload New Image',
       description: '',
       placeholder: 'Enter the description of image',
@@ -49,7 +51,7 @@ const EditGalleryForm = props => {
   };
   const onSave = state => {
     setShowModal(false);
-    if (state.id === 0) {
+    if (!props.galleryData.find(item => item.id === state.id)) {
       props.createImageHandler(state);
     } else {
       props.changeImageHandler(state);
@@ -66,6 +68,7 @@ const EditGalleryForm = props => {
           id={modalData.id}
           description={modalData.description}
           img_url={modalData.img_url}
+          is_new={modalData.is_new}
           placeholder={modalData.placeholder || ''}
           onClose={e => onCloseModal(e)}
           onSave={e => onSave(e)}
@@ -85,6 +88,8 @@ const EditGalleryForm = props => {
               <EventGalleryItem
                 key="0"
                 img_url=""
+                id={'new' + Date.now()}
+                index={props.galleryData.length}
                 description="Upload New Image"
                 className="list__images-item card image_slider-item"
                 onClick={onClickNewImageHandler}
@@ -92,24 +97,21 @@ const EditGalleryForm = props => {
               />
             </div>
           ) : null}
-          {props.galleryData.map(image =>
+          {props.galleryData.map((image, index) =>
             !image.is_deleted ? (
-              <div className="list__images-item-wrapper">
+              <div key={index} className="list__images-item-wrapper">
                 <EventGalleryItem
-                  key={image.id}
+                  key={index}
+                  index={index}
                   id={image.id}
                   img_url={image.img_url}
                   description={image.description}
+                  is_new={image.is_new}
                   className="list__images-item card image_slider-item"
                   onClick={onClickImageHandler}
                   additional={
                     <div className="list__images-item-panel">
-                      <span
-                        className="button-link icon-pencil link"
-                        // onClick={() => {
-                        //   props.editImageHandler(image);
-                        // }}
-                      ></span>
+                      <span className="button-link icon-pencil link"></span>
                       <span
                         className="button-link icon-trash"
                         onClick={e => {

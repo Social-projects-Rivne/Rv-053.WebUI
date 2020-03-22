@@ -134,14 +134,57 @@ const EditEvent = props => {
           category: eventCategory.id
         };
         const updatedEventFormData = objToFormData(updatedEventData);
-        const res = await axios.put(
+        let res = await axios.put(
           api_server_url + '/api/events/' + eventID,
           updatedEventFormData,
           {
             headers
           }
         );
-
+        if (res.status === 200) {
+          galleryState.map(async image => {
+            if (image.is_changed === true && image.is_deleted === true) {
+              res = await axios.delete(
+                `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+                {
+                  headers
+                }
+              );
+            }
+          });
+          galleryState.map(async image => {
+            if (image.is_changed === true && image.is_deleted !== true) {
+              if (image.is_new) {
+                const imageData = {
+                  description: image.description,
+                  img_url: image.img_url
+                };
+                const imageFormData = objToFormData(imageData);
+                res = await axios.post(
+                  `${api_server_url}/api/events/${eventID}/gallery`,
+                  imageFormData,
+                  {
+                    headers
+                  }
+                );
+              } else {
+                const imageData = {
+                  id: image.id,
+                  description: image.description,
+                  img_url: image.img_url
+                };
+                const imageFormData = objToFormData(imageData);
+                res = await axios.put(
+                  `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+                  imageFormData,
+                  {
+                    headers
+                  }
+                );
+              }
+            }
+          });
+        }
         if (res.status === 200) {
           history.push({
             pathname: '/redirect',
@@ -167,72 +210,34 @@ const EditEvent = props => {
   };
   const changeImageHandler = async image => {
     try {
-      const imageData = {
-        id: image.id,
-        description: image.description,
-        img_url: image.img_url
-      };
-      const imageFormData = objToFormData(imageData);
-      const res = await axios.put(
-        `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
-        imageFormData,
-        {
-          headers
-        }
+      image.is_changed = true;
+      setGalleryState(
+        galleryState.map(item => (item.id !== image.id ? item : image))
       );
-      if (res.status === 201) {
-        image.img_url =
-          typeof image.img_url === 'object'
-            ? URL.createObjectURL(image.img_url)
-            : image.img_url;
-        setGalleryState(
-          galleryState.map(item => (item.id !== image.id ? item : image))
-        );
-      }
     } catch (err) {
       console.log(err);
     }
   };
   const createImageHandler = async image => {
-    console.log(image);
     try {
-      if (typeof image.img_url === 'object') {
-        const imageData = {
-          description: image.description,
-          img_url: image.img_url
-        };
-        const imageFormData = objToFormData(imageData);
-        const res = await axios.post(
-          `${api_server_url}/api/events/${eventID}/gallery`,
-          imageFormData,
-          {
-            headers
-          }
-        );
-        if (res.status === 201) {
-          // image.img_url = URL.createObjectURL(image.img_url);
-          // setGalleryState([...galleryState, image]);
-          const resGallery = await axios.get(
-            api_server_url + '/api/events/' + eventID + '/gallery'
-          );
-          setGalleryState(resGallery.data);
-        }
-      }
+      image.is_new = true;
+      image.is_changed = true;
+      image.is_deleted = false;
+      setGalleryState([...galleryState, image]);
     } catch (err) {
       console.log(err);
     }
   };
   const deleteImageHandler = async image => {
     try {
-      const res = await axios.delete(
-        `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
-        {
-          headers
-        }
-      );
-      if (res.status === 201) {
+      if (image.is_new) {
+        setGalleryState(galleryState.filter(item => item.id !== image.id));
+      } else {
+        image.is_changed = true;
         image.is_deleted = true;
-        setGalleryState([...galleryState, image]);
+        setGalleryState(
+          galleryState.map(item => (item.id !== image.id ? item : image))
+        );
       }
     } catch (err) {
       console.log(err);

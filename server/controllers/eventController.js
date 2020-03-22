@@ -416,7 +416,6 @@ exports.deleteImageFromGallery = async (req, res) => {
     } else {
       includeQuery = { model: Event, where: { owner_id: req.userId } };
     }
-    console.log(id, imageId, req.userId);
     const img = await EventGallery.findOne({
       where: { event_id: id, id: imageId },
       include: includeQuery
@@ -438,7 +437,7 @@ exports.deleteImageFromGallery = async (req, res) => {
 
 exports.createImageOfGallery = async (req, res) => {
   const { id } = req.params;
-  let { description } = req.body;
+  let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
     if (
@@ -446,7 +445,7 @@ exports.createImageOfGallery = async (req, res) => {
       req.role === 'Admin' ||
       req.role === 'Moderator'
     ) {
-      let img_url = process.env.BACK_HOST + '/' + req.file.path;
+      img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       await EventGallery.create({
         img_url,
         description,
@@ -469,7 +468,6 @@ exports.createImageOfGallery = async (req, res) => {
 exports.changeImageOfGallery = async (req, res) => {
   const { id, imageId } = req.params;
   let { description, img_url } = req.body;
-  console.log(id, imageId, description, req.userId, req.role, img_url);
   try {
     const event = await Event.findOne({ where: { id } });
     if (

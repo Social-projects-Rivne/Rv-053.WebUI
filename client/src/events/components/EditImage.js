@@ -4,7 +4,10 @@ const EditImage = props => {
   const [state, setStateImg] = useState({
     id: props.id,
     img_url: props.img_url,
-    description: props.description
+    description: props.description,
+    is_new: props.is_new,
+    is_changed: props.is_changed,
+    is_deleted: props.is_deleted
   });
   const handleNewImage = e => {
     setStateImg({ ...state, img_url: e.target.files[0] });
@@ -14,7 +17,7 @@ const EditImage = props => {
   };
   const ClassInputFull = state.description ? 'input-full' : null;
   return (
-    <div>
+    <div style={{ margin: '0 25px' }}>
       <div className="list__images-item-img edit-image__change-cover-container">
         <img
           src={
@@ -55,7 +58,7 @@ const EditImage = props => {
           maxLength="120"
         />
         <label
-          for="description"
+          htmlFor="description"
           className="edit-image-gallery_description-label"
         >
           <span className={ClassInputFull}>Description: </span>
