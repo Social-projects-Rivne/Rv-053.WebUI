@@ -30,7 +30,7 @@ const AddEventForm = props => {
     try {
       const res = await axios.get(api_server_url + "/api/tags");
       const categoriesList = res.data.categories.map(category => ({
-        icon: "",
+        icon: category.category_icon,
         title: category.category,
         extraInfo: "",
         id: category.id
@@ -106,7 +106,7 @@ const AddEventForm = props => {
           <label>Category</label>
           <button
             type="button"
-            className="category__btn"
+            className={'category__btn ' + props.category.category}
             onFocus={() => {
               setShowDropdownCategoryFlag(true);
             }}
@@ -264,12 +264,21 @@ const AddEventForm = props => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="row">
-        <button className="btn btn-outline-primary create__btn" type="submit">
+            <div className="row create_btn">
+            <button
+          className="my__button my__button-red mr-4 mb-4 mt-4 d-inline-block float-right"
+          onClick={props.history}
+        >
+          Cancel
+        </button>
+            <button className="my__button mr-4 mb-4 mt-4 d-inline-block float-left" type="submit">
           Add Event
         </button>
+ 
+            </div>
       </div>
+   
+
     </form>
   );
 };

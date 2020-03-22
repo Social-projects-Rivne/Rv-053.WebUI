@@ -18,14 +18,14 @@ const AddEvent = () => {
     Authorization: "Bearer " + accessToken
   };
   const [coordinates, setCoordinates] = useState({
-    lat: "50.6199",
-    lng: "26.251617"
+    lat: 50.6199,
+    lng: 26.251617
   });
 
   if (coordinates) {
   }
   const [notificationState, setNotificationState] = useState({
-    message: "some message",
+    message: "Event was create successfully!",
     show: false
   });
 
@@ -90,14 +90,13 @@ const AddEvent = () => {
         );
         if (res.status === 200) {
           setNotificationState({
-            message: res.data.status,
             show: true
           });
           history.push({
             pathname: "/redirect",
             state: {
               className: "p-0 auth alert alert-success",
-              message: res.data.status
+              message: notificationState.message
             }
           });
         } else {
@@ -120,11 +119,14 @@ const AddEvent = () => {
           setCoordinates={setCoordinates}
           coordinates={coordinates}
           category={eventCategory}
+          history={history.goBack}
           onChooseCategory={e =>
             setEventCategory({ id: e.id, category: e.title })
           }
         />
+      
       </div>
+      
     </>
   );
 };

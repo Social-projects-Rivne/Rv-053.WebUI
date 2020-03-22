@@ -279,6 +279,7 @@ td.rdtYear:hover {
   color: #fff;
   border-radius: 6px;
   text-align: center;
+  margin:0 auto;
 }
 #date::-webkit-input-placeholder {
   color: #fff;
@@ -296,4 +297,22 @@ td.rdtYear:hover {
 
 .create__btn {
   margin-bottom: 10px;
+}
+.add_event__btn{
+  color: #fff;
+    border: 1px solid #16a085;
+    background-color: #16a085;
+    padding: 5px 20px;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+.add_event__btn:hover,.add_event__btn:link{
+  background-color: rgba(22, 160, 133, 0.9);
+  border: 1px solid #16a085;
+}
+.create_btn{
+ margin:0 auto;
+}
+.rdtPicker{
+  margin-left: 60px;
 }
