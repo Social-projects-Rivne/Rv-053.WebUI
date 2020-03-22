@@ -80,8 +80,6 @@ const EventDetails = () => {
     setShowNoteState(false);
   };
 
-  console.log(eventData)
-
   return (
     <div>
       <ScrollToTop />

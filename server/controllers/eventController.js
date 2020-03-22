@@ -231,8 +231,8 @@ exports.searchEvent = async (req, res) => {
       }
     ],
     order: [
-      ['datetime', 'DESC'],
-      ['id', 'DESC']
+      ['datetime', 'ASC'],
+      ['id', 'ASC']
     ]
   })
     .then(events => {
