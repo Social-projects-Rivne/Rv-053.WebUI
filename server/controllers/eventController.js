@@ -87,9 +87,9 @@ exports.createEvent = async (req, res) => {
   } = req.body;
   let cover;
   if (req.file) {
-    cover = req.file.path;
+    cover = process.env.BACK_HOST + "/" + req.file.path;
   } else {
-    cover = "uploads/covers/logo.png";
+    cover = process.env.BACK_HOST + "uploads/covers/logo.png";
   }
   await Event.create({
     name,
