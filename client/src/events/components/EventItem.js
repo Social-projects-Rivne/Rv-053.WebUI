@@ -6,6 +6,7 @@ import UserCard from '../../shared/components/UI/UserCard';
 import EventGallery from './EventGallery';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import './EventItem.css';
+import Countdown from '../../shared/components/UI/CountDownTimer';
 import { api_server_url } from '../../shared/utilities/globalVariables';
 
 const EventItem = props => {
@@ -18,10 +19,10 @@ const EventItem = props => {
   };
 
   useEffect(() => {
-    // const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
-    // geocodeObj.then(geocodeObj => {
-    //   setAddress(geocodeObj.formatted_address);
-    // });
+    const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
+    geocodeObj.then(geocodeObj => {
+      setAddress(geocodeObj.formatted_address);
+    });
   }, [coordinates]);
 
   return (
@@ -31,6 +32,10 @@ const EventItem = props => {
           <figure>
             <img src={`${props.event.cover}`} alt="sometext" />
           </figure>
+          <Countdown
+            timeTillDate={props.event.datetime}
+            className="countdown-item"
+          />
         </div>
         <div className="col-md-4 event-item__info">
           <h3>{props.event.name}</h3>
@@ -76,7 +81,7 @@ const EventItem = props => {
             )}
           </div>
         </div>
-        <div className="row">
+        <div className="row row__description">
           <div className="col-md-8 event-item__desctiption">
             <div className="">
               <h3>Details</h3>
@@ -88,7 +93,7 @@ const EventItem = props => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row" style={{ width: '100%' }}>
           <div className="col-md-12 map-container">
             <Map center={map} zoom={16} />
           </div>

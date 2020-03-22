@@ -24,10 +24,10 @@ const EventResultItem = props => {
   useEffect(() => {
     const geocodeObj = returnAddress(lat, lon);
     geocodeObj.then(geocodeObj => {
-      // const geoComponent = geocodeObj.address_components;
-      // setAddress(
-      //   `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
-      // );
+      const geoComponent = geocodeObj.address_components;
+      setAddress(
+        `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
+      );
     });
   }, [lat, lon]);
 

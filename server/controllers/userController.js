@@ -15,7 +15,7 @@ const EVENT_DELETED = 'Deleted';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
 const CURRENT_DATE = new Date().getTime();
-const MONTH_AGO = new Date().setMonth(new Date().getMonth()-1)
+const MONTH_AGO = new Date().setMonth(new Date().getMonth() - 1);
 
 const findUser = async userId =>
   User.findOne({
@@ -48,7 +48,10 @@ const changeUserStatus = async (req, res, statusId) => {
       res.status(200).json({
         status: 'success'
       });
-    } else if (req.userRole === 'Moderator' && user.dataValues.role === 'User') {
+    } else if (
+      req.userRole === 'Moderator' &&
+      user.dataValues.role === 'User'
+    ) {
       await updateUserStatus(user, statusId);
       res.status(200).json({
         status: 'success'
@@ -123,7 +126,7 @@ exports.getById = async (req, res) => {
     const events = await Event.findAll({
       where: { owner_id: req.params.id },
       attributes: ['id', 'name', 'location', 'datetime', 'price', 'cover'],
-      include: [{model:Category}]
+      include: [{ model: Category }]
     });
     res.status(200).json({
       status: 'success',
@@ -180,13 +183,12 @@ exports.getFollowedEvents = async (req, res) => {
       where: { user_id: req.userId },
       attributes: [],
       include: [
-        { 
-          model: Event, 
-          where: 
-            { 
-              status: EVENT_ACTIVE, 
-              datetime: {[Op.gt]: CURRENT_DATE}
-            },
+        {
+          model: Event,
+          where: {
+            status: EVENT_ACTIVE,
+            datetime: { [Op.gt]: CURRENT_DATE }
+          },
           include: [
             {
               model: Category
@@ -198,7 +200,7 @@ exports.getFollowedEvents = async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        followedEvent 
+        followedEvent
       }
     });
   } catch (err) {
@@ -207,23 +209,22 @@ exports.getFollowedEvents = async (req, res) => {
 };
 
 exports.getPastEvents = async (req, res) => {
-  try{
+  try {
     const pastEvents = await UserEvent.findAll({
       where: { user_id: req.userId },
       attributes: [],
       include: [
-        { 
-          model: Event, 
-          where: { 
-            datetime: {[Op.between]: [ MONTH_AGO , CURRENT_DATE ]}
+        {
+          model: Event,
+          where: {
+            datetime: { [Op.between]: [MONTH_AGO, CURRENT_DATE] }
           },
-          include: [{model: Category}]
+          include: [{ model: Category }]
         },
         {
           model: User,
-          attributes: ['id', 'first_name'],
-        },
-
+          attributes: ['id', 'first_name']
+        }
       ]
     });
     res.status(200).json({
@@ -231,11 +232,11 @@ exports.getPastEvents = async (req, res) => {
       data: {
         pastEvents
       }
-    })
+    });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
-}
+};
 
 exports.unfollowFromEvent = async (req, res) => {
   try {
@@ -266,7 +267,10 @@ exports.followEvent = async (req, res) => {
     if (event.status !== EVENT_ACTIVE) {
       return res.status(400).json({ err: "The event isn't active" });
     }
-    if (parseInt(event.datetime, 10) + parseInt(event.duration, 10) * 60 * 1000 < Date.now()) {
+    if (
+      parseInt(event.datetime, 10) + parseInt(event.duration, 10) * 60 * 1000 <
+      Date.now()
+    ) {
       return res.status(400).json({ err: 'The event ended' });
     }
     if (!userEvent) {
@@ -325,17 +329,19 @@ exports.followCategory = async (req, res) => {
 exports.updateAvatar = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.userId } });
-    let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
-    await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });
-    if (oldAvatar) {
-      fs.unlink('.' + oldAvatar, err => {
-        if (err) {
-          console.log('failed to delete local image:' + err);
-        } else {
-          console.log('successfully deleted local image');
-        }
-      });
+    if (user.avatar) {
+      let oldAvatar = user.avatar.slice(process.env.BACK_HOST.length);
+      if (oldAvatar) {
+        fs.unlink('.' + oldAvatar, err => {
+          if (err) {
+            console.log('failed to delete local image:' + err);
+          } else {
+            console.log('successfully deleted local image');
+          }
+        });
+      }
     }
+    await user.update({ avatar: process.env.BACK_HOST + '/' + req.file.path });
     res.status(200).json({
       status: 'success'
     });
@@ -423,8 +429,10 @@ exports.updateProfile = async (req, res) => {
 // };
 
 exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
-exports.setRoleToModerator = async (req, res) => changeUserRole(req, res, ROLE_MODERATOR);
-exports.setRoleToAdmin = async (req, res) => changeUserRole(req, res, ROLE_ADMIN);
+exports.setRoleToModerator = async (req, res) =>
+  changeUserRole(req, res, ROLE_MODERATOR);
+exports.setRoleToAdmin = async (req, res) =>
+  changeUserRole(req, res, ROLE_ADMIN);
 
 exports.ban = async (req, res) => changeUserStatus(req, res, USER_BAN);
 exports.unban = async (req, res) => changeUserStatus(req, res, USER_UNBAN);
