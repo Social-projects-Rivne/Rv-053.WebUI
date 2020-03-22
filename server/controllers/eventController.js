@@ -10,6 +10,7 @@ const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
 const Category = require('../models').category;
 const Redis = require('../services/redisService');
+const UserCategory = require('../models').user_category;
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
@@ -30,6 +31,55 @@ function checkToken(req) {
   return result;
 }
 
+async function getFollowedCategoriesForUser(id) {
+  return await UserCategory.findAll({
+    where: { user_id: id },
+    raw: true,
+    attributes: [],
+    include: [Category]
+  });
+}
+
+function isEventInCategories(categories, categoryId) {
+  //console.log('categoryId==' + categoryId);
+  //console.log(categories);
+  for (index in categories) {
+    //console.log(categories[index]['category.id'] == categoryId);
+    if (categories[index]['category.id'] === categoryId) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function reorderEventsByFolowedCategories(categories, events) {
+  let beginning = [];
+  let ending = [];
+  //console.log(events[4]);
+  for (let i = 0; i < 9; i++) {
+    if (events[i] !== undefined) {
+      //console.log('index == ' + index);
+      //console.log(events[2]);
+      //console.log(events[index].dataValues.categories[0].dataValues.id);
+      if (
+        isEventInCategories(
+          categories,
+          events[i].dataValues.categories[0].dataValues.id
+        ) === true
+      ) {
+        beginning.push(events[i]);
+      } else {
+        console.log(i);
+        ending.push(events[i]);
+      }
+    }
+  }
+  //console.log('BEGINNING');
+  //console.log(beginning);
+  //console.log('Ending');
+  //console.log(ending);
+  return beginning.concat(ending);
+}
 exports.getEventByID = async (req, res) => {
   const id = req.params.id;
   await Event.findOne({
@@ -141,7 +191,11 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
       cover = cover || process.env.BACK_HOST + '/' + req.file.path;
       let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
       event
@@ -242,6 +296,10 @@ exports.searchEvent = async (req, res) => {
     status: STATUS_ACTIVE
   };
 
+  const userId = checkToken(req).userId;
+  //console.log(userId);
+  let categories = await getFollowedCategoriesForUser(userId);
+  //console.log(categories);
   if (req.query.q) {
     searchQuery[Op.or] = [
       { name: { [Op.iLike]: `%${req.query.q}%` } },
@@ -300,8 +358,13 @@ exports.searchEvent = async (req, res) => {
     order: [['datetime', 'DESC']]
   })
     .then(events => {
-      Redis.addUrlInCache(req.originalUrl, events);
-      res.status(200).json(events);
+      console.log('!!!!!!!!!!!!!!!!!!');
+      //console.log(events);
+      let aaa = reorderEventsByFolowedCategories(categories, events.rows);
+      //console.log({ count: events.count, rows: aaa });
+      Redis.addUrlInCache(req.originalUrl, { count: aaa.count, rows: aaa });
+      res.status(200).json({ count: aaa.count, rows: aaa });
+      //console.log(aaa);
     })
     .catch(err => {
       res.status(400).send({
@@ -367,7 +430,9 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
+    attributes: [
+      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
+    ]
   })
     .then(async resultRow => {
       if (resultRow === null) {
