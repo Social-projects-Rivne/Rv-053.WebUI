@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const scrollToPointHandler = (el) =>{
     var elmnt = document.getElementById(el);
     elmnt.scrollIntoView({behavior: "smooth"});

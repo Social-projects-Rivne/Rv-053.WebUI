@@ -17,7 +17,6 @@ const ReadFeedbacks = (props) => {
         [accessToken]
       );
 
-
     const [feedbackData, setFeedbackData] = useState();
 
     const getFeedbacks = async() => {
@@ -50,7 +49,6 @@ const ReadFeedbacks = (props) => {
         getFeedbacks();
         history.replace(location.pathname, {rerender: false})
     },[props.flag])
-
 
     return(
         <div className="feedback-items">

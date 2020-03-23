@@ -13,7 +13,6 @@ const STATUS_BANNED = 'Banned';
 const STATUS_DELETED = 'Deleted';
 const CURRENT_DATE = new Date().getTime();
 
-
 function checkToken(req) {
   let token;
   let result = { isAuthorization: false };

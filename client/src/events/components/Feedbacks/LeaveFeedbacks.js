@@ -32,7 +32,6 @@ const LeaveFeedbacks = (props) => {
         addFeedback();
     }
 
-
     const addFeedback = async() => {
         if(formState.formValidity){
             try{
@@ -51,7 +50,6 @@ const LeaveFeedbacks = (props) => {
             }
         }
     }
-
 
     return(
         <>
