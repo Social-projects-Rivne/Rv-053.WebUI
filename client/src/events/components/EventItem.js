@@ -8,6 +8,7 @@ import EventGallery from './EventGallery';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import Countdown from '../../shared/components/UI/CountDownTimer';
 import ScrollToElement from '../../shared/components/UI/ScrollToElement';
+import moment from 'moment';
 import './EventItem.css';
 
 const EventItem = props => {
@@ -30,13 +31,13 @@ const EventItem = props => {
     <>
       {props.event.past ? (
         <>
-          <div className="event-item_title-past">
+          <div className='event-item_title-past'>
             Ooops, the event ran out..
           </div>
           <ScrollToElement
-            text="Read feedbacks"
-            element="map"
-            className="event-item_feedback-link"
+            text='Read feedbacks'
+            element='map'
+            className='event-item_feedback-link'
           />
         </>
       ) : null}
@@ -47,18 +48,16 @@ const EventItem = props => {
             : 'container event-item'
         }
       >
-        <div className="row">
-          <div className="col-md-8 event-item__img">
-            <div className="img-wrapper">
+        <div className='row'>
+          <div className='col-md-8 event-item__img'>
+            <div className='img-wrapper'>
               <figure>
-                <img src={`${props.event.cover}`} alt="sometext" />
+                <img src={`${props.event.cover}`} alt='sometext' />
               </figure>
-              <Countdown
-                timeTillDate={props.event.datetime}
-              />
+              <Countdown timeTillDate={props.event.datetime} />
             </div>
           </div>
-          <div className="col-md-4 event-item__info">
+          <div className='col-md-4 event-item__info'>
             <h3>{props.event.name}</h3>
             <div>
               <span>Address: </span>
@@ -85,41 +84,41 @@ const EventItem = props => {
             </div>
             {props.accessToken ? (
               <button
-                type="button"
-                className="my__button"
+                type='button'
+                className='my__button'
                 onClick={() => props.joinEvent(props.id)}
                 disabled={!props.event.isSubscribe ? false : true}
               >
                 {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
               </button>
             ) : (
-                <button
-                  type="button"
-                  className="my__button"
-                  onClick={() => history.push('/auth')}
-                >
-                  Subcribe
-                </button>
-              )}
+              <button
+                type='button'
+                className='my__button'
+                onClick={() => history.push('/auth')}
+              >
+                Subcribe
+              </button>
+            )}
           </div>
-          <div className="row row__description">
-            <div className="col-md-8 event-item__desctiption">
-              <div className="">
+          <div className='row row__description'>
+            <div className='col-md-8 event-item__desctiption'>
+              <div className=''>
                 <h3>Details</h3>
                 <p>{props.event.description}</p>
               </div>
             </div>
-            <div className="col-md-4 event-item__owner">
+            <div className='col-md-4 event-item__owner'>
               <UserCard owner={props.owner} />
             </div>
           </div>
-          <div className="row" id="map" style={{ width: '100%' }}>
-            <div className="col-md-12 map-container">
+          <div className='row' id='map' style={{ width: '100%' }}>
+            <div className='col-md-12 map-container'>
               <Map center={map} zoom={16} />
             </div>
           </div>
         </div>
-        <div className="event-item__gallery">
+        <div className='event-item__gallery'>
           <EventGallery />{' '}
         </div>
       </div>

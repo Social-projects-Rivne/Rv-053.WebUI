@@ -4,6 +4,7 @@ h1 {
   letter-spacing: 2px;
   text-align: center;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .countdown-wrapper {
@@ -19,6 +20,11 @@ h1 {
   flex-wrap: wrap;
 }
 
+.red-wrapper {
+  background-color: rgba(255, 0, 0, 0.596);
+  top: 0;
+}
+
 @media only screen and (max-width: 1200px) {
   .countdown-wrapper {
     width: 70%;
@@ -30,7 +36,6 @@ h1 {
 }
 
 @media only screen and (max-width: 992px) {
-
   .countdown-item:nth-last-child(2) {
     display: none;
   }
@@ -42,6 +47,11 @@ h1 {
     width: 100%;
     background-color: #16a08418;
     margin: 0 auto;
+  }
+
+  .red-wrapper {
+    background-color: rgba(255, 0, 0, 0.596);
+    top: 0;
   }
 
   .countdown-item:nth-last-child(2) {
@@ -85,4 +95,39 @@ h1 {
   left: 0;
   width: 100px;
   height: 100px;
+}
+
+.link,
+.link:hover {
+  text-decoration: none;
+  color: #000;
+}
+.link-light,
+.link-light:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn-dark {
+  background-color: rgba(47, 49, 60, 0.9);
+}
+.link-btn {
+  background-color: rgba(22, 160, 133, 0.9);
+}
+.link-btn,
+.link-btn-dark {
+  padding: 7px 30px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 15px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  border: none;
+}
+.link-btn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn + .link-btn {
+  margin-left: 10px;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 import './CountDownTimer.css';
+import useInterval from '../../hooks/setInterval';
 
 const Countdown = ({ timeTillDate }) => {
   const [timeLeft, setTimeLeft] = useState({});
@@ -13,7 +14,6 @@ const Countdown = ({ timeTillDate }) => {
     const hours = Math.floor((countdown / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((countdown / 1000 / 60) % 60);
     const seconds = Math.floor((countdown / 1000) % 60);
-
     setTimeLeft({
       days,
       hours,
@@ -22,12 +22,16 @@ const Countdown = ({ timeTillDate }) => {
     });
   };
 
-  useEffect(() => {
-    let id = setInterval(() => {
-      calculateTimeLeft();
-    }, 1000);
-    return () => clearInterval(id);
-  });
+  // useEffect(() => {
+  //   let id = setInterval(() => {
+  //     calculateTimeLeft();
+  //   }, 1000);
+  //   return () => clearInterval(id);
+  // });
+
+  useInterval(() => {
+    calculateTimeLeft();
+  }, 1000);
 
   const SVGCircle = ({ radius }) => (
     <svg className='countdown-svg'>
@@ -85,38 +89,51 @@ const Countdown = ({ timeTillDate }) => {
   const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
 
   return (
-
-    <div className='countdown-wrapper'>
-      {days && (
-        <div className='countdown-item'>
-          <SVGCircle radius={daysRadius} />
-          {days}
-          <span>days</span>
+    <>
+      {timeTillDate < moment().valueOf() ? (
+        <div className='countdown-wrapper red-wrapper'>
+          <h1>Sorry, It's Too Late. This event has been gone</h1>
+          <a
+            href='https://www.youtube.com/watch?v=ZSM3w1v-A_Y'
+            target='_blank'
+            className='link-btn'
+          >
+            Apologize
+          </a>
+        </div>
+      ) : (
+        <div className='countdown-wrapper'>
+          {days && (
+            <div className='countdown-item'>
+              <SVGCircle radius={daysRadius} />
+              {days}
+              <span>days</span>
+            </div>
+          )}
+          {hours > 0 && (
+            <div className='countdown-item'>
+              <SVGCircle radius={hoursRadius} />
+              {hours}
+              <span>hours</span>
+            </div>
+          )}
+          {minutes > 0 && (
+            <div className='countdown-item'>
+              <SVGCircle radius={minutesRadius} />
+              {minutes}
+              <span>minutes</span>
+            </div>
+          )}
+          {seconds > 0 && (
+            <div className='countdown-item'>
+              <SVGCircle radius={secondsRadius} />
+              {seconds}
+              <span>seconds</span>
+            </div>
+          )}
         </div>
       )}
-      {hours > 0 && (
-        <div className='countdown-item'>
-          <SVGCircle radius={hoursRadius} />
-          {hours}
-          <span>hours</span>
-        </div>
-      )}
-      {minutes > 0 && (
-        <div className='countdown-item'>
-          <SVGCircle radius={minutesRadius} />
-          {minutes}
-          <span>minutes</span>
-        </div>
-      )}
-      {seconds > 0 && (
-        <div className='countdown-item'>
-          <SVGCircle radius={secondsRadius} />
-          {seconds}
-          <span>seconds</span>
-        </div>
-      )}
-    </div>
-
+    </>
   );
 };
 
