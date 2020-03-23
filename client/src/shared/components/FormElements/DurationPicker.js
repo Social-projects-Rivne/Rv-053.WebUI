@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import moment from 'moment';
 
 import NumberCounter from './NumberCounter';
 

@@ -43,7 +43,7 @@ exports.getEventByID = async (req, res) => {
       },
       {
         model: Categories,
-        attributes: ['category', 'parent_id']
+        attributes: ['category', 'parent_id', 'id']
       }
     ]
   })
@@ -170,7 +170,7 @@ exports.updateEvent = async (req, res) => {
           });
         })
         .then(() => {
-          if (oldCoverPath) {
+          if (oldCoverPath && req.file) {
             fs.unlink('.' + oldCoverPath, err => {
               if (err) {
                 console.log('failed to delete local image:' + err);
