@@ -2,7 +2,6 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const uuid = require('uuid/v4');
 const tokenModel = require('../models').token;
-//get value from config/default.json
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE_IN = process.env.JWT_EXPIRE_IN;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -34,14 +33,12 @@ const generateRefreshToken = user => {
   };
 };
 
-//Replace refreshToken in DB token
 const replaceDbRefreshToken = async (
   tokenId,
   userId,
   expiredAt,
   oldRefreshTokenId
 ) => {
-  //console.log('token ' + tokenId + 'oldRefreshTokenId ' + oldRefreshTokenId);
   if (!oldRefreshTokenId) {
     await tokenModel.create({
       id: tokenId,
