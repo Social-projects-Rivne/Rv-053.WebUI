@@ -23,6 +23,7 @@ html {
 body {
   height: 100%;
   font-family: 'Quicksand', sans-serif;
+  background-color: #fff;
 }
 #root {
   display: flex;
@@ -46,6 +47,13 @@ body {
 }
 li {
   list-style: none;
+}
+button{
+  border: none;
+  background-color: transparent;
+}
+button:focus{
+  outline: none;
 }
 .my__button {
   color: #fff;
@@ -122,6 +130,10 @@ li {
   font-family: 'Quicksand', sans-serif;
   font-weight: 500;
   font-size: 18px;
+}
+.not-found{
+  margin: 20px auto;
+  text-align: center;
 }
 @media (max-width: 1590px) {
   .header__calendar-list {
@@ -280,7 +292,7 @@ li {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 490px) {
   .header .header__inner {
     display: block;
   }
@@ -335,5 +347,8 @@ li {
   }
   .footer__col-follow li + li {
     margin-left: 15px;
+  }
+  .event_slider-item.profile{
+    box-shadow: none;
   }
 }

@@ -15,7 +15,7 @@ const EVENT_DELETED = 'Deleted';
 const USER_BAN = 2;
 const USER_UNBAN = 1;
 const CURRENT_DATE = new Date().getTime();
-const MONTH_AGO = new Date().setMonth(new Date().getMonth() - 1);
+const THREE_MONTH_AGO = new Date().setMonth(new Date().getMonth()-3)
 
 const findUser = async userId =>
   User.findOne({
@@ -142,20 +142,28 @@ exports.getById = async (req, res) => {
 
 exports.getEvents = async (req, res) => {
   try {
-    const event = await Event.findAll({
-      where: { owner_id: req.userId, status: { [Op.ne]: EVENT_DELETED } },
+    await Event.findAll({
+      where: { 
+        owner_id: req.userId, 
+        status: { [Op.ne]: EVENT_DELETED },
+      },
+      order: [
+        ['datetime', 'DESC']
+      ],
       include: [
         {
           model: Category
+        },
+      ],
+    })
+    .then(event =>{
+        res.status(200).json({
+        status: 'success',
+        data:{
+          event,
         }
-      ]
-    });
-    res.status(200).json({
-      status: 'success',
-      data: {
-        event
-      }
-    });
+      })
+    })
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
@@ -214,17 +222,21 @@ exports.getPastEvents = async (req, res) => {
       where: { user_id: req.userId },
       attributes: [],
       include: [
-        {
-          model: Event,
-          where: {
-            datetime: { [Op.between]: [MONTH_AGO, CURRENT_DATE] }
+        { 
+          model: Event, 
+          where: { 
+            datetime: {[Op.between]: [ THREE_MONTH_AGO , CURRENT_DATE ]}
           },
-          include: [{ model: Category }]
+          include: [
+            {
+              model: Category
+            },
+            {
+              model: User,
+              attributes: ['id', 'first_name', 'last_name'],
+            }    
+          ]
         },
-        {
-          model: User,
-          attributes: ['id', 'first_name']
-        }
       ]
     });
     res.status(200).json({

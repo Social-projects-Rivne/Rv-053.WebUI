@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { api_server_url } from '../../shared/utilities/globalVariables';
 import Map from '../../shared/components/UI/Map';
 import UserCard from '../../shared/components/UI/UserCard';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
-import './EventItem.css';
 import Countdown from '../../shared/components/UI/CountDownTimer';
-import { api_server_url } from '../../shared/utilities/globalVariables';
+import ScrollToElement from '../../shared/components/UI/ScrollToElement';
+import './EventItem.css';
 
 const EventItem = props => {
   const history = useHistory();
@@ -25,7 +26,15 @@ const EventItem = props => {
   }, [coordinates]);
 
   return (
-    <div className='container event-item'>
+    <>
+    {props.event.past ? (
+      <>
+        <div className="event-item_title-past">Ooops, the event ran out..</div>
+        <ScrollToElement text="Read feedbacks" element="map" className="event-item_feedback-link"/>
+      </>
+      ): null
+    }
+    <div className={props.event.past ? "container event-item past" : "container event-item"}>
       <div className='row'>
         <div className='col-md-8 event-item__img'>
           <figure>
@@ -63,7 +72,8 @@ const EventItem = props => {
             {props.max_participants > 1
               ? ` ${props.event.max_participants} people`
               : ` ${props.event.max_participants} person`}
-            {props.accessToken ? (
+          </div>
+          {props.accessToken ? (
               <button
                 type='button'
                 className='my__button'
@@ -81,7 +91,6 @@ const EventItem = props => {
                 Subcribe
               </button>
             )}
-          </div>
         </div>
         <div className='row row__description'>
           <div className='col-md-8 event-item__desctiption'>
@@ -95,13 +104,14 @@ const EventItem = props => {
           </div>
         </div>
 
-        <div className='row' style={{ width: '100%' }}>
+        <div className='row' id="map" style={{ width: '100%' }}>
           <div className='col-md-12 map-container'>
             <Map center={map} zoom={16} />
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

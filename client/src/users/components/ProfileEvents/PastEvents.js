@@ -29,14 +29,14 @@ const PastEvents = () => {
       }, [accessToken, getPastEvents]);
 
     return(
-        <>{console.log(pastEvents)}
+        <>
             <ScrollToTop />
             <div className="my__container">
                 <div className="past-evnts__top">
-                    Tell us how was it going?
+                    Tell us how was it going...
                 </div>
                 <div className="list__events-items">
-                    {pastEvents  ?
+                    {pastEvents && pastEvents.length > 0  ?
                         pastEvents.map(event => 
                             <EventResultItem 
                                 className="list__events-item past-event"
@@ -49,11 +49,13 @@ const PastEvents = () => {
                                 location={event.event.location}
                                 cover={event.event.cover}
                                 price={event.event.price}
-                                owner_id={event.user.id}
-                                owner_first_name={event.user.first_name}
+                                owner_id={event.owner_id}
+                                owner_first_name={event.event.user.first_name}
+                                owner_last_name={event.event.user.last_name}
+                                pastEvent={true}
                             />
                         )
-                    :<p>You haven't got past events or the lasted more then month ago</p>
+                    :<p className="not-found">You haven't got past events or they lasted more then month ago</p>
                     }
                 </div>
             </div>

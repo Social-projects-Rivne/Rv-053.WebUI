@@ -216,7 +216,8 @@
 
 .list__events-item-creator,
 .list__events-item-location,
-.list__events-item-date{
+.list__events-item-date,
+.list__events-item-comment{
   padding-left: 20px;
   position: relative;
   margin-right: 30px;
@@ -224,7 +225,8 @@
 
 .list__events-item-creator::before,
 .list__events-item-location::before,
-.list__events-item-date::before{
+.list__events-item-date::before,
+.list__events-item-comment:before{
   position: absolute;
   font-family: 'icomoon';
   left: 0;
@@ -239,6 +241,14 @@
 
 .list__events-item-date::before {
   content: '\f133';
+}
+
+.list__events-item-comment{
+  margin: 0px  0px 0px auto;
+}
+
+.list__events-item-comment:before{
+  content: "\f086";
 }
 .list__events-item-panel{
   text-align: center;

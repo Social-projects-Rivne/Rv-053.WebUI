@@ -84,7 +84,7 @@ const EditEventForm = props => {
         <span
           className="edit-event__change-cover-btn"
           onClick={() => (fileInputRef.current !== null ? fileInputRef.current.click() : null)}
-        >
+        > 
           change cover
         </span>
       </div>
