@@ -94,10 +94,8 @@ const EditEventForm = props => {
       return <div></div>;
     } else {
       return (
-        <div className="row">
-          <div className="col-md-12 map-container">
-            <Map center={coord} zoom={14} />
-          </div>
+        <div className="col-lg-12 map-container">
+          <Map center={coord} zoom={15} />
         </div>
       );
     }
@@ -275,7 +273,7 @@ const EditEventForm = props => {
       <div className="row">
         <div className="col-lg-5 ">
           <label style={{ color: '#16a085' }} className="col-12">
-            Start date and time
+            Date and time
           </label>
           <div className="col-12">
             <DateTime

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import Input from './Input';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+
+import './AutocompetePlaces.css';
 
 const AutocompletePlaces = ({ setCoordinates }) => {
   const [address, setAddress] = useState('');
@@ -16,13 +14,9 @@ const AutocompletePlaces = ({ setCoordinates }) => {
   };
 
   return (
-    <PlacesAutocomplete
-      value={address}
-      onChange={setAddress}
-      onSelect={handleSelect}
-    >
+    <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div style={{ width: '70%', marginTop: '20px' }}>
+        <div className="autocomplete-container">
           <input
             style={{ width: '100%' }}
             {...getInputProps({
@@ -30,13 +24,10 @@ const AutocompletePlaces = ({ setCoordinates }) => {
               className: 'location-search-input'
             })}
           />
-          <div className='autocomplete-dropdown-container'>
+          <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
             {suggestions.map(suggestion => {
-              const className = suggestion.active
-                ? 'suggestion-item--active'
-                : 'suggestion-item';
-              // inline style for demonstration purpose
+              const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
               const style = suggestion.active
                 ? { backgroundColor: '#16a085', cursor: 'pointer' }
                 : { backgroundColor: '#ffffff', cursor: 'pointer' };

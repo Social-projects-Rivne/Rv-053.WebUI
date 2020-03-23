@@ -8,22 +8,30 @@ const DurationPicker = props => {
   const displayHours = Math.trunc((duration / 60) % 24);
   const displayDays = Math.trunc(duration / 60 / 24);
 
-  const handleDays = useCallback(days => {
-    setDuration(days * 24 * 60 + displayHours * 60 + displayMinutes);
-  }, []);
-  const handleHours = useCallback(hours => {
-    setDuration(displayDays * 24 * 60 + hours * 60 + displayMinutes);
-  }, []);
-  const handleMinutes = useCallback(minutes => {
-    setDuration(displayDays * 24 * 60 + displayHours * 60 + minutes);
-  }, []);
+  const handleDays = useCallback(
+    days => {
+      setDuration(days * 24 * 60 + displayHours * 60 + displayMinutes);
+    },
+    [displayHours, displayMinutes]
+  );
+  const handleHours = useCallback(
+    hours => {
+      setDuration(displayDays * 24 * 60 + hours * 60 + displayMinutes);
+    },
+    [displayDays, displayMinutes]
+  );
+  const handleMinutes = useCallback(
+    minutes => {
+      setDuration(displayDays * 24 * 60 + displayHours * 60 + minutes);
+    },
+    [displayDays, displayHours]
+  );
 
   const { onChange } = props;
   useEffect(() => {
     if (onChange) onChange(duration);
   }, [duration]);
 
-  console.log(duration);
   return (
     <div className="row">
       <div className="col-4">
