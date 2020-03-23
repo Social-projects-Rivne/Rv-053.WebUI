@@ -48,10 +48,6 @@
   background-size: cover;
 }
 
-.countdown-item {
-  position: absolute;
-}
-
 .map-container {
   padding: 10px;
 }
@@ -68,10 +64,13 @@
   margin-block-end: 0em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  height: 50vh;
 }
 
 .event-item__img figure img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .event-item__desctiption {
   padding: 20px 0px;
@@ -87,4 +86,8 @@
   .row__description {
     margin-top: 5%;
   }
+}
+
+.img-wrapper {
+  height: 100%;
 }

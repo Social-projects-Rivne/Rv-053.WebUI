@@ -49,13 +49,14 @@ const EventItem = props => {
       >
         <div className="row">
           <div className="col-md-8 event-item__img">
-            <figure>
-              <img src={`${props.event.cover}`} alt="sometext" />
-            </figure>
-            <Countdown
-              timeTillDate={props.event.datetime}
-              className="countdown-item"
-            />
+            <div className="img-wrapper">
+              <figure>
+                <img src={`${props.event.cover}`} alt="sometext" />
+              </figure>
+              <Countdown
+                timeTillDate={props.event.datetime}
+              />
+            </div>
           </div>
           <div className="col-md-4 event-item__info">
             <h3>{props.event.name}</h3>
@@ -92,14 +93,14 @@ const EventItem = props => {
                 {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
               </button>
             ) : (
-              <button
-                type="button"
-                className="my__button"
-                onClick={() => history.push('/auth')}
-              >
-                Subcribe
-              </button>
-            )}
+                <button
+                  type="button"
+                  className="my__button"
+                  onClick={() => history.push('/auth')}
+                >
+                  Subcribe
+                </button>
+              )}
           </div>
           <div className="row row__description">
             <div className="col-md-8 event-item__desctiption">
