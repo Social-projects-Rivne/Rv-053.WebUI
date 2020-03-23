@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -11,6 +17,7 @@ import EditForm from './../components/EditForm';
 const EditProfile = () => {
   const accessToken = useContext(AuthContext).token;
   const [loadingFlag, setLoadingFlag] = useState(true);
+  const [avatarState, setAvatarState] = useState('');
   const history = useHistory();
 
   const headers = useMemo(
@@ -55,10 +62,12 @@ const EditProfile = () => {
       const userData = await axios.get(api_server_url + '/api/user/current', {
         headers
       });
-      userData.data.data.user.birthday = moment(+userData.data.data.user.birthday).format(
-        'DD MM YYYY'
+      userData.data.data.user.birthday = moment(
+        +userData.data.data.user.birthday
+      ).format('DD MM YYYY');
+      userData.data.data.user.birthday = userData.data.data.user.birthday.split(
+        ' '
       );
-      userData.data.data.user.birthday = userData.data.data.user.birthday.split(' ');
 
       setFormData(
         {
@@ -89,6 +98,7 @@ const EditProfile = () => {
         },
         true
       );
+      setAvatarState(userData.data.data.user.avatar);
       setLoadingFlag(false);
     } catch (err) {
       console.log(err);
@@ -112,14 +122,25 @@ const EditProfile = () => {
           .valueOf(),
         sex: formState.inputs.sex.value
       };
-      const res = await axios.put(api_server_url + '/api/user/current', updatedUser, {
-        headers
-      });
+      const res = await axios.put(
+        api_server_url + '/api/user/current',
+        updatedUser,
+        {
+          headers
+        }
+      );
       if (res.data.status === 'success') {
         history.push('/profile/my', { show: true });
       }
     }
   };
+  const removePhoto = async e => {
+    setAvatarState('');
+    await axios.delete(api_server_url + '/api/user/avatar/', {
+      headers
+    });
+  };
+
   return (
     <>
       {!loadingFlag ? (
@@ -127,6 +148,8 @@ const EditProfile = () => {
           inputHandler={inputHandler}
           submitFormHandler={submitFormHandler}
           user={formState.inputs}
+          avatar={avatarState}
+          removePhoto={removePhoto}
         />
       ) : null}
     </>

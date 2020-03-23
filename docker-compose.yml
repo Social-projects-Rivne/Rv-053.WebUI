@@ -34,6 +34,7 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
+      - /app/uploads
     command: npm start
     depends_on:
       - postgres_db
