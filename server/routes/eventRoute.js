@@ -39,6 +39,10 @@ router.put(
 router.put('/:id/delete', adminAndModeratorAuth, eventController.deleteEvent);
 router.get('/:id/count', eventController.getQuantityFollowedOnEventUsers);
 router.get('/:id/gallery', eventController.getGalleryOfEvent);
+router.get('/feedback/:id', eventController.getFeedbacks);
+router.post('/feedback/:userId/:eventId', auth, eventController.leaveFeedback);
+router.delete('/feedback/:id', auth, eventController.deleteFeedback);
+router.put('/feedback/:id', auth, eventController.updateFeedback);
 router.post(
   '/:id/gallery',
   auth,

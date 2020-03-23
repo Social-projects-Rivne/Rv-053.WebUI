@@ -66,6 +66,17 @@ const EventResultItem = props => {
               <div className="list__events-item-category">{props.category}</div>
               <div className="list__events-item-descr">{props.description}</div>
             </div>
+            <div className="list__events-item-price">
+              {props.price || 'free'}
+            </div>
+          </div>
+          <div className="list__events-item-bottom_info">
+            <NavLink to={'profile/' + props.owner_id} className="link ">
+              <div className="list__events-item-creator">
+                {props.owner_first_name + ' '}
+                {props.owner_last_name}
+              </div>
+            </NavLink>
             <div className="list__events-item-location">{address}</div>
             <div className="list__events-item-date">{datetime}</div>
           </div>
