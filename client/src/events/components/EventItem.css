@@ -79,7 +79,10 @@
 .event-item__owner {
   padding: 20px 0px;
 }
-
+.event-item__gallery {
+  padding: 20px 0px;
+  margin: 10px 0 20px 0;
+}
 @media only screen and (min-width: 1200px) {
   .row__description {
     margin-top: 5%;

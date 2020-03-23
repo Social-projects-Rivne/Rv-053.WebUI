@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       is_deleted: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BOOLEAN
       }
     },
     {

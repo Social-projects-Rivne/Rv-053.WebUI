@@ -5,6 +5,8 @@ const Event = require('../models').event;
 const User = require('../models').users;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
+const EventGallery = require('../models').event_gallery;
+const Category = require('../models').category;
 const Feedbacks = require('../models').event_feedback;
 const Redis = require('../services/redisService');
 
@@ -26,7 +28,7 @@ function checkToken(req) {
     }
   }
   return result;
-} 
+}
 
 exports.getEventByID = async (req, res) => {
   const id = req.params.id;
@@ -64,12 +66,12 @@ exports.getEventByID = async (req, res) => {
         }
       }
       past = await Event.findOne({
-        where: {id: id, datetime: {[Op.lt]: CURRENT_DATE}},
-      })
-      if(past !== null){
+        where: { id: id, datetime: { [Op.lt]: CURRENT_DATE } }
+      });
+      if (past !== null) {
         event.past = true;
       }
- 
+
       //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
@@ -129,7 +131,6 @@ exports.updateEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-
   await Event.findOne({
     where: {
       id
@@ -389,76 +390,188 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
     });
 };
 
+exports.getGalleryOfEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const gallery = await EventGallery.findAll({
+      where: { event_id: id, is_deleted: false }
+    });
+    res.status(200).json(gallery);
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.deleteImageFromGallery = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    let includeQuery;
+    if (req.role === 'Admin' || req.role === 'Moderator') {
+      includeQuery = { model: Event };
+    } else {
+      includeQuery = { model: Event, where: { owner_id: req.userId } };
+    }
+    const img = await EventGallery.findOne({
+      where: { event_id: id, id: imageId },
+      include: includeQuery
+    });
+    if (img) {
+      await img.update({ is_deleted: true });
+      res.status(201).json({ status: 'DELETED' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.createImageOfGallery = async (req, res) => {
+  const { id } = req.params;
+  let { description, img_url } = req.body;
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
+      img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
+      await EventGallery.create({
+        img_url,
+        description,
+        event_id: id,
+        is_deleted: false
+      });
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.changeImageOfGallery = async (req, res) => {
+  const { id, imageId } = req.params;
+  let { description, img_url } = req.body;
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
+      const img = await EventGallery.findOne({
+        where: { event_id: id, id: imageId }
+      });
+      if (img) {
+        let oldImg = null;
+        if (!img_url) {
+          oldImg = img.img_url.slice(process.env.BACK_HOST.length);
+          img_url = process.env.BACK_HOST + '/' + req.file.path;
+        }
+        await img.update({ img_url, description });
+        if (oldImg) {
+          fs.unlink('.' + oldImg, err => {
+            if (err) {
+              console.log('failed to delete local image:' + err);
+            } else {
+              console.log('successfully deleted local image');
+            }
+          });
+        }
+      }
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
 
 exports.leaveFeedback = async (req, res) => {
-  try{
-    let {feedback} = req.body;
-    const userEvent =  await UserEvent.findOne({
+  try {
+    let { feedback } = req.body;
+    const userEvent = await UserEvent.findOne({
       where: {
-        user_id: req.params.userId, 
+        user_id: req.params.userId,
         event_id: req.params.eventId
       }
-    })
-    if(userEvent){
+    });
+    if (userEvent) {
       await Feedbacks.create({
         user_event_id: userEvent.id,
         feedback,
         date: CURRENT_DATE,
         status: STATUS_ACTIVE
-      })
-    } 
+      });
+    }
     res.status(200).json({
-      status: 'success',
-    })
-  } catch(err) {
-    res.status(500).json({err: err.message})
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
   }
-}
+};
 
-exports.getFeedbacks = async(req, res) => {
-  try{
+exports.getFeedbacks = async (req, res) => {
+  try {
     eventId = req.params.id;
     const feedback_id = await UserEvent.findAll({
       where: {
         event_id: eventId
       }
-    })
-    if(feedback_id){
+    });
+    if (feedback_id) {
       const feedbacks = await Feedbacks.findAll({
-        order:[
-          ['id', 'DESC']
-        ],
+        order: [['id', 'DESC']],
         where: {
           status: STATUS_ACTIVE
         },
-        include:[
+        include: [
           {
             model: UserEvent,
-            where:{
-              event_id: eventId,
+            where: {
+              event_id: eventId
             },
             attributes: ['user_id'],
-            include:[
+            include: [
               {
                 model: User,
                 attributes: ['first_name']
               }
             ]
           }
-        ],
-      })
+        ]
+      });
       res.status(200).json({
         status: 'success',
         data: {
           feedbacks
         }
-      }); 
-    }}
-  catch (err) {
-    res.status(500).json({err: err.message})
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ err: err.message });
   }
-}
-exports.deleteFeedback = async(req, res) => {
+};
+exports.deleteFeedback = async (req, res) => {
   try {
     await Feedbacks.findOne({
       where: {
@@ -470,54 +583,47 @@ exports.deleteFeedback = async(req, res) => {
           attributes: ['user_id']
         }
       ]
-    })
-    .then( feedback =>{
-      if(feedback === null){
-        res.status(404).json('Feedback is not found')
+    }).then(feedback => {
+      if (feedback === null) {
+        res.status(404).json('Feedback is not found');
       }
-      if(req.userId === feedback.user_event.user_id){
-        feedback.update(
-          {
-            status: STATUS_DELETED
-          }
-        )
-        res.status(200).json('Feedback is deleted')
+      if (req.userId === feedback.user_event.user_id) {
+        feedback.update({
+          status: STATUS_DELETED
+        });
+        res.status(200).json('Feedback is deleted');
       }
-    })
-    
+    });
   } catch (err) {
-     res.status(500).json({err: err.message}) 
+    res.status(500).json({ err: err.message });
   }
-}
+};
 
-exports.updateFeedback = async(req, res) => {
+exports.updateFeedback = async (req, res) => {
   try {
-    let {feedback} = req.body;
+    let { feedback } = req.body;
     await Feedbacks.findOne({
-      where:{
+      where: {
         id: req.params.id
       },
-      include:[
+      include: [
         {
           model: UserEvent,
           attributes: ['user_id']
         }
       ]
-    })
-    .then(feedbackItem => {
-      if(feedbackItem === null){
-        res.status(404).json('Feedback is not found')
-      }
-      else if(req.userId === feedbackItem.user_event.user_id){
+    }).then(feedbackItem => {
+      if (feedbackItem === null) {
+        res.status(404).json('Feedback is not found');
+      } else if (req.userId === feedbackItem.user_event.user_id) {
         feedbackItem.update({
           feedback,
           date: CURRENT_DATE
-        })
-        res.status(200).json('Feedback was updated!')
+        });
+        res.status(200).json('Feedback was updated!');
       }
-    })
-    
+    });
   } catch (err) {
-    res.status(500).json({err: err.message})
+    res.status(500).json({ err: err.message });
   }
-}
+};
