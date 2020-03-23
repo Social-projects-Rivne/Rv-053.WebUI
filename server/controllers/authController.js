@@ -39,7 +39,7 @@ exports.signUp = async (req, res) => {
     if (foundUser && foundUser.status_id != 3) {
       return res.status(200).json({ error: 'Email is already in use' });
     }
-    const hashPassword = await bcrypt.hash(password, saltRounds);
+
     const userInDB = {
       email: email,
       password: hashPassword,
@@ -150,7 +150,7 @@ exports.confirmPasswordReset = async (req, res) => {
       border-right:24px solid;border-left:24px solid;border-color:#2ea664;
       border-radius:4px;background-color:#2ea664;color:#ffffff;font-size:18px;
       line-height:18px;"
-       href="${mailURL}/${mailToken}" target="_blank" >Verify email address</a>
+       href="${mailURL}/${mailToken}" target="_blank" >Change password</a>
        </div>
        <p>The confirmation link will expire in 24 hours</p>
        </div>
@@ -159,6 +159,24 @@ exports.confirmPasswordReset = async (req, res) => {
     };
     await sendEmail(emailOptions);
     res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const { password, token } = req.body;
+    const hashPassword = await bcrypt.hash(password.value, saltRounds);
+    const payload = await jwt.verify(token, MAIL_TOKEN_SECRET);
+    const user = await User.findOne({
+      where: { id: payload.user_id }
+    });
+
+    await user.update({ password: hashPassword, where: { id: payload.user_id } });
+    res.status(200).json({
+      status: 'success'
+    });
   } catch (error) {
     res.status(500).send(error);
   }

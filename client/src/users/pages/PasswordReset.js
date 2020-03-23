@@ -4,16 +4,18 @@ import { useHistory } from 'react-router-dom';
 
 import Card from '../../shared/components/UI/Card';
 import { useForm } from '../../shared/hooks/useForm';
+import Notificator from '../../shared/components/UI/Notificator';
 import { api_server_url } from '../../shared/utilities/globalVariables';
-import SendPasswordReset from '../components/SendPasswordReset';
+import SendPasswordResetEmail from '../components/SendPasswordResetEmail';
 
 const PasswordReset = () => {
   let history = useHistory();
-  const [transition, setTransition] = useState(true);
+
   const [notificationState, setNotificationState] = useState({
     message: 'some message',
     show: false
   });
+
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -26,6 +28,7 @@ const PasswordReset = () => {
 
   const submitFormHandler = async event => {
     event.preventDefault();
+
     if (formState.formValidity) {
       const userEmail = {
         email: formState.inputs.email.value
@@ -44,10 +47,9 @@ const PasswordReset = () => {
           });
         }
       } catch (e) {
-        console.log(e);
         setNotificationState({
           show: true,
-          message: 'Something goes wrong, try again later'
+          message: 'Wrong email address'
         });
       }
     }
@@ -55,8 +57,19 @@ const PasswordReset = () => {
 
   return (
     <>
+      <Notificator
+        className="auth alert alert-danger p-0"
+        message={notificationState.message}
+        show={notificationState.show}
+        onExit={() => {
+          setNotificationState({
+            show: false,
+            message: notificationState.message
+          });
+        }}
+      />
       <Card className="auth shadow px-2 text-center">
-        <SendPasswordReset submitFormHandler={submitFormHandler} inputHandler={inputHandler} />
+        <SendPasswordResetEmail submitFormHandler={submitFormHandler} inputHandler={inputHandler} />
       </Card>
     </>
   );
