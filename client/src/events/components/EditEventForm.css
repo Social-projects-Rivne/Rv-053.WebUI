@@ -29,10 +29,11 @@
   margin-top: 27px;
   margin-left: -15px;
   color: #16a085;
-  font-weight: 500;
+  font-weight: 600;
 }
 .edit-event__dropdown-category {
   min-width: 280px;
+  top: 70%;
 }
 .btn-flat {
   float: left;
@@ -47,4 +48,7 @@
 }
 .btn-flat:hover {
   color: #16a085;
+}
+.rdtPicker {
+  margin: 0 auto;
 }

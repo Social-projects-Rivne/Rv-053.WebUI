@@ -1,0 +1,11 @@
+.counter__btn {
+  cursor: pointer;
+}
+.counter__btn:hover {
+  color: #16a085;
+}
+.counter__digits {
+  margin: 0.5rem auto;
+  font-size: 200%;
+  font-weight: 600;
+}

@@ -17,39 +17,7 @@ const EditEvent = props => {
     'Content-Type': 'multipart/form-data',
     Authorization: 'Bearer ' + accessToken
   };
-  const [formState, inputHandler, setFormData] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: true
-      },
-      select: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      },
-      location: {
-        value: '',
-        isValid: false
-      },
-      price: {
-        value: '',
-        isValid: false
-      },
-      age: {
-        value: '',
-        isValid: false
-      },
-      amount: {
-        value: '',
-        isValid: false
-      }
-    },
-    false
-  );
+  const [formState, inputHandler, setFormData] = useForm();
 
   const [eventCategory, setEventCategory] = useState({ id: null, category: '' });
 
