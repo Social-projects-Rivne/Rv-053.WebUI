@@ -82,7 +82,7 @@ const Routes = () => {
             <Route path="/password_reset">
               <PageLayout innerComponent={<PasswordReset />} />
             </Route>
-            <Route path="/confirm_password_reset">
+            <Route path="/confirm_password_reset/:token">
               <PageLayout innerComponent={<ChangePassword />} />
             </Route>
             <Redirect to="/auth" />
