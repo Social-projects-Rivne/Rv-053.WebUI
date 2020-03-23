@@ -85,38 +85,38 @@ const Countdown = ({ timeTillDate }) => {
   const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
 
   return (
-    <div>
-      <div className='countdown-wrapper'>
-        {days && (
-          <div className='countdown-item'>
-            <SVGCircle radius={daysRadius} />
-            {days}
-            <span>days</span>
-          </div>
-        )}
-        {hours > 0 && (
-          <div className='countdown-item'>
-            <SVGCircle radius={hoursRadius} />
-            {hours}
-            <span>hours</span>
-          </div>
-        )}
-        {minutes > 0 && (
-          <div className='countdown-item'>
-            <SVGCircle radius={minutesRadius} />
-            {minutes}
-            <span>minutes</span>
-          </div>
-        )}
-        {seconds > 0 && (
-          <div className='countdown-item'>
-            <SVGCircle radius={secondsRadius} />
-            {seconds}
-            <span>seconds</span>
-          </div>
-        )}
-      </div>
+
+    <div className='countdown-wrapper'>
+      {days && (
+        <div className='countdown-item'>
+          <SVGCircle radius={daysRadius} />
+          {days}
+          <span>days</span>
+        </div>
+      )}
+      {hours > 0 && (
+        <div className='countdown-item'>
+          <SVGCircle radius={hoursRadius} />
+          {hours}
+          <span>hours</span>
+        </div>
+      )}
+      {minutes > 0 && (
+        <div className='countdown-item'>
+          <SVGCircle radius={minutesRadius} />
+          {minutes}
+          <span>minutes</span>
+        </div>
+      )}
+      {seconds > 0 && (
+        <div className='countdown-item'>
+          <SVGCircle radius={secondsRadius} />
+          {seconds}
+          <span>seconds</span>
+        </div>
+      )}
     </div>
+
   );
 };
 

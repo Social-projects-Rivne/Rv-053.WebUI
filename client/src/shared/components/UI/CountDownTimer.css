@@ -7,10 +7,10 @@ h1 {
 }
 
 .countdown-wrapper {
-  position: absolute;
-  top: 85%;
-  left: 10%;
+  position: relative;
+  top: -14%;
   width: 80%;
+  margin: 0 auto;
   z-index: 999;
   background-color: #16a0848a;
   display: flex;
@@ -21,8 +21,6 @@ h1 {
 
 @media only screen and (max-width: 1200px) {
   .countdown-wrapper {
-    top: 70%;
-    left: 15%;
     width: 70%;
   }
 
@@ -32,11 +30,6 @@ h1 {
 }
 
 @media only screen and (max-width: 992px) {
-  .countdown-wrapper {
-    top: 36%;
-    left: 25%;
-    width: 50%;
-  }
 
   .countdown-item:nth-last-child(2) {
     display: none;
@@ -74,7 +67,6 @@ h1 {
   line-height: 30px;
   margin: 10px;
   padding-top: 10px;
-  position: relative;
   width: 100px;
   height: 100px;
 }
