@@ -4,7 +4,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     default:
       return state;
-    case 'INPUT_CHANGED':
+    case 'INPUT_CHANGED': 
       let formIsValid = true;
       for (const inputId in state.inputs) {
         if (!state.inputs[inputId]) {

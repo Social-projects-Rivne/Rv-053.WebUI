@@ -13,7 +13,7 @@
 [class^='icon-'],
 [class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icomoon';
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -24,7 +24,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 .icon-plus:before {
   content: "\f067";
 }
@@ -46,8 +45,26 @@
 .icon-th-list:before {
   content: "\f00b";
 }
+.icon-search-plus:before {
+  content: "\f00e";
+}
+.icon-search-minus:before {
+  content: "\f010";
+}
+.icon-cog:before {
+  content: "\f013";
+}
+.icon-gear:before {
+  content: "\f013";
+}
+.icon-clock-o:before {
+  content: "\f017";
+}
 .icon-inbox:before {
   content: "\f01c";
+}
+.icon-refresh:before {
+  content: "\f021";
 }
 .icon-headphones:before {
   content: "\f025";
@@ -64,8 +81,38 @@
 .icon-chevron-right:before {
   content: "\f054";
 }
+.icon-times-circle:before {
+  content: "\f057";
+}
+.icon-check-circle:before {
+  content: "\f058";
+}
+.icon-question-circle:before {
+  content: "\f059";
+}
+.icon-info-circle:before {
+  content: "\f05a";
+}
 .icon-ban:before {
   content: "\f05e";
+}
+.icon-arrow-right:before {
+  content: "\f061";
+}
+.icon-expand:before {
+  content: "\f065";
+}
+.icon-compress:before {
+  content: "\f066";
+}
+.icon-exclamation-circle:before {
+  content: "\f06a";
+}
+.icon-exclamation-triangle:before {
+  content: "\f071";
+}
+.icon-warning:before {
+  content: "\f071";
 }
 .icon-calendar:before {
   content: "\f073";
@@ -79,11 +126,20 @@
 .icon-gears:before {
   content: "\f085";
 }
+.icon-comments:before {
+  content: "\f086";
+}
+.icon-thumb-tack:before {
+  content: "\f08d";
+}
 .icon-github:before {
   content: "\f09b";
 }
 .icon-bell-o:before {
   content: "\f0a2";
+}
+.icon-arrow-circle-right:before {
+  content: "\f0a9";
 }
 .icon-globe:before {
   content: "\f0ac";
@@ -94,6 +150,15 @@
 .icon-scissors:before {
   content: "\f0c4";
 }
+.icon-paperclip:before {
+  content: "\f0c6";
+}
+.icon-rotate-left:before {
+  content: "\f0e2";
+}
+.icon-undo1:before {
+  content: "\f0e2";
+}
 .icon-stethoscope:before {
   content: "\f0f1";
 }
@@ -102,6 +167,9 @@
 }
 .icon-calendar-o:before {
   content: "\f133";
+}
+.icon-chevron-circle-right:before {
+  content: "\f138";
 }
 .icon-instagram:before {
   content: "\f16d";
@@ -123,6 +191,9 @@
 }
 .icon-send:before {
   content: "\f1d8";
+}
+.icon-history:before {
+  content: "\f1da";
 }
 .icon-futbol-o:before {
   content: "\f1e3";
@@ -162,4 +233,31 @@
 }
 .icon-telegram:before {
   content: "\f2c6";
+}
+.icon-undo:before {
+  content: "\e965";
+}
+.icon-redo:before {
+  content: "\e966";
+}
+.icon-undo2:before {
+  content: "\e967";
+}
+.icon-redo2:before {
+  content: "\e968";
+}
+.icon-spinner11:before {
+  content: "\e984";
+}
+.icon-enlarge:before {
+  content: "\e989";
+}
+.icon-shrink:before {
+  content: "\e98a";
+}
+.icon-enlarge2:before {
+  content: "\e98b";
+}
+.icon-shrink2:before {
+  content: "\e98c";
 }

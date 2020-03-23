@@ -1,14 +1,7 @@
-.profile-container {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 500;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-}
-.profile_inner {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 30px;
+.profile-inner{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0px;
 }
 .profile-top {
   display: flex;
@@ -64,20 +57,7 @@
 .profile-info {
   text-align: center;
 }
-.profile_btn-item {
-  background-color: #58be66;
-  padding: 7px 25px;
-  border-radius: 25px;
-  color: #fff;
-  text-decoration: none;
-}
-.profile_btn-item:hover {
-  text-decoration: none;
-  color: #fff;
-}
-.profile_btn-item + .profile_btn-item {
-  margin-left: 20px;
-}
+
 .profile_categories {
   margin-bottom: 20px;
 }
@@ -85,11 +65,15 @@
   border: none;
   display: inline-block;
   background-color: #ddd;
-  padding: 5px 20px;
+  padding: 7px 20px;
   border-radius: 25px;
   position: relative;
   font-size: 15px;
   margin: 10px 10px 10px 0;
+  font-family: 'Quicksand', serif !important;
+}
+.profile_categories-item:before{
+  font-family: 'icomoon';
 }
 .profile_categories-item:focus {
   outline: none;
@@ -154,7 +138,14 @@
 .profile_categories-item.added {
   background-color: rgba(45, 169, 145, 0.6);
 }
-
+.profile_btn .link-btn{
+  display: block;
+  max-width: 200px;
+  margin: 10px auto;
+}
+.profile_btn .link-btn+.link-btn{
+  margin-left: auto;
+}
 @media (max-width: 600px) {
   .profile_inner {
     padding: 10px;
@@ -169,16 +160,9 @@
   .profile-top {
     padding: 20px 0px;
   }
-  .profile_btn-item + .profile_btn-item {
-    margin-left: 10px;
-    padding: 7px 15px;
-  }
 }
 .slick-slide div .list__events-item.card.event_slider-item.profile{
   margin: 20px auto;
-}
-.profile-title+.slick-slider .slick-slide{
-  width: 400px !important;
 }
 @media (max-width: 470px) {
   .event_date {

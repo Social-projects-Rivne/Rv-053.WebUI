@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo
+} from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import axios from 'axios';
 
@@ -52,10 +58,15 @@ const FollowedEventList = () => {
         <div className="event_list-item">
           <div className="profile-title">
             <span>Followed events</span>
-            <NavLink to="/pastevents" className="icon-inbox button-link"></NavLink>
+            <NavLink
+              to="/pastevents"
+              className="icon-inbox button-link"
+            ></NavLink>
           </div>
           <MySlider
-            slidesToShow={events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3}
+            slidesToShow={
+              events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3
+            }
             dots={true}
           >
             {events.length > 0 ? (

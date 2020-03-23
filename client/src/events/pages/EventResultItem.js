@@ -66,12 +66,26 @@ const EventResultItem = props => {
               <div className="list__events-item-category">{props.category}</div>
               <div className="list__events-item-descr">{props.description}</div>
             </div>
+            <div className="list__events-item-price">
+              {props.price || 'free'}
+            </div>
+          </div>
+          <div className="list__events-item-bottom_info">
+            <NavLink to={'profile/' + props.owner_id} className="link ">
+              <div className="list__events-item-creator">
+                {props.owner_first_name + ' '}
+                {props.owner_last_name}
+              </div>
+            </NavLink>
             <div className="list__events-item-location">{address}</div>
             <div className="list__events-item-date">{datetime}</div>
           </div>
           {props.unfollowFromEvent ? (
             <div className="list__events-item-panel">
-              <button className="button-link icon-ban" onClick={confirmUnfollow}></button>
+              <button
+                className="button-link icon-ban"
+                onClick={confirmUnfollow}
+              ></button>
             </div>
           ) : null}
           {userId === 'my' && props.deleteEvent ? (
@@ -81,7 +95,10 @@ const EventResultItem = props => {
                   className="button-link icon-pencil link"
                   to={`/editevent/${props.id}`}
                 ></NavLink>
-                <button className="button-link icon-trash" onClick={confirmDelete}></button>
+                <button
+                  className="button-link icon-trash"
+                  onClick={confirmDelete}
+                ></button>
               </div>
             </>
           ) : null}

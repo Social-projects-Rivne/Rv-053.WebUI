@@ -3,7 +3,21 @@
 .event-item {
   margin: 1.5rem auto;
 }
-
+.container.event-item.past{
+  opacity: 0.6;
+}
+.event-item_title-past{
+  margin: 30px auto 0px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+.event-item_feedback-link{
+  display: block;
+  margin: 0 auto;
+  font-size: 17px;
+  color: rgba(22, 160, 133, 0.7);
+}
 .event-item__desctiption,
 .event-item__owner,
 .event-item__info {
@@ -65,7 +79,10 @@
 .event-item__owner {
   padding: 20px 0px;
 }
-
+.event-item__gallery {
+  padding: 20px 0px;
+  margin: 10px 0 20px 0;
+}
 @media only screen and (min-width: 1200px) {
   .row__description {
     margin-top: 5%;

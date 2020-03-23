@@ -10,17 +10,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_event_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
-      positive: {
-        type: DataTypes.STRING
-      },
-      negative: {
+      feedback: {
         type: DataTypes.STRING
       },
       date: {
         type: DataTypes.BIGINT,
         allowNull: false
+      },
+      status: {
+        type: DataTypes.ENUM('Active', 'Deleted'),
+        allowNull: false,
+        defaultValue: 'Active'
       }
     },
     {
@@ -33,5 +35,5 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user_event_id'
     });
   };
-  return EventFeedback;
+  return EventFeedback; 
 };

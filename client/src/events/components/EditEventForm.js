@@ -2,9 +2,14 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
 import Input from '../../shared/components/FormElements/Input';
+import EditGalleryForm from './EditGalleryForm';
 import Switch from '../../shared/components/UI/Switch';
 import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation';
-import { VAL_MIN_LENGTH, VAL_REQUIRED, VAL_NUMBERS } from '../../shared/utilities/validation';
+import {
+  VAL_MIN_LENGTH,
+  VAL_REQUIRED,
+  VAL_NUMBERS
+} from '../../shared/utilities/validation';
 import './EditEventForm.css';
 import Selector from '../../shared/components/FormElements/Select';
 import { api_server_url } from '../../shared/utilities/globalVariables';
@@ -12,9 +17,15 @@ import { api_server_url } from '../../shared/utilities/globalVariables';
 const EditEventForm = props => {
   const fileInputRef = useRef(null);
   const [categoriesItems, setCategoriesItems] = useState([]);
-  const [showDropdownCatecoryFlag, setShowDropdownCategoryFlag] = useState(false);
-  const [priceFlag, setPriceFlag] = useState(props.eventData.price.value ? true : false);
-  const [ageLimitFlag, setAgeLimitFlag] = useState(props.eventData.age.value ? true : false);
+  const [showDropdownCatecoryFlag, setShowDropdownCategoryFlag] = useState(
+    false
+  );
+  const [priceFlag, setPriceFlag] = useState(
+    props.eventData.price.value ? true : false
+  );
+  const [ageLimitFlag, setAgeLimitFlag] = useState(
+    props.eventData.age.value ? true : false
+  );
   const [placesLimitFlag, setPlacesLimitFlag] = useState(
     props.eventData.amount.value ? true : false
   );
@@ -83,7 +94,9 @@ const EditEventForm = props => {
         ></img>
         <span
           className="edit-event__change-cover-btn"
-          onClick={() => (fileInputRef.current !== null ? fileInputRef.current.click() : null)}
+          onClick={() =>
+            fileInputRef.current !== null ? fileInputRef.current.click() : null
+          }
         >
           change cover
         </span>
@@ -136,7 +149,12 @@ const EditEventForm = props => {
             </div>
           </div>
           <div className="col-6">
-            <DisappearingAnimation triger={priceFlag} timeout={400} mountOnEnter unmountOnExit>
+            <DisappearingAnimation
+              triger={priceFlag}
+              timeout={400}
+              mountOnEnter
+              unmountOnExit
+            >
               <Input
                 id="price"
                 type="number"
@@ -200,7 +218,12 @@ const EditEventForm = props => {
             />
           </div>
           <div className="col-6 inputfield__block">
-            <DisappearingAnimation triger={ageLimitFlag} timeout={400} mountOnEnter unmountOnExit>
+            <DisappearingAnimation
+              triger={ageLimitFlag}
+              timeout={400}
+              mountOnEnter
+              unmountOnExit
+            >
               <Input
                 id="age"
                 type="number"
@@ -237,8 +260,18 @@ const EditEventForm = props => {
           </div>
         </div>
       </div>
-
-      <button className="my__button ml-4 mb-4 mt-4 d-inline-block float-left" type="submit">
+      {!props.loadingGalleryFlag ? (
+        <EditGalleryForm
+          galleryData={props.galleryData}
+          changeImageHandler={props.changeImageHandler}
+          deleteImageHandler={props.deleteImageHandler}
+          createImageHandler={props.createImageHandler}
+        />
+      ) : null}
+      <button
+        className="my__button ml-4 mb-4 mt-4 d-inline-block float-left"
+        type="submit"
+      >
         Update
       </button>
     </form>
