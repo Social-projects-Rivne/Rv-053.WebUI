@@ -144,7 +144,7 @@ module.exports = {
           duration: 300,
           max_participants: 40,
           min_age: 20,
-          cover: 'http://localhost:5001/uploads/covers/cover11.jpg',
+          cover: 'http://localhost:5001/uploads/covers/cover11.jpeg',
           price: ''
         },
         {

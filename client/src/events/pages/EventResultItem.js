@@ -19,17 +19,17 @@ const EventResultItem = props => {
     .split(' ')
     .join('.');
 
-  const [lat, lon] = props.location.split(',');
+  // const [lat, lon] = props.location.split(',');
 
-  useEffect(() => {
-    const geocodeObj = returnAddress(lat, lon);
-    geocodeObj.then(geocodeObj => {
-      const geoComponent = geocodeObj.address_components;
-      setAddress(
-        `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
-      );
-    });
-  }, [lat, lon]);
+  // useEffect(() => {
+  //   const geocodeObj = returnAddress(lat, lon);
+  //   geocodeObj.then(geocodeObj => {
+  //     const geoComponent = geocodeObj.address_components;
+  //     setAddress(
+  //       `${geoComponent[2].long_name}, ${geoComponent[1].long_name} ${geoComponent[0].long_name}`
+  //     );
+  //   });
+  // }, [lat, lon]);
 
   const confirmUnfollow = () => {
     setConfirmUnfollowFlag(true);
