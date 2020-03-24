@@ -3,7 +3,7 @@
 .event-item {
   margin: 1.5rem auto;
 }
-.container.event-item.past {
+.my__container.event-item.past {
   opacity: 0.6;
 }
 .event-item_title-past {
@@ -63,7 +63,7 @@
   margin-block-end: 0em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  height: 50vh;
+  height: 60vh;
 }
 .event-item__img figure img {
   width: 100%;
@@ -82,7 +82,6 @@
   margin: 10px 0 20px 0;
 }
 .row__description {
-  margin-top: 5%;
   margin-right: 0px;
   margin-left: 0px;
 }

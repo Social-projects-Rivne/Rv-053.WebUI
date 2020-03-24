@@ -45,8 +45,8 @@ const EventItem = props => {
       <div
         className={
           props.event.past
-            ? 'container event-item past'
-            : 'container event-item'
+            ? 'my__container event-item past'
+            : 'my__container event-item'
         }
       >
         <div className='row'>
