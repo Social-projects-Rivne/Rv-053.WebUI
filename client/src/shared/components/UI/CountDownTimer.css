@@ -4,13 +4,15 @@ h1 {
   letter-spacing: 2px;
   text-align: center;
   text-transform: uppercase;
+  font-weight: 700;
+  width: 100%;
 }
 
 .countdown-wrapper {
-  position: absolute;
-  top: 85%;
-  left: 10%;
+  position: relative;
+  top: -10%;
   width: 80%;
+  margin: 0 auto;
   z-index: 999;
   background-color: #16a0848a;
   display: flex;
@@ -19,10 +21,14 @@ h1 {
   flex-wrap: wrap;
 }
 
+.red-wrapper {
+  display: flex;
+  background-color: rgba(255, 0, 0, 0.596);
+  top: 0;
+}
+
 @media only screen and (max-width: 1200px) {
   .countdown-wrapper {
-    top: 70%;
-    left: 15%;
     width: 70%;
   }
 
@@ -32,12 +38,6 @@ h1 {
 }
 
 @media only screen and (max-width: 992px) {
-  .countdown-wrapper {
-    top: 36%;
-    left: 25%;
-    width: 50%;
-  }
-
   .countdown-item:nth-last-child(2) {
     display: none;
   }
@@ -49,6 +49,11 @@ h1 {
     width: 100%;
     background-color: #16a08418;
     margin: 0 auto;
+  }
+
+  .red-wrapper {
+    background-color: rgba(255, 0, 0, 0.596);
+    top: 0;
   }
 
   .countdown-item:nth-last-child(2) {
@@ -74,7 +79,6 @@ h1 {
   line-height: 30px;
   margin: 10px;
   padding-top: 10px;
-  position: relative;
   width: 100px;
   height: 100px;
 }
@@ -93,4 +97,41 @@ h1 {
   left: 0;
   width: 100px;
   height: 100px;
+}
+
+.link,
+.link:hover {
+  /* display: block; */
+  text-decoration: none;
+  color: #000;
+}
+.link-light,
+.link-light:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn-dark {
+  background-color: rgba(47, 49, 60, 0.9);
+}
+.link-btn {
+  background-color: rgba(22, 160, 133, 0.9);
+}
+.link-btn,
+.link-btn-dark {
+  padding: 7px 30px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 15px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  border: none;
+  margin-bottom: 10px;
+}
+.link-btn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn + .link-btn {
+  margin-left: 10px;
 }
