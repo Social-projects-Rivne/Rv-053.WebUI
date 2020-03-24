@@ -25,6 +25,18 @@ const storageCover = multer.diskStorage({
     cb(null, uuidv4() + '-' + fileName);
   }
 });
+const storageGallery = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/gallery');
+  },
+  filename(req, file, cb) {
+    fileName = file.originalname
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+    cb(null, uuidv4() + '-' + fileName);
+  }
+});
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -57,4 +69,13 @@ const uploadAvatar = multer({
   fileFilter
 });
 
-module.exports = { uploadCover, uploadAvatar };
+const uploadImageOfGallery = multer({
+  storage: storageGallery,
+  limits: {
+    // file size max 2mb
+    fileSize: 1024 * 1024 * 2
+  },
+  fileFilter
+});
+
+module.exports = { uploadCover, uploadAvatar, uploadImageOfGallery };

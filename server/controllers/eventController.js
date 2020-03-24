@@ -1,25 +1,27 @@
-require("dotenv").config();
-const fs = require("fs");
-const { Sequelize, Op } = require("sequelize");
-const JWT = require("jsonwebtoken");
+require('dotenv').config();
+const fs = require('fs');
+const { Sequelize, Op } = require('sequelize');
+const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
-const Event = require("../models").event;
-const User = require("../models").users;
-const EventCategory = require("../models").event_category;
-const Categories = require("../models").category;
-const UserEvent = require("../models").user_event;
-const Category = require("../models").category;
-const Redis = require("../services/redisService");
+const Event = require('../models').event;
+const User = require('../models').users;
+const EventCategory = require('../models').event_category;
+const Categories = require('../models').category;
+const UserEvent = require('../models').user_event;
+const EventGallery = require('../models').event_gallery;
+const Feedbacks = require('../models').event_feedback;
+const Redis = require('../services/redisService');
 
-const STATUS_ACTIVE = "Active";
-const STATUS_BANNED = "Banned";
-const STATUS_DELETED = "Deleted";
+const STATUS_ACTIVE = 'Active';
+const STATUS_BANNED = 'Banned';
+const STATUS_DELETED = 'Deleted';
+const CURRENT_DATE = new Date().getTime();
 
 function checkToken(req) {
   let token;
   let result = { isAuthorization: false };
-  if (req.header("Authorization")) {
-    token = req.header("Authorization").split(" ")[1];
+  if (req.header('Authorization')) {
+    token = req.header('Authorization').split(' ')[1];
     try {
       const payload = JWT.verify(token, JWT_SECRET);
       result = { isAuthorization: true, userId: payload.userId };
@@ -39,22 +41,22 @@ exports.getEventByID = async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ["id", "first_name", "last_name", "avatar"]
+        attributes: ['id', 'first_name', 'last_name', 'avatar']
       },
       {
-        model: Categories,
-        attributes: ["category", "parent_id"]
+        model: Categories
       }
     ]
   })
     .then(async event => {
       if (event === null) {
         res.status(404).send({
-          message: "Event not found"
+          message: 'Event not found'
         });
       }
       event = event.toJSON();
       event.isSubscribe = false;
+      event.past = false;
       const authUser = checkToken(req);
       if (authUser.isAuthorization) {
         subscribe = await UserEvent.findOne({
@@ -62,14 +64,20 @@ exports.getEventByID = async (req, res) => {
         });
         if (subscribe !== null) {
           event.isSubscribe = true;
+          event.currentUser_id = authUser.userId;
         }
       }
-      Redis.addUrlInCache(req.originalUrl, event);
+      past = await Event.findOne({
+        where: { id: id, datetime: { [Op.lt]: CURRENT_DATE } }
+      });
+      if (past !== null) {
+        event.past = true;
+      }
       res.status(200).json(event);
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || "Not found"
+        message: err.message || 'Not found'
       });
     });
 };
@@ -80,16 +88,17 @@ exports.createEvent = async (req, res) => {
     description,
     location,
     datetime,
+    duration,
+    category,
     max_participants,
     min_age,
-    price,
-    category
+    price
   } = req.body;
   let cover;
   if (req.file) {
-    cover = process.env.BACK_HOST + "/" + req.file.path;
+    cover = process.env.BACK_HOST + '/' + req.file.path;
   } else {
-    cover = process.env.BACK_HOST + "uploads/covers/logo.png";
+    cover = process.env.BACK_HOST + 'uploads/covers/logo.png';
   }
   await Event.create({
     name,
@@ -97,6 +106,7 @@ exports.createEvent = async (req, res) => {
     description,
     location,
     datetime,
+    duration,
     max_participants,
     min_age,
     cover,
@@ -110,18 +120,18 @@ exports.createEvent = async (req, res) => {
       })
         .then(() => {
           res.status(200).send({
-            message: "Event was create successful"
+            message: 'Event was create successful'
           });
         })
         .catch(err => {
           res.status(404).send({
-            message: "Some problems with create event(category)" || err.message
+            message: 'Some problems with create event(category)' || err.message
           });
         });
     })
     .catch(err => {
       res.status(404).send({
-        message: "Some problems with create event" || err.message
+        message: 'Some problems with create event' || err.message
       });
     });
 };
@@ -140,20 +150,17 @@ exports.updateEvent = async (req, res) => {
     cover,
     price
   } = req.body;
-
   await Event.findOne({
     where: {
       id
     }
   }).then(event => {
-    if (
-      req.userId === event.owner_id ||
-      req.role === "Admin" ||
-      req.role === "Moderator"
-    ) {
-      cover = cover || process.env.BACK_HOST + "/" + req.file.path;
-      let oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
-
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+      let oldCoverPath = null;
+      if (!cover) {
+        oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
+      }
+      cover = cover || process.env.BACK_HOST + '/' + req.file.path;
       event
         .update({
           name,
@@ -163,7 +170,7 @@ exports.updateEvent = async (req, res) => {
           duration,
           max_participants,
           min_age,
-          cover: cover,
+          cover,
           price
         })
         .then(event => {
@@ -180,22 +187,22 @@ exports.updateEvent = async (req, res) => {
           });
         })
         .then(() => {
-          if (oldCoverPath) {
-            fs.unlink("." + oldCoverPath, err => {
+          if (oldCoverPath && req.file) {
+            fs.unlink('.' + oldCoverPath, err => {
               if (err) {
-                console.log("failed to delete local image:" + err);
+                console.log('failed to delete local image:' + err);
               } else {
-                console.log("successfully deleted local image");
+                console.log('successfully deleted local image');
               }
             });
           }
         })
         .then(() => {
-          res.status(200).json({ status: "Event was update successful" });
+          res.status(200).json({ status: 'Event was update successful' });
         })
         .catch(err => {
           res.status(404).json({
-            message: err.message || "Event not found"
+            message: err.message || 'Event not found'
           });
         });
     }
@@ -212,31 +219,31 @@ exports.deleteEvent = async (req, res) => {
     .then(event => {
       if (event === null) {
         return res.status(404).json({
-          message: "Event not found"
+          message: 'Event not found'
         });
       }
-      if (req.userId === event.owner_id || req.role === "Admin") {
+      if (req.userId === event.owner_id || req.role === 'Admin') {
         event
           .update({ status: STATUS_DELETED })
           .then(() => {
             res.status(200).json({
-              status: "Event was deleted"
+              status: 'Event was deleted'
             });
           })
           .catch(err => {
             res.status(404).json({
-              message: err.message || "Event not found"
+              message: err.message || 'Event not found'
             });
           });
       } else {
         res.status(403).json({
-          message: "Access forbidden"
+          message: 'Access forbidden'
         });
       }
     })
     .catch(err => {
       res.status(404).json({
-        message: err.message || "Event not found"
+        message: err.message || 'Event not found'
       });
     });
 };
@@ -262,7 +269,7 @@ exports.searchEvent = async (req, res) => {
   let includeQuery = [
     {
       model: User,
-      attributes: ["first_name", "last_name"]
+      attributes: ['first_name', 'last_name']
     }
   ];
 
@@ -274,8 +281,8 @@ exports.searchEvent = async (req, res) => {
   if (
     startDate !== null &&
     endDate !== null &&
-    startDate !== "undefined" &&
-    endDate !== "undefined"
+    startDate !== 'undefined' &&
+    endDate !== 'undefined'
   ) {
     searchQuery.datetime = {
       [Op.between]: [
@@ -307,7 +314,7 @@ exports.searchEvent = async (req, res) => {
     offset,
     limit,
     include: includeQuery,
-    order: [["datetime", "DESC"]]
+    order: [['datetime', 'DESC']]
   })
     .then(events => {
       Redis.addUrlInCache(req.originalUrl, events);
@@ -315,7 +322,7 @@ exports.searchEvent = async (req, res) => {
     })
     .catch(err => {
       res.status(400).send({
-        message: err.message || "Bad Request"
+        message: err.message || 'Bad Request'
       });
     });
 };
@@ -325,14 +332,14 @@ exports.rejectEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_BANNED) {
       return res.status(400).send({
-        message: "Event is already rejected"
+        message: 'Event is already rejected'
       });
     }
     await event.update({ status: STATUS_BANNED });
-    res.status(201).json({ status: "Rejected" });
+    res.status(201).json({ status: 'Rejected' });
   } catch (err) {
     res.status(400).send({
-      message: err.message || "Bad request"
+      message: err.message || 'Bad request'
     });
   }
 };
@@ -342,14 +349,14 @@ exports.activateEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_ACTIVE) {
       return res.status(400).send({
-        message: "Event is already active"
+        message: 'Event is already active'
       });
     }
     await event.update({ status: STATUS_ACTIVE });
-    res.status(201).json({ status: "Active" });
+    res.status(201).json({ status: 'Active' });
   } catch (err) {
     res.status(400).send({
-      message: err.message || "Bad request"
+      message: err.message || 'Bad request'
     });
   }
 };
@@ -358,14 +365,14 @@ exports.deleteEvent = async (req, res) => {
     let event = await Event.findByPk(req.params.id);
     if (event.status === STATUS_DELETED) {
       return res.status(400).send({
-        message: "Event is already deleted"
+        message: 'Event is already deleted'
       });
     }
     await event.update({ status: STATUS_DELETED });
-    res.status(201).json({ status: "DELETED" });
+    res.status(201).json({ status: 'DELETED' });
   } catch (err) {
     res.status(400).send({
-      message: err.message || "Bad request"
+      message: err.message || 'Bad request'
     });
   }
 };
@@ -377,21 +384,249 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn("COUNT", Sequelize.col("user_id")), "quantityUsers"]
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {
         res.status(404).send({
-          message: "Event not found"
+          message: 'Event not found'
         });
       }
       res.status(200).json(resultRow[0]);
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || "Not found"
+        message: err.message || 'Not found'
       });
     });
+};
+
+exports.getGalleryOfEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const gallery = await EventGallery.findAll({
+      where: { event_id: id, is_deleted: false }
+    });
+    res.status(200).json(gallery);
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.deleteImageFromGallery = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    let includeQuery;
+    if (req.role === 'Admin' || req.role === 'Moderator') {
+      includeQuery = { model: Event };
+    } else {
+      includeQuery = { model: Event, where: { owner_id: req.userId } };
+    }
+    const img = await EventGallery.findOne({
+      where: { event_id: id, id: imageId },
+      include: includeQuery
+    });
+    if (img) {
+      await img.update({ is_deleted: true });
+      res.status(201).json({ status: 'DELETED' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.createImageOfGallery = async (req, res) => {
+  const { id } = req.params;
+  let { description, img_url } = req.body;
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+      img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
+      await EventGallery.create({
+        img_url,
+        description,
+        event_id: id,
+        is_deleted: false
+      });
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.changeImageOfGallery = async (req, res) => {
+  const { id, imageId } = req.params;
+  let { description, img_url } = req.body;
+  try {
+    const event = await Event.findOne({ where: { id } });
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+      const img = await EventGallery.findOne({
+        where: { event_id: id, id: imageId }
+      });
+      if (img) {
+        let oldImg = null;
+        if (!img_url) {
+          oldImg = img.img_url.slice(process.env.BACK_HOST.length);
+          img_url = process.env.BACK_HOST + '/' + req.file.path;
+        }
+        await img.update({ img_url, description });
+        if (oldImg) {
+          fs.unlink('.' + oldImg, err => {
+            if (err) {
+              console.log('failed to delete local image:' + err);
+            } else {
+              console.log('successfully deleted local image');
+            }
+          });
+        }
+      }
+      res.status(201).json({ status: 'success' });
+    } else {
+      res.status(403).send({
+        message: 'Forbidden'
+      });
+    }
+  } catch (err) {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  }
+};
+
+exports.leaveFeedback = async (req, res) => {
+  try {
+    let { feedback } = req.body;
+    const userEvent = await UserEvent.findOne({
+      where: {
+        user_id: req.params.userId,
+        event_id: req.params.eventId
+      }
+    });
+    if (userEvent) {
+      await Feedbacks.create({
+        user_event_id: userEvent.id,
+        feedback,
+        date: CURRENT_DATE,
+        status: STATUS_ACTIVE
+      });
+    }
+    res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+exports.getFeedbacks = async (req, res) => {
+  try {
+    eventId = req.params.id;
+    const feedback_id = await UserEvent.findAll({
+      where: {
+        event_id: eventId
+      }
+    });
+    if (feedback_id) {
+      const feedbacks = await Feedbacks.findAll({
+        order: [['id', 'DESC']],
+        where: {
+          status: STATUS_ACTIVE
+        },
+        include: [
+          {
+            model: UserEvent,
+            where: {
+              event_id: eventId
+            },
+            attributes: ['user_id'],
+            include: [
+              {
+                model: User,
+                attributes: ['first_name']
+              }
+            ]
+          }
+        ]
+      });
+      res.status(200).json({
+        status: 'success',
+        data: {
+          feedbacks
+        }
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+exports.deleteFeedback = async (req, res) => {
+  try {
+    await Feedbacks.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: UserEvent,
+          attributes: ['user_id']
+        }
+      ]
+    }).then(feedback => {
+      if (feedback === null) {
+        res.status(404).json('Feedback is not found');
+      }
+      if (req.userId === feedback.user_event.user_id) {
+        feedback.update({
+          status: STATUS_DELETED
+        });
+        res.status(200).json('Feedback is deleted');
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+exports.updateFeedback = async (req, res) => {
+  try {
+    let { feedback } = req.body;
+    await Feedbacks.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: UserEvent,
+          attributes: ['user_id']
+        }
+      ]
+    }).then(feedbackItem => {
+      if (feedbackItem === null) {
+        res.status(404).json('Feedback is not found');
+      } else if (req.userId === feedbackItem.user_event.user_id) {
+        feedbackItem.update({
+          feedback,
+          date: CURRENT_DATE
+        });
+        res.status(200).json('Feedback was updated!');
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
 };

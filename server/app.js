@@ -25,11 +25,7 @@ app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/events', require('./routes/eventRoute'));
 app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/tags', require('./routes/tagsRoute'));
-app.use(
-  '/api/adminpanel',
-  adminAndModeratorAuth,
-  require('./routes/adminRoute')
-);
+app.use('/api/adminpanel', adminAndModeratorAuth, require('./routes/adminRoute'));
 app.use('/uploads', express.static('uploads'));
 
 const PORT = process.env.PORT || 5000;
@@ -39,9 +35,7 @@ async function start() {
     await db.sequelize
       .sync()
       .then(() => {
-        app.listen(PORT, () =>
-          console.log(`App has been started on port ${PORT}...`)
-        );
+        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
       })
       .catch(err => console.error(err.message));
   } catch (e) {
@@ -49,5 +43,4 @@ async function start() {
     process.exit(1);
   }
 }
-
 start();

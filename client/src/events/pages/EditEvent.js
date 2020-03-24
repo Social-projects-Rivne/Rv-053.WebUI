@@ -14,44 +14,16 @@ const EditEvent = props => {
   const history = useHistory();
   const accessToken = useContext(AuthContext).token;
   const headers = {
-    'Content-Type': 'multipart/form-data',
-    Authorization: 'Bearer ' + accessToken
+    Authorization: 'Bearer ' + accessToken,
+    'Content-Type': 'multipart/form-data'
   };
-  const [formState, inputHandler, setFormData] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: true
-      },
-      select: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      },
-      location: {
-        value: '',
-        isValid: false
-      },
-      price: {
-        value: '',
-        isValid: false
-      },
-      age: {
-        value: '',
-        isValid: false
-      },
-      amount: {
-        value: '',
-        isValid: false
-      }
-    },
-    false
-  );
+  const [galleryState, setGalleryState] = useState([]);
+  const [formState, inputHandler, setFormData] = useForm();
 
-  const [eventCategory, setEventCategory] = useState({ id: null, category: '' });
+  const [eventCategory, setEventCategory] = useState({
+    id: null,
+    category: ''
+  });
 
   const [loadingFlag, setLoadingFlag] = useState(true);
 
@@ -102,6 +74,8 @@ const EditEvent = props => {
         },
         true
       );
+      const resGallery = await axios.get(api_server_url + '/api/events/' + eventID + '/gallery');
+      setGalleryState(resGallery.data);
       setEventCategory(res.data.categories[0]);
       setLoadingFlag(false);
     } catch (e) {
@@ -124,14 +98,53 @@ const EditEvent = props => {
           category: eventCategory.id
         };
         const updatedEventFormData = objToFormData(updatedEventData);
-        const res = await axios.put(
-          api_server_url + '/api/events/' + eventID,
-          updatedEventFormData,
-          {
-            headers
-          }
-        );
-
+        let res = await axios.put(api_server_url + '/api/events/' + eventID, updatedEventFormData, {
+          headers
+        });
+        if (res.status === 200) {
+          galleryState.map(async image => {
+            if (image.is_changed === true && image.is_deleted === true) {
+              res = await axios.delete(
+                `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+                {
+                  headers
+                }
+              );
+            }
+          });
+          galleryState.map(async image => {
+            if (image.is_changed === true && image.is_deleted !== true) {
+              if (image.is_new) {
+                const imageData = {
+                  description: image.description,
+                  img_url: image.img_url
+                };
+                const imageFormData = objToFormData(imageData);
+                res = await axios.post(
+                  `${api_server_url}/api/events/${eventID}/gallery`,
+                  imageFormData,
+                  {
+                    headers
+                  }
+                );
+              } else {
+                const imageData = {
+                  id: image.id,
+                  description: image.description,
+                  img_url: image.img_url
+                };
+                const imageFormData = objToFormData(imageData);
+                res = await axios.put(
+                  `${api_server_url}/api/events/${eventID}/gallery/${image.id}`,
+                  imageFormData,
+                  {
+                    headers
+                  }
+                );
+              }
+            }
+          });
+        }
         if (res.status === 200) {
           history.push({
             pathname: '/redirect',
@@ -155,7 +168,37 @@ const EditEvent = props => {
     event.preventDefault();
     updateEventData();
   };
-
+  const changeImageHandler = async image => {
+    try {
+      image.is_changed = true;
+      setGalleryState(galleryState.map(item => (item.id !== image.id ? item : image)));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const createImageHandler = async image => {
+    try {
+      image.is_new = true;
+      image.is_changed = true;
+      image.is_deleted = false;
+      setGalleryState([...galleryState, image]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const deleteImageHandler = async image => {
+    try {
+      if (image.is_new) {
+        setGalleryState(galleryState.filter(item => item.id !== image.id));
+      } else {
+        image.is_changed = true;
+        image.is_deleted = true;
+        setGalleryState(galleryState.map(item => (item.id !== image.id ? item : image)));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <ScrollToTop />
@@ -166,6 +209,10 @@ const EditEvent = props => {
             onInputHandler={inputHandler}
             onSubmitFormHandler={submitFormHandler}
             eventData={formState.inputs}
+            galleryData={galleryState}
+            changeImageHandler={changeImageHandler}
+            deleteImageHandler={deleteImageHandler}
+            createImageHandler={createImageHandler}
             category={eventCategory}
             onChooseCategory={e => setEventCategory({ id: e.id, category: e.title })}
           />

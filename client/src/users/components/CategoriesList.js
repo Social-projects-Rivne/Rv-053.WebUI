@@ -38,9 +38,9 @@ const UserCategories = () => {
       `icon-graduation-cap`,
       `icon-globe`,
       `icon-shopping-bag`,
-      `icon-envira`,
       `icon-paint-brush`,
-      `icon-cut`
+      `icon-cut`,
+      `icon-puzzle-piece`
     ];
     res.data.data.category.forEach(
       (item, index) => (item.icons = iconsArr[index])
