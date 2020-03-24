@@ -19,7 +19,8 @@ const EventItem = props => {
     lat: +coordinates[0],
     lng: +coordinates[1]
   };
-
+  const dateAndMonth = moment(+props.event.datetime).format('dddd, Do, MMMM');
+  const eventTime = moment(+props.event.datetime).format('LT');
   useEffect(() => {
     const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
     geocodeObj.then(geocodeObj => {
@@ -61,19 +62,23 @@ const EventItem = props => {
             <h3>{props.event.name}</h3>
             <div>
               <span>Address: </span>
-              {address}
+              <span>{address}</span>
             </div>
             <div>
               <span>Date: </span>
-              {props.event.datetime}
+              <span>{dateAndMonth}</span>
             </div>
             <div>
               <span>Time: </span>
-              {props.event.duration}
+              <span>{eventTime}</span>
+            </div>
+            <div>
+              <span>Duration: </span>
+              <span>{props.event.duration}</span>
             </div>
             <div>
               <span>Age: </span>
-              {props.event.min_age} years
+              <span>{props.event.min_age} years</span>
             </div>
             <div>
               <span>Participants: </span>
