@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway|Varela+Round|Coda);
 
-.event-item {
+.my__container.event-item {
   margin: 1.5rem auto;
 }
 .my__container.event-item.past {
