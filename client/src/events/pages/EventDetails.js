@@ -14,6 +14,7 @@ import { AuthContext } from './../../shared/context/auth-context';
 import Notificator from './../../shared/components/UI/Notificator';
 import EventItem from '../components/EventItem';
 import ScrollToTop from '../../shared/components/UI/ScrollToTop';
+import EventFeedbacks from '../components/Feedbacks/EventFeedbacks';
 import './EventDetails.css';
 
 const EventDetails = () => {
@@ -37,15 +38,8 @@ const EventDetails = () => {
       { headers }
     );
 
-    setEventDate(
-      moment(+event.data.datetime)
-        .format('DD MM YYYY')
-        .split(' ')
-        .join('.')
-    );
-    event.data.duration = moment(+event.data.duration)
-      .format('hh mm')
-      .replace(' ', ':');
+    setEventDate(moment(+event.data.datetime).format('DD MM YYYY'));
+    event.data.duration = moment(+event.data.duration).format('hh:mm');
     setEventData(event.data);
   }, [eventId, headers]);
 
@@ -97,15 +91,22 @@ const EventDetails = () => {
         onExit={closeNoteHandler}
       />
       {eventData ? (
-        <EventItem
-          EventDate={EventDate}
-          id={eventData.id}
-          event={eventData}
-          owner={eventData.user}
-          joinEvent={joinEvent}
-          accessToken={accessToken ? true : false}
-          quantity={quantityParticipants}
-        />
+        <>
+          <EventItem
+            EventDate={EventDate}
+            id={eventData.id}
+            event={eventData}
+            owner={eventData.user}
+            joinEvent={joinEvent}
+            accessToken={accessToken ? true : false}
+            quantity={quantityParticipants}
+          />
+          <EventFeedbacks
+            eventId={eventData.id}
+            userId={eventData.currentUser_id}
+            event={eventData}
+          />
+        </>
       ) : (
         <p>Oops, nothing is found...</p>
       )}

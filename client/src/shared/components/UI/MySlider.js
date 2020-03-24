@@ -5,23 +5,38 @@ import './MySlider.css';
 
 const MySlider = props => {
   function PrevArrow(props) {
-    return <button className="slick-arrow slick-prev" onClick={props.onClick}></button>;
+    return (
+      <button
+        className="slick-arrow slick-prev"
+        onClick={props.onClick}
+      ></button>
+    );
   }
   function NextArrow(props) {
-    return <button className="slick-arrow slick-next" onClick={props.onClick}></button>;
+    return (
+      <button
+        className="slick-arrow slick-next"
+        onClick={props.onClick}
+      ></button>
+    );
   }
   const slider = {
-    slidesToShow: +props.slidesToShow,
-    slidesToScroll: +props.slidesToScroll,
+    slidesToShow: +props.slidesToShow || 4,
+    slidesToScroll: +props.slidesToScroll || 3,
     arrows: props.arrows || false,
-    dots: props.dots ||false,
+    dots: props.dots || false,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1350,
         settings: {
-          slidesToShow: +props.slidesToShow === 1 ? 1 : 3 & +props.slidesToShow === 2 ? 2 : 3,
+          slidesToShow:
+            +props.slidesToShow === 1
+              ? 1
+              : 3 & (+props.slidesToShow === 2)
+              ? 2
+              : 3,
           slidesToScroll: 3
         }
       },

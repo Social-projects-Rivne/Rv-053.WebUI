@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import Input from '../../shared/components/FormElements/Input';
+import EditGalleryForm from './EditGalleryForm';
 import Switch from '../../shared/components/UI/Switch';
 import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation';
 import Selector from '../../shared/components/FormElements/Select';
@@ -307,6 +308,14 @@ const EditEventForm = props => {
           />
         </div>
       </div>
+      {!props.loadingGalleryFlag ? (
+        <EditGalleryForm
+          galleryData={props.galleryData}
+          changeImageHandler={props.changeImageHandler}
+          deleteImageHandler={props.deleteImageHandler}
+          createImageHandler={props.createImageHandler}
+        />
+      ) : null}
       <button className="my__button ml-4 mb-4 mt-4 d-inline-block float-left" type="submit">
         Update
       </button>

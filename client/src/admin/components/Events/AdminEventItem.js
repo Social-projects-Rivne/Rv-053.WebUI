@@ -109,8 +109,8 @@ const AdminEventItem = props => {
           <Selector
             triger={changeEventStatusFlag}
             items={[
-              { icon: 'icon-checkmark', title: 'ACTIVATE', info: '' },
-              { icon: 'icon-cross', title: 'REJECT', info: '' },
+              { icon: 'icon-check-circle', title: 'ACTIVATE', info: '' },
+              { icon: 'icon-ban', title: 'REJECT', info: '' },
               { icon: 'icon-trash', title: 'DELETE', info: '' }
             ]}
             onChange={changeEventStatusHandler}
