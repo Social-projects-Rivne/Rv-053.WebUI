@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
 
 const regExpForPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
 const regExpForNames = /[^A-Za-zа-яА-Я\s\-\']+/;
@@ -7,11 +7,11 @@ const regExpForCurrency = /^(\s*|\d+\s+[A-Z]+)$/;
 
 const loginValidation = () => {
   return [
-    body('email', 'Email is invalid')
+    body("email", "Email is invalid")
       .trim()
       .isEmail()
       .normalizeEmail(),
-    body('password', 'Your password must be between 6 and 30 characters')
+    body("password", "Your password must be between 6 and 30 characters")
       .trim()
       .isLength({
         min: 6,
@@ -22,11 +22,11 @@ const loginValidation = () => {
 
 const registerValidation = () => {
   return [
-    body('email', 'Email is invalid')
+    body("email", "Email is invalid")
       .trim()
       .isEmail()
       .normalizeEmail(),
-    body('password', 'Your password must be between 6 and 30 characters')
+    body("password", "Your password must be between 6 and 30 characters")
       .trim()
       .isLength({
         min: 6,
@@ -34,44 +34,44 @@ const registerValidation = () => {
       })
       .matches(regExpForPassword)
       .withMessage(
-        'Password should be contain at least one uppercase, one lowercase and one digit'
+        "Password should be contain at least one uppercase, one lowercase and one digit"
       ),
-    body('first_name')
+    body("first_name")
       .trim()
       .isLength({
         min: 3,
         max: 100
       })
-      .withMessage('Your first name must be between 3 and 100 characters')
+      .withMessage("Your first name must be between 3 and 100 characters")
       .not()
-      .matches(regExpForNames, 'g')
-      .withMessage('Wrong symbol in first name'),
-    body('last_name')
+      .matches(regExpForNames, "g")
+      .withMessage("Wrong symbol in first name"),
+    body("last_name")
       .trim()
       .isLength({
         min: 2,
         max: 100
       })
-      .withMessage('Your last name must be between 2 and 100 characters')
+      .withMessage("Your last name must be between 2 and 100 characters")
       .not()
-      .matches(regExpForNames, 'g')
-      .withMessage('Wrong symbol in last name'),
-    body('phone')
+      .matches(regExpForNames, "g")
+      .withMessage("Wrong symbol in last name"),
+    body("phone")
       .trim()
       .blacklist(/()\s\-\+/)
-      .isMobilePhone('any')
-      .withMessage('Wrong phone number')
+      .isMobilePhone("any")
+      .withMessage("Wrong phone number")
   ];
 };
 
 const createEventValidation = () => {
   return [
-    body('name', 'Name of event is invalid')
+    body("name", "Name of event is invalid")
       .notEmpty({
         ignore_whitespace: false
       })
       .isString(),
-    body('description', 'Description should be more then 10 symbols')
+    body("description", "Description should be more then 10 symbols")
       .notEmpty({
         ignore_whitespace: false
       })
@@ -80,58 +80,55 @@ const createEventValidation = () => {
         min: 10,
         max: 1000
       }),
-    body('location', 'location field should not be empty')
+    body("location", "location field should not be empty")
       .notEmpty({
         ignore_whitespace: false
       })
       .isString(),
-    body('datetime', 'Datetime field is invalid').notEmpty({
+    body("datetime", "Datetime field is invalid").notEmpty({
       ignore_whitespace: false
     }),
-    body('duration', 'Duration field should not be empty').notEmpty({
-      ignore_whitespace: false
-    }),
-    body('max_participants', 'Max part field should not be empty')
+    body("max_participants", "Max part field should not be empty")
       .exists()
-      .matches(regExpForNumbers, 'g'),
-    body('min_age', 'Min age field should not be empty')
+      .matches(regExpForNumbers, "g"),
+    body("min_age", "Min age field should not be empty")
       .exists()
-      .matches(regExpForNumbers, 'g'),
-    body('price', 'price field should not be empty')
+      .matches(regExpForNumbers, "g"),
+    body("price", "price field should not be empty")
       .trim()
-      .matches(regExpForCurrency, 'g')
+      .matches(regExpForCurrency, "g")
       .isString()
   ];
 };
 
 const profileValidation = () => {
   return [
-    body('first_name')
+    body("first_name")
       .trim()
       .isLength({
         min: 3,
         max: 100
       })
-      .withMessage('Your first name must be between 3 and 100 characters')
+      .withMessage("Your first name must be between 3 and 100 characters")
       .not()
-      .matches(regExpForNames, 'g')
-      .withMessage('Wrong symbol in first name'),
-    body('last_name')
+      .matches(regExpForNames, "g")
+      .withMessage("Wrong symbol in first name"),
+    body("last_name")
       .trim()
       .isLength({
         min: 2,
         max: 100
       })
-      .withMessage('Your last name must be between 2 and 100 characters')
+      .withMessage("Your last name must be between 2 and 100 characters")
       .not()
-      .matches(regExpForNames, 'g')
-      .withMessage('Wrong symbol in last name'),
-    body('phone')
+      .matches(regExpForNames, "g")
+      .withMessage("Wrong symbol in last name"),
+    body("phone")
       .trim()
       .blacklist(/()\s\-\+/)
-      .isMobilePhone('any')
-      .withMessage('Wrong phone number'),
-    body('birthday').custom(date => {
+      .isMobilePhone("any")
+      .withMessage("Wrong phone number"),
+    body("birthday").custom(date => {
       const dateNow = new Date();
       const yearNow = dateNow.getFullYear();
       const birthDate = new Date(date * 1000);
@@ -140,25 +137,25 @@ const profileValidation = () => {
         const birthYear = birthDate.getFullYear();
 
         if (yearNow - birthYear <= 10) {
-          throw Error('You are very young');
+          throw Error("You are very young");
         }
 
         if (yearNow - birthYear > 100) {
-          throw Error('You are very old');
+          throw Error("You are very old");
         }
 
         return true;
       }
-      throw Error('Invalid date');
+      throw Error("Invalid date");
     }),
-    body('avatar').custom(url => {
+    body("avatar").custom(url => {
       try {
         return Boolean(new URL(url));
       } catch (e) {
-        throw Error('Invalid url');
+        throw Error("Invalid url");
       }
     }),
-    body('sex').isIn(['Male', 'Female'])
+    body("sex").isIn(["Male", "Female"])
   ];
 };
 

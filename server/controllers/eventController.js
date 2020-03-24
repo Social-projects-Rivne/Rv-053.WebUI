@@ -94,6 +94,12 @@ exports.createEvent = async (req, res) => {
     min_age,
     price
   } = req.body;
+  let cover;
+  if (req.file) {
+    cover = process.env.BACK_HOST + '/' + req.file.path;
+  } else {
+    cover = process.env.BACK_HOST + 'uploads/covers/logo.png';
+  }
   await Event.create({
     name,
     owner_id: req.userId,
@@ -103,7 +109,7 @@ exports.createEvent = async (req, res) => {
     duration,
     max_participants,
     min_age,
-    cover: req.file.path,
+    cover,
     price
   })
     .then(event => {
