@@ -3,6 +3,7 @@ import { useHistory, withRouter, Redirect } from 'react-router-dom';
 
 import Card from './Card';
 import RollingAnimation from '../UI/Animations/RollingAnimation';
+import ScrollToTop from './ScrollToTop';
 
 const Notificator = props => {
   let history = useHistory();
@@ -23,6 +24,7 @@ const Notificator = props => {
 
   return (
     <>
+      <ScrollToTop />
       {props.location.state || (props.className && props.message) ? (
         <RollingAnimation triger={props.show || animationTriger} mountOnEnter unmountOnExit>
           <Card

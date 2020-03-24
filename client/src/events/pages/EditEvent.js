@@ -18,39 +18,7 @@ const EditEvent = props => {
     'Content-Type': 'multipart/form-data'
   };
   const [galleryState, setGalleryState] = useState([]);
-  const [formState, inputHandler, setFormData] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: true
-      },
-      select: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      },
-      location: {
-        value: '',
-        isValid: false
-      },
-      price: {
-        value: '',
-        isValid: false
-      },
-      age: {
-        value: '',
-        isValid: false
-      },
-      amount: {
-        value: '',
-        isValid: false
-      }
-    },
-    false
-  );
+  const [formState, inputHandler, setFormData] = useForm();
 
   const [eventCategory, setEventCategory] = useState({
     id: null,
@@ -106,9 +74,7 @@ const EditEvent = props => {
         },
         true
       );
-      const resGallery = await axios.get(
-        api_server_url + '/api/events/' + eventID + '/gallery'
-      );
+      const resGallery = await axios.get(api_server_url + '/api/events/' + eventID + '/gallery');
       setGalleryState(resGallery.data);
       setEventCategory(res.data.categories[0]);
       setLoadingFlag(false);
@@ -128,19 +94,13 @@ const EditEvent = props => {
           max_participants: formState.inputs.amount.value,
           min_age: formState.inputs.age.value,
           cover: formState.inputs.cover.value,
-          price: formState.inputs.price.value
-            ? formState.inputs.price.value + ' UAH'
-            : '',
+          price: formState.inputs.price.value ? formState.inputs.price.value + ' UAH' : '',
           category: eventCategory.id
         };
         const updatedEventFormData = objToFormData(updatedEventData);
-        let res = await axios.put(
-          api_server_url + '/api/events/' + eventID,
-          updatedEventFormData,
-          {
-            headers
-          }
-        );
+        let res = await axios.put(api_server_url + '/api/events/' + eventID, updatedEventFormData, {
+          headers
+        });
         if (res.status === 200) {
           galleryState.map(async image => {
             if (image.is_changed === true && image.is_deleted === true) {
@@ -211,9 +171,7 @@ const EditEvent = props => {
   const changeImageHandler = async image => {
     try {
       image.is_changed = true;
-      setGalleryState(
-        galleryState.map(item => (item.id !== image.id ? item : image))
-      );
+      setGalleryState(galleryState.map(item => (item.id !== image.id ? item : image)));
     } catch (err) {
       console.log(err);
     }
@@ -235,9 +193,7 @@ const EditEvent = props => {
       } else {
         image.is_changed = true;
         image.is_deleted = true;
-        setGalleryState(
-          galleryState.map(item => (item.id !== image.id ? item : image))
-        );
+        setGalleryState(galleryState.map(item => (item.id !== image.id ? item : image)));
       }
     } catch (err) {
       console.log(err);
@@ -258,9 +214,7 @@ const EditEvent = props => {
             deleteImageHandler={deleteImageHandler}
             createImageHandler={createImageHandler}
             category={eventCategory}
-            onChooseCategory={e =>
-              setEventCategory({ id: e.id, category: e.title })
-            }
+            onChooseCategory={e => setEventCategory({ id: e.id, category: e.title })}
           />
         ) : null}
         <button

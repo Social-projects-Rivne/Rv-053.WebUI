@@ -149,11 +149,7 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       let oldCoverPath = null;
       if (!cover) {
         oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
@@ -185,7 +181,7 @@ exports.updateEvent = async (req, res) => {
           });
         })
         .then(() => {
-          if (oldCoverPath) {
+          if (oldCoverPath && req.file) {
             fs.unlink('.' + oldCoverPath, err => {
               if (err) {
                 console.log('failed to delete local image:' + err);
@@ -382,9 +378,7 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {
@@ -448,11 +442,7 @@ exports.createImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       await EventGallery.create({
         img_url,
@@ -478,11 +468,7 @@ exports.changeImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       const img = await EventGallery.findOne({
         where: { event_id: id, id: imageId }
       });
