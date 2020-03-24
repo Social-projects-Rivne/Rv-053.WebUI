@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 
 import './CountDownTimer.css';
@@ -21,13 +21,6 @@ const Countdown = ({ timeTillDate }) => {
       seconds
     });
   };
-
-  // useEffect(() => {
-  //   let id = setInterval(() => {
-  //     calculateTimeLeft();
-  //   }, 1000);
-  //   return () => clearInterval(id);
-  // });
 
   useInterval(() => {
     calculateTimeLeft();
@@ -94,7 +87,7 @@ const Countdown = ({ timeTillDate }) => {
         <div className='countdown-wrapper red-wrapper'>
           <h1>Sorry, It's Too Late. This event has been gone</h1>
           <a
-            href='https://www.youtube.com/watch?v=ZSM3w1v-A_Y'
+            href='https://www.youtube.com/watch?v=ZSM3w1v-A_Y&feature=youtu.be&t=49'
             target='_blank'
             className='link-btn'
           >
