@@ -42,7 +42,7 @@ const PasswordReset = () => {
             pathname: '/redirect',
             state: {
               className: 'p-0 auth alert success-note',
-              message: 'Check your email to confirm it'
+              message: 'Check your email to confirm password changing'
             }
           });
         }
