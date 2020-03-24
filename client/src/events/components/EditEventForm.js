@@ -269,7 +269,6 @@ const EditEventForm = props => {
           </div>
         </div>
       </div>
-
       <div className="row">
         <div className="col-lg-5 ">
           <label style={{ color: '#16a085' }} className="col-12">

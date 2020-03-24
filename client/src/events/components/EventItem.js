@@ -84,7 +84,6 @@ const EventItem = props => {
             <UserCard owner={props.owner} />
           </div>
         </div>
-
         <div className="row" style={{ width: '100%' }}>
           <div className="col-md-12 map-container">
             <Map center={map} zoom={16} />
