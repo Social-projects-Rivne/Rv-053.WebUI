@@ -40,6 +40,7 @@ exports.signUp = async (req, res) => {
       return res.status(200).json({ error: 'Email is already in use' });
     }
 
+    const hashPassword = await bcrypt.hash(password, saltRounds);
     const userInDB = {
       email: email,
       password: hashPassword,

@@ -11,7 +11,7 @@ const Notificator = props => {
   const redirectTo = () => {
     setAnimationTriger(false);
     setTimeout(() => {
-      if (props.location.state.redirectTo) {
+      if (props.location.state && props.location.state.redirectTo) {
         history.push(props.location.state.redirectTo);
       } else {
         history.push('/');
