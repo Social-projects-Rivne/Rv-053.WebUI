@@ -11,6 +11,7 @@ const UserEvent = require('../models').user_event;
 const EventGallery = require('../models').event_gallery;
 const Feedbacks = require('../models').event_feedback;
 const Redis = require('../services/redisService');
+const UserCategory = require('../models').user_category;
 
 const STATUS_ACTIVE = 'Active';
 const STATUS_BANNED = 'Banned';
@@ -30,6 +31,48 @@ function checkToken(req) {
     }
   }
   return result;
+}
+
+async function getFollowedCategoriesForUser(id) {
+  return await UserCategory.findAll({
+    where: { user_id: id },
+    raw: true,
+    attributes: [],
+    include: [Categories]
+  }).catch(err => {
+    res.status(404).send({
+      message: err.message || 'Not found'
+    });
+  });
+}
+
+function isEventInCategories(categories, categoryId) {
+  for (index in categories) {
+    if (categories[index]['category.id'] === categoryId) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function reorderEventsByFolowedCategories(categories, events) {
+  let beginning = [];
+  let ending = [];
+  for (let i = 0; i < 20; i++) {
+    if (events[i] !== undefined) {
+      if (
+        isEventInCategories(
+          categories,
+          events[i].dataValues.categories[0].dataValues.id
+        ) === true
+      ) {
+        beginning.push(events[i]);
+      } else {
+        ending.push(events[i]);
+      }
+    }
+  }
+  return beginning.concat(ending);
 }
 
 exports.getEventByID = async (req, res) => {
@@ -155,7 +198,11 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
       let oldCoverPath = null;
       if (!cover) {
         oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
@@ -259,6 +306,9 @@ exports.searchEvent = async (req, res) => {
     status: STATUS_ACTIVE
   };
 
+  const userId = checkToken(req).userId;
+  let categories = await getFollowedCategoriesForUser(userId);
+
   if (req.query.q) {
     searchQuery[Op.or] = [
       { name: { [Op.iLike]: `%${req.query.q}%` } },
@@ -317,8 +367,15 @@ exports.searchEvent = async (req, res) => {
     order: [['datetime', 'DESC']]
   })
     .then(events => {
-      Redis.addUrlInCache(req.originalUrl, events);
-      res.status(200).json(events);
+      let OrderedEvents = reorderEventsByFolowedCategories(
+        categories,
+        events.rows
+      );
+      Redis.addUrlInCache(req.originalUrl, {
+        count: OrderedEvents.count,
+        rows: OrderedEvents
+      });
+      res.status(200).json({ count: OrderedEvents.count, rows: OrderedEvents });
     })
     .catch(err => {
       res.status(400).send({
@@ -384,7 +441,9 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
+    attributes: [
+      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
+    ]
   })
     .then(async resultRow => {
       if (resultRow === null) {
@@ -448,7 +507,11 @@ exports.createImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
       img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       await EventGallery.create({
         img_url,
@@ -474,7 +537,11 @@ exports.changeImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+    if (
+      req.userId === event.owner_id ||
+      req.role === 'Admin' ||
+      req.role === 'Moderator'
+    ) {
       const img = await EventGallery.findOne({
         where: { event_id: id, id: imageId }
       });
