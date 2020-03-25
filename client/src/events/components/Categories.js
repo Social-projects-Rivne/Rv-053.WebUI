@@ -97,7 +97,6 @@ const Categories = () => {
                 name={category.name}
                 background={category.background}
                 icon={category.icon}
-                // onClick={console.log(category.id)}
               />
             ))}
           </div>
