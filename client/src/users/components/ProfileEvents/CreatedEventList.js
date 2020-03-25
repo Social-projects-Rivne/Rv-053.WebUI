@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useMemo
+} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -54,17 +60,19 @@ const CreatedEventList = () => {
   }, [accessToken, getEvents]);
 
   return (
-    <div className="event_list-item">
-      <h3 className="profile-title">Created events</h3>
+    <div className='event_list-item'>
+      <h3 className='profile-title'>Created events</h3>
       <MySlider
-        slidesToShow={events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3}
+        slidesToShow={
+          events.length === 1 ? 1 : 3 & (events.length === 2) ? 2 : 3
+        }
         dots={true}
       >
         {events.length > 0 ? (
           events.map(event => (
             <EventResultItem
               key={event.id}
-              className="list__events-item card event_slider-item profile"
+              className='list__events-item card event_slider-item profile'
               id={event.id}
               name={event.name}
               category={event.categories[0].category}
@@ -73,11 +81,13 @@ const CreatedEventList = () => {
               datetime={event.datetime}
               cover={event.cover}
               price={event.price}
-              deleteEvent={deleteEvent}
+              deleteEvent={() => deleteEvent(event.id)}
             />
           ))
         ) : (
-          <p>{userId === 'my' ? "You haven't" : "User hasn't"} created any events</p>
+          <p>
+            {userId === 'my' ? "You haven't" : "User hasn't"} created any events
+          </p>
         )}
       </MySlider>
     </div>
