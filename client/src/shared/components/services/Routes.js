@@ -15,6 +15,8 @@ import EventsResult from './../../../events/pages/EventsResult';
 import EditProfile from './../../../users/pages/EditProfile';
 import EditEvent from '../../../events/pages/EditEvent';
 import EditAvatar from '../../../users/pages/EditAvatar';
+import PasswordReset from '../../../users/pages/PasswordReset';
+import ChangePassword from '../../../users/pages/ChangePassword';
 import PastEvents from '../../../users/components/ProfileEvents/PastEvents';
 
 const Routes = () => {
@@ -80,6 +82,12 @@ const Routes = () => {
             </Route>
             <Route path="/confirmemail/:token">
               <PageLayout innerComponent={<EmailConfirmation />} />
+            </Route>
+            <Route path="/password_reset">
+              <PageLayout innerComponent={<PasswordReset />} />
+            </Route>
+            <Route path="/confirm_password_reset/:token">
+              <PageLayout innerComponent={<ChangePassword />} />
             </Route>
             <Redirect to="/auth" />
           </Switch>

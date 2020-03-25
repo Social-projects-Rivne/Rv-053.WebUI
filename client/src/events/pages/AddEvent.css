@@ -73,7 +73,7 @@ label {
   position: relative;
 }
 .rdtPicker td.rdtToday:before {
-  content: '';
+  content: "";
   display: inline-block;
   border-left: 7px solid transparent;
   border-bottom: 7px solid #428bca;
@@ -240,4 +240,79 @@ td.rdtYear:hover {
   color: #fff;
   text-transform: uppercase;
   text-align: center;
+}
+
+.category__btn {
+  width: 100%;
+  padding: 6px 0;
+  background: #16a085;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+}
+.map_input input {
+  width: 100%;
+  padding: 6px;
+  border: none;
+  border-bottom: 1px solid #000;
+  margin-top: 15px;
+}
+.input__form {
+  margin-bottom: 0px;
+}
+.input__form textarea {
+  margin: 0;
+}
+.create__wrapper {
+  background: #fff;
+  padding: 0;
+}
+.map-container {
+  height: 50vh;
+}
+
+#date {
+  width: 68%;
+  padding: 6px 0;
+  background: #16a085;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  text-align: center;
+  margin:0 auto;
+}
+#date::-webkit-input-placeholder {
+  color: #fff;
+}
+
+.mt_10 {
+  margin-top: 10px;
+}
+
+.address_label {
+  margin-top: 25px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.create__btn {
+  margin-bottom: 10px;
+}
+.add_event__btn{
+  color: #fff;
+    border: 1px solid #16a085;
+    background-color: #16a085;
+    padding: 5px 20px;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+.add_event__btn:hover,.add_event__btn:link{
+  background-color: rgba(22, 160, 133, 0.9);
+  border: 1px solid #16a085;
+}
+.create_btn{
+ margin:0 auto;
+}
+.rdtPicker{
+  margin-left: 60px;
 }

@@ -1,31 +1,26 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import DateTime from 'react-datetime';
 import axios from 'axios';
+import moment from 'moment';
 
 import Input from '../../shared/components/FormElements/Input';
 import EditGalleryForm from './EditGalleryForm';
 import Switch from '../../shared/components/UI/Switch';
 import DisappearingAnimation from '../../shared/components/UI/Animations/DisappearingAnimation';
-import {
-  VAL_MIN_LENGTH,
-  VAL_REQUIRED,
-  VAL_NUMBERS
-} from '../../shared/utilities/validation';
-import './EditEventForm.css';
 import Selector from '../../shared/components/FormElements/Select';
+import AutocompletePlaces from '../../shared/components/FormElements/AutocompletePlaces';
+import Map from '../../shared/components/UI/Map';
+import DurationPicker from '../../shared/components/FormElements/DurationPicker';
+import { VAL_MIN_LENGTH, VAL_REQUIRED, VAL_NUMBERS } from '../../shared/utilities/validation';
 import { api_server_url } from '../../shared/utilities/globalVariables';
+import './EditEventForm.css';
 
 const EditEventForm = props => {
   const fileInputRef = useRef(null);
   const [categoriesItems, setCategoriesItems] = useState([]);
-  const [showDropdownCatecoryFlag, setShowDropdownCategoryFlag] = useState(
-    false
-  );
-  const [priceFlag, setPriceFlag] = useState(
-    props.eventData.price.value ? true : false
-  );
-  const [ageLimitFlag, setAgeLimitFlag] = useState(
-    props.eventData.age.value ? true : false
-  );
+  const [showDropdownCatecoryFlag, setShowDropdownCategoryFlag] = useState(false);
+  const [priceFlag, setPriceFlag] = useState(props.eventData.price.value ? true : false);
+  const [ageLimitFlag, setAgeLimitFlag] = useState(props.eventData.age.value ? true : false);
   const [placesLimitFlag, setPlacesLimitFlag] = useState(
     props.eventData.amount.value ? true : false
   );
@@ -80,6 +75,33 @@ const EditEventForm = props => {
     [onInputHandler]
   );
 
+  const yesterday = DateTime.moment().subtract(1, 'day');
+  const validateStartDate = current => {
+    return current.isAfter(yesterday);
+  };
+
+  const coord = props.eventData.location.value.split(',').reduce((obj, str, index) => {
+    const coord = Number.parseFloat(str);
+    if (index === 0) {
+      obj = { ...obj, lat: coord };
+    } else {
+      obj = { ...obj, lng: coord };
+    }
+    return obj;
+  }, {});
+
+  const renderMap = () => {
+    if (coord.lat === null && coord.lng === null) {
+      return <div></div>;
+    } else {
+      return (
+        <div className="col-lg-12 map-container">
+          <Map center={coord} zoom={15} />
+        </div>
+      );
+    }
+  };
+
   return (
     <form onSubmit={props.onSubmitFormHandler} className="text-center">
       <div className="list__events-item-img edit-event__change-cover-container">
@@ -94,9 +116,7 @@ const EditEventForm = props => {
         ></img>
         <span
           className="edit-event__change-cover-btn"
-          onClick={() =>
-            fileInputRef.current !== null ? fileInputRef.current.click() : null
-          }
+          onClick={() => (fileInputRef.current !== null ? fileInputRef.current.click() : null)}
         >
           change cover
         </span>
@@ -149,12 +169,7 @@ const EditEventForm = props => {
             </div>
           </div>
           <div className="col-6">
-            <DisappearingAnimation
-              triger={priceFlag}
-              timeout={400}
-              mountOnEnter
-              unmountOnExit
-            >
+            <DisappearingAnimation triger={priceFlag} timeout={400} mountOnEnter unmountOnExit>
               <Input
                 id="price"
                 type="number"
@@ -218,12 +233,7 @@ const EditEventForm = props => {
             />
           </div>
           <div className="col-6 inputfield__block">
-            <DisappearingAnimation
-              triger={ageLimitFlag}
-              timeout={400}
-              mountOnEnter
-              unmountOnExit
-            >
+            <DisappearingAnimation triger={ageLimitFlag} timeout={400} mountOnEnter unmountOnExit>
               <Input
                 id="age"
                 type="number"
@@ -260,6 +270,44 @@ const EditEventForm = props => {
           </div>
         </div>
       </div>
+      <div className="row">
+        <div className="col-lg-5 ">
+          <label style={{ color: '#16a085' }} className="col-12">
+            Date and time
+          </label>
+          <div className="col-12">
+            <DateTime
+              input={false}
+              value={moment(Number.parseInt(props.eventData.datetime.value))}
+              isValidDate={validateStartDate}
+              timeFormat="HH:mm"
+              onChange={date => InputHandler('datetime', moment(date).unix() * 1000, true)}
+            />
+          </div>
+        </div>
+        <div className="col-lg-7 ">
+          <label style={{ color: '#16a085' }} className="col-12">
+            Duration
+          </label>
+          <div className="col-12">
+            <DurationPicker
+              duration={props.eventData.duration.value}
+              onChange={duration => InputHandler('duration', duration, true)}
+            />
+          </div>
+        </div>
+        <div className="col-lg-12">
+          <label style={{ color: '#16a085' }} className="col-12">
+            Place
+          </label>
+          {renderMap()}
+          <AutocompletePlaces
+            setCoordinates={coordinates =>
+              InputHandler('location', `${coordinates.lat},${coordinates.lng}`, true)
+            }
+          />
+        </div>
+      </div>
       {!props.loadingGalleryFlag ? (
         <EditGalleryForm
           galleryData={props.galleryData}
@@ -268,10 +316,7 @@ const EditEventForm = props => {
           createImageHandler={props.createImageHandler}
         />
       ) : null}
-      <button
-        className="my__button ml-4 mb-4 mt-4 d-inline-block float-left"
-        type="submit"
-      >
+      <button className="my__button ml-4 mb-4 mt-4 d-inline-block float-left" type="submit">
         Update
       </button>
     </form>

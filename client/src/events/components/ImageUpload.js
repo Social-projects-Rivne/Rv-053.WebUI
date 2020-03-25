@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import './ImageUpload.css';
+import "./ImageUpload.css";
 
 const ImageUpload = props => {
-  const [file, setFile] = useState({ file: '', imagePreviewUrl: '' });
+  const [file, setFile] = useState({ file: "", imagePreviewUrl: "" });
   const handleImageChange = e => {
     e.preventDefault();
 
@@ -40,7 +40,7 @@ const ImageUpload = props => {
         />
         <label htmlFor="imageUpload" />
       </div>
-      <div className="imgPreview col-md-8 offset-md-2">{$imagePreview}</div>
+      <div className="imgPreview col-md-12">{$imagePreview}</div>
     </div>
   );
 };

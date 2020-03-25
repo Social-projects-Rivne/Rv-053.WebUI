@@ -1,12 +1,14 @@
+require('dotenv').config();
+const fs = require('fs');
 const { Sequelize, Op } = require('sequelize');
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const Event = require('../models').event;
 const User = require('../models').users;
+const EventCategory = require('../models').event_category;
 const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
 const EventGallery = require('../models').event_gallery;
-const Category = require('../models').category;
 const Feedbacks = require('../models').event_feedback;
 const Redis = require('../services/redisService');
 
@@ -71,8 +73,6 @@ exports.getEventByID = async (req, res) => {
       if (past !== null) {
         event.past = true;
       }
-
-      //     Redis.addUrlInCache(req.originalUrl, event);
       res.status(200).json(event);
     })
     .catch(err => {
@@ -89,11 +89,17 @@ exports.createEvent = async (req, res) => {
     location,
     datetime,
     duration,
+    category,
     max_participants,
     min_age,
-    cover,
     price
   } = req.body;
+  let cover;
+  if (req.file) {
+    cover = process.env.BACK_HOST + '/' + req.file.path;
+  } else {
+    cover = process.env.BACK_HOST + 'uploads/covers/logo.png';
+  }
   await Event.create({
     name,
     owner_id: req.userId,
@@ -103,17 +109,29 @@ exports.createEvent = async (req, res) => {
     duration,
     max_participants,
     min_age,
-    cover: req.file.path,
+    cover,
     price
   })
-    .then(() => {
-      res.status(200).send({
-        message: 'Event was create successful'
-      });
+    .then(event => {
+      const eventId = event.id;
+      EventCategory.create({
+        event_id: eventId,
+        category_id: category
+      })
+        .then(() => {
+          res.status(200).send({
+            message: 'Event was create successful'
+          });
+        })
+        .catch(err => {
+          res.status(404).send({
+            message: 'Some problems with create event(category)' || err.message
+          });
+        });
     })
     .catch(err => {
       res.status(404).send({
-        message: err.message || 'Something wrong'
+        message: 'Some problems with create event' || err.message
       });
     });
 };
@@ -126,6 +144,7 @@ exports.updateEvent = async (req, res) => {
     location,
     datetime,
     duration,
+    category,
     max_participants,
     min_age,
     cover,
@@ -136,8 +155,12 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (req.userId === event.owner_id || req.role === 'Admin') {
-      cover = cover || req.file.path;
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
+      let oldCoverPath = null;
+      if (!cover) {
+        oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
+      }
+      cover = cover || process.env.BACK_HOST + '/' + req.file.path;
       event
         .update({
           name,
@@ -149,6 +172,30 @@ exports.updateEvent = async (req, res) => {
           min_age,
           cover,
           price
+        })
+        .then(event => {
+          const eventID = event.id;
+          EventCategory.findOne({
+            where: {
+              id: eventID
+            }
+          }).then(event_category => {
+            event_category.update({
+              event_id: eventID,
+              category_id: category
+            });
+          });
+        })
+        .then(() => {
+          if (oldCoverPath && req.file) {
+            fs.unlink('.' + oldCoverPath, err => {
+              if (err) {
+                console.log('failed to delete local image:' + err);
+              } else {
+                console.log('successfully deleted local image');
+              }
+            });
+          }
         })
         .then(() => {
           res.status(200).json({ status: 'Event was update successful' });
@@ -337,9 +384,7 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {
@@ -403,11 +448,7 @@ exports.createImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       await EventGallery.create({
         img_url,
@@ -433,11 +474,7 @@ exports.changeImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       const img = await EventGallery.findOne({
         where: { event_id: id, id: imageId }
       });

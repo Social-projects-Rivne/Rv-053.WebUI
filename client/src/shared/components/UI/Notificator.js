@@ -3,15 +3,20 @@ import { useHistory, withRouter, Redirect } from 'react-router-dom';
 
 import Card from './Card';
 import RollingAnimation from '../UI/Animations/RollingAnimation';
+import ScrollToTop from './ScrollToTop';
 
 const Notificator = props => {
   let history = useHistory();
   const [animationTriger, setAnimationTriger] = useState(false);
 
-  const goHome = () => {
+  const redirectTo = () => {
     setAnimationTriger(false);
     setTimeout(() => {
-      history.push('/');
+      if (props.location.state && props.location.state.redirectTo) {
+        history.push(props.location.state.redirectTo);
+      } else {
+        history.push('/');
+      }
     }, 500);
   };
   const showingFlag = props.show;
@@ -23,6 +28,7 @@ const Notificator = props => {
 
   return (
     <>
+      <ScrollToTop />
       {props.location.state || (props.className && props.message) ? (
         <RollingAnimation triger={props.show || animationTriger} mountOnEnter unmountOnExit>
           <Card
@@ -35,7 +41,7 @@ const Notificator = props => {
               type="button"
               className="close"
               aria-label="Close"
-              onClick={props.onExit || goHome}
+              onClick={props.onExit || redirectTo}
             >
               <span aria-hidden="true">&times;</span>
             </button>

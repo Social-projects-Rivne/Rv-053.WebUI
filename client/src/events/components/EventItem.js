@@ -8,6 +8,7 @@ import EventGallery from './EventGallery';
 import { returnAddress } from '../../shared/components/UI/Geocoding';
 import Countdown from '../../shared/components/UI/CountDownTimer';
 import ScrollToElement from '../../shared/components/UI/ScrollToElement';
+import moment from 'moment';
 import './EventItem.css';
 
 const EventItem = props => {
@@ -18,7 +19,8 @@ const EventItem = props => {
     lat: +coordinates[0],
     lng: +coordinates[1]
   };
-
+  const dateAndMonth = moment(+props.event.datetime).format('dddd, Do, MMMM');
+  const eventTime = moment(+props.event.datetime).format('LT');
   useEffect(() => {
     const geocodeObj = returnAddress(+coordinates[0], +coordinates[1]);
     geocodeObj.then(geocodeObj => {
@@ -30,9 +32,7 @@ const EventItem = props => {
     <>
       {props.event.past ? (
         <>
-          <div className="event-item_title-past">
-            Ooops, the event ran out..
-          </div>
+          <div className="event-item_title-past">Ooops, the event ran out..</div>
           <ScrollToElement
             text="Read feedbacks"
             element="map"
@@ -41,39 +41,38 @@ const EventItem = props => {
         </>
       ) : null}
       <div
-        className={
-          props.event.past
-            ? 'container event-item past'
-            : 'container event-item'
-        }
+        className={props.event.past ? 'my__container event-item past' : 'my__container event-item'}
       >
         <div className="row">
           <div className="col-md-8 event-item__img">
-            <figure>
-              <img src={`${props.event.cover}`} alt="sometext" />
-            </figure>
-            <Countdown
-              timeTillDate={props.event.datetime}
-              className="countdown-item"
-            />
+            <div className="img-wrapper">
+              <figure>
+                <img src={`${props.event.cover}`} alt="sometext" />
+              </figure>
+              <Countdown timeTillDate={props.event.datetime} />
+            </div>
           </div>
           <div className="col-md-4 event-item__info">
             <h3>{props.event.name}</h3>
             <div>
               <span>Address: </span>
-              {address}
+              <span>{address}</span>
             </div>
             <div>
               <span>Date: </span>
-              {props.event.datetime}
+              <span>{dateAndMonth}</span>
             </div>
             <div>
               <span>Time: </span>
-              {props.event.duration}
+              <span>{eventTime}</span>
+            </div>
+            <div>
+              <span>Duration: </span>
+              <span>{props.event.duration}</span>
             </div>
             <div>
               <span>Age: </span>
-              {props.event.min_age} years
+              <span>{props.event.min_age} years</span>
             </div>
             <div>
               <span>Participants: </span>
@@ -92,11 +91,7 @@ const EventItem = props => {
                 {!props.event.isSubscribe ? 'Subcribe' : 'Subcribed'}
               </button>
             ) : (
-              <button
-                type="button"
-                className="my__button"
-                onClick={() => history.push('/auth')}
-              >
+              <button type="button" className="my__button" onClick={() => history.push('/auth')}>
                 Subcribe
               </button>
             )}
