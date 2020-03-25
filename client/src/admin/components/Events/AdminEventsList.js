@@ -27,21 +27,17 @@ const EventsList = props => {
       <AdminSearchEvents />
 
       <Pagination
-        api='/api/adminpanel/events'
+        api="/api/adminpanel/events"
         onDataFetch={getEvents}
         pageItemsLimit={showItems < 10 ? showItems : 10}
-        query={'q=' + (searchQuery ? searchQuery : '')}
+        query={{ q: searchQuery }}
       >
-        <ul className='list-group mb-4'>
+        <ul className="list-group mb-4">
           {events.rows
             ? events.rows
                 .slice(0, showItems)
                 .map(event => (
-                  <AdminEventItem
-                    key={event.id}
-                    eventInfo={event}
-                    collapseState={props.collapse}
-                  />
+                  <AdminEventItem key={event.id} eventInfo={event} collapseState={props.collapse} />
                 ))
             : null}
         </ul>
