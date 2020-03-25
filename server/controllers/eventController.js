@@ -40,9 +40,7 @@ async function getFollowedCategoriesForUser(id) {
     attributes: [],
     include: [Categories]
   }).catch(err => {
-    res.status(404).send({
-      message: err.message || 'Not found'
-    });
+    console.log(err);
   });
 }
 
@@ -61,10 +59,7 @@ function reorderEventsByFolowedCategories(categories, events) {
   for (let i = 0; i < 20; i++) {
     if (events[i] !== undefined) {
       if (
-        isEventInCategories(
-          categories,
-          events[i].dataValues.categories[0].dataValues.id
-        ) === true
+        isEventInCategories(categories, events[i].dataValues.categories[0].dataValues.id) === true
       ) {
         beginning.push(events[i]);
       } else {
@@ -198,11 +193,7 @@ exports.updateEvent = async (req, res) => {
       id
     }
   }).then(event => {
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       let oldCoverPath = null;
       if (!cover) {
         oldCoverPath = event.cover.slice(process.env.BACK_HOST.length);
@@ -307,7 +298,10 @@ exports.searchEvent = async (req, res) => {
   };
 
   const userId = checkToken(req).userId;
-  let categories = await getFollowedCategoriesForUser(userId);
+  let categories;
+  if (userId) {
+    categories = await getFollowedCategoriesForUser(userId);
+  }
 
   if (req.query.q) {
     searchQuery[Op.or] = [
@@ -367,10 +361,7 @@ exports.searchEvent = async (req, res) => {
     order: [['datetime', 'DESC']]
   })
     .then(events => {
-      let OrderedEvents = reorderEventsByFolowedCategories(
-        categories,
-        events.rows
-      );
+      let OrderedEvents = reorderEventsByFolowedCategories(categories, events.rows);
       Redis.addUrlInCache(req.originalUrl, {
         count: OrderedEvents.count,
         rows: OrderedEvents
@@ -441,9 +432,7 @@ exports.getQuantityFollowedOnEventUsers = async (req, res) => {
       event_id: id
     },
 
-    attributes: [
-      [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']
-    ]
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('user_id')), 'quantityUsers']]
   })
     .then(async resultRow => {
       if (resultRow === null) {
@@ -507,11 +496,7 @@ exports.createImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       img_url = img_url || process.env.BACK_HOST + '/' + req.file.path;
       await EventGallery.create({
         img_url,
@@ -537,11 +522,7 @@ exports.changeImageOfGallery = async (req, res) => {
   let { description, img_url } = req.body;
   try {
     const event = await Event.findOne({ where: { id } });
-    if (
-      req.userId === event.owner_id ||
-      req.role === 'Admin' ||
-      req.role === 'Moderator'
-    ) {
+    if (req.userId === event.owner_id || req.role === 'Admin' || req.role === 'Moderator') {
       const img = await EventGallery.findOne({
         where: { event_id: id, id: imageId }
       });

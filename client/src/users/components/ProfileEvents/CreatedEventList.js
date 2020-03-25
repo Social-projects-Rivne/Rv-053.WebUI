@@ -73,7 +73,7 @@ const CreatedEventList = () => {
               datetime={event.datetime}
               cover={event.cover}
               price={event.price}
-              deleteEvent={deleteEvent}
+              deleteEvent={() => deleteEvent(event.id)}
             />
           ))
         ) : (
