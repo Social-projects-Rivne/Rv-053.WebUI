@@ -21,7 +21,7 @@ export const dateReducer = (state, action) => {
   switch (action.type) {
     case 'GET_All':
       return {
-        startDate: convertToTimeStamp(-365, 365).first,
+        startDate: convertToTimeStamp(0, 365).first,
         endDate: convertToTimeStamp(0, 365).last
       };
     case 'GET_TODAY':

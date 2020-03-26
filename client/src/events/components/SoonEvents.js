@@ -15,6 +15,7 @@ const SoonEvents = () => {
         method: 'get',
         url: api_server_url + '/api/events',
         params: {
+          startDate: new Date().getTime(),
           offset: 0,
           limit: 12
         }

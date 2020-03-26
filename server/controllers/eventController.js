@@ -358,9 +358,6 @@ exports.searchEvent = async (req, res) => {
     offset,
     limit,
     include: includeQuery,
-    where:{
-      datetime: {[Op.gt]: CURRENT_DATE}
-    },
     order: [['datetime', 'ASC']]
   })
     .then(events => {
