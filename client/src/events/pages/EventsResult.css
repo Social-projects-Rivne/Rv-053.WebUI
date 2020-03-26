@@ -296,3 +296,16 @@
 .list__events-item-creator:hover {
   color: rgb(22, 160, 133);
 }
+.list__events-item-location{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 350px;  
+}
+.list__events-item.card .list__events-item-location{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  height: 45px;
+}
