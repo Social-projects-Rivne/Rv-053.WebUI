@@ -6,8 +6,12 @@ export const CategoryContext = createContext('');
 
 const CategoryContextProvider = props => {
   const [data, setData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All events');
-  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(
+    localStorage.getItem('myCategoryName') || 'All events'
+  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    localStorage.getItem('myCategoryId') || ''
+  );
 
   useEffect(() => {
     const fetchData = async () => {
