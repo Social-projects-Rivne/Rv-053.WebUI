@@ -7,6 +7,59 @@
 .adminpanel_card:hover {
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.2);
 }
+.adminpanel__input {
+  font-size: 16px;
+  padding:  5px;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.959);
+  border: none;
+  border-bottom: 1px solid #000; 
+  border-radius: 2px;
+  display: block;
+  transition: all 0.3s;
+}
+.adminpanel__input:focus {
+  outline: none;
+  box-shadow: 0 10px 20px rgba(85, 197, 122, 0.295);
+  border-bottom: 1px solid rgb(85, 197, 122);
+}
+.adminpanel__input:active {
+  outline: none;
+  box-shadow: 0 10px 20px red;
+  border-bottom: 1px solid rgb(85, 197, 122);
+}
+.adminpanel__label {
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 6px;
+  margin-top: 7px;
+  display: block;
+  transition: all 0.3s;
+}
+input[type='text'].adminpanel__input:placeholder-shown + .adminpanel__label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-40px);
+}
+input[type='text'].adminpanel__input::-webkit-input-placeholder {
+  color: #000;
+  font-weight: bold;
+}
+input[type='text'].adminpanel_input::-moz-placeholder {
+  color: #000;
+  font-weight: bold;
+}
+input[type='text'].adminpanel_input:-ms-input-placeholder {
+  color: #000;
+  font-weight: bold;
+}
+input[type='text'].adminpanel_input:-moz-placeholder {
+  color: #000;
+  font-weight: bold;
+}
+input:-webkit-autofill {
+  border-bottom: 1px solid transparent;
+}
 .adminpanel__search-btn {
   border: none;
   background-color: #16a085;
@@ -14,7 +67,7 @@
   border-radius: 15px;
   position: absolute;
   right: 0px;
-  bottom: 1px;
+  top: 8px;
   width: 40px;
   height: 40px;
 }
