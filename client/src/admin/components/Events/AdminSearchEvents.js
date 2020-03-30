@@ -30,7 +30,6 @@ const AdminSearchEvents = () => {
         Search event
         </label>
         </div>
-
         <button type="submit" value="" className="adminpanel__search-btn"></button>
       </form>
     </div>
