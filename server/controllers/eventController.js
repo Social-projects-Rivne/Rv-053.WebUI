@@ -372,6 +372,12 @@ exports.searchEvent = async (req, res) => {
         categories,
         events.rows
       );
+      if (!userId) {
+        Redis.addUrlInCache(req.originalUrl + '-' + userId, {
+          count: events.count,
+          rows: OrderedEvents
+        });
+      }
       res.status(200).json({ count: events.count, rows: OrderedEvents });
     })
     .catch(err => {
