@@ -33,10 +33,9 @@ const EventDetails = () => {
   );
 
   const getEvent = useCallback(async () => {
-    const event = await axios.get(
-      'http://localhost:5001/api/events/' + eventId,
-      { headers }
-    );
+    const event = await axios.get(api_server_url + '/api/events/' + eventId, {
+      headers
+    });
 
     setEventDate(moment(+event.data.datetime).format('DD MM YYYY'));
     event.data.duration = moment(+event.data.duration).format('hh:mm');
@@ -85,8 +84,8 @@ const EventDetails = () => {
     <div>
       <ScrollToTop />
       <Notificator
-        className='success-note'
-        message='You are successfully subscribed!'
+        className="success-note"
+        message="You are successfully subscribed!"
         show={showNoteState}
         onExit={closeNoteHandler}
       />

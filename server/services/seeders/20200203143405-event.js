@@ -15,7 +15,8 @@ module.exports = {
           duration: 60,
           max_participants: 30,
           min_age: 14,
-          cover: 'http://localhost:5001/uploads/covers/cover1.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover1.jpeg',
           price: '100 UAH'
         },
         {
@@ -28,7 +29,8 @@ module.exports = {
           duration: 120,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover2.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover2.jpeg',
           price: '200 UAH'
         },
         {
@@ -41,7 +43,8 @@ module.exports = {
           duration: 1200,
           max_participants: 30,
           min_age: 18,
-          cover: 'http://localhost:5001/uploads/covers/cover3.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover3.jpeg',
           price: '200 UAH'
         },
         {
@@ -54,7 +57,8 @@ module.exports = {
           duration: 150,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover4.png',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover4.png',
           price: '150 UAH'
         },
         {
@@ -67,7 +71,8 @@ module.exports = {
           duration: 240,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover5.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover5.jpeg',
           price: ''
         },
         {
@@ -80,7 +85,8 @@ module.exports = {
           duration: 120,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover6.png',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover6.png',
           price: '50 UAH'
         },
         {
@@ -93,7 +99,8 @@ module.exports = {
           duration: 180,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover7.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover7.jpeg',
           price: ''
         },
         {
@@ -106,7 +113,8 @@ module.exports = {
           duration: 60,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover8.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover8.jpeg',
           price: ''
         },
         {
@@ -119,7 +127,8 @@ module.exports = {
           duration: 240,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover9.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover9.jpeg',
           price: ''
         },
         {
@@ -132,130 +141,149 @@ module.exports = {
           duration: 30,
           max_participants: 30,
           min_age: 12,
-          cover: 'http://localhost:5001/uploads/covers/cover10.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover10.jpeg',
           price: '1000 UAH'
         },
         {
           name: 'Heavenly Creatures - Theatre in English Nathalie G.',
           owner_id: 1,
-          description:'A theatre performance directed, staged and performed by 3 actors. Story based on Peter Jackson’s movie with the same name based in its turn on a real story. 2 girls fell in love with each other, mommas were against it. Alas. For the mommas…',
+          description:
+            'A theatre performance directed, staged and performed by 3 actors. Story based on Peter Jackson’s movie with the same name based in its turn on a real story. 2 girls fell in love with each other, mommas were against it. Alas. For the mommas…',
           location: '50.6305378,26.250742',
           datetime: 1589382959000,
           duration: 300,
           max_participants: 40,
           min_age: 20,
-          cover: 'http://localhost:5001/uploads/covers/cover11.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover11.jpeg',
           price: ''
         },
         {
           name: 'Join Soul Symphony Choir',
           owner_id: 3,
-          description:'Soul Symphony Choir is more than entertainment; its members enjoy helping our community and reaching out to those who may appear to be less integrated into society',
+          description:
+            'Soul Symphony Choir is more than entertainment; its members enjoy helping our community and reaching out to those who may appear to be less integrated into society',
           location: '47.122476,31.365967',
           datetime: 1596585089000,
           duration: 48,
           max_participants: 80,
           min_age: 16,
-          cover: 'http://localhost:5001/uploads/covers/cover12.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover12.jpeg',
           price: ''
         },
         {
           name: 'Reflexology for the feet with your child',
           owner_id: 1,
-          description:'Are you seeking an opportunity to spend some quality time with your child and learn something together? The Reflexology for Feet with Your Child, one day workshop, is a great way to achieve that. It provides practical instruction in reflexology massage.',
+          description:
+            'Are you seeking an opportunity to spend some quality time with your child and learn something together? The Reflexology for Feet with Your Child, one day workshop, is a great way to achieve that. It provides practical instruction in reflexology massage.',
           location: '50.443513,30.585938',
           datetime: 1598585089000,
           duration: 100,
           max_participants: 50,
           min_age: 3,
-          cover: 'http://localhost:5001/uploads/covers/cover13.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover13.jpg',
           price: '200 UAH'
         },
         {
           name: 'Lewisham School of Language, Health and Wellbeing',
           owner_id: 1,
-          description:'Lewisham School of Language, Health and Wellbeing aims to enhance and engage through new, exciting learning opportunities. We offer a diverse range of subjects across all levels of ability. WE aim to provide you with a fresh approach to living well - promoting a positive life-balance and improving your quality of life through enrichment and enjoyment.',
+          description:
+            'Lewisham School of Language, Health and Wellbeing aims to enhance and engage through new, exciting learning opportunities. We offer a diverse range of subjects across all levels of ability. WE aim to provide you with a fresh approach to living well - promoting a positive life-balance and improving your quality of life through enrichment and enjoyment.',
           location: '50.527397,30.388184',
           datetime: 1595487889000,
           duration: 1000,
           max_participants: 1000,
           min_age: 18,
-          cover: 'http://localhost:5001/uploads/covers/cover14.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover14.jpg',
           price: '500 UAH'
         },
         {
           name: 'Parent and toddler yoga',
           owner_id: 1,
-          description:'Fascinate and engage your toddler using colourful resources, bubbles and textures during this 4-week parent and toddler yoga class. In this friendly class you will warm-up using exercises and songs. You will develop asana into inversions such as shoulder stand and bridge pose and follow a sun salutation to increase muscle tone and concentration skills. Through stretches and guided relaxation you will continue to release physical and mental tension. Adults attending with baby can be a parent, grandparent or carer.',
+          description:
+            'Fascinate and engage your toddler using colourful resources, bubbles and textures during this 4-week parent and toddler yoga class. In this friendly class you will warm-up using exercises and songs. You will develop asana into inversions such as shoulder stand and bridge pose and follow a sun salutation to increase muscle tone and concentration skills. Through stretches and guided relaxation you will continue to release physical and mental tension. Adults attending with baby can be a parent, grandparent or carer.',
           location: '48.965794,24.191895',
           datetime: 1587687889000,
           duration: 300,
           max_participants: 30,
           min_age: 0,
-          cover: 'http://localhost:5001/uploads/covers/cover15.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover15.jpg',
           price: '300 UAH'
         },
         {
           name: 'Ukrainian Tropical House/ Deep House Meetup',
           owner_id: 3,
-          description:'Are these some of your favourite DJs? Kygo, Robin Schulz, Lost Frequencies, Klingande, Matoma, Sam Feldt, Kungs, Alex Adair, Sigala.. etc.',
+          description:
+            'Are these some of your favourite DJs? Kygo, Robin Schulz, Lost Frequencies, Klingande, Matoma, Sam Feldt, Kungs, Alex Adair, Sigala.. etc.',
           location: '49.724479,23.730469',
           datetime: 1586287889000,
           duration: 400,
           max_participants: 500,
           min_age: 18,
-          cover: 'http://localhost:5001/uploads/covers/cover16.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover16.jpg',
           price: '400 UAH'
         },
         {
           name: 'Ukrainian Arts & Culture Group',
           owner_id: 2,
-          description:'This is a group for anyone with an interest in Art Galleries, Museums & Culture. You will find the groups activities entertaining if you enjoy visiting Museums, like Literature, or study any other art related subjects. We meet to visit, and learn more about the Art & Culture on offer in London.',
+          description:
+            'This is a group for anyone with an interest in Art Galleries, Museums & Culture. You will find the groups activities entertaining if you enjoy visiting Museums, like Literature, or study any other art related subjects. We meet to visit, and learn more about the Art & Culture on offer in London.',
           location: '50.736455,25.224609',
           datetime: 1586746889000,
           duration: 300,
           max_participants: 50,
           min_age: 16,
-          cover: 'http://localhost:5001/uploads/covers/cover17.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover17.jpg',
           price: ''
         },
         {
           name: 'Classy Speed Friending Sunday Afternoon Social',
           owner_id: 3,
-          description:'We are an informal, sociable group for people.',
+          description: 'We are an informal, sociable group for people.',
           location: '50.205033,28.366699',
           datetime: 1595746889000,
           duration: 100,
           max_participants: 30,
           min_age: 22,
-          cover: 'http://localhost:5001/uploads/covers/cover18.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover18.jpeg',
           price: '50 UAH'
         },
         {
           name: 'The Dressmakers Club',
           owner_id: 3,
-          description:'We are an informal, sociable group for people who love to sew and making our own clothes. All skill levels, age, gender welcome! Learn new skills, make friends and wear clothes that fit and do not cost a fortune! Sewing can be such a solitary pursuit so its great to meet other sewing enthusiasts who know what you are talking about and share your passion.',
+          description:
+            'We are an informal, sociable group for people who love to sew and making our own clothes. All skill levels, age, gender welcome! Learn new skills, make friends and wear clothes that fit and do not cost a fortune! Sewing can be such a solitary pursuit so its great to meet other sewing enthusiasts who know what you are talking about and share your passion.',
           location: '50.205033,28.366699',
           datetime: 1595746889000,
           duration: 3000,
           max_participants: 100,
           min_age: 16,
-          cover: 'http://localhost:5001/uploads/covers/cover19.jpg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover19.jpg',
           price: ''
         },
         {
           name: 'Philosophical Fiction Book Club',
           owner_id: 1,
-          description:'We meet once every two months to discuss fiction that explores the nature of existence, challenges social and political concepts and tries to get to the core of what it might mean to be human.',
+          description:
+            'We meet once every two months to discuss fiction that explores the nature of existence, challenges social and political concepts and tries to get to the core of what it might mean to be human.',
           location: '50.205033,28.366699',
           datetime: 1595746889000,
           duration: 200,
           max_participants: 20,
           min_age: 30,
-          cover: 'http://localhost:5001/uploads/covers/cover20.jpeg',
+          cover:
+            'http://eeeeevent-rv053-webui-back.herokuapp.com/uploads/covers/cover20.jpeg',
           price: ''
-        },
-
+        }
       ],
       {}
     );

@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "event",
-    "password": "defaultpassword",
-    "database": "eeeeeventdb",
-    "host": "db",
+    "username": "vrifechzhygeiy",
+    "password": "967cda7881db17069a9cad6fdbadcdbfd14ad410556a74eed2f3ee083800a140",
+    "database": "de91enlntmumou",
+    "host": "ec2-54-217-204-34.eu-west-1.compute.amazonaws.com",
     "dialect": "postgres",
     "timestamps": false,
     "freezeTableName": true,

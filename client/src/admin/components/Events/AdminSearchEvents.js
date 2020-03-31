@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Input from '../../../shared/components/FormElements/Input';
-
 const AdminSearchEvents = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
@@ -20,15 +18,18 @@ const AdminSearchEvents = () => {
     <div className="mb-1">
       <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
         <div style={{ width: '90%', display: 'inline-block', marginTop: '-1rem' }}>
-          <Input
-            id="searchuser"
-            type="input"
-            label="Search event"
-            onInput={inputHandler}
-            validations={[]}
-          />
+        <input
+          type="text"
+          id="search"
+          value={searchQuery}
+          onChange={event => setSearchQuery(event.target.value)}
+          className="adminpanel__input mt-4 w-100"
+          placeholder="Search event"
+        />
+        <label className="adminpanel__label" for="search">
+        Search event
+        </label>
         </div>
-
         <button type="submit" value="" className="adminpanel__search-btn"></button>
       </form>
     </div>

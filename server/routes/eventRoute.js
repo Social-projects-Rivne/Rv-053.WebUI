@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const eventController = require('../controllers/eventController');
 const { createEventValidation, validate } = require('../middlewares/validator');
-const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
+//const { CheckUrlInCache } = require('../middlewares/redisMiddleware');
 const auth = require('../middlewares/authorization');
 const adminAndModeratorAuth = require('../middlewares/adminAndModeratorAuthorization');
 
@@ -11,7 +11,7 @@ const {
   uploadImageOfGallery
 } = require('../middlewares/upload-images');
 
-router.get('/', CheckUrlInCache, eventController.searchEvent);
+router.get('/', eventController.searchEvent);
 router.post(
   '/',
   auth,

@@ -10,7 +10,7 @@ const Categories = require('../models').category;
 const UserEvent = require('../models').user_event;
 const EventGallery = require('../models').event_gallery;
 const Feedbacks = require('../models').event_feedback;
-const Redis = require('../services/redisService');
+//const Redis = require('../services/redisService');
 const UserCategory = require('../models').user_category;
 
 const STATUS_ACTIVE = 'Active';
@@ -372,12 +372,12 @@ exports.searchEvent = async (req, res) => {
         categories,
         events.rows
       );
-      if (!userId) {
-        Redis.addUrlInCache(req.originalUrl + '-' + userId, {
-          count: events.count,
-          rows: OrderedEvents
-        });
-      }
+      // if (!userId) {
+      //   Redis.addUrlInCache(req.originalUrl + '-' + userId, {
+      //     count: events.count,
+      //     rows: OrderedEvents
+      //   });
+      // }
       res.status(200).json({ count: events.count, rows: OrderedEvents });
     })
     .catch(err => {
