@@ -23,11 +23,6 @@
   box-shadow: 0 10px 20px rgba(85, 197, 122, 0.295);
   border-bottom: 1px solid rgb(85, 197, 122);
 }
-.adminpanel__input:active {
-  outline: none;
-  box-shadow: 0 10px 20px red;
-  border-bottom: 1px solid rgb(85, 197, 122);
-}
 .adminpanel__label {
   font-size: 16px;
   font-weight: 700;
@@ -58,6 +53,9 @@ input[type='text'].adminpanel_input:-moz-placeholder {
   font-weight: bold;
 }
 input:-webkit-autofill {
+  border-bottom: 1px solid transparent;
+}
+input:-webkit-autofill:hover {
   border-bottom: 1px solid transparent;
 }
 .adminpanel__search-btn {
