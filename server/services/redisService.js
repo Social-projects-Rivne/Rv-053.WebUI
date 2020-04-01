@@ -27,10 +27,8 @@ const getUrlFromCache = async Url => {
         return;
       }
       if (data) {
-        //console.log('Pass data ');
         resolve(JSON.parse(data));
       } else {
-        //console.log('pass null ');
         resolve(null);
       }
     });

@@ -54,7 +54,6 @@ const fileFilter = (req, file, cb) => {
 const uploadCover = multer({
   storage: storageCover,
   limits: {
-    //  file size max 2mb
     fileSize: 1024 * 1024 * 2
   },
   fileFilter
@@ -63,7 +62,6 @@ const uploadCover = multer({
 const uploadAvatar = multer({
   storage: storageAvatars,
   limits: {
-    // file size max 2mb
     fileSize: 1024 * 1024 * 2
   },
   fileFilter
@@ -72,7 +70,6 @@ const uploadAvatar = multer({
 const uploadImageOfGallery = multer({
   storage: storageGallery,
   limits: {
-    // file size max 2mb
     fileSize: 1024 * 1024 * 2
   },
   fileFilter

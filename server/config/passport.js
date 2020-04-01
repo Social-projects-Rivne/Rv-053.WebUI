@@ -41,7 +41,7 @@ const saltRounds = 10;
 //     }
 //   )
 // );
-//LOCAL STRATEGY
+
 passport.use(
   new LocalStrategy(
     {
@@ -49,31 +49,25 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        //find the user for given email
-        //console.log('Passport Local stategy start');
         let isPassword;
         const user = await User.findOne({
           where: {
             email
           }
         });
-        //Check the password
         if (user) {
           isPassword = bcrypt.compareSync(password, user.password);
         }
-        //Check if user has inactive status
         if (user && user.status_id == 3) {
           return done(null, false, {
             message: 'Please confirm email'
           });
         }
-        //If non user or password is invalid, handle it
         if (!user || !isPassword) {
           return done(null, false, {
             message: 'invalid email or password'
           });
         }
-        //If password is right, return the user
         done(null, user);
       } catch (error) {
         done(error, false);

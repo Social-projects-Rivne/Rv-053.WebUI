@@ -49,7 +49,7 @@ exports.signUp = async (req, res) => {
       last_name: req.body.last_name || '',
       phone: req.body.phone || '',
       role: 'User',
-      status_id: 3 //Status - Inactive
+      status_id: 3 
     };
     let payload;
     if (foundUser === null) {
