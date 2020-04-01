@@ -2,7 +2,6 @@ require('dotenv').config();
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// auth middleware which checks jwt token
 module.exports = async (req, res, next) => {
   let token;
   if (req.header('Authorization')) {
@@ -12,7 +11,7 @@ module.exports = async (req, res, next) => {
       error: 'No token, authorization denied'
     });
   }
-  //console.log("Authorization with token: " + token);
+
   try {
     const payload = await JWT.verify(token, JWT_SECRET);
     req.userId = payload.userId;

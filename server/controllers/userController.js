@@ -20,7 +20,6 @@ const THREE_MONTH_AGO = new Date().setMonth(new Date().getMonth()-3)
 const findUser = async userId =>
   User.findOne({
     where: { id: userId }
-    // raw: true
   });
 
 const findCategory = async categoryId =>
@@ -421,24 +420,6 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
-
-// exports.setRoleToModerator = async (req, res) => {
-//   try {
-//     const user = await User.findOne({ where: { id: req.params.id } });
-//     if (user.role === ROLE_USER) {
-//       await user.update({ role: ROLE_MODERATOR });
-//       res.status(200).json({
-//         status: 'success'
-//       });
-//     } else {
-//       res.status(400).json({
-//         message: "You can't set a Moderator if you are a Moderator!"
-//       });
-//     }
-//   } catch (err) {
-//     res.status(500).json({ err: err.message });
-//   }
-// };
 
 exports.setRoleToUser = async (req, res) => changeUserRole(req, res, ROLE_USER);
 exports.setRoleToModerator = async (req, res) =>
