@@ -1,0 +1,54 @@
+.edit-event__change-cover-container {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.edit-event__change-cover-btn {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.274);
+  transition: all 0.2s ease-in-out;
+}
+.edit-event__change-cover-btn:hover {
+  cursor: pointer;
+  color: #16a085;
+  background-color: rgba(0, 0, 0, 0.322);
+}
+.switch__block {
+  margin-top: 1.5rem;
+}
+.input__block {
+  padding-right: 0;
+}
+.switch__label {
+  float: left;
+  margin-top: 27px;
+  margin-left: -15px;
+  color: #16a085;
+  font-weight: 600;
+}
+.edit-event__dropdown-category {
+  min-width: 280px;
+  top: 70%;
+}
+.btn-flat {
+  float: left;
+  margin-top: 27px;
+  margin-left: -15px;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.btn-flat:hover {
+  color: #16a085;
+}
+.rdtPicker {
+  margin: 0 auto;
+}

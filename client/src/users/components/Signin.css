@@ -1,0 +1,8 @@
+.forgot-link {
+  font-size: 15px;
+  font-weight: bold;
+  color: #000;
+}
+.forgot-link:hover {
+  color: #16a085;
+}

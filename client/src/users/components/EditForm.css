@@ -1,0 +1,58 @@
+
+.update-profile__inner{
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 0px;
+}
+.update-title {
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  margin: 20px 5px;
+}
+.update-profile__top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px 0px;
+}
+.profile-avatar__wrapper,
+.update-profile_btn{
+  padding: 0px 5px;
+}
+.input_wrapper-number {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+}
+.radio-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+.radio-wrapper div + div {
+  margin-left: 80px;
+}
+.div-row {
+  display: flex;
+  margin: 1.5rem 0;
+}
+.div-col-left {
+  flex: 40%;
+}
+.div-col-right {
+  flex: 60%;
+  padding: 1.5rem 0;
+}
+.button-avatar {
+  width: 12rem;
+  margin: 0.5rem 0;
+  padding: 4px 30px;
+  color: #fff;
+  border-radius: 15px;
+  display: block;
+  background-color: #16a085;
+}
+.card_wrapper {
+  margin: 60px auto;
+  max-width: 700px;
+}

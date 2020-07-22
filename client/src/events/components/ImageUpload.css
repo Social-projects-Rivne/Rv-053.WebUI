@@ -1,0 +1,94 @@
+.imgPreview {
+  text-align: center;
+  background: rgb(250, 250, 250);
+  border: 2px solid #eee;
+  height: 200px;
+}
+.imgPreview img {
+  height: 100%;
+}
+.previewComponent {
+  margin-top: 10px;
+  position: relative;
+}
+
+body {
+  background: whitesmoke;
+  font-family: "Open Sans", sans-serif;
+}
+.container {
+  max-width: 960px;
+  margin: 30px auto;
+  padding: 20px;
+}
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin: 20px 0 20px;
+}
+h1 small {
+  display: block;
+  font-size: 15px;
+  padding-top: 8px;
+  color: gray;
+}
+
+.cover-edit {
+  position: absolute;
+  z-index: 1;
+  left: 10px;
+  top: 5px;
+}
+.cover-edit input {
+  display: none;
+}
+.cover-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.cover-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.cover-edit input + label:after {
+  content: "\f040";
+  font-family: "FontAwesome";
+  color: #16a085;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+  font-size: 25px;
+}
+.cover-edit input:hover + label:after {
+  color: #2b5a51;
+}
+.avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #f8f8f8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-preview > div {
+  background-image: url("");
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.defaultImg {
+  opacity: 0.4;
+}

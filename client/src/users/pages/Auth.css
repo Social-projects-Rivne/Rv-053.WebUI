@@ -1,0 +1,16 @@
+.auth {
+  width: 90%;
+  max-width: 30rem;
+  margin: 5rem auto;
+}
+.auth-form {
+  opacity: 0;
+  /* max-height: 0px; */
+  transition: opacity 0.3s ease-in-out;
+}
+.form-show {
+  opacity: 1;
+}
+.form-hide {
+  opacity: 0;
+}

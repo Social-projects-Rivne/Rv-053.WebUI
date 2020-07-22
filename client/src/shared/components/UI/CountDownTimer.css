@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+h1 {
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  width: 100%;
+}
+
+.countdown-wrapper {
+  position: relative;
+  top: -10%;
+  width: 80%;
+  margin: 0 auto;
+  z-index: 999;
+  background-color: #16a0848a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.red-wrapper {
+  display: flex;
+  background-color: rgba(255, 0, 0, 0.596);
+  top: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+  .countdown-wrapper {
+    width: 70%;
+  }
+
+  .countdown-item:last-child {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .countdown-item:nth-last-child(2) {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .countdown-wrapper {
+    position: static;
+    width: 100%;
+    background-color: #16a08418;
+    margin: 0 auto;
+  }
+
+  .red-wrapper {
+    background-color: rgba(255, 0, 0, 0.596);
+    top: 0;
+  }
+
+  .countdown-item:nth-last-child(2) {
+    display: flex;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .countdown-wrapper {
+    display: none;
+  }
+}
+
+.countdown-item {
+  position: relative;
+  color: #032345;
+  font-weight: 700;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  line-height: 30px;
+  margin: 10px;
+  padding-top: 10px;
+  width: 100px;
+  height: 100px;
+}
+
+.countdown-item span {
+  color: #032345;
+  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.countdown-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.link,
+.link:hover {
+  /* display: block; */
+  text-decoration: none;
+  color: #000;
+}
+.link-light,
+.link-light:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn-dark {
+  background-color: rgba(47, 49, 60, 0.9);
+}
+.link-btn {
+  background-color: rgba(22, 160, 133, 0.9);
+}
+.link-btn,
+.link-btn-dark {
+  padding: 7px 30px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 15px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  border: none;
+  margin-bottom: 10px;
+}
+.link-btn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.link-btn + .link-btn {
+  margin-left: 10px;
+}

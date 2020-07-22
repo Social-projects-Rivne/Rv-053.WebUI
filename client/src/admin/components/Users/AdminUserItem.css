@@ -1,0 +1,110 @@
+.adminpanel__user-list {
+  position: relative;
+  display: block;
+  background-color: #fff;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 1.25rem;
+  border: none;
+}
+.adminpanel__user-list p {
+  margin-bottom: 0rem;
+}
+.adminpanel__user-avatar {
+  object-fit: cover;
+  width: 3rem;
+  height: 3rem;
+  vertical-align: middle;
+  background-color: rgba(0, 0, 0, 0.125);
+  border-radius: 1.5rem;
+  max-width: 3rem;
+  max-height: 3rem;
+}
+.adminpanel__user-status-active {
+  color: #fff;
+  background-color: #16a085;
+}
+.adminpanel__row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 1rem;
+}
+.adminpanel__row:last-child {
+  margin-bottom: 0;
+}
+.adminpanel__col {
+  padding: 0 5px !important;
+}
+.adminpanel__toggler-icon {
+  cursor: pointer;
+  color: rgba(47, 49, 60, 0.9);
+  background-color: #fff;
+  text-align: center !important;
+  border-bottom: 2px solid rgba(47, 49, 60, 0.9);
+  transition: all 0.4s ease;
+}
+.adminpanel__toggler-icon:hover {
+  color: #16a085;
+  border-bottom: 2px solid #16a085;
+}
+.adminpanel__toggler-icon_expanded {
+  border-bottom: 2px solid #16a085;
+}
+.button-danger {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: 600;
+  padding: 5px 25px;
+  color: #dc3545;
+  text-decoration: none;
+  border: 2px solid #dc3545;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.button-danger:hover {
+  color: white;
+  background-color: #dc3545;
+}
+.button-danger:disabled {
+  color: #7c7c7c;
+  border: 2px solid #7c7c7c;
+}
+.button-danger:disabled:hover {
+  color: #7c7c7c;
+  background-color: transparent;
+  border: 2px solid #7c7c7c;
+}
+.adminpanel__button-flat {
+  text-decoration: none;
+  border: 2px solid #fff;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: all 0.3s;
+  outline: none !important;
+}
+.adminpanel__button-flat:hover {
+  color: #16a085;
+}
+.adminpanel__button-flat:disabled:hover {
+  color: #7c7c7c;
+}
+.adminpanel__button-flat:focus {
+  color: #16a085;
+}
+
+@media (min-width: 992px) {
+  .adminpanel__float-left {
+    float: left !important;
+  }
+  .adminpanel__float-right {
+    float: right !important;
+  }
+}
+@media (max-width: 992px) {
+  .adminpanel__lg-justify-content-center {
+    justify-content: center !important;
+  }
+}

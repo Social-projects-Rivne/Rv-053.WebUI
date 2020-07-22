@@ -1,0 +1,9 @@
+.autocomplete-container {
+  position: relative;
+}
+.autocomplete-dropdown-container {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #eee;
+  z-index: 1000;
+}

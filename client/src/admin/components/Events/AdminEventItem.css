@@ -1,0 +1,29 @@
+.adminpanel__event-cover {
+  object-fit: cover;
+  width: 3rem;
+  height: 3rem;
+  vertical-align: middle;
+  background-color: rgba(0, 0, 0, 0.125);
+  max-width: 3rem;
+  max-height: 3rem;
+}
+@media (min-width: 992px) {
+  .adminpanel__text-left {
+    text-align: left !important;
+  }
+}
+.adminpanel__button {
+  text-decoration: none;
+  color: '#16a085';
+}
+.adminpanel__button:hover {
+  color: #fff;
+}
+.adminpanel__badge-button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.adminpanel__badge-button:focus {
+  outline: none;
+}
